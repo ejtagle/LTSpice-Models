@@ -1,0 +1,281 @@
+* Copyright (c) 1998-2022 Analog Devices, Inc.  All rights reserved.
+*
+.subckt LTC6563 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21
+B12 2 PowOK I= uplim(dnlim(400n*V(3,0)-143n,0,10n)+dnlim(10n*V(3,0),0,10n),1u,10n)
+C50 PowOK 2 1p Rpar=1Meg noiseless
+C52 1 2 5p
+C53 3 2 5p Rpar=3k noiseless
+D10 1 2 Dleak1
+B16 3 2 I=uplim(5m*MAX(V(3,0)+0.7,0)**1.5,28.5m,1m)-27.8m*v(PWRMD_OUT)*v(HiZ)-14.8m*v(PWRMD_OUT)*v(_HiZ)+3.5m*v(_PWRMD_OUT)*v(HiZ)
+D6 3 2 Dleak0
+G14 2 MID1BUF MID1 2 1
+R12 MID1BUF 2 10 noiseless
+D8 MID1BUF MID1DECAY DSAT
+C44 MID1DECAY 2 1p Rpar=100k noiseless
+S1 MID1DECAY N009 2 Sat SSAT2
+C45 GainLoss 2 1p Rpar=1k noiseless
+B23 2 GainLoss0 I=1m*uplim(dnlim(250m*(.1*dnlim(V(MID1BUF),V(MID1DECAY),.1)-111m),0,10m),700m,10m)
+G1 2 GainLoss GainLoss0 2 1.4m
+I1 N009 2 200m
+C51 N009 2 10p Rpar=10 noiseless
+B28 2 GainlossM1 I=3u*dnlim(V(GainLoss0,GainLoss),0,100u)
+C55 mid_out 2 1p Rpar=1k noiseless
+S3 2 GainLoss0 2 MID1 SGLLin
+B19 2 Sat I=1m*dnlim(V(MID1)-100m,0,10m)
+C4 Sat 2 2.5p Rpar=1k noiseless
+I2 2 N008 200m
+C43 N008 2 10p Rpar=10 noiseless
+S4 N008 MID1DECAY 2 Sat SSAT1
+C42 GainLoss0 2 100f Rpar=1k noiseless
+R11 OutPreBuf 2 1Meg noiseless
+C1 GainlossM1 2 0 Rpar=2Meg noiseless
+B3 2 GainlossM0 I=1m*dnlim(V(GainLoss0,GainLoss),0,100u)
+C41 GainlossM0 2 100f Rpar=1k noiseless
+G15 2 N004 mid_out 2 100m
+R7 N004 2 100 noiseless
+C54 N004 SlimSensA 1p
+R8 SlimSensA 2 100 noiseless
+C57 slewfac 2 1p Rpar=1k noiseless
+B18 2 slewfac I=3m+2m*tanh((V(mid1)-1)/400m)
+B17 2 mid_out I=(v(_TILT0)*dnlim(5m*uplim(.1*dnlim(V(MID1BUF),V(MID1DECAY),.1)-dnlim(.95*(.1*dnlim(V(MID1BUF),V(MID1DECAY),.1)-470m),0,20m),470m,30m)*(.5+.5*tanh((100-V(SlimSensA))/1)),-200u,10u))+ (v(TILT0)*dnlim(5m*uplim(.1*dnlim(V(MID1BUF),V(MID1DECAY),.1)-0*dnlim(.95*(.1*dnlim(V(MID1BUF),V(MID1DECAY),.1)-940m),0,20m),940m,30m)*(.5+.5*tanh((100-V(SlimSensA))/1)),-200u,10u))
+S2 GainlossM1 2 2 mid_out SGLKILL
+G19 2 OutPreBuf PowOK 2 0.717445µ
+B5 2 OutPreBuf I=(.5+.5*tanh((V(_Hiz)-.5)/100m ))*1u*uplim(0.759*V(mid_out),2.3,1u)
+D15 GainlossM0 GainlossM1 DGLSPD
+B_DC+TILT_OUTBAR 1 N018 I=((20e-3*uplim(v(14)/1.15,1,1e-9))/v(vlogic))*V(_outcm)
+B_DC+TILT_OUT 1 N019 I=((-20e-3*uplim(v(14)/1.15,1,1e-9))/v(vlogic))*V(_outcm)
+B_AC_OUTBAR 1 N018 I=(((((v(OutPreBuf)-0.7)*-20e-3)+27.999e-3)/v(vlogic))-1e3*V(y))*(V(_outcm))
+B_AC_OUT 1 N019 I=(((((v(OutPreBuf)-0.7)*20e-3)+28.001e-3)/v(vlogic)) +1e3*V(x))*(V(_outcm))
+B26 centertap 2 i=(V(20x)+V(21x))/50+50*(uplim(((V(18x)+V(19x))/2)-V(15),0.01e-3,0.1e-6)-50*uplim((V(18x,centertap)+V(19x,centertap))/2,0.1e-6,1e-6)+50*dnlim(((V(18x)+V(19x))/2)-2.3,0.1e-6,0.1e-6))*V(_PWRMD_OUT)-1e-9+10e-3*V(gg)
+R21 8 2 6.6k noiseless
+R15 21x centertap 50
+R16 centertap 20x 50
+B27 1 2 I=-9.2393m*v(HiZ)
+G11 2 mid_out GainlossM1 2 2m
+C28 centertap 2 1p Rpar=1k
+D9 N019 2 DCLMP
+D11 N018 2 DCLMP
+A33 18x 2 2 2 2 _OBCLMP OBCLMP 2 SCHMITT vt=2.28 vh=1m trise=10n
+A35 19x 2 2 2 2 _OCLMP OCLMP 2 SCHMITT vt=2.31 vh=1m trise=10n
+A36 OBCLMP 2 2 2 OCLMP N012 COMPCLMP 2 OR
+B33 gg 2 i=1*V(centertap)*V(COMPCLMP)
+R29 gg 2 1
+C62 gg 2 1µ
+C2 MID1 2 1p Rpar=1k noiseless
+B§CLAMP1 y 2 I=(1p*dnlim(2*V(15)-V(17)-V(19x),1n,1n)-1p*dnlim(V(19x)-V(17),1n,1n))*V(HIGood)
+R2 y 2 1G noiseless
+B§CLAMP2 x 2 I=(1p*dnlim(V(18x)-V(17),1n,1n)-1p*dnlim(2*V(15)-V(17)-V(18x),1n,1n))*V(HIGood)
+R3 x 2 1G noiseless
+R1 20 20x 1e-6
+R4 21 21x 1e-6
+R5 14 2 22.7k
+A1 14 2 2 2 2 _TILT0 TILT0 2 SCHMITT vt=1.15 vh=350m trise=5n
+C3 17 2 1.5p Rpar=13.6k noiseless
+C5 15 2 1.5p Rpar=16.3k noiseless
+I3 2 15 55.21µ
+A2 HIEff 15 2 2 2 _HIGood HIGood 2 SCHMITT vt=-1u trise=10n
+A3 17 15 2 2 2 _HILimit HILimit 2 SCHMITT vt=0.45 trise=1n
+B§HIEff1 2 HIEff I=1m*(V(17)+(V(15)+0.9-V(17))*V(HILimit))
+R6 HIEff 2 1k
+I4 2 17 132.35µ
+C6 12 2 1.5p Rpar=218k noiseless
+C7 11 2 1.5p Rpar=218k noiseless
+A4 12 2 2 2 2 _Adj0_o Adj0_o 2 SCHMITT vt=1.15 vh=350m
+A5 11 2 2 2 2 _Adj1_o Adj1_o 2 SCHMITT vt=1.15 vh=350m
+C8 16 2 1.5p
+R9 3 16 208k
+A6 2 16 2 2 2 _PWRMD_OUT PWRMD_OUT 2 SCHMITT vt=-1.15 vh=-350m trise = 10n
+C9 10 2 1.5p Rpar=29k noiseless
+A7 10 2 2 2 2 _Csel0 Csel0 2 SCHMITT vt=1.15 vh=350m trise=5n
+C10 9 2 1.5p Rpar=29k noiseless
+C11 13 2 1.5p
+A8 9 2 2 2 2 _Csel1 Csel1 2 SCHMITT vt=1.15 vh=350m trise=5n
+A9 2 13 2 2 2 _HiZ HiZ 2 SCHMITT vt=-1.15 vh=-350m trise=10n tfall=21n
+R10 3 13 208k
+A10 HiZ 2 2 2 2 _outcm outcm 2 SCHMITT vt=0.45 vh=350m trise = 20n
+B1 2 vlogic I=1e-3*((1*v(Adj0_o)*v(Adj1_o))+(1.33*v(_Adj0_o)*v(Adj1_o))+(2*v(Adj0_o)*v(_Adj1_o))+(4*v(_Adj0_o)*v(_Adj1_o)))
+C12 vlogic 2 0 Rpar=1k
+A11 2 2 hiztran 2 N022 2 glitch_OMUX 2 DFLOP trise=3n tfall=1n
+G2 2 glitch2 glitch_OMUX 2 1µ
+C13 glitch2 2 1p Rpar=1Meg Rser=500k noiseless
+R13 chsw 2 1k
+A12 2 2 chsw 2 N024 2 swglitch 2 DFLOP trise=1n tfall=1n
+A13 swglitch 2 2 2 2 2 N024 2 BUF trise=18n
+R14 hiztran 2 1k
+A14 glitch_OMUX 2 2 2 2 2 N022 2 BUF trise=10n
+G3 2 MID1x swglitch 2 1µ
+R17 MID1x 2 1Meg noiseless
+R18 chsw1 2 1k
+A15 2 2 chsw1 2 N028 2 N027 2 DFLOP trise=1n tfall=1n
+A16 N027 2 2 2 2 2 N028 2 BUF trise=1u tfall=1n
+G4 2 MID1y N027 2 1µ
+R19 MID1y 2 1Meg noiseless
+A17 _Csel0 2 _Csel1 2 2 N010 CH1_ON 2 AND trise=1n
+A18 Csel0 2 _Csel1 2 2 N014 CH2_ON 2 AND trise=1n
+A19 _Csel0 2 Csel1 2 2 N011 CH3_ON 2 AND trise=1n
+A20 Csel0 2 Csel1 2 2 N015 CH4_ON 2 AND trise=1n
+R20 5x1 4 2.72k noiseless
+C14 N001 4 1.03p
+C15 3 N001 6p Rser=15 Rpar=19.5 noiseless
+G5 2 X1 3 N001 1m
+C16 X1 2 12f Rpar=30.3k noiseless
+A21 2 N002 PowOK 2 2 2 N001 2 OTA g=28m asym ref=-79.1m isource=1u isink=-4.4m in=0p/(1+freq/300Meg) vlow=0 vhigh=1e308
+G6 2 N002 Vref1 4 1m
+C17 N002 2 30f Rpar=1k noiseless
+C18 4 2 400f Rser=1.75k Rpar=1Meg noiseless
+D1 4 2 Din
+C19 Vref1 2 1p Rpar=1K noiseless
+B2 2 Vref1 I=0.75m*dnlim(uplim(.8*(V(3)-.8),.25,100m)+uplim(.5*(V(3)-1),.75,10m),0,.1)+uplim(dnlim(30u*V(3),0,1u),50u,1u)
+A22 2 N001 2 2 2 2 2 2 OTA in=9.15p*1
+A23 2 4 2 2 2 2 2 2 OTA in=0p/dnlim((freq/1e6)**1.12,.5,.1) +377f*(1+freq/80Meg)+1.05p
+D2 2 N003 DSUB
+R22 4 N003 10 noiseless
+C20 Inode1 2 10p Rpar=100 noiseless
+G7 2 Inode1 4 N003 100m
+I5 Inode1 2 10µ
+C21 N003 2 10f
+B4 4 2 I=-dnlim(1m*V(Inode1),0,5u)
+B6 3 5x1 I=(.5+.5*tanh((V(3,5x1)/10m)))*(348.7u+1.2613m*V(CH1_ON)-1m*V(X1))*V(PowOK)
+B7 2 MID1 I=2.36m*(V(5x1)-0.79833615)*(.5+.5*tanh((V(CH1_ON)-.5)/10m))*(10m+0.99*(1-V(MID1x)*V(_PWRMD_OUT)-V(MID1y)*V(PWRMD_OUT)))*(10m+0.99*(1-V(glitch_OMUX)))
+C22 5x1 2 10f Rpar=2k noiseless
+B8 2 4 I=uplim(v(8)/9e3, 270e-6, 10u)
+R23 5x2 5 2.72k noiseless
+C23 N005 5 1.03p
+C24 3 N005 6p Rser=15 Rpar=19.5 noiseless
+G8 2 X2 3 N005 1m
+C25 X2 2 12f Rpar=30.3k noiseless
+A24 2 N006 PowOK 2 2 2 N005 2 OTA g=28m asym ref=-79.1m isource=1u isink=-4.4m in=0p/(1+freq/300Meg) vlow=0 vhigh=1e308
+G9 2 N006 Vref1 5 1m
+C26 N006 2 30f Rpar=1k noiseless
+C27 5 2 400f Rser=1.75k Rpar=1Meg noiseless
+D3 5 2 Din
+A25 2 N005 2 2 2 2 2 2 OTA in=9.15p*1
+A26 2 5 2 2 2 2 2 2 OTA in=0p/dnlim((freq/1e6)**1.12,.5,.1) +377f*(1+freq/80Meg)+1.05p
+D4 2 N007 DSUB
+R24 5 N007 10 noiseless
+C30 Inode2 2 10p Rpar=100 noiseless
+G10 2 Inode2 5 N007 100m
+I6 Inode2 2 10µ
+C31 N007 2 10f
+B10 5 2 I=-dnlim(1m*V(Inode2),0,5u)
+B11 3 5x2 I=(.5+.5*tanh((V(3,5x2)/10m)))*(348.7u+1.2613m*V(CH2_ON)-1m*V(X2))*V(PowOK)
+B13 2 MID1 I=2.36m*(V(5x2)-0.79833615)*(.5+.5*tanh((V(CH2_ON)-.5)/10m))*(10m+0.99*(1-V(MID1x)*V(_PWRMD_OUT)-V(MID1y)*V(PWRMD_OUT)))*(10m+0.99*(1-V(glitch_OMUX)))
+C32 5x2 2 10f Rpar=2k noiseless
+B14 2 5 I=uplim(v(8)/9e3, 270e-6, 10u)
+R25 5x3 6 2.72k noiseless
+C29 N016 6 1.03p
+C33 3 N016 6p Rser=15 Rpar=19.5 noiseless
+G12 2 X3 3 N016 1m
+C34 X3 2 12f Rpar=30.3k noiseless
+A27 2 N017 PowOK 2 2 2 N016 2 OTA g=28m asym ref=-79.1m isource=1u isink=-4.4m in=0p/(1+freq/300Meg) vlow=0 vhigh=1e308
+G13 2 N017 Vref1 6 1m
+C35 N017 2 30f Rpar=1k noiseless
+C36 6 2 400f Rser=1.75k Rpar=1Meg noiseless
+D5 6 2 Din
+A28 2 N016 2 2 2 2 2 2 OTA in=9.15p*1
+A29 2 6 2 2 2 2 2 2 OTA in=0p/dnlim((freq/1e6)**1.12,.5,.1) +377f*(1+freq/80Meg)+1.05p
+D7 2 N020 DSUB
+R26 6 N020 10 noiseless
+C37 Inode3 2 10p Rpar=100 noiseless
+G16 2 Inode3 6 N020 100m
+I7 Inode3 2 10µ
+C38 N020 2 10f
+B9 6 2 I=-dnlim(1m*V(Inode3),0,5u)
+B15 3 5x3 I=(.5+.5*tanh((V(3,5x3)/10m)))*(348.7u+1.2613m*V(CH3_ON)-1m*V(X3))*V(PowOK)
+C39 5x3 2 10f Rpar=2k noiseless
+B20 2 6 I=uplim(v(8)/9e3, 270e-6, 10u)
+B21 2 MID1 I=2.36m*(V(5x3)-0.79833615)*(.5+.5*tanh((V(CH3_ON)-.5)/10m))*(10m+0.99*(1-V(MID1x)*V(_PWRMD_OUT)-V(MID1y)*V(PWRMD_OUT)))*(10m+0.99*(1-V(glitch_OMUX)))
+B22 2 MID1 I=2.36m*(V(5x4)-0.79833615)*(.5+.5*tanh((V(CH4_ON)-.5)/10m))*(10m+0.99*(1-V(MID1x)*V(_PWRMD_OUT)-V(MID1y)*V(PWRMD_OUT)))*(10m+0.99*(1-V(glitch_OMUX)))
+R27 5x4 7 2.72k noiseless
+C40 N023 7 1.03p
+C46 3 N023 6p Rser=15 Rpar=19.5 noiseless
+G17 2 X4 3 N023 1m
+C47 X4 2 12f Rpar=30.3k noiseless
+A30 2 N025 PowOK 2 2 2 N023 2 OTA g=28m asym ref=-79.1m isource=1u isink=-4.4m in=0p/(1+freq/300Meg) vlow=0 vhigh=1e308
+G18 2 N025 Vref1 7 1m
+C48 N025 2 30f Rpar=1k noiseless
+C49 7 2 400f Rser=1.75k Rpar=1Meg noiseless
+D12 7 2 Din
+A31 2 N023 2 2 2 2 2 2 OTA in=9.15p*1
+A32 2 7 2 2 2 2 2 2 OTA in=0p/dnlim((freq/1e6)**1.12,.5,.1) +377f*(1+freq/80Meg)+1.05p
+D13 2 N026 DSUB
+R28 7 N026 10 noiseless
+C56 Inode4 2 10p Rpar=100 noiseless
+G20 2 Inode4 7 N026 100m
+I8 Inode4 2 10µ
+C58 N026 2 10f
+B24 7 2 I=-dnlim(1m*V(Inode4),0,5u)
+B25 3 5x4 I=(.5+.5*tanh((V(3,5x4)/10m)))*(348.7u+1.2613m*V(CH4_ON)-1m*V(X4))*V(PowOK)
+C59 5x4 2 10f Rpar=2k noiseless
+B29 2 7 I=uplim(v(8)/9e3, 270e-6, 10u)
+C64 2 _PWRMD_OUT 1p Rpar=1G
+C65 2 PWRMD_OUT 1p Rpar=1G
+C66 2 _Adj1_o 1p Rpar=1G
+C67 2 Adj1_o 1p Rpar=1G
+C63 2 _Adj0_o 1p Rpar=1G
+C70 2 Adj0_o 1p Rpar=1G
+C71 2 _outcm 1p Rpar=1G
+C72 2 outcm 1p Rpar=1G
+C73 2 _HiZ 1p Rpar=1G
+C74 2 _Csel1 1p Rpar=1G
+C75 2 Csel1 1p Rpar=1G
+C76 2 _Csel0 1p Rpar=1G
+C77 2 Csel0 1p Rpar=1G
+C78 2 N010 1p Rpar=1G
+C79 2 N014 1p Rpar=1G
+C80 2 N015 1p Rpar=1G
+C81 2 N011 1p Rpar=1G
+C82 2 _HILimit 1p Rpar=1G
+C83 2 HILimit 1p Rpar=1G
+C84 2 _HIGood 1p Rpar=1G
+C85 2 HIGood 1p Rpar=1G
+C86 2 _TILT0 1p Rpar=1G
+C87 2 TILT0 1p Rpar=1G
+C88 2 _OBCLMP 1p Rpar=1G
+C89 2 OBCLMP 1p Rpar=1G
+C90 2 _OCLMP 1p Rpar=1G
+C91 2 OCLMP 1p Rpar=1G
+C92 2 N012 1p Rpar=1G
+C93 2 COMPCLMP 1p Rpar=1G
+R34 18 18x 1e-3
+R35 19 19x 1e-3
+S5 18x N019 _outcm 2 SOMUX
+S6 N018 19x _outcm 2 SOMUX
+.model Dleak0 D(ron=1k Roff=100k vfwd=4 epsilon=200m noiseless)
+.model Dleak1 D(ron=100 Roff=1Meg vfwd=2 epsilon=200m ilimit=12m revilimit=100u noiseless)
+.model DSAT D(Ron=100 Roff=1G vfwd=200m epsilon=200m noiseless)
+.model SSAT1 SW(level=2 Ron=20, Roff=1Meg, vt=-.8 vh=-.1 ilimit=50m oneway epsilon=100m noiseless)
+.model SSAT2 SW(level=2 Ron=100, Roff=1Meg, vt=-.8 vh=-.1 ilimit=5m noiseless)
+.model SGLLin SW(Ron=100 Roff=10Meg vt=-225m vh=-30m noiseless)
+.model DI0 D(Ron=100 Roff=1Meg vfwd=0 epsilon=300m ilimit=420u noiseless)
+.model SlimOL SW(Ron=100k Roff=400Meg vt=0 vh=-100m noiseless)
+.model DCL D(Ron=1k Roff=1G vfwd=1.88 epsilon=20m noiseless)
+.model DGLSPD D(Ron=100 Roff=10Meg vfwd=20m epsilon=50m noiseless)
+.model SGLKILL SW(Ron=1 Roff=2Meg vt=-100m vh=-50m noiseless)
+.model NOUT VDMOS(Vto=1 Kp=100m noiseless)
+.model DCLMP D(Roff=1G Ron=0.1 vfwd=2.3 epsilon=-20m noiseless)
+.machine
+.state notrans 0
+.state trans 1
+.rule * notrans ( V(Csel0) > .9 | V(Csel0) < .1) &  ( V(Csel1) > .9 | V(Csel1) < .1 )
+.rule notrans trans ( V(Csel0) < .8 & V(Csel0) > .2) |  ( V(Csel1) < .8 & V(Csel1) > .2)
+.output (chsw) state
+.endmachine
+.machine
+.state notrans 0
+.state trans 1
+.rule * notrans V(Hiz) > .9 | V(Hiz) < .1
+.rule notrans trans V(Hiz) < .8 & V(Hiz) > .2
+.output (hiztran) state
+.endmachine
+.machine
+.state notrans 0
+.state trans 1
+.rule * notrans ( V(Csel0) > .9 | V(Csel0) < .1) &  ( V(Csel1) > .9 | V(Csel1) < .1 )&(V(PWRMD_OUT)>0.8)
+.rule notrans trans ( V(Csel0) < .8 & V(Csel0) > .2) |  ( V(Csel1) < .8 & V(Csel1) > .2)&(V(PWRMD_OUT)>0.8)
+.output (chsw1) state
+.endmachine
+.model Din D(Roff=1G Ron=8k vfwd=1.1 epsilon=70m noiseless)
+.model DSUB D(IS=1e-16 TT=0n noiseless)
+.model SOMUX SW(Ron=1e-3, Roff=1G, vt=0.5 vh=0.05 noiseless)
+.ends LTC6563

@@ -1,0 +1,12 @@
+Title: * C:\Program Files\LTC\LTspiceIV\lib\sym\ValVol\ST\thyristors_st\triac\test_triac.asc
+Date: Tue Nov 15 08:29:23 2011
+Plotname: Transient Analysis
+Flags: real forward
+No. Variables: 12
+No. Points:            0
+Offset:   0.0000000000000000e+000
+Command: Linear Technology Corporation LTspice IV -- Alternate Solver
+Backannotation: u1 a g k
+Backannotation: u1:1 a g k
+Backannotation: u1:1:_s1 1 2 3 4
+Variables:

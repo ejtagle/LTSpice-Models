@@ -1,0 +1,34 @@
+*Aug 12, 2013
+*ECN S13-1782, Rev. B
+*File Name: SiR882ADP_PS.txt, SiR882ADP_PS.lib
+*This document is intended as a SPICE modeling guideline and does not
+*constitute a commercial product datasheet. Designers should refer to the
+*appropriate datasheet of the same number for guaranteed specification
+*limits.
+.SUBCKT SiR882ADP D G S 
+M1 3 GX S S NMOS W= 3672516u L= 0.25u 
+M2 S GX S D PMOS W= 3672516u L= 3.242e-07 
+R1 D 3 9.827e-05 TC=5.000e-01 5.000e-04 
+CGS GX S 1.407e-09 
+CGD GX D 1.000e-13 
+RG G GY 0.95 
+RTCV 100 S 1e6 TC=4.148e-04 -6.600e-08 
+ETCV GX GY 100 200 1 
+ITCV S 100 1u 
+VTCV 200 S 1 
+DBD S D DBD 
+**************************************************************** 
+.MODEL NMOS NMOS ( LEVEL = 3 TOX = 5e-8 
++ RS = 6.322e-03 KP = 1.39e-05 NSUB = 1.1684e+17 
++ KAPPA = 2.651e-02 ETA = 6.426e-07 NFS = 2.276e+11 
++ LD = 0 IS = 0 TPG = 1) 
+*************************************************************** 
+.MODEL PMOS PMOS ( LEVEL = 3 TOX = 5e-8 
++NSUB = 2.015e+16 IS = 0 TPG = -1 ) 
+**************************************************************** 
+.MODEL DBD D ( 
++FC = 0.1 TT = 1.000e-08 T_MEASURED = 25 BV = 101 
++RS = 1.972e-03 N = 1.082e+00 IS = 2.234e-11 
++EG = 1.096e+00 XTI = 1.318e+00 TRS1 = 6.075e-04 
++CJO = 1.896e-09 VJ = 1.673e+01 M = 7.048e-01 ) 
+.ENDS 

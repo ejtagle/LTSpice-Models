@@ -1,0 +1,23 @@
+Version 4
+SymbolType CELL
+LINE Normal 36 64 64 64
+ARC Normal 0 40 32 72 4 68 4 44
+ARC Normal 0 64 32 96 16 96 4 68
+ARC Normal 0 16 32 48 4 44 16 16
+WINDOW 3 44 86 Left 2
+WINDOW 38 48 109 Left 2
+WINDOW 0 47 18 Left 2
+SYMATTR Value N=1 DCR=.1M IC=0
+SYMATTR SpiceModel MP58268
+SYMATTR Prefix X
+SYMATTR Description MPP Inductor
+SYMATTR ModelFile MPPcores.lib
+PIN 16 16 NONE 0
+PINATTR PinName A
+PINATTR SpiceOrder 1
+PIN 16 96 NONE 0
+PINATTR PinName B
+PINATTR SpiceOrder 2
+PIN 64 64 NONE 8
+PINATTR PinName induct
+PINATTR SpiceOrder 3

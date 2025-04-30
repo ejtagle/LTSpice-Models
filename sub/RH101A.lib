@@ -1,0 +1,52 @@
+* Copyright (c) 1998-2023 Analog Devices, Inc.  All rights reserved.
+*
+.subckt RH101A 1 2 3 4 5 6 7
+A1 2 3 0 0 0 0 0 0 OTA g=0 in=.4p ink=55
+M1 6 N006 5 5 N temp=27
+M2 4 N006 5 5 P temp=27
+C10 N006 0 100f Rpar=1Meg noiseless
+C11 6 5 .5p
+C12 5 4 .5p
+G2 0 N006 N009 0 1µ
+R3 6 N009 100k noiseless
+R4 N009 4 100k noiseless
+G4 N009 6 N009 6 1m dir=1 vto=-.75
+G5 4 N009 4 N009 1m dir=1 vto=-.5
+A3 N008 4 4 4 4 4 N009 4 OTA g=5.6m iout=300u ref=1.035 Vlow=-1e308 Vhigh=1e308
+R5 7 N009 500 noiseless
+C7 7 1 300f
+D1 N013 4 DBIAS
+Q1 6 N007 N010 0 NM1A temp=27
+Q2 6 2 N011 0 NM1A temp=27
+Q3 N014 N013 N010 0 PM1 temp=27
+Q4 1 N013 N011 0 PM1 temp=27
+C3 N013 4 10p
+D6 N014 4 DBC temp=27
+C13 1 4 100f Rpar=100Meg noiseless
+C14 N015 4 100f Rpar=100Meg noiseless
+C15 N016 4 5p Rpar=40k noiseless
+C16 N014 N015 100f Rpar=1.7k noiseless
+C1 7 4 10f
+M3 1 N016 4 4 NMIR
+M4 N015 N016 4 4 NMIR
+C6 N014 4 1p
+M5 6 N014 N016 N016 NMIR
+Q5 6 1 N008 0 NM1 temp=27
+C5 N009 0 10f
+C9 N008 4 100f Rpar=40k noiseless
+C2 N014 N016 100f
+D2 N006 5 Y
+D3 5 N006 Y
+A2 0 0 3 3 3 3 N007 3 OTA G=.1 Rout=10 Linear Vhigh=100 Vlow=-100 en=20n enk=10
+D4 6 4 DPOW
+.model DBC D(Ron=10k Roff=1g vfwd=600m epsilon=10m ilimit=200n noiseless)
+.model NMIR VDMOS(Vto=700m Kp=25m)
+.model N VDMOS(Vto=-200m Kp=10m)
+.model P VDMOS(Vto=200m Kp=10m pchan)
+.model Y D(Ron=1k Roff=1T Vfwd=2.2 epsilon=100m noiseless)
+.model NM1A NPN (BF=614 Is=1e-16 tf=.3n Rb=500 Cjc=.5p Cje=.5p Vaf=100 noiseless)
+.model NM1 NPN (BF=100 Is=1e-12 tf=.3n Rb=500 Cjc=.5p Cje=.5p Vaf=100 noiseless)
+.model PM1 PNP  (BF=1 BR=1 Xtb=1 Is=1e-16 tf=10n Cjc=1p Cje=.5p Vaf=100 noiseless)
+.model DBIAS D(Ron=100 Roff=1g vfwd=500m epsilon=100m ilimit=20u noiseless)
+.model DPOW D(Ron=100 Roff=1g vfwd=1.2 epsilon=100m ilimit=1.36m noiseless)
+.ends RH101A

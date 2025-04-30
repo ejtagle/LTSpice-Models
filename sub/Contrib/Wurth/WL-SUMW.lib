@@ -1,0 +1,97 @@
+**************************************************
+* Manufacturer:       Wurth Elektronik
+* Kinds:    Ultraviolet High power LED
+* Matchcode:          WL-SUMW SMT UltraViolet  Ceramic  Waterclear
+* Library Type:       LTpice
+* Version:        rev21a       
+* Date and Time   :       2021-05-07
+* Team:           eiSos EDA Service  
+* Contact:        libraries@we-online.com
+**************************************************
+.subckt  3535_15335338AA350  1  2
+D1 1 2 led
+.MODEL led D
++ IS=10.000E-21
++ N=2.8130
++ RS=.8647
++ IKF=7.6250
++ CJO=0.000000000000050332
++ M=0.1001
++ VJ=9.99
+.ends
+******
+.subckt  3535_15335339AA350  1  2
+D1 1 2 led
+.MODEL led D
++ IS=10.000E-21
++ N=2.8130
++ RS=.8647
++ IKF=7.6250
++ CJO=0.000000000000050332
++ M=0.1001
++ VJ=9.99
+.ends
+******
+.subckt  3535_15335340AA350  1  2
+D1 1 2 led
+.MODEL led D
++ IS=10.000E-21
++ N=2.8130
++ RS=.8647
++ IKF=7.6250
++ CJO=0.000000000000050332
++ M=0.1001
++ VJ=9.99
+.ends
+******
+.subckt  3535_15335337AA350  1  2
+D1 1 2 led
+.MODEL led D
++ IS=10.000E-21
++ N=3.0680
++ RS=.41847
++ IKF=13.956
++ CJO=1.0000E-12
++ M=.3333
++ VJ=.75
++ BV=5
++ TT=5.0000E-9
+.ends
+******
+ .subckt 3535_15335327BA250  1  2
+ D1 1 2 led
+.MODEL led D
++ IS=164.80E-18
++ N=4.9950
++ RS=20.245E-3
++ IKF=1.2031E-3
++ CJO=1.0000E-12
++ M=.3333
++ VJ=.75
+.ends
+******
+ .subckt 3535_15335327BA252  1  2
+ D1 1 2 led
+ .MODEL led D
++ IS=10.010E-21
++ N=4.1001
++ RS=1.9407E-3
++ IKF=62.901
++ CJO=1.0000E-12
++ M=.3333
++ VJ=.75
+.ends
+******
+
+
+
+
+
+
+
+
+
+
+
+
+

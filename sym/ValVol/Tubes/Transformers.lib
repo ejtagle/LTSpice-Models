@@ -1,0 +1,25 @@
+.subckt Push_Pull_OTrans 1 2 3 4 5
+.params A=(OD-ID)*HT*0.5 Lm=(OD+ID)*0.5*pi NN=N1/N2
+.params Lmag=(1.25e-4*A*(N1*0.5)**2)/(Lm*4*pi*1e-7*Hc*(Bs+Br)/(Bs*Br))
+L2 N001 2 {Lmag}
+L4 2 N002 {Lmag}
+L3 N001 2 Hc={Hc} Br={Br} Bs={Bs} Lm={Lm} Lg=0 A={A} N={N1/2} Rser=1m
+L7 N003 5 {4*Lmag/NN**2}
+L1 1 N001 {Ls11} Rser={R1/2}
+L5 N002 3 {Ls11} Rser={R1/2}
+L6 4 N003 {(Ls12-2*Ls11)/NN**2} Rser={R2}
+K1 L2 L4 L7 1
+.ends Push_Pull_OTrans
+*
+.subckt Push_Pull_UETrans 1 2 3 4 5
+.params A=E*D Lm=2*F+2*G+pi*E NN=N1/N2
+.params Lmag=(1.25e-4*A*(N1/2)**2)/(Lm*4*pi*1e-7*Hc*(Bs+Br)/(Bs*Br))
+L2 N001 2 {Lmag}
+L4 2 N002 {Lmag}
+L3 N001 2 Hc={Hc} Br={Br} Bs={Bs} Lm={Lm} Lg=0 A={A} N={N1/2} Rser=1m
+L7 N003 5 {4*Lmag/NN**2}
+L1 1 N001 {Ls11} Rser={R1/2}
+L5 N002 3 {Ls11} Rser={R1/2}
+L6 4 N003 {(Ls12-2*Ls11)/NN**2} Rser={R2}
+K1 L2 L4 L7 1
+.ends Push_Pull_UETrans

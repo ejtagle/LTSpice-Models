@@ -1,0 +1,37 @@
+How to use the subcircuit X-models.
+-----------------------------------
+
+1.
+Put the x-symbol file(s) (xnmos.asy, xpmos.asy,...) to the 
+..SwCADIII\lib\sym directory.
+In this case you can pick it from the symbols main menu.
+
+
+2.
+Put the subcircuit library file into your working directory or into the
+SwitcherCADIII folder ..\SwCADIII\lib\sub .
+This is your library file containing the subcircuit model(s) from the vendor.
+
+3.  Add the command line    .include libname     to your schematic.
+E.g.  .include mot_mos.lib  .
+
+
+4.
+Add the part like any normal transistor, e.g. "xnmos" to your schematic.
+
+5.
+Rename the attribute, e.g. X-NMOS to the name of your subcircuit model
+in the mentioned library file.
+
+6.
+You can rename the symbol reference value, e.g. U1 to Q1 for example.
+
+
+Hint:
+You have to check with every new library that the pin order of the 
+subcircuit is in the same order like pins of the symbol. If the pin order
+is different then you have to change it either in the symbol or the library file.
+I recommend to make a new variant of the symbol.
+
+Helmut
+

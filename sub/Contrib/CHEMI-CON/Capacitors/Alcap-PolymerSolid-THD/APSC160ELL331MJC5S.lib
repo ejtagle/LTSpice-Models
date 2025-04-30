@@ -1,0 +1,21 @@
+*$
+*//-----------------------------------------------------------------------//
+*//   Part No.    : APSC160E331MJC5S
+*//   Date        : 2020/12/24
+*//   Temperature : 20deg.C
+*//   Model       : RC-ladder 7 Elements Model
+*//   Copyright (C) 2020 Nippon Chemi-Con Corporation.
+*//   All Rights Reserved.
+*//-----------------------------------------------------------------------//
+
+.SUBCKT APSC160ELL331MJC5S_20deg-C 1 2
+
+C1 4 2 1.97e-04
+C2 5 2 9.05e-05
+C3 6 2 1.75e-05
+R1 3 4 6.04e-03
+R2 4 5 3.16e-02
+R3 5 6 1.30e+00
+L1 1 3 5.20e-09
+
+.ENDS

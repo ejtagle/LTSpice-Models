@@ -1,0 +1,50 @@
+Version 4
+SymbolType CELL
+LINE Normal -19 -48 -96 -48
+LINE Normal 96 -48 19 -48
+LINE Normal 0 -16 0 16 2
+LINE Normal 15 -58 -13 -49
+LINE Normal -48 32 -48 0
+LINE Normal -16 16 -48 0
+LINE Normal -48 32 -16 16
+LINE Normal -48 16 -96 16 2
+LINE Normal 0 16 -16 16 2
+RECTANGLE Normal -96 -128 96 144
+CIRCLE Normal -13 -45 -19 -51
+CIRCLE Normal 19 -45 13 -51
+CIRCLE Normal 32 -16 -32 -80 2
+TEXT 2 59 Center 2 ADI
+TEXT -80 -48 Bottom 2 A
+TEXT 80 -48 Bottom 2 B
+TEXT -73 16 Bottom 2 EN
+WINDOW 0 96 -127 Bottom 2
+WINDOW 3 2 89 Center 2
+SYMATTR Value MAX14774
+SYMATTR Prefix X
+SYMATTR SpiceModel MAX14774.sub
+SYMATTR Value2 MAX14774
+SYMATTR Description Quad SPST/DUAL SPDT Beyond-The-Rails Analog Switches (Switch shown for a logic 0 input)
+PIN -96 16 NONE 8
+PINATTR PinName IN
+PINATTR SpiceOrder 1
+PIN 96 -48 NONE 8
+PINATTR PinName D
+PINATTR SpiceOrder 2
+PIN -96 -48 NONE 8
+PINATTR PinName S
+PINATTR SpiceOrder 3
+PIN -48 -128 TOP 8
+PINATTR PinName VL
+PINATTR SpiceOrder 4
+PIN 0 144 BOTTOM 8
+PINATTR PinName GND
+PINATTR SpiceOrder 8
+PIN 48 -128 TOP 8
+PINATTR PinName Vdd
+PINATTR SpiceOrder 7
+PIN 96 0 RIGHT 8
+PINATTR PinName VP
+PINATTR SpiceOrder 5
+PIN 96 32 RIGHT 8
+PINATTR PinName VN
+PINATTR SpiceOrder 6

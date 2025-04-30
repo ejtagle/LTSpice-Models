@@ -1,0 +1,70 @@
+**************************************************
+* Manufacturer:       Wurth Elektronik
+* Kinds:    White High power LED
+* Matchcode:         WL-SWTC SMD White Top view Ceramic  LED
+* Library Type:       Pspice
+* Version:        rev18a       
+* Date and Time   :       2018-8-4
+* Team:           eiSos EDA Service  
+* Contact:        libraries@we-online.com
+**************************************************
+.subckt  3535_158353030  1  2
+D1 1 2 led
+.MODEL led D
++ IS=10.010E-21
++ N=2.4445
++ RS=1.0000E-6
++ IKF=1.0000E3
++ CJO=0.000000000000044509
++ M=0.1
++ VJ=9.99
+.ends
+*****
+.subckt  3535_158353027  1  2
+D1 1 2 led
+.MODEL led D
++ IS=10.010E-21
++ N=2.4445
++ RS=1.0000E-6
++ IKF=1.0000E3
++ CJO=0.000000000000044509
++ M=0.1
++ VJ=9.99
+.ends
+*****
+.subckt  3535_158353040  1  2
+D1 1 2 led
+.MODEL led D
++ IS=10.010E-21
++ N=2.4445
++ RS=1.0000E-6
++ IKF=1.0000E3
++ CJO=0.000000000000044509
++ M=0.1
++ VJ=9.99
+.ends
+*****
+.subckt  3535_158353050  1  2
+D1 1 2 led
+.MODEL led D
++ IS=10.010E-21
++ N=2.4445
++ RS=1.0000E-6
++ IKF=1.0000E3
++ CJO=0.000000000000044509
++ M=0.1
++ VJ=9.99
+.ends
+*****
+.subckt  3535_158353060  1  2
+D1 1 2 led
+.MODEL led D
++ IS=10.010E-21
++ N=2.4445
++ RS=1.0000E-6
++ IKF=1.0000E3
++ CJO=0.000000000000044509
++ M=0.1
++ VJ=9.99
+.ends
+*****

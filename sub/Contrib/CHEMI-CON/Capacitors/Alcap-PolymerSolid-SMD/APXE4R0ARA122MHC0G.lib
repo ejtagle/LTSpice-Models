@@ -1,0 +1,21 @@
+*$
+*//-----------------------------------------------------------------------//
+*//   Part No.    : APXE4R0ARA122MHC0G
+*//   Date        : 2020/12/24
+*//   Temperature : 20deg.C
+*//   Model       : RC-ladder 7 Elements Model
+*//   Copyright (C) 2020 Nippon Chemi-Con Corporation.
+*//   All Rights Reserved.
+*//-----------------------------------------------------------------------//
+
+.SUBCKT APXE4R0ARA122MHC0G_20deg-C 1 2
+
+C1 4 2 6.75e-04
+C2 5 2 4.27e-04
+C3 6 2 5.04e-05
+R1 3 4 5.97e-03
+R2 4 5 2.18e-02
+R3 5 6 1.57e+00
+L1 1 3 4.20e-09
+
+.ENDS

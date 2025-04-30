@@ -1,0 +1,151 @@
+* Copyright (c) 1998-2024 Analog Devices, Inc.  All rights reserved.
+*
+.subckt AD8065 1 2 3 4 5
+IbiasP 1 MID {Ib}
+IbiasN 2 MID {Ib-Ios}
+RinCMP MID 1 {Rcm} Noiseless
+RinCMN 2 MID {Rcm} Noiseless
+CinCMP MID 1 {Ccm}
+CinCMN 2 MID {Ccm}
+RinDiff 2 1 {Rdiff} Noiseless
+CinDiff 2 1 {Cdiff}
+RInP N008 MID 1k Noiseless
+R200 Avo1 MID 250 Noiseless
+R210 Clamp MID 1061.03Meg Noiseless
+C210 Clamp MID {Cfp1}
+R220 N009 MID 1k Noiseless
+C220 N009 MID 1.7684p
+R230 N010 MID 1k Noiseless
+C230 N010 MID 113.7f
+C240 N011 MID 88.4f
+R245 N012 N018 1k Noiseless
+L245 N018 MID 159.2n
+R290 N013 N014 10 Noiseless
+L290 N013 N002 3.789n
+C290 N002 N014 151.576p
+R291 N014 MID 32.985 Noiseless
+Rout N016 MID 4.9 Noiseless
+Lout N016 ZO 7n
+Cout ZO MID 46p
+R240 N011 MID 1k Noiseless
+G2 0 Vcc_Int N027 0 1
+G3 0 Vee_Int N030 0 1
+R6 Vcc_Int 0 1 Noiseless
+R7 Vee_Int 0 1 Noiseless
+R8 N028 Vcc_Int 1Meg Noiseless
+R9 N028 Vee_Int 1Meg Noiseless
+C1 N028 0 1
+E1 MID 0 N028 0 1
+R10 MID 0 1Meg Noiseless
+C2 Vcc_Int 0 1n
+C3 Vee_Int 0 1n
+D1 CMp N008 DO
+D2 N008 CMn DO
+I1 3_BUF CMp {1k*Vcm_max}
+R1 3_BUF CMp 1m
+C4 3_BUF CMp 1n
+I2 4_BUF CMn {1k*Vcm_min}
+R2 4_BUF CMn 1m
+C5 4_BUF CMn 1n
+G4 0 3_BUF N027 0 1k
+G5 0 4_BUF N030 0 1k
+R11 3_BUF 0 1m Noiseless
+R12 4_BUF 0 1m Noiseless
+C6 3_BUF 0 1n
+C7 4_BUF 0 1n
+R13 N027 3 1µ
+R14 N030 4 1µ
+I3 N027 N030 {Iq}
+Bsrc N027 0 I=Dnlim(I(S1), 0,1u)
+Bsink N030 0 I=Uplim(I(S1), 0,1u)
+RInP1 N003 MID 1k Noiseless
+R15 N004 N003 1k Noiseless
+I4 N003 N004 {1m*(Vos+ Drift*(Temp-27))}
+A1 MID MID MID MID MID MID Vnoise MID OTA G=10u Iout=1m Vhigh=1k Vlow=-1k En={BB} Enk={fC}
+R16 Vnoise MID 100k Noiseless
+R18 N005 N004 1k Noiseless
+G7 N004 N005 Vnoise MID 1m
+A2 MID 1 MID MID MID MID MID MID OTA Vhigh=1k Vlow=-1k G=0 In={BBi}
+A3 MID 2 MID MID MID MID MID MID OTA Vhigh=1k Vlow=-1k G=0 In={BBi}
+C8 CMRR N001 {C1a_CMR}
+G8 MID N001 1 MID {G1_CMR}
+R17 N001 MID 1 Noiseless
+R19 CMRR N001 {R1a_CMR} Noiseless
+R20 CMRR MID {R2a_CMR} Noiseless
+R22 N006 N005 1k Noiseless
+G10 N005 N006 CMRR MID 1m
+G1 MID N003 1 MID 1m
+G6 MID N008 N006 MID 1m
+G11 MID Avo1 N008 2 1
+G13 MID N009 Clamp MID 1m
+G14 MID N010 N009 MID 1m
+G15 MID N011 N010 MID 1m
+G16 MID N012 N011 MID 1m
+Bslew MID Clamp I=Uplim(Dnlim({Avo}* V(Avo1,MID), {Isink}, 10u), {Isrc}, 10u)
+S1 5 ZO 0 0 ISC
+C9 5 ZO 1p
+DOP Vsatp ZO DO
+DON ZO Vsatn DO
+C10 ZO Vsatp 1f
+C11 ZO Vsatn 1f
+G9 MID Vsatp N019 MID 1k
+R23 Vsatp MID 1m
+G12 MID Vsatn N020 MID 1k
+R24 Vsatn MID 1m
+C12 Vsatp MID 1n
+C13 Vsatn MID 1n
+I5 Vcc_Int N019 {1m*Vsatp}
+R21 N019 Vcc_Int 1k
+C14 N019 Vcc_Int 1n
+I6 Vee_Int N020 {1m*Vsatn}
+R25 N020 Vee_Int 1k
+C15 N020 Vee_Int 1n
+G17 MID N021 ORp MID 1k
+G18 MID N022 ORn MID 1k
+DGP N021 Clamp DG
+R26 N021 MID 1m
+R27 N022 MID 1m
+I7 N025 ORn {1m*ORn}
+R28 ORn N025 1k
+I8 N024 ORp {1m*ORp}
+R29 ORp N024 1k
+C16 ORp N024 1p
+C17 ORn N025 1p
+DGN Clamp N022 DG
+G19 MID N024 ZO MID 1k
+R30 N024 MID 1m
+G20 MID N025 ZO MID 1k
+R31 N025 MID 1m
+G21 MID N013 N012 MID 1k
+R32 N013 MID 1m Noiseless
+G22 MID N015 N014 MID 1.3032
+R33 N015 MID 1 Noiseless
+G23 MID N016 N015 MID {1/4.9}
+.param BB=7n fC=2.3k
++BBi=1f Iq=6.4m
++Ib=2p Ios=1p
++Rcm=1T Rdiff=1T
++Ccm=2.1p Cdiff=4.5p
++Vcm_min=0 Vcm_max=-2.6
++Vos=0.4m Drift=1u
++Vsatp=-735m Vsatn=715m
++ORp=100 ORn={-ORp}
++Isc=120m
+.model DG D(Vfwd={-2*ORn} Vrev=0 Revepsilon=0.5 Ron=1m Noiseless)
+.model DO D(Vfwd=1k Vrev=0 Revepsilon=0.1 Ron=1m Noiseless)
+.model ISC SW(Ron=1m Roff=1Meg Vt=-1 Vh=-0.1 Ilimit={Isc} Noiseless level=2)
+.param gain_CMR = {pow(10, (-Rej_dc_CMR/20))}
+.param C1a_CMR = {1 / (2 * pi * R1a_CMR * fz1_CMR)}
+.param R2a_CMR = {R1a_CMR/ ((2 * pi * fp1_CMR * C1a_CMR
++* R1a_CMR) - 1)}
+.param actual1_CMR = {R2a_CMR / (R1a_CMR + R2a_CMR)}
+.param G1_CMR = {gain_CMR/actual1_CMR}
+.param Rej_dc_CMR=100
+.param R1a_CMR=100Meg
+.param fz1_CMR=25k
+.param fp1_CMR=50Meg
+.param Avo=1.684u Cfp1=1p
++SRp=190 SRn={-SRp}
++Isrc = {Cfp1 * SRp * 1Meg}
++Isink = {Cfp1 * SRn * 1Meg}
+.ends AD8065

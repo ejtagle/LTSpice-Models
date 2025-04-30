@@ -1,0 +1,19 @@
+Version 4
+SymbolType CELL
+RECTANGLE Normal -96 -32 96 64
+WINDOW 0 -65 -39 Bottom 2
+WINDOW 3 -61 1 Top 2
+WINDOW 39 2 75 Top 0
+SYMATTR Value RLY
+SYMATTR SpiceLine VNOM=5 RCOIL=150 LCOIL=0.1 CCOIL=1f
+SYMATTR Prefix X
+SYMATTR ModelFile relay-custom.lib
+PIN 0 -32 TOP 8
+PINATTR PinName coilp
+PINATTR SpiceOrder 1
+PIN 0 64 BOTTOM 8
+PINATTR PinName coilm
+PINATTR SpiceOrder 2
+PIN 96 16 RIGHT 8
+PINATTR PinName CTL
+PINATTR SpiceOrder 3

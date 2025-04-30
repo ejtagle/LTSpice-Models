@@ -1,0 +1,33 @@
+Version 4
+SymbolType CELL
+LINE Normal -96 -96 -64 -96
+LINE Normal -96 -57 -96 -95
+LINE Normal -32 -96 -64 -96
+LINE Normal -32 -57 -32 -95
+LINE Normal -32 128 -64 128
+LINE Normal -32 89 -32 127
+LINE Normal -96 128 -64 128
+LINE Normal -96 89 -96 127
+CIRCLE Normal 16 -64 -145 96
+WINDOW 0 8 -56 Bottom 2
+WINDOW 3 -62 6 Top 2
+WINDOW 39 19 161 Top 2
+SYMATTR Value DC_MOTOR
+SYMATTR SpiceLine LA=1.5M RA=.5 KE=.05 KT=.05 JM=250U BM=.1M TL=0
+SYMATTR Prefix X
+SYMATTR ModelFile motor.lib
+PIN -64 -96 TOP 8
+PINATTR PinName +
+PINATTR SpiceOrder 1
+PIN -64 128 BOTTOM 8
+PINATTR PinName -
+PINATTR SpiceOrder 2
+PIN 112 -32 RIGHT 8
+PINATTR PinName Velocity
+PINATTR SpiceOrder 3
+PIN 112 16 RIGHT 8
+PINATTR PinName BEMF
+PINATTR SpiceOrder 4
+PIN 112 64 RIGHT 8
+PINATTR PinName Torque
+PINATTR SpiceOrder 5

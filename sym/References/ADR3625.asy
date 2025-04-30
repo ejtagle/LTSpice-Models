@@ -1,0 +1,29 @@
+Version 4
+SymbolType CELL
+RECTANGLE Normal -128 -64 128 96
+TEXT 0 0 Center 2 ADI
+WINDOW 0 -1 -42 Center 2
+WINDOW 3 -53 36 Left 2
+SYMATTR Value ADR3625
+SYMATTR Prefix X
+SYMATTR SpiceModel ADR3625.sub
+SYMATTR Value2 ADR3625
+SYMATTR Description Precision, Micropower, High Current Output Voltage Reference
+PIN -128 -16 LEFT 8
+PINATTR PinName EN
+PINATTR SpiceOrder 1
+PIN -128 48 LEFT 8
+PINATTR PinName IN
+PINATTR SpiceOrder 2
+PIN -48 96 BOTTOM 8
+PINATTR PinName GNDF
+PINATTR SpiceOrder 3
+PIN 48 96 BOTTOM 8
+PINATTR PinName GNDS
+PINATTR SpiceOrder 4
+PIN 128 48 RIGHT 8
+PINATTR PinName OUTF
+PINATTR SpiceOrder 5
+PIN 128 -16 RIGHT 8
+PINATTR PinName OUTS
+PINATTR SpiceOrder 6

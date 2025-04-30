@@ -1,0 +1,22 @@
+*$
+*//-----------------------------------------------------------------------//
+*//   Part        : EMZA350ARA330MF61G
+*//   Date        : 2024/05/07
+*//   Temperature : 20deg-C
+*//   Model       : RC-ladder 7 Elements Model
+*//   Copyright (C) 2024 Nippon Chemi-Con Corporation.
+*//   All Rights Reserved.
+*//-----------------------------------------------------------------------//
+
+.SUBCKT EMZA350ARA330MF61G_20deg-C 1 2
+
+C1 4 2 3.51e-06
+C2 5 2 2.04e-05
+C3 6 2 6.72e-06
+R1 3 4 2.63e-01
+R2 4 5 7.64e-02
+R3 5 6 5.25e-01
+L1 1 3 2.60e-09
+
+.ENDS
+*$

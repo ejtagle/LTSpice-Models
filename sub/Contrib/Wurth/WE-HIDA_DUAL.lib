@@ -1,0 +1,119 @@
+.subckt 1415_7444211415082_8.2u 1 2 3 4
+L1 1 N1 7.433u
+Rdc1 N1 4 9.2m
+Cp1 1 4 8.399p
+Rp1 1 4 2314
+L2 2 N2 7.433u
+Rdc2  N2 3 9.2m
+Cp2 2 3 8.399p
+Rp2 2 3 2314
+Rg1 1 0 500meg
+Rg2 2 0 500meg
+Rg3 3 0 500meg
+Rg4 4 0 500meg
+.ends
+*******
+.subckt 1415_7444211415100_10u 1 2 3 4
+L1 1 N1 9.038u
+Rdc1 N1 4 9.2m
+Cp1 1 4 9.155p
+Rp1 1 4 2396
+L2 2 N2 9.038u
+Rdc2  N2 3 9.2m
+Cp2 2 3 9.155p
+Rp2 2 3 2396
+Rg1 1 0 500meg
+Rg2 2 0 500meg
+Rg3 3 0 500meg
+Rg4 4 0 500meg
+.ends
+*******
+.subckt 1415_7444211415150_15u 1 2 3 4
+L1 1 N1 13.628u
+Rdc1 N1 4 14.6m
+Cp1 1 4 11.718p
+Rp1 1 4 2908
+L2 2 N2 13.628u
+Rdc2  N2 3 14.6m
+Cp2 2 3 11.718p
+Rp2 2 3 2908
+Rg1 1 0 500meg
+Rg2 2 0 500meg
+Rg3 3 0 500meg
+Rg4 4 0 500meg
+.ends
+*******
+.subckt 1415_7444211415220_22u 1 2 3 4
+L1 1 N1 19.457u
+Rdc1 N1 4 14.8m
+Cp1 1 4 11.402p
+Rp1 1 4 3381
+L2 2 N2 19.457u
+Rdc2  N2 3 14.8m
+Cp2 2 3 11.402p
+Rp2 2 3 3381
+Rg1 1 0 500meg
+Rg2 2 0 500meg
+Rg3 3 0 500meg
+Rg4 4 0 500meg
+.ends
+*******
+.subckt 1521_74441521082_8.2u 1 2 3 4
+L1 1 N1 7.498u
+Rdc1 N1 4 6.2m
+Cp1 1 4 7.178p
+Rp1 1 4 2854
+L2 2 N2 7.498u
+Rdc2  N2 3 6.2m
+Cp2 2 3 7.178p
+Rp2 2 3 2854
+Rg1 1 0 500meg
+Rg2 2 0 500meg
+Rg3 3 0 500meg
+Rg4 4 0 500meg
+.ends
+*******
+.subckt 1521_74441521100_10u 1 2 3 4
+L1 1 N1 9.098u
+Rdc1 N1 4 6.3m
+Cp1 1 4 7.474p
+Rp1 1 4 2870
+L2 2 N2 9.098u
+Rdc2  N2 3 6.3m
+Cp2 2 3 7.474p
+Rp2 2 3 2870
+Rg1 1 0 500meg
+Rg2 2 0 500meg
+Rg3 3 0 500meg
+Rg4 4 0 500meg
+.ends
+*******
+.subckt 1521_74441521150_15u 1 2 3 4
+L1 1 N1 14.504u
+Rdc1 N1 4 8.5m
+Cp1 1 4 7.06p
+Rp1 1 4 3720
+L2 2 N2 14.504u
+Rdc2  N2 3 8.5m
+Cp2 2 3 7.06p
+Rp2 2 3 3720
+Rg1 1 0 500meg
+Rg2 2 0 500meg
+Rg3 3 0 500meg
+Rg4 4 0 500meg
+.ends
+*******
+.subckt 1521_74441521220_22u 1 2 3 4
+L1 1 N1 21.78u
+Rdc1 N1 4 13.6m
+Cp1 1 4 7.729p
+Rp1 1 4 5558
+L2 2 N2 21.78u
+Rdc2  N2 3 13.6m
+Cp2 2 3 7.729p
+Rp2 2 3 5558
+Rg1 1 0 500meg
+Rg2 2 0 500meg
+Rg3 3 0 500meg
+Rg4 4 0 500meg
+.ends

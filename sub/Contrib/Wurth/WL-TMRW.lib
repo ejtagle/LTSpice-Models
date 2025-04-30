@@ -1,0 +1,306 @@
+**************************************************
+* Manufacturer:       Wurth Elektronik
+* Kinds:    Visible THT LED 
+* Matchcode:          WL-TMRW THT Mono-color Round Waterclear
+* Library Type:       Pspice
+* Version:        rev18a       
+* Date and Time   :       2018-8-4
+* Team:           eiSos EDA Service  
+* Contact:        libraries@we-online.com
+**************************************************
+.subckt  3mm_151033BS03000  1  2
+D1 1 2 led
+.MODEL led D
++ IS=10.000E-21
++ N=2.4891
++ RS=11.944
++ IKF=6.5733
++ CJO=0.000000000045759
++ M=0.26352
++ VJ=3.33
+.ends
+******
+.subckt  3mm_151033GS03000  1  2
+D1 1 2 led
+.MODEL led D
++ IS=1.3096E-12
++ N=4.9950
++ RS=10.695
++ IKF=999
++ CJO=8.8452E-9
++ M=.1001
++ VJ=9.9900
+.ends
+******
+.subckt  3mm_151033RS03000  1  2
+D1 1 2 led
+.MODEL led D
++ IS=3.7993E-9
++ N=4.9950
++ RS=3.5090
++ IKF=999
++ CJO=3.8903E-9
++ M=.1001
++ VJ=9.9900
+.ends
+******
+.subckt  3mm_151033YS03000  1  2
+D1 1 2 led
+.MODEL led D
++ IS=3.0472E-9
++ N=4.9950
++ RS=2.2105
++ IKF=999
++ CJO=3.3876E-9
++ M=.1001
++ VJ=9.9900
+.ends
+******
+.subckt  3mm_151034GS03000  1  2
+D1 1 2 led
+.MODEL led D
++ IS=0.0000000000001064
++ N=4.4317
++ RS=10.239
++ IKF=0.018015
++ CJO=0.000000000033188
++ M=0.10616
++ VJ=0.52002
+.ends
+******
+
+.subckt  3mm_151034RS03000  1  2
+D1 1 2 led
+.MODEL led D
++ IS=4.1067E-9
++ N=4.9950
++ RS=1.8955
++ IKF=999
++ CJO=5.3959E-9
++ M=.1001
++ VJ=9.9900
+.ends
+******
+.subckt  3mm_151034RS03099  1  2
+D1 1 2 led
+.MODEL led D
++ IS=2.7212E-9
++ N=4.9950
++ RS=4.3714
++ IKF=999
++ CJO=3.4567E-9
++ M=.1001
++ VJ=9.9900
+.ends
+******
+.subckt  3mm_151034YS03000  1  2
+D1 1 2 led
+.MODEL led D
++ IS=2.5292E-9
++ N=4.9950
++ RS=2.3705
++ IKF=999
++ CJO=3.3191E-9
++ M=.1001
++ VJ=9.9900
+.ends
+******
+.subckt  5mm_151053BS04500  1  2
+D1 1 2 led
+.MODEL led D
++ IS=8.4754E-12
++ N=4.9950
++ RS=9.7622
++ IKF=999
++ CJO=755.37E-12
++ M=.1001
++ VJ=9.9900
+.ends
+******
+.subckt  5mm_151053GS03000  1  2
+D1 1 2 led
+.MODEL led D
++ IS=2.5879E-12
++ N=4.9950
++ RS=4.2285
++ IKF=999
++ CJO=4.1216E-9
++ M=.1001
++ VJ=9.9900
+.ends
+******
+.subckt  5mm_151053RS03000  1  2
+D1 1 2 led
+.MODEL led D
++ IS=0.00000000000051614
++ N=4.7554
++ RS=7.4837
++ IKF=0.010945
++ CJO=0.000000000029689
++ M=0.3005
++ VJ=6.9518
+.ends
+******
+
+.subckt  5mm_151053YS04500  1  2
+D1 1 2 led
+.MODEL led D
++ IS=3.2438E-9
++ N=4.9950
++ RS=2.2483
++ IKF=999
++ CJO=3.3493E-9
++ M=.1001
++ VJ=9.9900
+.ends
+******
+.subckt  5mm_151054BS04500  1  2
+D1 1 2 led
+.MODEL led D
++ IS=11.895E-12
++ N=4.9950
++ RS=10.850
++ IKF=999
++ CJO=759.59E-12
++ M=.1001
++ VJ=9.9900
+.ends
+******
+.subckt  5mm_151054GS03000  1  2
+D1 1 2 led
+.MODEL led D
++ IS=1.4544E-12
++ N=4.9950
++ RS=10.975
++ IKF=999
++ CJO=4.5359E-9
++ M=.1001
++ VJ=9.9900
+.ends
+******
+.subckt  5mm_151054GS03099  1  2
+D1 1 2 led
+.MODEL led D
++ IS=583.06E-15
++ N=4.9950
++ RS=11.351
++ IKF=999
++ CJO=4.1317E-9
++ M=.1001
++ VJ=9.9900
+.ends
+******
+.subckt  5mm_151054RS01500  1  2
+D1 1 2 led
+.MODEL led D
++ IS=3.8212E-9
++ N=4.9950
++ RS=3.6029
++ IKF=999
++ CJO=3.3237E-9
++ M=.1001
++ VJ=9.9900
+.ends
+*******
+.subckt  5mm_151054RS01599  1  2
+D1 1 2 led
+.MODEL led D
++ IS=1.6965E-9
++ N=4.9950
++ RS=6.5329
++ IKF=999
++ CJO=3.1250E-9
++ M=.1001
++ VJ=9.9900
+.ends
+******
+.subckt  5mm_151054RS03000  1  2
+D1 1 2 led
+.MODEL led D
++ IS=1E-20
++ N=1.7689
++ RS=4.3098
++ IKF=7.7672
++ CJO=0.0000000000054064
++ M=0.1666
++ VJ=1.8259
+.ends
+******
+.subckt  5mm_151054RS03099  1  2
+D1 1 2 led
+.MODEL led D
++ IS=5.9112E-9
++ N=4.9950
++ RS=1.1380
++ IKF=999
++ CJO=264.96E-12
++ M=.1001
++ VJ=9.9900
+.ends
+******
+.subckt  5mm_151054YS01599  1  2
+D1 1 2 led
+.MODEL led D
++ IS=1E-20
++ N=1.8053
++ RS=5.0526
++ IKF=9.8339
++ CJO=0.00000000001646
++ M=0.23332
++ VJ=1.0618
+.ends
+******
+.subckt  5mm_151054YS04500  1  2
+D1 1 2 led
+.MODEL led D
++ IS=1E-20
++ N=1.8246
++ RS=4.8981
++ IKF=11.235
++ CJO=0.000000000012974
++ M=0.31675
++ VJ=1.265
+.ends
+******
+.subckt  3mm_151034BS03000  1  2
+D1 1 2 led
+.MODEL led D
++ IS=245.05E-18
++ N=2.9203
++ RS=1.1257
++ IKF=135.14E-6
++ CJO=1.0000E-12
++ M=.3333
++ VJ=.75
++ BV=5
++ IBV=100.00E-6
+.ends
+******
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

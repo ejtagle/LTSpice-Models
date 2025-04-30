@@ -1,0 +1,94 @@
+* PSpice Model Editor - Version 10.5.0
+*$
+*FDD8424H Electrical Model(Complementary N-Channel)
+*--------------------------------------------------
+.SUBCKT FDD8424H_Nch 2 1 3    
+*Nom Temp=25 deg C
+Dbody 7 5 DbodyMOD
+Dbreak 5 11 DbreakMOD
+Ebreak 11 7 17 7 44
+Lgate 1 9 4.673e-9
+Ldrain 2 5 1e-9
+Lsource 3 7 2.52e-9
+RLgate 1 9 46.73
+RLdrain 2 5 10
+RLsource 3 7 25.2
+Rgate 9 6 1.1
+It 7 17 1
+Rbreak 17 7 RbreakMOD 1
+.MODEL RbreakMOD RES (TC1=8.5e-4 TC2=-1.6e-6)
+.MODEL DbodyMOD D (IS=1e-12 n=1.08 RS=6.5m TRS1=3e-5 TRS2=1e-5 
++ CJO=2.9e-10 M=0.5 TT=13n XTI=3)
+.MODEL DbreakMOD D (RS=8e-4 TRS1=1e-3 TRS2=1e-6)
+Rdrain 5 16 RdrainMOD 14m
+.MODEL RdrainMOD RES (TC1=5.7e-3 TC2=7e-6)
+M_BSIM3 16 6 7 7 Bsim3 W=1.34 L=1.03u NRS=1 
+.MODEL  Bsim3 NMOS (LEVEL=7 VERSION=3.1 MOBMOD=3 CAPMOD=2 paramchk=1 NQSMOD=0
+**Process Parameters
++ TOX=450e-10 ;Oxide thickness
++ XJ=0.48u ;Channel depth
++ NCH=1.6e17 ;Channel concentration
+**Channel Current
++ U0=700 VSAT=5e5 DROUT=1.8
++ DELTA=0.1 PSCBE2=0 RSH=2.45m   
+**Threshold voltage
++ VTH0=1.6
+**Sub-threshold characteristics
++ VOFF=-0.1 NFACTOR=1.1
+**Junction diodes and Capacitance
++ LINT=0.12u DLC=0.12u 
++ CGSO=70p CGSL=0 CGDO=45p CGDL=180p
++ CJ=0 CF=0 CKAPPA=1
+** Temperature parameters
++ KT1=-1.2 KT2=0 UA1=0.4e-8 
++ NJ=10
+.ENDS
+*$
+*---------------------------------------------------
+*FDD8424H Electrical Model(Complementary P-Channel)
+*---------------------------------------------------
+.SUBCKT FDD8424H_Pch 2 1 3   
+*Nom Temp=25 deg C
+Dbody 5 7 DbodyMOD
+Dbreak 7 11 DbreakMOD
+Ebreak 5 11 17 7 -44
+Lgate 1 9 4.65e-9
+Ldrain 2 5 1e-9 
+Lsource 3 7 2.54e-9
+RLgate 1 9 46.5
+RLdrain 2 5 10
+RLsource 3 7 25.4
+Rgate 9 6 3.3
+It 7 17 1
+Rbreak 17 7 RbreakMOD 1
+.MODEL RbreakMOD RES (TC1=7.8e-4 TC2=-2e-7)
+.MODEL DbodyMOD D (IS=1.21e-12 n=1 RS=1.17E-2 TRS1=1e-3 TRS2=2e-6
++ CJO=3.1e-10 M=0.5 TT=18n XTI=1)
+.MODEL DbreakMOD D (RS=0.5 TRS1=1e-3 TRS2=0)
+Rdrain 5 16 RdrainMOD 31.5m 
+.MODEL RdrainMOD RES (TC1=4e-3 TC2=2e-5)
+M_BSIM3 16 6 7 7 M_MOD W=1.124 L=1.37u NRS=1  
+.MODEL  M_MOD PMOS (LEVEL=7 VERSION=3.1 MOBMOD=3 CAPMOD=2 paramchk=1 NQSMOD=0)
+**Process Parameters
++ TOX=400e-10 ;Oxide thickness
++ XJ=0.92u ;Channel depth
++ NCH=1.6e17 ;Channel concentration
+**Channel Current
++ U0=250 vsat=1e5 drout=1 
++ DELTA=0.25 PSCBE2=0 RSH=2.44m 
+**Threshold voltage
++ VTH0=-1.55
+**Sub-threshold characteristics
++ VOFF=-0.1 NFACTOR=1.3 
+**Junction diodes and Capacitance
++ LINT=0.31u DLC=0.31u 
++ CGSO=240p CGSL=0p CGDO=110p CGDL=260p 
++ CJ=0 CF=0p CKAPPA=0.3
+** Temperature parameters
++ KT1=-0.95 KT2=0 UA1=0.1E-9 
++ NJ=10 
+.ENDS 
+*FDD8424H Rev.A 3/28/2007
+*ST
+
+*$

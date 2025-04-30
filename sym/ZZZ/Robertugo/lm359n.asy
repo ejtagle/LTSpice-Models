@@ -1,0 +1,56 @@
+Version 4
+SymbolType CELL
+LINE Normal -14 -144 -14 -128
+LINE Normal 18 -143 18 -127
+LINE Normal 22 -115 22 -115
+RECTANGLE Normal -112 -144 112 112
+ARC Normal -14 -140 18 -115 -14 -128 22 -115
+ARC Normal -14 -140 18 -115 22 -115 18 -127
+WINDOW 0 8 -2 Center 0
+WINDOW 3 3 103 Center 0
+SYMATTR Value LM359N
+SYMATTR Prefix X
+SYMATTR Description Dual High Freq Norton Opamp.
+SYMATTR ModelFile LM359.sub
+PIN -112 -112 LEFT 8
+PINATTR PinName Iset_Out
+PINATTR SpiceOrder 1
+PIN -112 -80 LEFT 8
+PINATTR PinName Vout(A)
+PINATTR SpiceOrder 2
+PIN -112 -48 LEFT 8
+PINATTR PinName Comp(A)
+PINATTR SpiceOrder 3
+PIN -112 -16 LEFT 8
+PINATTR PinName Gnd(A)
+PINATTR SpiceOrder 4
+PIN -112 16 LEFT 8
+PINATTR PinName NC
+PINATTR SpiceOrder 5
+PIN -112 48 LEFT 8
+PINATTR PinName i_in-(A)
+PINATTR SpiceOrder 6
+PIN -112 80 LEFT 8
+PINATTR PinName i_in+(A)
+PINATTR SpiceOrder 7
+PIN 112 80 RIGHT 8
+PINATTR PinName Iset_In
+PINATTR SpiceOrder 8
+PIN 112 48 RIGHT 8
+PINATTR PinName i_in+(B)
+PINATTR SpiceOrder 9
+PIN 112 16 RIGHT 8
+PINATTR PinName i_in-(B)
+PINATTR SpiceOrder 10
+PIN 112 -16 RIGHT 8
+PINATTR PinName Gnd(B)
+PINATTR SpiceOrder 11
+PIN 112 -48 RIGHT 8
+PINATTR PinName V+
+PINATTR SpiceOrder 12
+PIN 112 -80 RIGHT 8
+PINATTR PinName Comp(B)
+PINATTR SpiceOrder 13
+PIN 112 -112 RIGHT 8
+PINATTR PinName Vout(B)
+PINATTR SpiceOrder 14

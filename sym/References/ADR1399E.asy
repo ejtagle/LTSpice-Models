@@ -1,0 +1,38 @@
+Version 4
+SymbolType BLOCK
+LINE Normal 32 -16 0 -16
+LINE Normal 43 -26 32 -16
+LINE Normal 0 -16 -11 -6
+LINE Normal -5 16 16 -16
+LINE Normal 37 16 -5 16
+LINE Normal 16 -16 37 16
+LINE Normal 16 16 16 32
+LINE Normal 16 -80 16 -80
+LINE Normal 16 -31 16 -16
+RECTANGLE Normal 160 96 -112 -80
+TEXT 100 -2 Center 2 ADI
+WINDOW 3 16 48 Center 2
+WINDOW 0 35 -92 Left 2
+SYMATTR Value ADR1399E
+SYMATTR Prefix X
+SYMATTR SpiceModel ADR1399E.sub
+SYMATTR Value2 ADR1399E
+SYMATTR Description Precision, Micropower 2.048V Shunt Voltage Reference
+PIN 16 -80 TOP 8
+PINATTR PinName +REFF
+PINATTR SpiceOrder 1
+PIN 16 96 BOTTOM 8
+PINATTR PinName -REFF
+PINATTR SpiceOrder 2
+PIN -64 -80 TOP 8
+PINATTR PinName H+
+PINATTR SpiceOrder 3
+PIN -64 96 BOTTOM 8
+PINATTR PinName H-
+PINATTR SpiceOrder 4
+PIN 112 -80 TOP 8
+PINATTR PinName +REFS
+PINATTR SpiceOrder 5
+PIN 112 96 BOTTOM 8
+PINATTR PinName -REFS
+PINATTR SpiceOrder 6

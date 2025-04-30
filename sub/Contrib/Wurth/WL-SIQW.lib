@@ -1,0 +1,120 @@
+.subckt SIQW_15427285BA240 1 2
+D1 1 2 led
+.MODEL led D
++ IS=1.4332E-15
++ N=1.7255
++ RS=.58984
++ IKF=51.253E-3
++ CJO=1.0000E-12
++ M=.3333
++ VJ=.75
++ BV=5
++ IBV=100.00E-6
+.ends
+***********
+.subckt SIQW_15427285BA242 1 2
+D1 1 2 led
+.MODEL led D
++ IS=1.6136E-15
++ N=3.4287
++ RS=.49775
++ IKF=42.063E-3
++ CJO=1.0000E-12
++ M=.3333
++ VJ=.75
++ BV=5
++ IBV=100.00E-6
+.ends
+***********
+.subckt SIQW_15427294BA240 1 2 
+D1 1 2 led
+.MODEL led D
++ IS=679.98E-12
++ N=1.6878
++ RS=.70317
++ IKF=122.07E-9
++ CJO=1.0000E-12
++ M=.3333
++ VJ=.75
++ BV=5
++ IBV=100.00E-6
+.ends
+***********
+.subckt SIQW_15427294BA242 1 2 
+D1 1 2 led
+.MODEL led D
++ IS=129.92E-12
++ N=5
++ RS=.60289
++ CJO=1.0000E-12
++ M=.3333
++ VJ=.75
++ BV=5
++ IBV=100.00E-6
+.ends
+***********
+.subckt SIQW_15435385A9040 1 2 
+D1 1 2 led
+.MODEL led D
++ IS=101.01E-21
++ N=1.3002
++ RS=.28396
++ IKF=305.82
++ CJO=1.0000E-12
++ M=.3333
++ VJ=.75
++ BV=5
++ IBV=100.00E-6
+.ends
+***********
+.subckt SIQW_15435385A9042 1 2 
+D1 1 2 led
+.MODEL led D
++ IS=10.000E-21
++ N=2.4081
++ RS=.20719
++ IKF=.13917
++ CJO=1.0000E-12
++ M=.3333
++ VJ=.75
++ BV=5
++ IBV=100.00E-6
+.ends
+***********
+.subckt SIQW_15437385AA540 1 2 
+D1 1 2 led
+.MODEL led D
++ IS=1.2507E-18
++ N=1.3296
++ RS=.18806
++ IKF=127.47
++ CJO=1.0000E-12
++ M=.3333
++ VJ=.75
++ BV=5
++ IBV=100.00E-6
+.ends
+***********
+.subckt SIQW_15437385AA542 1 2 
+D1 1 2 led
+.MODEL led D
++ IS=10.000E-21
++ N=2.3721
++ RS=.19937
++ IKF=.11339
++ CJO=1.0000E-12
++ M=.3333
++ VJ=.75
++ BV=5
++ IBV=100.00E-6
+.ends
+***********
+
+
+
+
+
+
+
+
+

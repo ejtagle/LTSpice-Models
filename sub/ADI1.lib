@@ -1,0 +1,8165 @@
+* Copyright (c) 1998-2019 Analog Devices, Inc.  All rights reserved.
+*
+.subckt AD549 1 2 3 4 5
+A1 2 1 0 0 0 0 0 0 OTA g=0 in=.11f ink=1 incm=.0011f incmk=1
+M1 3 N005 5 5 N temp=27
+M2 4 N005 5 5 P temp=27
+C3 3 5 2p
+C4 5 4 2p
+C6 3 1 .2p Rpar=4000T noiseless
+C7 1 4 .2p noiseless Rpar=4000T
+C8 2 4 .2p Rpar=4000T noiseless
+C9 3 2 .2p Rpar=4000T noiseless
+A2 0 N006 M M M M N005 M OTA g=36u Iout=17u en=35n enk=55 Vlow=-1e308 Vhigh=1e308 Cout= 5.5p
+D1 N005 5 Y
+D6 5 N005 Y
+C1 2 1 .8p Rpar=10T noiseless
+G1 0 M 3 0 1m
+G2 0 M 4 0 1m
+R3 M 0 1K noiseless
+S1 N005 M 4 3 UVLO
+D3 N005 3 X
+D4 4 N005 X
+B3 0 N004 I=2m*dnlim(uplim(V(1),V(3)-.8,.1), V(4)+3, .1)+100n*V(1)
+B4 N004 0 I=2m*dnlim(uplim(V(2),V(3)-1.25,.1), V(4)+3, .1)+100n*V(2)
+C12 N004 0 20p Rpar=1K noiseless
+C2 N006 0 20p Rpar=1K noiseless
+L1 N004 N006 20µ
+.model X D(Ron=5K Roff=100G Vfwd=-1.25 epsilon=.1 noiseless)
+.model Y D(Ron=5K Roff=1T Vfwd=2.5 epsilon=.1 noiseless)
+.model N VDMOS(Vto=-250m Kp=4m Ksubthres=.1 noiseless)
+.model P VDMOS(Vto=250m Kp=4m pchan Ksubthres=1. noiseless)
+.model UVLO SW(Ron=1K Roff=100G Vt=-3.75 Vh=.25 noiseless)
+.ends AD549
+*
+.subckt AD712 1 2 3 4 5
+A1 2 1 0 0 0 0 0 0 OTA g=0 in=.01p ink=10 incm=.001p incmk=10
+M1 3 N006 5 5 N temp=27
+M2 4 N006 5 5 P temp=27
+C3 3 5 2p
+C4 5 4 2p
+C6 3 1 1.375p Rpar=750G noiseless
+A2 0 N005 M M M M N006 M OTA g=130u Isrc=90u Isink=-120u en=16n enk=100 Vlow=-1e308 Vhigh=1e308 Cout= 4p asym
+C10 N005 0 .5p Rpar=1K noiseless
+D1 N006 5 Y
+D6 5 N006 Y
+C1 2 1 4.125p noiseless
+G1 0 M 3 0 1m
+G2 0 M 4 0 1m
+R3 M 0 1K noiseless
+S1 N006 M 4 3 UVLO
+D3 N006 3 X
+D4 4 N006 X
+D2 3 4 IQ
+C7 1 4 1.375p Rpar=750G noiseless
+C8 3 2 1.375p Rpar=750G noiseless
+C9 2 4 1.375p Rpar=750G noiseless
+I1 1 4 25p load
+I2 2 4 25p load
+B1 N005 0 I=1m*dnlim(uplim(V(2),V(3)-1,.1), V(4)+3.5, .1)+100n*V(2)
+B2 0 N005 I=1m*dnlim(uplim(V(1),V(3)-1,.1), V(4)+3.5, .1)+100n*V(1)
+.model X D(Ron=10K Roff=100G Vfwd=-1.25 epsilon=.1 noiseless)
+.model Y D(Ron=500 Roff=1T Vfwd=2.86 epsilon=.1 noiseless)
+.model N VDMOS(Vto=-250m Kp=5m Ksubthres=.2 noiseless)
+.model P VDMOS(Vto=250m Kp=5m pchan Ksubthres=.2 noiseless)
+.model UVLO SW(Ron=1K Roff=5G Vt=-3.75 Vh=.25 noiseless)
+.model IQ D(Ron=2K Vfwd=2 epsilon=1 Ilimit=4.7m noiseless)
+.ends AD712
+*
+.subckt AD746 1 2 3 4 5
+A1 2 1 0 0 0 0 0 0 OTA g=0 in=.01p ink=10 incm=.001p incmk=10
+M1 3 N005 5 5 N temp=27
+M2 4 N005 5 5 P temp=27
+C3 3 5 2p
+C4 5 4 2p
+C6 3 1 1.375p Rpar=62.5G noiseless
+D1 N005 5 Y
+D6 5 N005 Y
+C1 2 1 4.125p noiseless
+G1 0 M 3 0 1m
+G2 0 M 4 0 1m
+R3 M 0 1K noiseless
+S1 N005 M 4 3 UVLO
+D3 N005 3 X
+D4 4 N005 X
+D2 3 4 IQ
+C7 1 4 1.375p Rpar=62.5G noiseless
+C8 3 2 1.375p Rpar=62.5G noiseless
+C9 2 4 1.375p Rpar=62.5G noiseless
+I1 1 4 110p load
+I2 2 4 110p load
+B1 N004 0 I=2m*dnlim(uplim(V(2),V(3)-0.5,.1), V(4)+3.5, .1)+100n*V(2)
+B2 0 N004 I=2m*dnlim(uplim(V(1),V(3)-0.5,.1), V(4)+3.5, .1)+100n*V(1)
+A2 0 N006 M M M M N005 M OTA g=130u Isrc=180u en=16n enk=100 Vlow=-1e308 Vhigh=1e308 Cout= 1.4p Isink=-120u asym
+C5 N004 0 5p Rpar=1K noiseless
+C10 N006 0 5p Rpar=1K noiseless
+L1 N004 N006 5µ
+.model X D(Ron=10K Roff=100G Vfwd=-1.25 epsilon=.1 noiseless)
+.model Y D(Ron=500 Roff=1T Vfwd=2.86 epsilon=.1 noiseless)
+.model N VDMOS(Vto=-250m Kp=5m Ksubthres=.2 noiseless)
+.model P VDMOS(Vto=250m Kp=5m pchan Ksubthres=.2 noiseless)
+.model UVLO SW(Ron=1K Roff=3G Vt=-3.75 Vh=.25 noiseless)
+.model IQ D(Ron=2K Vfwd=2 epsilon=1 Ilimit=4.7m noiseless)
+.ends AD746
+*
+.subckt AD795 1 2 3 4 5
+A1 2 1 0 0 0 0 0 0 OTA g=0 in=.6f ink=250 incm=.06f incmk=250
+M1 3 N004 5 5 N temp=27
+M2 4 N004 5 5 P temp=27
+C3 3 5 2p
+C4 5 4 2p
+B1 0 N003 I=2m*dnlim(uplim(V(1),V(3)-.15,.1), V(4)+4, .1)+100n*V(1)
+B2 N003 0 I=2m*dnlim(uplim(V(2),V(3)-.15,.1), V(4)+4, .1)+100n*V(2)
+C6 3 1 .55p Rpar=400T noiseless
+C7 1 4 .55p noiseless Rpar=400T
+C8 2 4 .55p Rpar=400T noiseless
+C9 3 2 .55p Rpar=400T noiseless
+A2 0 N006 M M M M N004 M OTA g=36u Isrc=8u Isink=-5u en=9n enk=200 Vlow=-1e308 Vhigh=1e308 Cout= 4.3p asym
+C10 N003 0 22p Rpar=1K noiseless
+D1 N004 5 Y
+D6 5 N004 Y
+C1 2 1 1.45p Rpar=1.01T noiseless
+G1 0 M 3 0 1m
+G2 0 M 4 0 1m
+R3 M 0 1K noiseless
+S1 N004 M 4 3 UVLO
+D3 N004 3 X
+D4 4 N004 X
+L1 N003 N005 22µ
+L2 N005 N006 22µ
+C2 N006 0 22p Rpar=1K noiseless
+C5 N005 0 44p
+D2 3 4 IQ
+.model X D(Ron=1K Roff=100G Vfwd=-2.5 epsilon=.1 noiseless)
+.model Y D(Ron=500 Roff=1T Vfwd=2.2 epsilon=.1 noiseless)
+.model N VDMOS(Vto=-250m Kp=5m Ksubthres=.2 noiseless)
+.model P VDMOS(Vto=250m Kp=5m pchan Ksubthres=.2 noiseless)
+.model UVLO SW(Ron=1K Roff=100G Vt=-3.75 Vh=.25 noiseless)
+.model IQ D(Ron=2K Vfwd=2 epsilon=1 Ilimit=1m noiseless)
+.ends AD795
+*
+.subckt AD820 1 2 3 4 5
+C1 N006 X {Cf}
+A1 N005 0 M M M M X M OTA g={Ga} Iout={Islew} en=13n enk=20 Vhigh=1e308 Vlow=-1e308
+D21 X 3 ESD
+D22 4 X ESD
+D5 N006 3 X1
+D6 4 N006 X2
+C2 3 N006 1p
+C3 N006 4 1p
+G2 0 M 3 0 500µ
+R4 M 0 1K noiseless
+G3 0 M 4 0 500µ
+S1 X M 4 3 SD
+A2 2 1 0 0 0 0 0 0 OTA g=0 in=.8f ink=1 incm=.08f incmk=1
+I1 1 4 2p load
+I2 2 4 2p load
+C11 3 1 .7p Rpar=40T noiseless
+C5 1 4 .7p Rpar=40T noiseless
+C10 2 4 .7p Rpar=40T noiseless
+C12 3 2 .7p Rpar=40T noiseless
+B3 0 N004 I=2m*dnlim(uplim(V(1),V(3)-1,.1), V(4)+-.2, .1)+100n*V(1)
+B4 N004 0 I=2m*dnlim(uplim(V(2),V(3)-1,.1), V(4)+-.2, .1)+100n*V(2)
+C4 N004 0 35p Rpar=1K noiseless
+D1 3 4 IQ
+L1 N004 N005 35µ
+C6 N005 0 35p Rpar=1K noiseless
+C7 3 5 1p
+C8 5 4 1p
+R5 2 1 13.35T noiseless
+B1 3 N006 I=if(V(m,x)>=0, V(m,x)*(Gb+Gbx*V(m,x)),0)
+B2 N006 4 I=if(V(x,m)>0, V(x,m)*(Gb+Gbx*V(x,m)),0)
+D2 N006 N007 20Ohm
+D3 5 N007 45mA
+C9 3 N007 1p
+C13 N007 4 1p
+.param Cf = 1p
+.param Ro = 1Meg
+.param Avol  =  60K
+.param RL =  2K
+.param AVmid =  200
+.param FmidA = 10K
+.param Zomid = .3
+.param FmidZ  = 10K
+.param Iout = 25m
+.param Vslew  = 4Meg
+.param Vmin = 2.5
+.param Roe = 1/(1/RL+1/Ro)
+.param Gb = ((FmidZ/FmidA)*(Roe/(AVmid*Zomid))-1)/Roe
+.param Ga = 2*pi*FmidZ*Cf/(Zomid*gb)
+.param RH = Avol/(Ga*Gb*Roe)
+.param Islew = Vslew*Cf*(1+1/(Roe*Gb))
+.param Gbx = 50*Gb
+.model ESD D(Ron=10 Roff=1T Vfwd=0 epsilon=1 noiseless)
+.model X1 D(Ron=1m Roff={2*Ro} Vfwd=-3m epsilon=10m noiseless)
+.model X2 D(Ron=1m Roff={2*Ro} Vfwd=-6m epsilon=10m noiseless)
+.model SD SW(Ron=10m Roff={RH} Vt={-Vmin-100m} Vh=-100m noiseless)
+.model 20Ohm D(Ron=10 Roff=30 epsilon=10m noiseless)
+.model 45mA D(Ron=10 Vrev=0 Ilimit=45m revIlimit=45m)
+.model IQ D(Ron=2K Vfwd=2 epsilon=1 Ilimit=.7m noiseless)
+.ends AD820
+*
+*AD8682 Macro-model
+*Revision History:
+*Rev.1 Nov 2016-ZZ
+*Copyright 2016 by Analog Devices
+*Refer to http://www.analog.com/Analog_Root/static/techSupport/designTools/spicemodels/license
+*for License Statement. Use of this model indicates your acceptance
+*of the terms and provisions in the License Staement.
+*
+*Tested on MultSIm, SiMetrix(NGSpice), PSpice
+*
+*Not modeled: Distortion, PSRR, Overload Recovery,
+*             Shutdown Turn On/Turn Off time
+*
+*Parameters modeled include:
+*   Vos, Ibias, Input CM limits and Typ output voltge swing over full supply range,
+*   Open Loop Gain & Phase, Slew Rate, Output current limits, Voltage & Current Noise over temp,
+*   Capacitive load drive, Quiescent and dynamic supply currents,
+*   Shut Down pin functionality where applicable,
+*   Single supply & offset supply functionality.
+*
+*Node Assignments
+*               Non-Inverting Input
+*               |   Inverting Input
+*               |   |   Positive supply
+*               |   |   |   Negative supply
+*               |   |   |   |   Output
+*               |   |   |   |   |
+.Subckt AD8682 100 101 102 103 104
+*
+***Power Supplies***
+Rz1	102	1020	Rideal	1e-6
+Rz2	103	1030	Rideal	1e-6
+Ibias	1020	1030	dc	0.44e-3
+DzPS	98	1020	diode
+Iquies	1020	98	dc	3.96e-3
+S1	98	1030	106	113	Switch
+R1	1020	99	Rideal	1e7
+R2	99	1030	Rideal	1e7
+e1	111	110	1020	110	1
+e2	110	112	110	1030	1
+e3	110	0	99	0	1
+*
+*
+***Inputs***
+S2	1	100	106	113	Switch
+S3	9	101	106	113	Switch
+VOS	1	2	dc	2.5e-3
+IbiasP	110	2	dc	2e-12
+IbiasN	110	9	dc	2e-12
+RinCMP	110	2	Rideal	2000e6
+RinCMN	9	110	Rideal	2000e6
+CinCMP	110	2	2.2e-12
+CinCMN	9	110	2.2e-12
+IOS	9	2	1e-15
+RinDiff	9	2	Rideal	10000e3
+CinDiff	9	2	0.8e-12
+*
+*
+***Non-Inverting Input with Clamp***
+g1	3	110	110	2	0.001
+RInP	3	110	Rideal	1e3
+RX1	40	3	Rideal	0.001
+DInP	40	41	diode
+DInN	42	40	diode
+VinP	111	41	dc	0.46
+VinN	42	112	dc	4.46
+*
+*
+***Vnoise***
+hVn	6	5	Vmeas1	707.10678
+Vmeas1	20	110	DC	0
+Vvn	21	110	dc	0.65
+Dvn	21	20	DVnoisy
+hVn1	6	7	Vmeas2	707.10678
+Vmeas2	22	110	dc	0
+Vvn1	23	110	dc	0.65
+Dvn1	23	22	DVnoisy
+*
+*
+***Inoise***
+FnIN	9	110	Vmeas3	0.7071068
+Vmeas3	51	110	dc	0
+VnIN	50	110	dc	0.65
+DnIN	50	51	DINnoisy
+FnIN1	110	9	Vmeas4	0.7071068
+Vmeas4	53	110	dc	0
+VnIN1	52	110	dc	0.65
+DnIN1	52	53	DINnoisy
+*
+FnIP	2	110	Vmeas5	0.7071068
+Vmeas5	31	110	dc	0
+VnIP	30	110	dc	0.65
+DnIP	30	31	DIPnoisy
+FnIP1	110	2	Vmeas6	0.7071068
+Vmeas6	33	110	dc	0
+VnIP1	32	110	dc	0.65
+DnIP1	32	33	DIPnoisy
+*
+*
+***CMRR***
+RcmrrP	3	10	Rideal	1e12
+RcmrrN	10	9	Rideal	1e12
+g10	11	110	10	110	-6.325e-9
+Lcmrr	11	12	15.9e-3
+Rcmrr	12	110	Rideal	1e3
+e4	5	3	11	110	1
+*
+*
+***Power Down***
+VPD	111	80	dc	2
+VPD1	81	0	dc	1.5
+RPD	111	106	Rideal	1e6
+ePD	80	113	82	0	1
+RDP1	82	0	Rideal	1e3
+CPD	82	0	1e-10
+S5	81	82	83	113	Switch
+CDP1	83	0	1e-12
+RPD2	106	83	1e6
+*
+*
+***Feedback Pin***
+*RF	105	104	Rideal	0.001
+*
+*
+***VFB Stage***
+g200	200	110	7	9	1
+R200	200	110	Rideal	250
+DzSlewP	201	200	DzSlewP
+DzSlewN	201	110	DzSlewN
+*
+*
+***Dominant Pole at 0.08 Hz***
+g210	210	110	200	110	0.0636e-6
+R210	210	110	Rideal	1989.43e6
+C210	210	110	1e-012
+*
+*
+***Output Voltage Clamp-1***
+RX2	60	210	Rideal	0.001
+DzVoutP	61	60	DzVoutP
+DzVoutN	60	62	DzVoutN
+DVoutP	61	63	diode
+DVoutN	64	62	diode
+VoutP	65	63	dc	6.095
+VoutN	64	66	dc	6.095
+e60	65	110	111	110	1
+e61	66	110	112	110	1
+*
+*
+***Pole at 12MHz***
+g220	220	110	210	110	0.001
+R220	220	110	Rideal	1000
+C220	220	110	13.2629e-12
+*
+***Pole at 12MHz***
+g230	230	110	220	110	0.001
+R230	230	110	Rideal	1000
+C230	230	110	13.2629e-12
+*
+***Pole at 12MHz***
+g240	240	110	230	110	0.001
+R240	240	110	Rideal	1000
+C240	240	110	13.2629e-12
+*
+***Pole at 50MHz***
+g245	245	110	240	110	0.001
+R245	245	110	Rideal	1000
+C245	245	110	3.1831e-12
+*
+***Pole at 50MHz***
+g250	250	110	245	110	0.001
+R250	250	110	Rideal	1000
+C250	250	110	3.1831e-12
+*
+***Pole at 50MHz***
+g255	255	110	250	110	0.001
+R255	255	110	Rideal	1000
+C255	255	110	3.1831e-12
+*
+***Pole at 50MHz***
+g260	260	110	255	110	0.001
+R260	260	110	Rideal	1000
+C260	260	110	3.1831e-12
+*
+***Pole at 50MHz***
+g265	265	110	260	110	0.001
+R265	265	110	Rideal	1000
+C265	265	110	3.1831e-12
+*
+***Buffer***
+g270	270	110	265	110	0.001
+R270	270	110	Rideal	1000
+*
+***Buffer***
+e280	280	110	270	110	1
+R280	280	285	Rideal	10
+*
+***Peak: f=50MHz, Zeta=0.7, Gain=0.2dB***
+e290	290	110	285	110	1
+R290	290	292	Rideal	10
+L290	290	291	22.736e-9
+C290	291	292	445.633e-12
+R291	292	110	Rideal	429.314
+e295	295	110	292	110	1.0233
+*
+*
+***Output Stage***
+g300	300	110	295	110	0.001
+R300	300	110	Rideal	1000
+e301	301	110	300	110	1
+Rout	302	303	Rideal	 .3
+Lout	303	310	 1e-9
+Cout	310	110	 1e-12
+*
+*
+***Output Current Limit***
+H1	301	304	Vsense1	100
+Vsense1	301	302	dc	0
+VIoutP	305	304	dc	-0.364
+VIoutN	304	306	dc	0.136
+DIoutP	307	305	diode
+DIoutN	306	307	diode
+Rx3	307	300	Rideal	0.001
+*
+*
+***Output Clamp-2***
+VoutP1	111	73	dc	1.785
+VoutN1	74	112	dc	1.785
+DVoutP1	75	73	diode
+DVoutN1	74	75	diode
+RX4	75	310	Rideal	0.001
+*
+*
+***Supply Currents***
+FIoVcc	314	110	Vmeas8	1
+Vmeas8	310	311	dc	0
+R314	110	314	Rideal	1e9
+DzOVcc	110	314	diode
+DOVcc	102	314	diode
+RX5	311	312	Rideal	0.001
+FIoVee	315	110	Vmeas9	1
+Vmeas9	312	313	dc	0
+R315	315	110	Rideal	1e9
+DzOVee	315	110	diode
+DOVee	315	103	diode
+*
+*
+***Output Switch***
+S4	104	313	106	113	Switch
+*
+*
+*** Common Models ***
+.model	diode	d(bv=100)
+.model	Switch	vswitch(Von=1.505,Voff=1.495,ron=0.001,roff=1e6)
+.model	DzVoutP	D(BV=4.3)
+.model	DzVoutN	D(BV=4.3)
+.model	DzSlewP	D(BV=142.026)
+.model	DzSlewN	D(BV=142.026)
+.model	DVnoisy	D(IS=4.90e-14 KF=3.04e-18)
+.model	DINnoisy	D(IS=3.81e-21 KF=0.00e0)
+.model	DIPnoisy	D(IS=3.81e-21 KF=0.00e0)
+.model	Rideal	res(T_ABS=-273)
+*
+.ends
+*AD8684 Macro-model
+*Function:Amplifier
+*
+*Revision History:
+*Rev.1 Nov 2016-ZZ
+*Copyright 2016 by Analog Devices
+*
+*Refer to http://www.analog.com/Analog_Root/static/techSupport/designTools/spicemodels/license
+*for License Statement. Use of this model indicates your acceptance
+*of the terms and provisions in the License Staement.
+*
+*Tested on MultSIm, SiMetrix(NGSpice), PSpice
+*
+*Not modeled: Distortion, PSRR, Overload Recovery,
+*             Shutdown Turn On/Turn Off time
+*
+*Parameters modeled include:
+*   Vos, Ibias, Input CM limits and Typ output voltge swing over full supply range,
+*   Open Loop Gain & Phase, Slew Rate, Output current limits, Voltage & Current Noise over temp,
+*   Quiescent and dynamic supply currents,
+*   Single supply & offset supply functionality.
+*
+*Node Assignments
+*               Non-Inverting Input
+*               |   Inverting Input
+*               |   |   Positive supply
+*               |   |   |   Negative supply
+*               |   |   |   |   Output
+*               |   |   |   |   |
+.Subckt AD8684 100 101 102 103 104
+*#ASSOC Category="Op-amps" symbol=opamp
+*
+***Power Supplies***
+Rz1	102	1020	Rideal	1e-6
+Rz2	103	1030	Rideal	1e-6
+Ibias	1020	1030	dc	0.44e-3
+DzPS	98	1020	diode
+Iquies	1020	98	dc	3.96e-3
+S1	98	1030	106	113	Switch
+R1	1020	99	Rideal	1e7
+R2	99	1030	Rideal	1e7
+e1	111	110	1020	110	1
+e2	110	112	110	1030	1
+e3	110	0	99	0	1
+*
+*
+***Inputs***
+S2	1	100	106	113	Switch
+S3	9	101	106	113	Switch
+VOS	1	2	dc	3.5e-3
+IbiasP	110	2	dc	5e-12
+IbiasN	110	9	dc	5e-12
+RinCMP	110	2	Rideal	2000e6
+RinCMN	9	110	Rideal	2000e6
+CinCMP	110	2	2.2e-12
+CinCMN	9	110	2.2e-12
+IOS	9	2	10e-15
+RinDiff	9	2	Rideal	10000e3
+CinDiff	9	2	0.8e-12
+*
+*
+***Non-Inverting Input with Clamp***
+g1	3	110	110	2	0.001
+RInP	3	110	Rideal	1e3
+RX1	40	3	Rideal	0.001
+DInP	40	41	diode
+DInN	42	40	diode
+VinP	111	41	dc	0.46
+VinN	42	112	dc	4.46
+*
+*
+***Vnoise***
+hVn	6	5	Vmeas1	707.10678
+Vmeas1	20	110	DC	0
+Vvn	21	110	dc	0.65
+Dvn	21	20	DVnoisy
+hVn1	6	7	Vmeas2	707.10678
+Vmeas2	22	110	dc	0
+Vvn1	23	110	dc	0.65
+Dvn1	23	22	DVnoisy
+*
+*
+***Inoise***
+FnIN	9	110	Vmeas3	0.7071068
+Vmeas3	51	110	dc	0
+VnIN	50	110	dc	0.65
+DnIN	50	51	DINnoisy
+FnIN1	110	9	Vmeas4	0.7071068
+Vmeas4	53	110	dc	0
+VnIN1	52	110	dc	0.65
+DnIN1	52	53	DINnoisy
+*
+FnIP	2	110	Vmeas5	0.7071068
+Vmeas5	31	110	dc	0
+VnIP	30	110	dc	0.65
+DnIP	30	31	DIPnoisy
+FnIP1	110	2	Vmeas6	0.7071068
+Vmeas6	33	110	dc	0
+VnIP1	32	110	dc	0.65
+DnIP1	32	33	DIPnoisy
+*
+*
+***CMRR***
+RcmrrP	3	10	Rideal	1e12
+RcmrrN	10	9	Rideal	1e12
+g10	11	110	10	110	-6.325e-9
+Lcmrr	11	12	22.59e-3
+Rcmrr	12	110	Rideal	5e3
+e4	5	3	11	110	1
+*
+*
+***Power Down***
+VPD	111	80	dc	2
+VPD1	81	0	dc	1.5
+RPD	111	106	Rideal	1e6
+ePD	80	113	82	0	1
+RDP1	82	0	Rideal	1e3
+CPD	82	0	1e-10
+S5	81	82	83	113	Switch
+CDP1	83	0	1e-12
+RPD2	106	83	1e6
+*
+*
+***Feedback Pin***
+*RF	105	104	Rideal	0.001
+*
+*
+***VFB Stage***
+g200	200	110	7	9	1
+R200	200	110	Rideal	250
+DzSlewP	201	200	DzSlewP
+DzSlewN	201	110	DzSlewN
+*
+*
+***Dominant Pole at 0.08 Hz***
+g210	210	110	200	110	0.0636e-6
+R210	210	110	Rideal	1989.43e6
+C210	210	110	1e-012
+*
+*
+***Output Voltage Clamp-1***
+RX2	60	210	Rideal	0.001
+DzVoutP	61	60	DzVoutP
+DzVoutN	60	62	DzVoutN
+DVoutP	61	63	diode
+DVoutN	64	62	diode
+VoutP	65	63	dc	6.095
+VoutN	64	66	dc	6.095
+e60	65	110	111	110	1
+e61	66	110	112	110	1
+*
+*
+***Pole at 12MHz***
+g220	220	110	210	110	0.001
+R220	220	110	Rideal	1000
+C220	220	110	13.2629e-12
+*
+***Pole at 12MHz***
+g230	230	110	220	110	0.001
+R230	230	110	Rideal	1000
+C230	230	110	13.2629e-12
+*
+***Pole at 12MHz***
+g240	240	110	230	110	0.001
+R240	240	110	Rideal	1000
+C240	240	110	13.2629e-12
+*
+***Pole at 50MHz***
+g245	245	110	240	110	0.001
+R245	245	110	Rideal	1000
+C245	245	110	3.1831e-12
+*
+***Pole at 50MHz***
+g250	250	110	245	110	0.001
+R250	250	110	Rideal	1000
+C250	250	110	3.1831e-12
+*
+***Pole at 50MHz***
+g255	255	110	250	110	0.001
+R255	255	110	Rideal	1000
+C255	255	110	3.1831e-12
+*
+***Pole at 50MHz***
+g260	260	110	255	110	0.001
+R260	260	110	Rideal	1000
+C260	260	110	3.1831e-12
+*
+***Pole at 50MHz***
+g265	265	110	260	110	0.001
+R265	265	110	Rideal	1000
+C265	265	110	3.1831e-12
+*
+***Buffer***
+g270	270	110	265	110	0.001
+R270	270	110	Rideal	1000
+*
+***Buffer***
+e280	280	110	270	110	1
+R280	280	285	Rideal	10
+*
+***Peak: f=50MHz, Zeta=0.7, Gain=0.2dB***
+e290	290	110	285	110	1
+R290	290	292	Rideal	10
+L290	290	291	22.736e-9
+C290	291	292	445.633e-12
+R291	292	110	Rideal	429.314
+e295	295	110	292	110	1.0233
+*
+*
+***Output Stage***
+g300	300	110	295	110	0.001
+R300	300	110	Rideal	1000
+e301	301	110	300	110	1
+Rout	302	303	Rideal	 .3
+Lout	303	310	 1e-9
+Cout	310	110	 1e-12
+*
+*
+***Output Current Limit***
+H1	301	304	Vsense1	100
+Vsense1	301	302	dc	0
+VIoutP	305	304	dc	-0.364
+VIoutN	304	306	dc	0.136
+DIoutP	307	305	diode
+DIoutN	306	307	diode
+Rx3	307	300	Rideal	0.001
+*
+*
+***Output Clamp-2***
+VoutP1	111	73	dc	1.785
+VoutN1	74	112	dc	1.785
+DVoutP1	75	73	diode
+DVoutN1	74	75	diode
+RX4	75	310	Rideal	0.001
+*
+*
+***Supply Currents***
+FIoVcc	314	110	Vmeas8	1
+Vmeas8	310	311	dc	0
+R314	110	314	Rideal	1e9
+DzOVcc	110	314	diode
+DOVcc	102	314	diode
+RX5	311	312	Rideal	0.001
+FIoVee	315	110	Vmeas9	1
+Vmeas9	312	313	dc	0
+R315	315	110	Rideal	1e9
+DzOVee	315	110	diode
+DOVee	315	103	diode
+*
+*
+***Output Switch***
+S4	104	313	106	113	Switch
+*
+*
+*** Common Models ***
+.model	diode	d(bv=100)
+.model	Switch	vswitch(Von=1.505,Voff=1.495,ron=0.001,roff=1e6)
+.model	DzVoutP	D(BV=4.3)
+.model	DzVoutN	D(BV=4.3)
+.model	DzSlewP	D(BV=142.026)
+.model	DzSlewN	D(BV=142.026)
+.model	DVnoisy	D(IS=4.90e-14 KF=3.04e-18)
+.model	DINnoisy	D(IS=3.81e-21 KF=0.00e0)
+.model	DIPnoisy	D(IS=3.81e-21 KF=0.00e0)
+.model	Rideal	res(T_ABS=-273)
+*
+.ends AD8684
+*
+* ADA4092 SPICE Macro-model
+* Developed by: HH / AD-SJ
+* Revision History: 08/10/2012 - Updated to new header style
+* 05/14/2014 - Ported to Simplis (JSW)
+* 0.0 (12/2010)
+* Copyright 2010, 2012 by Analog Devices
+*
+* Refer to http://www.analog.com/Analog_Root/static/techSupport/designTools/spiceModels/license/spice_general.html for License Statement.  Use of this model
+* indicates your acceptance of the terms and provisions in the License Statement.
+*
+* BEGIN Notes:
+*
+* Not Modeled:
+*
+* Parameters modeled include:
+*
+* END Notes
+*
+* Node assignments
+*                non-inverting input
+*                |  inverting input
+*                |  |  positive supply
+*                |  |  |  negative supply
+*                |  |  |  |  output
+*                |  |  |  |  |
+.SUBCKT ADA4092  1  2  99 50 45
+*#ASSOC Category="Op-amps" symbol=opamp
+*
+* INPUT STAGE
+*
+Q1   6    4    7A    QP
+Q2   5    3    7B    QP
+RE1  7A   7   5.656E+02
+RE2  7B   7   5.656E+02
+I1   99   7    8.00E-06
+D1   3    99   DX
+D2   4    99   DX
+D3   50   3    DX
+D4   50   4    DX
+D5   3    4    DX
+D6   4    3    DX
+R1   3    8    5E+03
+R2   4    2    5E+03
+R3   5    50   7.500E4;
+R4   6    50   7.500E4;
+Cph  5    5A   0.23E-12
+Rph  5A   6    300
+EOS  8    1    POLY(4) (73,98) (22,98) (81,98) (83,98) -1.4E-03 1 1 1 1
+IOS  3    4     -2.0E-09
+CDiff  1    2    2.5E-12
+Cin1   1   50    2E-12
+Cin2   2   50    2E-12
+*
+* INPUT PROTECTION NETWORK
+*
+X_in1 1 50 Diac1
+X_in2 2 50 Diac1
+X_in3 1 99 Diac1
+X_in4 2 99 Diac1
+*
+*
+RS1  99   39   400.0E3
+RS2  39   50   400.0E3
+EREF 98   0    (39,0) 1
+*
+* 1ST GAIN STAGE
+*
+R7    9  98    3.266E+08
+G1    9  98  (6,5) 4.303E-06
+D7    9  13   DX
+D8   14   9   DX
+V1   13  98   0.37; sink
+V2   14  98   +0.017; source
+*
+* 2ND GAIN STAGE AND DOMINANT POLE
+*
+R8   12   98   1.0E+06
+G2   12   98  (98,9) 1.0E-06
+*
+* Provision for second pole
+*
+G3   18   98   (98,12) 1E-05
+R11  18   98   1E5
+*
+* CMRR
+*
+ECM  21   98   POLY(2) (1,98) (2,98) 0 7.813E-02 7.813E-02
+R10  21   22   2.487E+04
+R20  22   98   1.592E+01
+C10  21   22   1E-9
+*
+* PSRR
+*
+EPSY 72 98 POLY(1) (99,50) +0.1E-6 1.485E+01
+RPS1 72 73 5.305E+02
+RPS2 73 98 3.183E-03
+CPS1 72 73 1.00E-06
+*
+* VOLTAGE NOISE REFERENCE OF 30nV/rt(Hz)
+*
+VN1 80 98 0
+RN1 80 98 25.5E-3
+HN  81 98 VN1 3.0E+01
+RN2 81 98 1
+*
+* FLICKER NOISE CORNER
+*
+DFN 82 98 DNOISE
+VFN 82 98 DC 0.6551
+HFN 83 98 POLY(1) VFN 1.00E-03 1.00E+00
+RFN 83 98 1
+*
+* OUTPUT STAGE
+*
+Q3   451 41 99 POUT
+RB1  40 41 1.5E+03
+EB1  99 40 POLY(1) (98,18) 6.190E-01  1E-0;
+Q4   451 43 50 NOUT
+RB2  42 43 2.0E+03
+EB2  42 50 POLY(1) (18,98) 6.155E-01  1E-0;
+Lout 45 451  6.2E-12
+RZ  451 453  100
+CZ  453  9  4.6E-12
+*
+GSY  99 50 POLY(1) (99 50) 79.9E-6 -1.04E-06
+*
+* MODELS
+*
+.MODEL QP PNP(BF=80, IS=1.00E-16, VA=130)
+.MODEL POUT PNP (BF=80,IS=2.8E-15,VA=130, BR=3,VAR=15, RC=38);
+.MODEL NOUT NPN (BF=120,IS=3.2E-15,VA=250, BR=7, VAR=20, RC=8);
+.MODEL DW D(IS=1E-18)
+.MODEL DX D()
+.MODEL DY D(IS=1E-9)
+.MODEL DZ D(IS=1E-6)
+.MODEL DNOISE D(IS=1E-14,RS=0,KF=1.15E-12)
+*
+.SUBCKT Diac1 1 2
+Done 1 3 DZ42hh
+Dtwo 2 3 DZ42hh
+.MODEL DZ42hh D(IS=3.3179E-6, N=2.0, RS=1.0000E-3, CJO=10.00E-12, M=.31349, VJ=.3905, ISR=2.9061E-9, BV=42.0, IBV=5.0E-03, TT=300.0E-9)
+.ENDS Diac1
+.ENDS  ADA4092
+*
+* ADA4096 SPICE Macro-model
+* Developed by: HH / AD-SJ
+* Revision History: 08/10/2012 - Updated to new header style
+* 0.0 (07/2011)
+* Copyright 2011, 2012 by Analog Devices
+*
+* Refer to http://www.analog.com/Analog_Root/static/techSupport/designTools/spiceModels/license/spice_general.html for License Statement.  Use of this model
+* indicates your acceptance of the terms and provisions in the License Statement.
+*
+* BEGIN Notes:
+*
+* Not Modeled:
+*
+* Parameters modeled include:
+*
+* END Notes
+*
+* Node assignments
+*                non-inverting input
+*                |  inverting input
+*                |  |  positive supply
+*                |  |  |  negative supply
+*                |  |  |  |  output
+*                |  |  |  |  |
+.SUBCKT ADA4096  1  2  99 50 45
+*#ASSOC Category="Op-amps" symbol=opamp
+*
+* INPUT STAGE
+*
+I1   99   7    8.00E-06
+RE1  7   7A    3.714E+03
+RE2  7   7B    3.714E+03
+Q1   6    4    7A    QP
+Q2   5    3    7B    QP
+D1   3    99   DX
+D2   4    99   DX
+D3   50   3    DX
+D4   50   4    DX
+D5   3    4    DX
+D6   4    3    DX
+R1   202    8    5E-03
+R2   204    4    5E-03
+R3   5    50   7.500E4;
+R4   6    50   7.500E4;
+Cph  5    5A   6.3E-13
+Rph  5A   6    400
+EOS  8   3    POLY(4) (73,98) (22,98) (81,98) (83,98) -250E-06 1 1 1 1
+IOS  3    4     -1.0E-09
+CDiff  1    2    6.35E-12
+Cin1   1   50    0.67E-12
+Cin2   2   50    0.67E-12
+*
+* INPUT PROTECTION NETWORK
+*
+J1    1  201  202  JXB ;
+J2  201  201  202  JXL ;
+J3    2  203  204  JXB ;
+J4  203  203  204  JXL
+*
+* 1ST GAIN STAGE
+*
+G1   9  98    (6,5) 1.0E-06
+R7   9  98   1E6
+*
+* 2ND GAIN STAGE AND DOMINANT POLE
+*
+G2    12   98  (98,9) 3.375E-06
+R8    12   98  3.4E+08
+D7   12   13   DX
+D8   14   12   DX
+V1   13   98   +0.5;
+V2   14   98   -0.2;
+*
+* Provision for second pole
+*
+G3   18   98   (98,12) 1E-05
+R11  18   98   1E5
+C11x 18   98  1E-14
+*
+* CMRR
+*
+ECM  21   98   POLY(2) (1,98) (2,98) 0 2.635E-01 2.635E-01
+R10  21   22   1.326E+05
+R20  22   98   7.958E+00
+C10  21   22   1E-9
+*
+* PSRR
+*
+EPSY 72 98 POLY(1) (99,50) -1.514E+3 5.048E+01
+RPS1 72 73 1.592E+03
+RPS2 73 98 1.989E-03
+CPS1 72 73 1.00E-06
+*
+* VOLTAGE NOISE REFERENCE
+*
+VN1 80 98 0
+RN1 80 98 96.300E-3
+HN  81 98 VN1 2.397E+01
+RN2 81 98 1
+*
+* FLICKER NOISE CORNER
+*
+DFN 82 98 DNOISE 1000
+IFN 98 82 DC 1E-03
+DFN2 182 98 DY
+IFN2 98 182 DC 1E-06
+GFN 83 98 POLY(1) (182,82) 1.00E-13 1.00E-01
+RFN 83 98 1
+*
+* Current Noise
+D60 60 98 DN1 1000
+I60 98 60 1E-03
+D61 61 98 DN4
+I61 98 61 1E-06
+G60 1 50 61 60 1.23E-05
+G61 2 50 61 60 1.33E-05
+*
+RS1  99   39   400.0E3
+RS2  39   50   400.0E3
+EREF 98   0    (39,0) 1
+*
+GSY  99 50 POLY(1) (99 50) -23.8E-6 -1.109E-06
+*
+* OUTPUT STAGE
+*
+Q3   451 41 99 POUT
+RB1  40 41 4.37E+03
+EB1  99 40 POLY(1) (98,18) 6.218E-01  1E-0;
+Q4   451 43 50 NOUT
+RB2  42 43 10E+03
+EB2  42 50 POLY(1) (18,98) 6.170E-01  1E-0;
+Lout 45 451  10E-10
+EZ 453 98 (45 98) 1
+CZ  453  12  4.94E-12
+R99T 201 202 450k
+*
+* MODELS
+*
+.MODEL QP PNP(BF=300, IS=1.00E-16, VA=130)
+.MODEL POUT PNP (BF=80,IS=2.8E-15,VA=130,BR=4.3,VAR=20, RC=75);
+.MODEL NOUT NPN (BF=120,IS=3.2E-15,VA=250,BR=9.5, VAR=18, RC=42);
+.MODEL DN1 D IS=1E-16
+.MODEL DN4 D IS=1E-16 AF=1 KF=4.35E-17
+.MODEL DW D(IS=1E-18)
+.MODEL DX D(IS=1E-16)
+.MODEL DY D(IS=1E-16,RS=0.1)
+.MODEL DZ D(IS=1E-6)
+.MODEL DNOISE D(IS=1E-16,RS=0,KF=2.6E-13)
+.MODEL JXL PJF(BETA=4E-05 VTO=-2.0 IS=1E-18 LAMBDA=0.008 RD=1E-1
++ RS=5E1 CGD=1E-12 CGS=1E-12)
+.MODEL JXB PJF(BETA=10E-05 VTO=-1.6 IS=1E-19 LAMBDA=0.005 RD=1E-1 RS=1.41E3)
+.ENDS  ADA4096
+*
+*
+*
+* ADA4627 SPICE Macro-model
+* Developed by: HH / ADSJ
+* Revision History: 08/10/2012 - Updated to new header style
+* 1.0 (07/2009)
+* Copyright 2009, 2012 by Analog Devices
+*
+* Refer to http://www.analog.com/Analog_Root/static/techSupport/designTools/spiceModels/license/spice_general.html for License Statement.  Use of this model
+* indicates your acceptance of the terms and provisions in the License Statement.
+*
+* BEGIN Notes:
+*  CAUTION!!  To aid in convergence, most Spice simulators add a
+*  conductance on every node to insure that no node is floating.
+*  This is GMIN, and the default value is usually 1E-12. To properly
+*  simulate the low input bias current and low current noise, the
+*  Spice simulator options have to be set to the following:
+*  .OPTIONS GMIN=0.01p
+*  .OPTIONS ABSTOL=0.01pA
+*  .OPTIONS ITL1=500
+*  .OPTIONS ITL2=200
+*  .OPTIONS ITL4=100
+*
+* Not Modeled:
+*
+* Parameters modeled include:
+*
+* END Notes
+*
+* Node assignments
+*                 non-inverting input
+*                 |   inverting input
+*                 |   |    positive supply
+*                 |   |    |    negative supply
+*                 |   |    |    |    output
+*                 |   |    |    |    |
+.SUBCKT ADA4627   1   2   99   50   30
+*
+* INPUT STAGE
+*
+Cdiff 1   2  4.7E-12
+Cin1  1  50  7.5E-12
+Cin2  2  50  7.5E-12
+*
+R3   5  99    1.478E+03
+R4   6  99    1.478E+03
+J1   5   2    4   JX
+J2   6   7    4   JX
+*
+I1   4  50    2.70E-03
+DI1  4a  4   DX
+VI1  4a 50  5.5V
+IOS  1   2    0.25E-12
+EOS  60  1    POLY(2)  (17,24) (73,98) 110E-6  1  1
+EN   7  60    42  0  1
+*
+EREF 98  0    24  0   1
+*
+* SECOND STAGE
+*
+R5   9  98    4.097E+05
+C3   9  98    3.850E-09
+G1   98  9    5  6  7.700E-02
+V2   99  8    2.86
+V3   10 50    2.41;
+D1   9   8    DX
+D2   10  9    DX
+*
+* 2nd POLE
+*
+R13  18 98     1.000E+03
+C9   18 98     1.0E-14
+G5   98 18     9  24  1E-3
+*
+* COMMON-MODE GAIN NETWORK
+*
+R11  16 17     2.698E-01
+R12  17 98     1.326E-04
+E3   16 98     POLY(2) 1  98  2  98  0  8.459E-03 8.459E-03
+C8   16 17     100E-6
+*
+* PSRR NETWORK
+*
+EPSY 98 72 POLY(1) (99,50) 3.350E-03  1.005E-01
+CPS3 72 73 1.000E-09
+RPS3 72 73 9.947E+05
+RPS4 73 98 1.326E+02
+*
+* VOLTAGE NOISE GENERATOR
+*
+VN1  41  0    DC 2
+DN1  41 42    DEN
+DN2  42 43    DEN
+VN2  0  43    DC 2
+*
+* CURRENT NOISE GENERATOR
+*
+VN3  44  0    DC 2
+DN3  44 45    DIN
+DN4  45 46    DIN
+VN4  0  46    DC 2
+*
+* CURRENT NOISE GENERATOR
+*
+VN5  47  0    DC 2
+DN5  47 48    DIN
+DN6  48 49    DIN
+VN6  0  49    DC 2
+*
+* OUTPUT STAGE
+*
+R14  24 99     500E3
+R15  24 50     500E3
+GSY  99 50 POLY(1) (99,50) 4.079E-03 2.985E-06
+R16  29 99     100
+R17  29 50     100
+G6   27 50 18 29  10.0E-3
+G7   28 50 29 18  10.0E-3
+G8   29 99  POLY(1)    99 18  1E-16 1.00E-2
+G9   50 29  POLY(1)    18 50  1E-16 1.00E-2
+*
+V4   25 29     1.99; Isc high side
+V5   29 26     2.4
+D3   18 25     DX
+D4   26 18     DX
+*
+D5   99 27     DX
+D6   99 28     DX
+D7   50 27     DY
+D8   50 28     DY
+F1   29  0     V4  1
+F2   0  29     V5  1
+L1   29 30a     1E-15
+R24  30a 30  1m
+*
+* MODELS USED
+*
+.MODEL JX NJF(BETA=3.400E-03  VTO=-1.500  IS=7E-13 RD=1
++ RS=1 CGD=1.5E-12 CGS=1.5E-12 )
+*.MODEL JX PJF(BETA=1.4E-3  VTO=-1.000  IS=20E-12 RD=0
+*+ RS=0 CGD=3E-12 CGS=3E-12)
+.MODEL DX   D(IS=1E-15 RS=0 CJO=1E-12)
+.MODEL DY   D(IS=1E-15 BV=50 RS=10 CJO=1E-12)
+.MODEL DEN  D(IS=1E-12 RS=1.7E3, KF=6.53E-15 AF=1)
+.MODEL DIN  D(IS=1E-12 RS=12090 KF=0 AF=1)
+.ENDS ADA4627
+
+.subckt OP1177 1 2 3 4 5
+A1 2 1 0 0 0 0 0 0 OTA g=0 in=0.2p ink=10 incm=.001p incmk=10
+C6 3 1 1.25p Rpar=280G noiseless
+C1 2 1 1p noiseless
+G1 0 M 3 0 1m
+G2 0 M 4 0 1m
+R3 M 0 1K noiseless
+S1 N004 M 4 3 UVLO
+D3 N004 3 X1
+D4 4 N004 X2
+C7 1 4 1.25p Rpar=280G noiseless
+C8 3 2 1.25p Rpar=280G noiseless
+C9 2 4 1.25p Rpar=280G noiseless
+I1 3 2 2n load
+I2 3 1 2n load
+A2 0 N006 M M M M N004 M OTA g=20u Iout=1.8u en=7.9n enk=0.42 Vlow=-1e308 Vhigh=1e308 Cout=2.3p asym
+C10 N005 0 44p
+L1 N002 N005 22p
+C5 N002 0 22p Rpar=1K noiseless
+M1 3 N003 5 5 N temp=27
+M2 4 N003 5 5 P temp=27
+C3 3 5 2p
+C4 5 4 2p
+C13 5 N003 5p Rser=1Meg noiseless
+R5 N003 N004 1Meg
+D1 5 N003 Y2A
+D6 5 N003 Y2B
+D9 N003 5 Y1
+B1 N002 0 I=2m*dnlim(uplim(V(2),V(3)-1.4,.1), V(4)+1.4, .1)+100n*V(2)
+B2 0 N002 I=2m*dnlim(uplim(V(1),V(3)-1.4,.1), V(4)+1.4, .1)+100n*V(1)
+L3 N005 N006 22µ
+C2 N006 0 22p Rpar=1K noiseless
+D2 3 4 IQ
+.model X1 D(Ron=1K Roff=100G Vfwd=-0.75 epsilon=.1 noiseless)
+.model X2 D(Ron=10 Roff=100G Vfwd=-0.75 epsilon=.1 noiseless)
+.model Y1 D(Ron=18k Roff=100G Vfwd=582m epsilon=500m noiseless)
+.model Y2A D(Ron=25k Roff=100G Vfwd=350m epsilon=500m noiseless)
+.model Y2B D(Ron=5k Roff=100G Vfwd=590m epsilon=500m noiseless)
+.model N VDMOS(Vto=-55m Kp=75m Ksubthres=100m noiseless)
+.model P VDMOS(Vto=55m Kp=125m pchan Ksubthres=100m noiseless)
+.model UVLO SW(Ron=1K Roff=3G Vt=-3.75 Vh=.25 noiseless)
+.model IQ D(Ron=2K Vfwd=2 epsilon=1 Ilimit=0.014m noiseless)
+.param Vs=15
+.ends OP1177
+
+
+* OP213 SPICE Macro-model
+* Developed by: JCB / PMI
+* Revision History: 08/10/2012 - Updated to new header style
+* 1.0 (09/1992)
+* Copyright 1992, 2012 by Analog Devices, Inc.
+*
+* Refer to http://www.analog.com/Analog_Root/static/techSupport/designTools/spiceModels/license/spice_general.html for License Statement. Use of this model
+* indicates your acceptance of the terms and provisions in the License Statement.
+*
+* BEGIN Notes:
+*
+* Not Modeled:
+*
+* Parameters modeled include:
+*
+* END Notes
+*
+* Node assignments
+*
+*                   non-inverting input
+*                   |  inverting input
+*                   |  |  positive supply
+*                   |  |  |  negative supply
+*                   |  |  |  |  output
+*                   |  |  |  |  |
+.SUBCKT OP213       3  2  7  4  6
+*
+*  INPUT STAGE
+*
+R3   4   19   1.5E3
+R4   4   20   1.5E3
+C1   19  20   5.31E-12
+I1   7   18   106E-6
+IOS  2    3   25E-09
+EOS  12   5   POLY(1) 51 4 25E-06 1
+Q1   19   3   18 PNP1
+Q2   20  12   18 PNP1
+CIN  3    2   3E-12
+D1   3    1   DY
+D2   2    1   DY
+EN   5    2   22  0  1
+GN1  0    2   25  0  1E-5
+GN2  0    3   28  0  1E-5
+*
+* VOLTAGE NOISE SOURCE WITH FLICKER NOISE
+*
+DN1  21  22   DEN
+DN2  22  23   DEN
+VN1  21   0   DC 2
+VN2  0   23   DC 2
+*
+* CURRENT NOISE SOURCE WITH FLICKER NOISE
+*
+DN3  24  25   DIN
+DN4  25  26   DIN
+VN3  24   0   DC 2
+VN4  0   26   DC 2
+*
+* SECOND CURRENT NOISE SOURCE
+*
+DN5  27  28   DIN
+DN6  28  29   DIN
+VN5  27   0   DC 2
+VN6  0   29   DC 2
+*
+* GAIN STAGE & DOMINANT POLE AT   .2000E+01 HZ
+*
+G2   34  36   19 20 2.65E-04
+R7   34  36   39E+06
+V3   35   4   DC  6
+D4   36  35   DX
+VB2  34   4   1.6
+*
+* SUPPLY/2 GENERATOR
+*
+ISY  7    4   0.2E-3
+R10  7   60   40E+3
+R11  60   4   40E+3
+C3   60   0   1E-9
+*
+* CMRR STAGE & POLE AT   6 kHZ
+*
+ECM  50   4   POLY(2) 3 60 2 60 0 0.8 0.8
+CCM  50  51   26.5E-12
+RCM1 50  51   1E6
+RCM2 51   4   1
+*
+* OUTPUT STAGE
+*
+R12  37  36  1E3
+R13  38  36  500
+C4   37   6  20E-12
+C5   38  39  20E-12
+M1   39  36  4   4   MN  L=9E-6  W=1000E-6  AD=15E-9 AS=15E-9
+M2   45  36  4   4   MN  L=9E-6  W=1000E-6  AD=15E-9 AS=15E-9
+D5   39  47  DX
+D6   47  45  DX
+Q3   39  40  41  QPA  8
+VB   7   40  DC  0.861
+R14  7   41  375
+Q4   41   7  43  QNA  1
+R17  7   43  15
+Q5   43  39  6   QNA  20
+Q6   46  45  6   QPA  20
+R18  46   4  15
+Q7   36  46  4   QNA  1
+M3   6   36  4   4   MN  L=9E-6  W=2000E-6  AD=30E-9 AS=30E-9
+*
+* NONLINEAR MODELS USED
+*
+.MODEL DX D (IS=1E-15)
+.MODEL DY D (IS=1E-15  BV=7)
+.MODEL PNP1 PNP (BF=220)
+.MODEL DEN D(IS=1E-12 RS=1016 KF=3.278E-15 AF=1)
+.MODEL DIN D(IS=1E-12 RS=100019 KF=4.173E-15 AF=1)
+.MODEL QNA NPN(IS=1.19E-16 BF=253 VAF=193 VAR=15 RB=2.0E3
++ IRB=7.73E-6 RBM=132.8 RE=4 RC=209 CJE=2.1E-13 VJE=0.573
++ MJE=0.364 CJC=1.64E-13 VJC=0.534 MJC=0.5 CJS=1.37E-12
++ VJS=0.59 MJS=0.5 TF=0.43E-9 PTF=30)
+.MODEL QPA PNP(IS=5.21E-17 BF=131 VAF=62 VAR=15 RB=1.52E3
++ IRB=1.67E-5 RBM=368.5 RE=6.31 RC=354.4 CJE=1.1E-13
++ VJE=0.745 MJE=0.33 CJC=2.37E-13 VJC=0.762 MJC=0.4
++ CJS=7.11E-13 VJS=0.45 MJS=0.412 TF=1.0E-9 PTF=30)
+.MODEL MN NMOS(LEVEL=3 VTO=1.3 RS=0.3 RD=0.3 TOX=8.5E-8
++ LD=1.48E-6 NSUB=1.53E16 UO=650 DELTA=10 VMAX=2E5
++ XJ=1.75E-6 KAPPA=0.8 ETA=0.066 THETA=0.01 TPG=1 CJ=2.9E-4
++ PB=0.837 MJ=0.407 CJSW=0.5E-9 MJSW=0.33)
+*
+.ENDS
+
+
+* OP2177 SPICE Macro-model
+* Developed by: SB, ADSiV apps
+* Revision History: 08/10/2012 - Updated to new header style
+* 1.0 (05/2002)
+* Copyright 2002, 2012 by Analog Devices
+*
+* Refer to http://www.analog.com/Analog_Root/static/techSupport/designTools/spiceModels/license/spice_general.html for License Statement.  Use of this model
+* indicates your acceptance of the terms and provisions in the License Statement.
+*
+* BEGIN Notes:
+*
+* Not Modeled:
+*
+* Parameters modeled include: Vsy=±15V
+*
+* END Notes
+*
+* Node assignments
+*               non-inverting input
+*               | inverting input
+*               | | positive supply
+*               | | |  negative supply
+*               | | |  |  output
+*               | | |  |  |
+*               | | |  |  |
+.SUBCKT OP2177  1 2 99 50 34
+*
+* INPUT STAGE & POLE AT 100 MHZ
+*
+R3   5 51     6.8E3
+R4   6 51     6.8E3
+CIN  1  2     1.5E-12
+C2   5  6      3.5E-12
+I1   97 4      500E-6
+IOS  1  2     0.1E-9
+EOS  9  3     POLY(2)  (26, 28) (73, 98) 15E-6  1 1
+Q1   5  2  7  QX
+Q2   6  9  8  QX
+R5   7  4     50
+R6   8  4     50
+D1   2 36     DZ
+D2   1 36     DZ
+EN   3  1     10  0  1
+GN1  0  2     13  0  1
+GN2  0  1     16  0  1
+*
+EREF 98 0     28  0  1
+EP   97 0     99  0  1
+EM   51 0     50  0  1
+*
+* VOLTAGE NOISE SOURCE
+*
+DN1  35 10    DEN
+DN2  10 11    DEN
+VN1  35  0    DC 2
+VN2  0  11    DC 2
+*
+* CURRENT NOISE SOURCE
+*
+DN3  12 13    DIN
+DN4  13 14    DIN
+VN3  12  0    DC 2
+VN4  0  14    DC 2
+*
+* CURRENT NOISE SOURCE
+*
+DN5  15 16    DIN
+DN6  16 17    DIN
+VN5  15  0    DC 2
+VN6  0  17    DC 2
+*
+* GAIN STAGE & DOMINANT POLE AT 0.439 HZ
+*
+R7  18 98     1.45E7
+C3  18 98     25E-9
+G1  98 18     5  6  5.15E-3
+V2  97 19     1.5
+V3  20 51     1.5
+D3  18 19     DX
+D4  20 18     DX
+*
+* POLE/ZERO PAIR AT 1.5MHz/12.7MHz
+*
+R8  21 98     1E3
+R9  21 22     1.25E3
+C4  22 98     10E-12
+G2  98 21     18 28  1E-3
+*
+* POLE AT 2568 MHz
+*
+R10 23 98     1
+C5  23 98     62E-12
+G3  98 23     21 28  1
+*
+* POLE AT 2568 MHz
+*
+R11 24 98     1
+C6  24 98     62E-12
+G4  98 24     23 28  1
+*
+* POLE AT 2568 MHz
+*
+R14 27 98     1
+C8  27 98    62E-12
+G5  98 27     24 28  1
+*
+* COMMON-MODE GAIN NETWORK WITH ZERO AT 1 kHZ
+*
+R12 25 26     1E6
+C7  25 26     159.155E-12
+R13 26 98     1
+E2  25 98      POLY(2) 1 98 2 98 0 0.28 0.28
+*
+*PSRR=121dB
+EPSY 98 72 POLY(1) (99,50) 0 1
+RPS3 72 73 1E6
+CPS3 72 73 3E-9
+RPS4 73 98 1
+
+* OUTPUT STAGE
+*
+R15 28 99     100E3
+R16 28 50     100E3
+C9  28 50     1E-6
+ISY 99 50     250E-6
+R17 29 99     100
+R18 29 50     100
+L2  29 34     1E-9
+G6  32 50     27 29  10E-3
+G7  33 50     29 27  10E-3
+G8  29 99     99 27  10E-3
+G9  50 29     27 50  10E-3
+V4  30 29     1.3
+V5  29 31     3.8
+F1  29  0     V4  1
+F2  0  29     V5  1
+D5  27 30     DX
+D6  31 27     DX
+D7  99 32     DX
+D8  99 33     DX
+D9  50 32     DY
+D10 50 33     DY
+*
+* MODELS USED
+*
+.MODEL QX PNP(BF=5E5)
+.MODEL DX   D(IS=1E-12)
+.MODEL DY   D(IS=1E-15 BV=50)
+.MODEL DZ   D(IS=1E-15 BV=7.0)
+.MODEL DEN  D(IS=1E-12 RS=6.8E3 KF=1.95E-15 AF=1)
+.MODEL DIN  D(IS=1E-12 RS=77.3E-6 KF=3.38E-15 AF=1)
+.ENDS OP2177
+
+
+* OP284 SPICE Macro-model
+* Developed by: HH / ADSJ, ARG / ADSC
+* Revision History: 08/10/2012 - Updated to new header style
+* 4.0 (09/2009) - Increased Ccm, Cdiff
+* 3.0      - Adjusted Ccm, Cdiff, and en.
+* 2.0 (11/1995) - Changed input transistor betas to conform to final data sheet Ios typical spec of 60nA.
+* Copyright 1993, 2012 by Analog Devices, Inc.
+*
+* Refer to http://www.analog.com/Analog_Root/static/techSupport/designTools/spiceModels/license/spice_general.html for License Statement. Use of this model
+* indicates your acceptance with the terms and provisions in the License Statement.
+*
+* BEGIN Notes:
+*
+* Not Modeled:
+*
+* Parameters modeled include:
+*
+* END Notes
+*
+* Node assignments
+*                non-inverting input
+*                |  inverting input
+*                |  |  positive supply
+*                |  |  |  negative supply
+*                |  |  |  |  output
+*                |  |  |  |  |
+.SUBCKT OP284    1  2  99 50 45
+*#ASSOC Category="Op-amps" symbol=opamp
+*
+* INPUT STAGE
+*
+Q1   5    2    3    QIN 1
+Q2   6    11   3    QIN 1
+Q3   7    2    4    QIP 1
+Q4   8    11   4    QIP 1
+DC1  2    11   DC
+DC2  11   2    DC
+Q5   4    9    99   QIP 1
+Q6   9    9    99   QIP 1
+Q7   3    10   50   QIN 1
+Q8   10   10   50   QIN 1
+R1   99   5    4E3
+R2   99   6    4E3
+R3   7    50   4E3
+R4   8    50   4E3
+IREF 9    10   50.5E-6
+EOS  1    11   POLY(2) (22,98) (14,98) -25E-6 1E-2 1
+IOS  2    1    5E-9
+CIN  1    2    2.3E-12
+CCM1  1   50   7.2E-12
+CCM2  2   50   7.2E-12
+GN1  98   1    (17,98) 1E-3
+GN2  98   2    (23,98) 1E-3
+*
+* VOLTAGE NOISE SOURCE WITH FLICKER NOISE
+*
+VN1  13   98   DC 2
+VN2  98   15   DC 2
+DN1  13   14   DEN
+DN2  14   15   DEN
+*
+* CURRENT NOISE SOURCE WITH FLICKER NOISE
+*
+VN3  16   98   DC 2
+VN4  98   18   DC 2
+DN3  16   17   DIN
+DN4  17   18   DIN
+*
+* 2ND CURRENT NOISE SOURCE WITH FLICKER NOISE
+*
+VN5  19   98   DC 2
+VN6  98   24   DC 2
+DN5  19   23   DIN
+DN6  23   24   DIN
+*
+* GAIN STAGE
+*
+EREF 98   0    POLY(2) (99,0) (50,0) 0 0.5 0.5
+G1   98   20   POLY(2) (6,5) (8,7) 0 0.5E-3 0.5E-3
+R9   20   98   1E3
+*
+* COMMON MODE STAGE WITH ZERO AT 100HZ
+*
+ECM  98   21   POLY(2) (1,98) (2,98) 0 0.5 0.5
+R10  21   22   1
+R11  22   98   100E-6
+C4   21   22   1.592E-3
+*
+* NEGATIVE ZERO AT 20MHZ
+*
+E1   27   98   (20,98) 1E6
+R17  27   28   1
+R18  28   98   1E-6
+C8   25   26   7.958E-9
+ENZ  25   98   (27,28) 1
+VNZ  26   98   DC 0
+FNZ  27   28   VNZ -1
+*
+* POLE AT 40MHZ
+*
+G4   98   29   (28,98) 1
+R19  29   98   1
+C9   29   98   3.979E-9
+*
+* POLE AT 40MHZ
+*
+G5   98   30   (29,98) 1
+R20  30   98   1
+C10  30   98   3.979E-9
+*
+* OUTUT STAGE
+*
+ISY  99   50   0.276E-3
+GIN  50   31   POLY(1) (30,98) .862574E-6 505.879E-6
+RIN  31   50   2.75E6
+VB   99   32   0.7
+Q11  32   31   33   QON 1
+R21  33   34   4.5E3
+I1   34   50   50E-6
+R22  99   35   6E3
+Q12  36   36   35   QOP 1
+I2   36   50   50E-6
+R23  99   37   2.6E3
+R24  34   38   5E3
+Q13  39   36   37   QOP 1
+Q14  39   38   40   QON 1.5
+R25  40   50   40
+Q15  39   39   41   QON 1
+R26  41   42   1E3
+R27  99   43   220
+Q16  44   44   43   QOP 1.5
+Q17  44   39   42   QON 1
+R28  42   50   2E3
+VSCP 99   97   DC 0
+FSCP 46   99   VSCP 1
+RSCP 46   99   40
+Q20  44   46   99   QOP 1
+Q18  45   44   97   QOP 4.5
+Q19  45   34   51   QON 4.5
+VSCN 51   50   DC 0
+FSCN 50   47   VSCN 1
+RSCN 47   50   40
+Q21  34   47   50   QON 1
+CC2  31   45   20E-12
+CF1  31   34   15E-12
+CF2  31   42   15E-12
+CO1  34   45   15E-12
+CO2  42   45   5E-12
+D3   45   99   DX
+D4   50   45   DX
+.MODEL DC D(IS=130E-21)
+.MODEL DX D()
+.MODEL DEN D(RS=380 KF=6E-15 AF=1)
+.MODEL DIN D(RS=5.358 KF=56E-15 AF=1)
+.MODEL QIN NPN(BF=120 VA=200 IS=0.5E-16)
+.MODEL QIP PNP(BF=90 VA=60 IS=0.5E-16)
+.MODEL QON NPN(BF=200 VA=200 IS=0.5E-16 RC=50)
+.MODEL QOP PNP(BF=200 VA=200 IS=0.5E-16 RC=160)
+.ENDS OP284
+
+
+* OP285 SPICE Macro-model
+* Developed by: ARG / PMI
+* Revision History: 08/10/2012 - Updated to new header style
+* 1.0 (06/1992)
+* Copyright 1992, 2012 by Analog Devices, Inc.
+*
+* Refer to http://www.analog.com/Analog_Root/static/techSupport/designTools/spiceModels/license/spice_general.html for License Statement. Use of this model
+* indicates your acceptance of the terms and provisions in the License Statement.
+*
+* BEGIN Notes:
+*
+* Not Modeled:
+*
+* Parameters modeled include:
+*
+* END Notes
+*
+* Node assignments
+*               non-inverting input
+*               | inverting input
+*               | | positive supply
+*               | | |  negative supply
+*               | | |  |  output
+*               | | |  |  |
+*               | | |  |  |
+.SUBCKT OP285   1 2 99 50 34
+*#ASSOC Category="Op-amps" symbol=opamp
+*
+* INPUT STAGE & POLE AT 100 MHZ
+*
+R3   5 51     2.188
+R4   6 51     2.188
+CIN  1  2     1.5E-12
+C2   5  6     364E-12
+I1   97 4     100E-3
+IOS  1  2     1E-9
+EOS  9  3     POLY(1)  26 28  35E-6   1
+Q1   5  2  7  QX
+Q2   6  9  8  QX
+R5   7  4     1.672
+R6   8  4     1.672
+D1   2 36     DZ
+D2   1 36     DZ
+EN   3  1     10  0  1
+GN1  0  2     13  0  1
+GN2  0  1     16  0  1
+*
+EREF 98 0     28  0  1
+EP   97 0     99  0  1
+EM   51 0     50  0  1
+*
+* VOLTAGE NOISE SOURCE
+*
+DN1  35 10    DEN
+DN2  10 11    DEN
+VN1  35  0    DC 2
+VN2  0  11    DC 2
+*
+* CURRENT NOISE SOURCE
+*
+DN3  12 13    DIN
+DN4  13 14    DIN
+VN3  12  0    DC 2
+VN4  0  14    DC 2
+CN1  13  0    7.53E-3
+*
+* CURRENT NOISE SOURCE
+*
+DN5  15 16    DIN
+DN6  16 17    DIN
+VN5  15  0    DC 2
+VN6  0  17    DC 2
+CN2  16  0    7.53E-3
+*
+* GAIN STAGE & DOMINANT POLE AT 32 HZ
+*
+R7  18 98     1.09E6
+C3  18 98     4.55E-9
+G1  98 18     5  6  4.57E-1
+V2  97 19     1.4
+V3  20 51     1.4
+D3  18 19     DX
+D4  20 18     DX
+*
+* POLE/ZERO PAIR AT 1.5MHz/2.7MHz
+*
+R8  21 98     1E3
+R9  21 22     1.25E3
+C4  22 98     47.2E-12
+G2  98 21     18 28  1E-3
+*
+* POLE AT 100 MHZ
+*
+R10 23 98     1
+C5  23 98     1.59E-9
+G3  98 23     21 28  1
+*
+* POLE AT 100 MHZ
+*
+R11 24 98     1
+C6  24 98     1.59E-9
+G4  98 24     23 28  1
+*
+* COMMON-MODE GAIN NETWORK WITH ZERO AT 1 kHZ
+*
+R12 25 26     1E6
+C7  25 26     159.155E-12
+R13 26 98     1
+E2  25 98     POLY(2) 1 98 2 98 0 2.506 2.506
+*
+* POLE AT 100 MHZ
+*
+R14 27 98     1
+C8  27 98     1.59E-9
+G5  98 27     24 28  1
+*
+* OUTPUT STAGE
+*
+R15 28 99     100E3
+R16 28 50     100E3
+C9  28 50     1E-6
+ISY 99 50     1.85E-3
+R17 29 99     100
+R18 29 50     100
+L2  29 34     1E-9
+G6  32 50     27 29  10E-3
+G7  33 50     29 27  10E-3
+G8  29 99     99 27  10E-3
+G9  50 29     27 50  10E-3
+V4  30 29     1.3
+V5  29 31     3.8
+F1  29  0     V4  1
+F2  0  29     V5  1
+D5  27 30     DX
+D6  31 27     DX
+D7  99 32     DX
+D8  99 33     DX
+D9  50 32     DY
+D10 50 33     DY
+*
+* MODELS USED
+*
+.MODEL QX PNP(BF=5E5)
+.MODEL DX   D(IS=1E-12)
+.MODEL DY   D(IS=1E-15 BV=50)
+.MODEL DZ   D(IS=1E-15 BV=7.0)
+.MODEL DEN  D(IS=1E-12 RS=4.35K KF=1.95E-15 AF=1)
+.MODEL DIN  D(IS=1E-12 RS=77.3E-6 KF=3.38E-15 AF=1)
+.ENDS OP285
+
+
+* OP292 SPICE Macro-model
+* Developed by: ARG / PMI
+* Revision History: 08/10/2012 - Updated to new header style
+* 2.0 (03/1995)
+* Copyright 1993, 2012 by Analog Devices
+*
+* Refer to http://www.analog.com/Analog_Root/static/techSupport/designTools/spiceModels/license/spice_general.html for License Statement.  Use of this model
+* indicates your acceptance of the terms and provisions in the License Statement.
+*
+* BEGIN Notes:
+*
+* Not Modeled:
+*
+* Parameters modeled include:
+*
+* END Notes
+*
+* Node assignments
+*                non-inverting input
+*                |  inverting input
+*                |  |  positive supply
+*                |  |  |  negative supply
+*                |  |  |  |  output
+*                |  |  |  |  |
+.SUBCKT OP292    2  1  99 50 34
+*#ASSOC Category="Op-amps" symbol=opamp
+*
+* INPUT STAGE AND POLE AT 40MHZ
+*
+I1   99   4    50E-6
+IOS  2    1    10E-9
+EOS  2    3    POLY(1) (21,30) 1.5E-3 75
+CIN  1    2    3E-12
+Q1   5    1    7    QP
+Q2   6    3    8    QP
+R3   5    50   2E3
+R4   6    50   2E3
+R5   4    7    966
+R6   4    8    966
+C1   5    6    .995E-12
+*
+* GAIN STAGE
+*
+EREF 98   0    (30,0) 1
+G1   98   9    (5,6) 500E-6
+R7   9    98   210.819E3
+D1   9    10   DX
+D2   11   9    DX
+V1   99   10   .6
+V2   11   50   .6
+*
+* ZERO/POLE AT 6MHZ/12MHZ
+*
+E1   12   98   (9,30) 2
+R8   12   13   1
+R9   13   98   1
+C3   12   13   26.526E-9
+*
+* ZERO AT 15MHZ
+*
+E2   14   98   (13,30) 1E6
+R10  14   15   1E6
+R11  15   98   1
+C4   14   15   10.610E-15
+*
+* COMMON MODE STAGE WITH ZERO AT 40KHZ
+*
+ECM  20   98   POLY(2) (1,30) (2,30) 0 0.5 0.5
+R20  20   21   1E6
+R21  21   98   1
+C5   20   21   3.979E-12
+*
+* POLE AT 100MHZ
+*
+G2   98   16   (15,30) 1
+R12  16   98   1
+C6   16   98   1.592E-9
+*
+* OUTPUT STAGE
+*
+RS1  99   30   1E6
+RS2  30   50   1E6
+ISY  99   50   .44E-3
+G3   31   50   POLY(1) (16,30) -1.635E-6 4E-6
+R16  31   50   1E6
+DCL  50   31   DZ
+I2   99   32   250E-6
+RCL  33   50   56
+M1   32   31   50   50   MN L=9E-6 W=1000E-6 AD=15E-9 AS=15E-9
+M2   34   31   50   50   MN L=9E-6 W=1000E-6 AD=15E-9 AS=15E-9
+CC   31   32   14E-12
+Q3   99   32   34   QNA
+Q4   33   32   34   QPA
+Q5   31   33   50   QNA
+.MODEL QNA NPN(IS=1.19E-16 BF=253 NF=0.99 VAF=193 IKF=2.76E-3
++ ISE=2.57E-13 NE=5 BR=0.4 NR=0.988 VAR=15 IKR=1.465E-4
++ ISC=6.9E-16 NC=0.99 RB=2.0E3 IRB=7.73E-6 RBM=132.8 RE=4 RC=209
++ CJE=2.1E-13 VJE=0.573 MJE=0.364 FC=0.5 CJC=1.64E-13 VJC=0.534 MJC=0.5
++ CJS=1.37E-12 VJS=0.59 MJS=0.5 TF=0.43E-9 PTF=30)
+.MODEL QPA PNP(IS=5.21E-17 BF=131 NF=0.99 VAF=62 IKF=8.35E-4
++ ISE=1.09E-14 NE=2.61 BR=0.5 NR=0.984 VAR=15 IKR=3.96E-5
++ ISC=7.58E-16 NC=0.985 RB=1.52E3 IRB=1.67E-5 RBM=368.5 RE=6.31 RC=354.4
++ CJE=1.1E-13 VJE=0.745 MJE=0.33 FC=0.5 CJC=2.37E-13 VJC=0.762 MJC=0.4
++ CJS=7.11E-13 VJS=0.45 MJS=0.412 TF=1.0E-9 PTF=30)
+.MODEL MN NMOS(LEVEL=3 VTO=1.3 RS=0.3 RD=0.3
++ TOX=8.5E-8 LD=1.48E-6 WD=1E-6 NSUB=1.53E16 UO=650 DELTA=10 VMAX=2E5
++ XJ=1.75E-6 KAPPA=0.8 ETA=0.066 THETA=0.01 TPG=1 CJ=2.9E-4 PB=0.837
++ MJ=0.407 CJSW=0.5E-9 MJSW=0.33)
+.MODEL QP PNP(BF=61.5)
+.MODEL DX D
+.MODEL DZ D(BV=3.6)
+.ENDS OP292
+
+
+
+* OP413 SPICE Macro-model
+* Revision History: 08/10/2012 - Updated to new header style
+* 1.0 (03/1994)
+* Copyright 1992, 2012 by Analog Devices
+*
+* Refer to http://www.analog.com/Analog_Root/static/techSupport/designTools/spiceModels/license/spice_general.html for License Statement.  Use of this model
+* indicates your acceptance of the terms and provisions in the License Statement.
+*
+* BEGIN Notes:
+*
+* Not Modeled:
+*
+* Parameters modeled include:
+*
+* END Notes
+*
+* Node assignments
+*
+*                   non-inverting input
+*                   |  inverting input
+*                   |  |  positive supply
+*                   |  |  |  negative supply
+*                   |  |  |  |  output
+*                   |  |  |  |  |
+.SUBCKT OP413       3  2  7  4  6
+*#ASSOC Category="Op-amps" symbol=opamp
+*
+*  INPUT STAGE
+*
+R3   4   19   1.5E3
+R4   4   20   1.5E3
+C1   19  20   5.31E-12
+I1   7   18   106E-6
+IOS  2    3   25E-09
+EOS  12   5   POLY(1) 51 4 25E-06 1
+Q1   19   3   18 PNP1
+Q2   20  12   18 PNP1
+CIN  3    2   3E-12
+D1   3    1   DY
+D2   2    1   DY
+EN   5    2   22  0  1
+GN1  0    2   25  0  1E-5
+GN2  0    3   28  0  1E-5
+*
+* VOLTAGE NOISE SOURCE WITH FLICKER NOISE
+*
+DN1  21  22   DEN
+DN2  22  23   DEN
+VN1  21   0   DC 2
+VN2  0   23   DC 2
+*
+* CURRENT NOISE SOURCE WITH FLICKER NOISE
+*
+DN3  24  25   DIN
+DN4  25  26   DIN
+VN3  24   0   DC 2
+VN4  0   26   DC 2
+*
+* SECOND CURRENT NOISE SOURCE
+*
+DN5  27  28   DIN
+DN6  28  29   DIN
+VN5  27   0   DC 2
+VN6  0   29   DC 2
+*
+* GAIN STAGE & DOMINANT POLE AT 2HZ
+*
+G2   34  36   19 20 2.65E-04
+R7   34  36   39E6
+V3   35   4   DC  6
+D4   36  35   DX
+VB2  34   4   1.6
+*
+* SUPPLY/2 GENERATOR
+*
+ISY  7    4   0.2E-3
+R10  7   60   40E3
+R11  60   4   40E3
+C3   60   0   1E-9
+*
+* CMRR STAGE & POLE AT 6kHZ
+*
+ECM  50   4   POLY(2) 3 60 2 60 0 0.8 0.8
+CCM  50  51   26.5E-12
+RCM1 50  51   1E6
+RCM2 51   4   1
+*
+* OUTPUT STAGE
+*
+R12  37  36  1E3
+R13  38  36  500
+C4   37   6  20E-12
+C5   38  39  20E-12
+M1   39  36  4   4   MN  L=9E-6  W=1000E-6  AD=15E-9 AS=15E-9
+M2   45  36  4   4   MN  L=9E-6  W=1000E-6  AD=15E-9 AS=15E-9
+D5   39  47  DX
+D6   47  45  DX
+Q3   39  40  41  QPA  8
+VB   7   40  DC  0.861
+R14  7   41  375
+Q4   41   7  43  QNA  1
+R17  7   43  15
+Q5   43  39  6   QNA  20
+Q6   46  45  6   QPA  20
+R18  46   4  15
+Q7   36  46  4   QNA  1
+M3   6   36  4   4   MN  L=9E-6  W=2000E-6  AD=30E-9 AS=30E-9
+*
+* NONLINEAR MODELS USED
+*
+.MODEL DX D (IS=1E-15)
+.MODEL DY D (IS=1E-15  BV=7)
+.MODEL PNP1 PNP (BF=220)
+.MODEL DEN D(IS=1E-12 RS=1016 KF=3.278E-15 AF=1)
+.MODEL DIN D(IS=1E-12 RS=100019 KF=4.173E-15 AF=1)
+.MODEL QNA NPN(IS=1.19E-16 BF=253 VAF=193 VAR=15 RB=2.0E3
++ IRB=7.73E-6 RBM=132.8 RE=4 RC=209 CJE=2.1E-13 VJE=0.573
++ MJE=0.364 CJC=1.64E-13 VJC=0.534 MJC=0.5 CJS=1.37E-12
++ VJS=0.59 MJS=0.5 TF=0.43E-9 PTF=30)
+.MODEL QPA PNP(IS=5.21E-17 BF=131 VAF=62 VAR=15 RB=1.52E3
++ IRB=1.67E-5 RBM=368.5 RE=6.31 RC=354.4 CJE=1.1E-13
++ VJE=0.745 MJE=0.33 CJC=2.37E-13 VJC=0.762 MJC=0.4
++ CJS=7.11E-13 VJS=0.45 MJS=0.412 TF=1.0E-9 PTF=30)
+.MODEL MN NMOS(LEVEL=3 VTO=1.3 RS=0.3 RD=0.3 TOX=8.5E-8
++ LD=1.48E-6 NSUB=1.53E16 UO=650 DELTA=10 VMAX=2E5
++ XJ=1.75E-6 KAPPA=0.8 ETA=0.066 THETA=0.01 TPG=1 CJ=2.9E-4
++ PB=0.837 MJ=0.407 CJSW=0.5E-9 MJSW=0.33)
+.ENDS OP413
+
+
+* OP4177 SPICE Macro-model
+* Revision History: 08/10/2012 - Updated to new header style
+* 1.0 (05/2002)
+* Copyright 2002, 2012 by Analog Devices
+*
+* Refer to http://www.analog.com/Analog_Root/static/techSupport/designTools/spiceModels/license/spice_general.html for License Statement.  Use of this model
+* indicates your acceptance of the terms and provisions in the License Statement.
+*
+* BEGIN Notes:
+*
+* Not Modeled:
+*
+* Parameters modeled include: Vsy=+/-15V
+*
+* END Notes
+*
+* Node assignments
+*               non-inverting input
+*               | inverting input
+*               | | positive supply
+*               | | |  negative supply
+*               | | |  |  output
+*               | | |  |  |
+*               | | |  |  |
+.SUBCKT OP4177  1 2 99 50 34
+*#ASSOC Category="Op-amps" symbol=opamp
+*
+* INPUT STAGE & POLE AT 100 MHZ
+*
+R3   5 51     6.8E3
+R4   6 51     6.8E3
+CIN  1  2     1.5E-12
+C2   5  6      3.5E-12
+I1   97 4      500E-6
+IOS  1  2     0.1E-9
+EOS  9  3     POLY(2)  (26, 28) (73, 98) 15E-6  1 1
+Q1   5  2  7  QX
+Q2   6  9  8  QX
+R5   7  4     50
+R6   8  4     50
+D1   2 36     DZ
+D2   1 36     DZ
+EN   3  1     10  0  1
+GN1  0  2     13  0  1
+GN2  0  1     16  0  1
+*
+EREF 98 0     28  0  1
+EP   97 0     99  0  1
+EM   51 0     50  0  1
+*
+* VOLTAGE NOISE SOURCE
+*
+DN1  35 10    DEN
+DN2  10 11    DEN
+VN1  35  0    DC 2
+VN2  0  11    DC 2
+*
+* CURRENT NOISE SOURCE
+*
+DN3  12 13    DIN
+DN4  13 14    DIN
+VN3  12  0    DC 2
+VN4  0  14    DC 2
+*
+* CURRENT NOISE SOURCE
+*
+DN5  15 16    DIN
+DN6  16 17    DIN
+VN5  15  0    DC 2
+VN6  0  17    DC 2
+*
+* GAIN STAGE & DOMINANT POLE AT 0.439 HZ
+*
+R7  18 98     1.45E7
+C3  18 98     25E-9
+G1  98 18     5  6  5.15E-3
+V2  97 19     1.5
+V3  20 51     1.5
+D3  18 19     DX
+D4  20 18     DX
+*
+* POLE/ZERO PAIR AT 1.5MHz/12.7MHz
+*
+R8  21 98     1E3
+R9  21 22     1.25E3
+C4  22 98     10E-12
+G2  98 21     18 28  1E-3
+*
+* POLE AT 2568 MHz
+*
+R10 23 98     1
+C5  23 98     62E-12
+G3  98 23     21 28  1
+*
+* POLE AT 2568 MHz
+*
+R11 24 98     1
+C6  24 98     62E-12
+G4  98 24     23 28  1
+*
+* POLE AT 2568 MHz
+*
+R14 27 98     1
+C8  27 98    62E-12
+G5  98 27     24 28  1
+*
+* COMMON-MODE GAIN NETWORK WITH ZERO AT 1 kHZ
+*
+R12 25 26     1E6
+C7  25 26     159.155E-12
+R13 26 98     1
+E2  25 98      POLY(2) 1 98 2 98 0 0.28 0.28
+*
+*PSRR=121dB
+EPSY 98 72 POLY(1) (99,50) 0 1
+RPS3 72 73 1E6
+CPS3 72 73 3E-9
+RPS4 73 98 1
+
+* OUTPUT STAGE
+*
+R15 28 99     100E3
+R16 28 50     100E3
+C9  28 50     1E-6
+ISY 99 50     250E-6
+R17 29 99     100
+R18 29 50     100
+L2  29 34     1E-9
+G6  32 50     27 29  10E-3
+G7  33 50     29 27  10E-3
+G8  29 99     99 27  10E-3
+G9  50 29     27 50  10E-3
+V4  30 29     1.3
+V5  29 31     3.8
+F1  29  0     V4  1
+F2  0  29     V5  1
+D5  27 30     DX
+D6  31 27     DX
+D7  99 32     DX
+D8  99 33     DX
+D9  50 32     DY
+D10 50 33     DY
+*
+* MODELS USED
+*
+.MODEL QX PNP(BF=5E5)
+.MODEL DX   D(IS=1E-12)
+.MODEL DY   D(IS=1E-15 BV=50)
+.MODEL DZ   D(IS=1E-15 BV=7.0)
+.MODEL DEN  D(IS=1E-12 RS=6.8E3 KF=1.95E-15 AF=1)
+.MODEL DIN  D(IS=1E-12 RS=77.3E-6 KF=3.38E-15 AF=1)
+.ENDS OP4177
+
+
+
+
+
+
+
+* OP484 SPICE Macro-model
+* 1.0 (11/1995)
+* Copyright 1993, 2012 by Analog Devices
+*
+* Refer to http://www.analog.com/Analog_Root/static/techSupport/designTools/spiceModels/license/spice_general.html for License Statement.  Use of this model
+* indicates your acceptance of the terms and provisions in the License Statement.
+*
+* BEGIN Notes:
+*
+* Not Modeled:
+*
+* Parameters modeled include:
+*
+* END Notes
+*
+* Node assignments
+*                non-inverting input
+*                |  inverting input
+*                |  |  positive supply
+*                |  |  |  negative supply
+*                |  |  |  |  output
+*                |  |  |  |  |
+.SUBCKT OP484    1  2  99 50 45
+*#ASSOC Category="Op-amps" symbol=opamp
+*
+* INPUT STAGE
+*
+Q1   5    2    3    QIN 1
+Q2   6    11   3    QIN 1
+Q3   7    2    4    QIP 1
+Q4   8    11   4    QIP 1
+DC1  2    11   DC
+DC2  11   2    DC
+Q5   4    9    99   QIP 1
+Q6   9    9    99   QIP 1
+Q7   3    10   50   QIN 1
+Q8   10   10   50   QIN 1
+R1   99   5    4E3
+R2   99   6    4E3
+R3   7    50   4E3
+R4   8    50   4E3
+IREF 9    10   50.5E-6
+EOS  1    11   POLY(2) (22,98) (14,98) -25E-6 1E-2 1
+IOS  2    1    1E-9
+CIN  1    2    2E-12
+GN1  98   1    (17,98) 1E-3
+GN2  98   2    (23,98) 1E-3
+*
+* VOLTAGE NOISE SOURCE WITH FLICKER NOISE
+*
+VN1  13   98   DC 2
+VN2  98   15   DC 2
+DN1  13   14   DEN
+DN2  14   15   DEN
+*
+* CURRENT NOISE SOURCE WITH FLICKER NOISE
+*
+VN3  16   98   DC 2
+VN4  98   18   DC 2
+DN3  16   17   DIN
+DN4  17   18   DIN
+*
+* 2ND CURRENT NOISE SOURCE WITH FLICKER NOISE
+*
+VN5  19   98   DC 2
+VN6  98   24   DC 2
+DN5  19   23   DIN
+DN6  23   24   DIN
+*
+* GAIN STAGE
+*
+EREF 98   0    POLY(2) (99,0) (50,0) 0 0.5 0.5
+G1   98   20   POLY(2) (6,5) (8,7) 0 0.5E-3 0.5E-3
+R9   20   98   1E3
+*
+* COMMON MODE STAGE WITH ZERO AT 100HZ
+*
+ECM  98   21   POLY(2) (1,98) (2,98) 0 0.5 0.5
+R10  21   22   1
+R11  22   98   100E-6
+C4   21   22   1.592E-3
+*
+* NEGATIVE ZERO AT 20MHZ
+*
+E1   27   98   (20,98) 1E6
+R17  27   28   1
+R18  28   98   1E-6
+C8   25   26   7.958E-9
+ENZ  25   98   (27,28) 1
+VNZ  26   98   DC 0
+FNZ  27   28   VNZ -1
+*
+* POLE AT 40MHZ
+*
+G4   98   29   (28,98) 1
+R19  29   98   1
+C9   29   98   3.979E-9
+*
+* POLE AT 40MHZ
+*
+G5   98   30   (29,98) 1
+R20  30   98   1
+C10  30   98   3.979E-9
+*
+* OUTUT STAGE
+*
+ISY  99   50   0.276E-3
+GIN  50   31   POLY(1) (30,98) .862574E-6 505.879E-6
+RIN  31   50   2.75E6
+VB   99   32   0.7
+Q11  32   31   33   QON 1
+R21  33   34   4.5E3
+I1   34   50   50E-6
+R22  99   35   6E3
+Q12  36   36   35   QOP 1
+I2   36   50   50E-6
+R23  99   37   2.6E3
+R24  34   38   5E3
+Q13  39   36   37   QOP 1
+Q14  39   38   40   QON 1.5
+R25  40   50   40
+Q15  39   39   41   QON 1
+R26  41   42   1E3
+R27  99   43   220
+Q16  44   44   43   QOP 1.5
+Q17  44   39   42   QON 1
+R28  42   50   2E3
+VSCP 99   97   DC 0.088
+FSCP 46   99   VSCP 1
+RSCP 46   99   40
+Q20  44   46   99   QOP 1
+Q18  45   44   97   QOP 4.5
+Q19  45   34   51   QON 4.5
+VSCN 51   50   DC 0.081
+FSCN 50   47   VSCN 1
+RSCN 47   50   40
+Q21  34   47   50   QON 1
+CC2  31   45   20E-12
+CF1  31   34   15E-12
+CF2  31   42   15E-12
+CO1  34   45   15E-12
+CO2  42   45   5E-12
+D3   45   99   DX
+D4   50   45   DX
+.MODEL DC D(IS=130E-21)
+.MODEL DX D()
+.MODEL DEN D(RS=100 KF=12E-15 AF=1)
+.MODEL DIN D(RS=5.358 KF=56E-15 AF=1)
+.MODEL QIN NPN(BF=120 VA=200 IS=0.5E-16)
+.MODEL QIP PNP(BF=90 VA=60 IS=0.5E-16)
+.MODEL QON NPN(BF=200 VA=200 IS=0.5E-16 RC=50)
+.MODEL QOP PNP(BF=200 VA=200 IS=0.5E-16 RC=160)
+.ENDS OP484
+
+
+* OP492 SPICE Macro-model
+* 2.0 (03/1995)
+* Copyright 1993, 2012 by Analog Devices
+*
+* Refer to http://www.analog.com/Analog_Root/static/techSupport/designTools/spiceModels/license/spice_general.html for License Statement.  Use of this model
+* indicates your acceptance of the terms and provisions in the License Statement.
+*
+* BEGIN Notes:
+*
+* Not Modeled:
+*
+* Parameters modeled include:
+*
+* END Notes
+*
+* Node assignments
+*                non-inverting input
+*                |  inverting input
+*                |  |  positive supply
+*                |  |  |  negative supply
+*                |  |  |  |  output
+*                |  |  |  |  |
+.SUBCKT OP492    2  1  99 50 34
+*#ASSOC Category="Op-amps" symbol=opamp
+*
+* INPUT STAGE AND POLE AT 40MHZ
+*
+I1   99   4    50E-6
+IOS  2    1    10E-9
+EOS  2    3    POLY(1) (21,30) 1.5E-3 75
+CIN  1    2    3E-12
+Q1   5    1    7    QP
+Q2   6    3    8    QP
+R3   5    50   2E3
+R4   6    50   2E3
+R5   4    7    966
+R6   4    8    966
+C1   5    6    .995E-12
+*
+* GAIN STAGE
+*
+EREF 98   0    (30,0) 1
+G1   98   9    (5,6) 500E-6
+R7   9    98   210.819E3
+D1   9    10   DX
+D2   11   9    DX
+V1   99   10   .6
+V2   11   50   .6
+*
+* ZERO/POLE AT 6MHZ/12MHZ
+*
+E1   12   98   (9,30) 2
+R8   12   13   1
+R9   13   98   1
+C3   12   13   26.526E-9
+*
+* ZERO AT 15MHZ
+*
+E2   14   98   (13,30) 1E6
+R10  14   15   1E6
+R11  15   98   1
+C4   14   15   10.610E-15
+*
+* COMMON MODE STAGE WITH ZERO AT 40KHZ
+*
+ECM  20   98   POLY(2) (1,30) (2,30) 0 0.5 0.5
+R20  20   21   1E6
+R21  21   98   1
+C5   20   21   3.979E-12
+*
+* POLE AT 100MHZ
+*
+G2   98   16   (15,30) 1
+R12  16   98   1
+C6   16   98   1.592E-9
+*
+* OUTPUT STAGE
+*
+RS1  99   30   1E6
+RS2  30   50   1E6
+ISY  99   50   .44E-3
+G3   31   50   POLY(1) (16,30) -1.635E-6 4E-6
+R16  31   50   1E6
+DCL  50   31   DZ
+I2   99   32   250E-6
+RCL  33   50   56
+M1   32   31   50   50   MN L=9E-6 W=1000E-6 AD=15E-9 AS=15E-9
+M2   34   31   50   50   MN L=9E-6 W=1000E-6 AD=15E-9 AS=15E-9
+CC   31   32   14E-12
+Q3   99   32   34   QNA
+Q4   33   32   34   QPA
+Q5   31   33   50   QNA
+.MODEL QNA NPN(IS=1.19E-16 BF=253 NF=0.99 VAF=193 IKF=2.76E-3
++ ISE=2.57E-13 NE=5 BR=0.4 NR=0.988 VAR=15 IKR=1.465E-4
++ ISC=6.9E-16 NC=0.99 RB=2.0E3 IRB=7.73E-6 RBM=132.8 RE=4 RC=209
++ CJE=2.1E-13 VJE=0.573 MJE=0.364 FC=0.5 CJC=1.64E-13 VJC=0.534 MJC=0.5
++ CJS=1.37E-12 VJS=0.59 MJS=0.5 TF=0.43E-9 PTF=30)
+.MODEL QPA PNP(IS=5.21E-17 BF=131 NF=0.99 VAF=62 IKF=8.35E-4
++ ISE=1.09E-14 NE=2.61 BR=0.5 NR=0.984 VAR=15 IKR=3.96E-5
++ ISC=7.58E-16 NC=0.985 RB=1.52E3 IRB=1.67E-5 RBM=368.5 RE=6.31 RC=354.4
++ CJE=1.1E-13 VJE=0.745 MJE=0.33 FC=0.5 CJC=2.37E-13 VJC=0.762 MJC=0.4
++ CJS=7.11E-13 VJS=0.45 MJS=0.412 TF=1.0E-9 PTF=30)
+.MODEL MN NMOS(LEVEL=3 VTO=1.3 RS=0.3 RD=0.3
++ TOX=8.5E-8 LD=1.48E-6 WD=1E-6 NSUB=1.53E16 UO=650 DELTA=10 VMAX=2E5
++ XJ=1.75E-6 KAPPA=0.8 ETA=0.066 THETA=0.01 TPG=1 CJ=2.9E-4 PB=0.837
++ MJ=0.407 CJSW=0.5E-9 MJSW=0.33)
+.MODEL QP PNP(BF=61.5)
+.MODEL DX D
+.MODEL DZ D(BV=3.6)
+.ENDS OP492
+
+
+* OP727 SPICE Macro-model Typical Values
+* Revision History: 08/10/2012 - Updated to new header style
+* 1.2 (04/2009) - Corrected EVP, EVN
+* 1.1 (08/2000)
+* Copyright 2000, 2012 by Analog Devices
+*
+* Refer to http://www.analog.com/Analog_Root/static/techSupport/designTools/spiceModels/license/spice_general.html for License Statement.  Use of this model
+* indicates your acceptance of the terms and provisions in the License Statement.
+*
+* BEGIN Notes:
+*
+* Not Modeled:
+*
+* Parameters modeled include:
+*
+* END Notes
+*
+* Node Assignments
+*         noninverting input
+*         |   inverting input
+*         |   |   positive supply
+*         |   |   |   negative supply
+*         |   |   |   |   output
+*         |   |   |   |   |
+*         |   |   |   |   |
+.SUBCKT OP727      1   2   99   50   45
+*#ASSOC Category="Op-amps" symbol=opamp
+*
+* PNP INPUT STAGE
+*
+Q1    5  7 3 PIX
+Q2    6  2 3 PIX
+RC1   5 50 8000
+RC2   6 50 8000
+C1    5  6 0.5E-12
+D1    3  8 DX
+V1   99  8 DC 1.0
+I1   99  3 50E-6
+EOS   7  1 POLY(3) (73,98) (81,98) (22,98) 0.08E-3 1 1 1
+IOS   2  1 1E-9
+*
+* PSRR=120dB, ZERO AT 150Hz
+*
+RPS1 70  0 1E+6
+RPS2 71  0 1E+6
+CPS1 99 70 1E-5
+CPS2 50 71 1E-5
+EPSY 98 72 POLY(2) (70,0) (0,71) 0 1 1
+RPS3 72 73 1E+6
+CPS3 72 73 1.06E-9
+RPS4 73 98 1
+*
+EVP  97 98 (99,50) 0.5
+EVN  51 98 (50,99) 0.5
+*
+* VOLTAGE NOISE REFERENCE OF 15nV/rt(Hz)
+*
+VN1 80 98 0
+RN1 80 98 16.45E-3
+HN  81 98 VN1 15
+RN2 81 98 1
+*
+* INTERNAL VOLTAGE REFERENCE
+*
+EREF 98  0 POLY(2) (99,0) (50,0) 0 .5 .5
+GSY  99 50 POLY(1) (99,50) 0 2.6E-6
+*
+*
+* CMRR 110dB, ZERO AT 400Hz
+*
+ECM1 21 98 POLY(2) (1,98) (2,98) 0 .5 .5
+RCM1 21 22 1E+6
+CCM1 21 22 0.397E-9
+RCM2 22 98 1
+*
+* GAIN STAGE
+*
+G1 98 30 POLY(1) (5,6) 0 28.8E-6
+R1 30 98 2.02E+8
+CF 45 30 50E-12
+D3 30 97 DX
+D4 51 30 DX
+*
+* OUTPUT STAGE
+*
+M5  45 46 99 99 POX L=1E-6 W=0.329E-3
+M6  45 47 50 50 NOX L=1E-6 W=0.496E-3
+EG1 99 46 POLY(1) (98,30) 0.6299 1
+EG2 47 50 POLY(1) (30,98) 0.5739 1
+*
+* MODELS
+*
+.MODEL POX PMOS (LEVEL=2,KP=10E-6,VTO=-0.328,LAMBDA=0.01,KF=2.5E-23,AF=1)
+.MODEL NOX NMOS (LEVEL=2,KP=10E-6,VTO=+0.328,LAMBDA=0.01,KF=2.5E-23,AF=1)
+.MODEL PIX PNP (BF=2273,IS=1E-14,VAF=130)
+.MODEL DX D(IS=1E-14,RS=5)
+.ENDS OP727
+
+
+* OP747 SPICE Macro-model Typical Values
+* 1.2 (04/2009) - Corrected EVP, EVN
+* 1.1 (08/2000)
+* Copyright 2000, 2012 by Analog Devices
+*
+* Refer to http://www.analog.com/Analog_Root/static/techSupport/designTools/spiceModels/license/spice_general.html for License Statement.  Use of this model
+* indicates your acceptance of the terms and provisions in the License Statement.
+*
+* BEGIN Notes:
+*
+* Not Modeled:
+*
+* Parameters modeled include:
+*
+* END Notes
+*
+* Node Assignments
+*         noninverting input
+*         |   inverting input
+*         |   |   positive supply
+*         |   |   |   negative supply
+*         |   |   |   |   output
+*         |   |   |   |   |
+*         |   |   |   |   |
+.SUBCKT OP747      1   2   99   50   45
+*#ASSOC Category="Op-amps" symbol=opamp
+*
+* PNP INPUT STAGE
+*
+Q1    5  7 3 PIX
+Q2    6  2 3 PIX
+RC1   5 50 8000
+RC2   6 50 8000
+C1    5  6 0.5E-12
+D1    3  8 DX
+V1   99  8 DC 1.0
+I1   99  3 50E-6
+EOS   7  1 POLY(3) (73,98) (81,98) (22,98) 0.08E-3 1 1 1
+IOS   2  1 1E-9
+*
+* PSRR=120dB, ZERO AT 150Hz
+*
+RPS1 70  0 1E+6
+RPS2 71  0 1E+6
+CPS1 99 70 1E-5
+CPS2 50 71 1E-5
+EPSY 98 72 POLY(2) (70,0) (0,71) 0 1 1
+RPS3 72 73 1E+6
+CPS3 72 73 1.06E-9
+RPS4 73 98 1
+*
+* VOLTAGE NOISE REFERENCE OF 15nV/rt(Hz)
+*
+VN1 80 98 0
+RN1 80 98 16.45E-3
+HN  81 98 VN1 15
+RN2 81 98 1
+*
+* INTERNAL VOLTAGE REFERENCE
+*
+EREF 98  0 POLY(2) (99,0) (50,0) 0 .5 .5
+GSY  99 50 POLY(1) (99,50) 0 2.6E-6
+EVP  97 98 POLY(1) (99,50) 0 0.5
+EVN  51 98 POLY(1) (50,99) 0 0.5
+*
+*
+* CMRR 110dB, ZERO AT 400Hz
+*
+ECM1 21 98 POLY(2) (1,98) (2,98) 0 .5 .5
+RCM1 21 22 1E+6
+CCM1 21 22 0.397E-9
+RCM2 22 98 1
+*
+* GAIN STAGE
+*
+G1 98 30 POLY(1) (5,6) 0 28.8E-6
+R1 30 98 2.02E+8
+CF 45 30 50E-12
+D3 30 97 DX
+D4 51 30 DX
+*
+* OUTPUT STAGE
+*
+M5  45 46 99 99 POX L=1E-6 W=0.329E-3
+M6  45 47 50 50 NOX L=1E-6 W=0.496E-3
+EG1 99 46 POLY(1) (98,30) 0.6299 1
+EG2 47 50 POLY(1) (30,98) 0.5739 1
+*
+* MODELS
+*
+.MODEL POX PMOS (LEVEL=2,KP=10E-6,VTO=-0.328,LAMBDA=0.01,KF=2.5E-23,AF=1)
+.MODEL NOX NMOS (LEVEL=2,KP=10E-6,VTO=+0.328,LAMBDA=0.01,KF=2.5E-23,AF=1)
+.MODEL PIX PNP (BF=2273,IS=1E-14,VAF=130)
+.MODEL DX D(IS=1E-14,RS=5)
+.ENDS OP747
+
+
+
+
+
+* OP777 SPICE Macro-model Typical Values
+* 1.2 (04/2009) - Corrected EVP, EVN
+* 1.1 (08/2000)
+* Copyright 2000, 2012 by Analog Devices
+*
+* Refer to http://www.analog.com/Analog_Root/static/techSupport/designTools/spiceModels/license/spice_general.html for License Statement.  Use of this model
+* indicates your acceptance of the terms and provisions in the License Statement.
+*
+* BEGIN Notes:
+*
+* Not Modeled:
+*
+* Parameters modeled include:
+*
+* END Notes
+*
+* Node Assignments
+*         noninverting input
+*         |   inverting input
+*         |   |   positive supply
+*         |   |   |   negative supply
+*         |   |   |   |   output
+*         |   |   |   |   |
+*         |   |   |   |   |
+.SUBCKT OP777      1   2   99   50   45
+*#ASSOC Category="Op-amps" symbol=opamp
+*
+* PNP INPUT STAGE
+*
+Q1    5  7 3 PIX
+Q2    6  2 3 PIX
+RC1   5 50 8000
+RC2   6 50 8000
+C1    5  6 0.5E-12
+D1    3  8 DX
+V1   99  8 DC 1.0
+I1   99  3 50E-6
+EOS   7  1 POLY(3) (73,98) (81,98) (22,98) 0.08E-3 1 1 1
+IOS   2  1 1E-9
+*
+* PSRR=120dB, ZERO AT 150Hz
+*
+RPS1 70  0 1E+6
+RPS2 71  0 1E+6
+CPS1 99 70 1E-5
+CPS2 50 71 1E-5
+EPSY 98 72 POLY(2) (70,0) (0,71) 0 1 1
+RPS3 72 73 1E+6
+CPS3 72 73 1.06E-9
+RPS4 73 98 1
+*
+* VOLTAGE NOISE REFERENCE OF 15nV/rt(Hz)
+*
+VN1 80 98 0
+RN1 80 98 16.45E-3
+HN  81 98 VN1 15
+RN2 81 98 1
+*
+* INTERNAL VOLTAGE REFERENCE
+*
+EREF 98  0 POLY(2) (99,0) (50,0) 0 .5 .5
+GSY  99 50 POLY(1) (99,50) 0 2.6E-6
+EVP  97 98 (99,50) 0.5
+EVN  51 98 (50,99) 0.5
+*
+*
+* CMRR 110dB, ZERO AT 400Hz
+*
+ECM1 21 98 POLY(2) (1,98) (2,98) 0 .5 .5
+RCM1 21 22 1E+6
+CCM1 21 22 0.397E-9
+RCM2 22 98 1
+*
+* GAIN STAGE
+*
+G1 98 30 POLY(1) (5,6) 0 28.8E-6
+R1 30 98 2.02E+8
+CF 45 30 50E-12
+D3 30 97 DX
+D4 51 30 DX
+*
+* OUTPUT STAGE
+*
+M5  45 46 99 99 POX L=1E-6 W=0.329E-3
+M6  45 47 50 50 NOX L=1E-6 W=0.496E-3
+EG1 99 46 POLY(1) (98,30) 0.6299 1
+EG2 47 50 POLY(1) (30,98) 0.5739 1
+*
+* MODELS
+*
+.MODEL POX PMOS (LEVEL=2,KP=10E-6,VTO=-0.328,LAMBDA=0.01,KF=2.5E-23,AF=1)
+.MODEL NOX NMOS (LEVEL=2,KP=10E-6,VTO=+0.328,LAMBDA=0.01,KF=2.5E-23,AF=1)
+.MODEL PIX PNP (BF=2273,IS=1E-14,VAF=130)
+.MODEL DX D(IS=1E-14,RS=5)
+.ENDS OP777
+
+* AD8235 SPICE Macro-model
+* 1.0 (12/2009)
+* Copyright 2009, 2012 by Analog Devices
+*
+* Refer to http://www.analog.com/Analog_Root/static/techSupport/designTools/spiceModels/license/spice_general.html for License Statement.  Use of this
+* model indicates your acceptance of the terms and provisions in the License Statement.
+*
+* BEGIN Notes: VSY=5V, T=25°C
+*
+* Not Modeled:
+*
+* Parameters modeled include:
+*
+* END Notes
+*
+* Node Assignments
+*                          -input
+*                          |  rg1
+*                          |  |   rg2
+*                          |  |   |   +input
+*                          |  |   |   |  shutdwn Neg Supply
+*                          |  |   |   |    |    |   ref
+*                          |  |   |   |    |    |   |    out
+*                          |  |   |   |    |    |   |    |    Pos Supply
+*                          |  |   |   |    |    |   |    |     |
+.SUBCKT AD8235          Vin- RG- RG+ Vin+ SDN VNEG REF VOUT  VPOS
+*Amplifiers
+X_U1 Vin- RG- 1 2 9 AMPA
+X_U2 Vin+ 7 1 2 VOUT AMPB
+*Gain Error for RG resistor
+R5 7 RG+ 6
+*Adjustable Supply Current for Low Supply Voltage
+I3 1 2 6.5E-6
+G1 1 2 2 1 1.5E-6
+* Shutdown Switches
+S1 1 VPOS SDN VNEG SW
+S2 2 VNEG SDN VNEG SW
+*Resistor Network
+R1 REF RG- 209.8K
+R2 RG- 9 52.5K
+R3 9 7 52.5K
+R4 7 VOUT 209.85K
+*Switch Model
+.MODEL	SW  VSWITCH(VON=1.3 VOFF=0.5 RON=1 ROFF=1E9)
+.ENDS AD8235
+*$
+* Node Assignments
+*                       noninverting input
+*                       |   inverting input
+*                       |   |    positive supply
+*                       |   |    |   negative supply
+*                       |   |    |   |   output
+*                       |   |    |   |   |
+*                       |   |    |   |   |
+.SUBCKT AMPA            1   2   99  50  45
+*
+* INPUT STAGE
+*
+M1   4  7  8  8 PIX L=2E-6 W=9.070E-04
+M2   6  2  8  8 PIX L=2E-6 W=9.070E-04
+Cinp 1 50 4.2pF
+Cinn 2 50 4.2pF
+Cdiff 1 2 3pF
+RD1  4 50  5.333E+04
+RD2  6 50  5.333E+04
+C1   4  6  7.650E-12
+I1  99  8  7.500E-06
+V1   9  8 +0.025E-00
+D1   9 99 DX
+EOS  7  1 POLY(4) (73,98) (22,98) (81,98) (83,98) 0 1 1 1 1
+IOS  1  2 -5.0E-12
+*
+* CMRR=95dB, POLE AT 3500 Hz
+*
+E1  72 98 POLY(2) (1,98) (2,98) 0 1.289E-02  1.289E-02
+R10 72 73 4.613E+01
+R20 73 98 3.183E-02
+C10 72 73 1.000E-06
+*
+* PSRR=100dB, POLE AT 100 Hz
+*
+EPSY 21 98 POLY(1) (99,50) -0.181E-00 -0.03E-00
+RPS1 21 22 1.274E+04
+RPS2 22 98 2.989E-00
+CPS1 21 22 0.20E-07
+*
+* VOLTAGE NOISE REFERENCE OF 45nV/rt(Hz)
+*
+VN1 80 98 0
+RN1 80 98 17.500E-3
+HN  81 98 VN1 4.62E+1
+RN2 81 98 1
+*
+* FLICKER NOISE CORNER = 20000 Hz
+*
+DFN 82 98 DNOISE
+VFN 82 98 DC 0.6531
+HFN 83 98 POLY(1) VFN 1.00E-03 1.00E+00
+RFN 83 98 1
+*
+* INTERNAL VOLTAGE REFERENCE
+*
+EREF 98  0 POLY(2) (99,0) (50,0) 0 0.5 0.5
+GSY  99 50 POLY(1) (99,50) +0.580E-06 0.2710E-06
+EVP  97 98 (99,50) 0.5
+EVN  51 98 (50,99) 0.5
+*
+* GAIN STAGE
+*
+G1 98 30 (4,6) 4.474E-04
+R1 30 98 1.00E+06
+CF 30 31 1.55E-08
+RZ 455 31 1.2280E-03
+EZ 455 98  (451 98) 1
+V3 32 30 0.279E+00
+V4 30 33 0.362E-00
+D3 32 97 DX
+D4 51 33 DX
+*
+* OUTPUT STAGE
+*
+M5  451 46 99 99 POX L=1E-6 W=3.940E-04
+M6  451 47 50 50 NOX L=1E-6 W=4.598E-04
+Lout 451 45 10pH
+EG1 99 46 POLY(1) (98,30) 3.598E-01 1
+EG2 47 50 POLY(1) (30,98) 3.574E-01 1
+*
+* MODELS
+*
+.MODEL POX PMOS (LEVEL=2,KP=3.00E-05,VTO=-0.328,LAMBDA=0.015,RD=0)
+.MODEL NOX NMOS (LEVEL=2,KP=3.00E-05,VTO=+0.328,LAMBDA=0.015,RD=0)
+.MODEL PIX PMOS (LEVEL=2,KP=5.00E-05,VTO=-5.00E-01,LAMBDA=0.01)
+.MODEL DX D(IS=1E-14,RS=0.1)
+.MODEL DNOISE D(IS=1E-14,RS=0,KF=12.400E-11)
+*
+*
+.ENDS AMPA
+*
+*$
+* Node Assignments
+*                       noninverting input
+*                       |   inverting input
+*                       |   |    positive supply
+*                       |   |    |   negative supply
+*                       |   |    |   |   output
+*                       |   |    |   |   |
+*                       |   |    |   |   |
+.SUBCKT AMPB            1   2   99  50  45
+*
+* INPUT STAGE
+*
+M1   4  7  8  8 PIX L=2E-6 W=9.070E-04
+M2   6  2  8  8 PIX L=2E-6 W=9.070E-04
+Cinp 1 50 4.2pF
+Cinn 2 50 4.2pF
+Cdiff 1 2 3pF
+RD1  4 50  5.333E+04
+RD2  6 50  5.333E+04
+C1   4  6  7.650E-12
+I1  99  8  7.500E-06
+V1   9  8 +0.025E-00
+D1   9 99 DX
+EOS  7  1 POLY(4) (73,98) (22,98) (81,98) (83,98) 0.926m 1 1 1 1
+IOS  1  2 -10E-12
+*
+* CMRR=95dB, POLE AT 3500 Hz
+*
+E1  72 98 POLY(2) (1,98) (2,98) 0 1.289E-02  1.289E-02
+R10 72 73 4.613E+01
+R20 73 98 3.183E-02
+C10 72 73 1.000E-06
+*
+* PSRR=100dB, POLE AT 100 Hz
+*
+EPSY 21 98 POLY(1) (99,50) -0.181E-00 0.03E-00
+RPS1 21 22 2.274E+04
+RPS2 22 98 1.989E-00
+CPS1 21 22 0.20E-07
+*
+* VOLTAGE NOISE REFERENCE OF 45nV/rt(Hz)
+*
+VN1 80 98 0
+RN1 80 98 17.500E-3
+HN  81 98 VN1 4.62E+1
+RN2 81 98 1
+*
+* FLICKER NOISE CORNER = 20000 Hz
+*
+DFN 82 98 DNOISE
+VFN 82 98 DC 0.6531
+HFN 83 98 POLY(1) VFN 1.00E-03 1.00E+00
+RFN 83 98 1
+*
+* INTERNAL VOLTAGE REFERENCE
+*
+EREF 98  0 POLY(2) (99,0) (50,0) 0 0.5 0.5
+GSY  99 50 POLY(1) (99,50) +0.580E-06 0.2710E-06
+EVP  97 98 (99,50) 0.5
+EVN  51 98 (50,99) 0.5
+*
+* GAIN STAGE
+*
+G1 98 30 (4,6) 4.474E-04
+R1 30 98 1.00E+06
+CF 30 31 1.55E-08
+RZ 455 31 1.2280E-03
+EZ 455 98  (451 98) 1
+V3 32 30 0.279E+00
+V4 30 33 0.362E-00
+D3 32 97 DX
+D4 51 33 DX
+*
+* OUTPUT STAGE
+*
+M5  451 46 99 99 POX L=1E-6 W=3.940E-04
+M6  451 47 50 50 NOX L=1E-6 W=4.598E-04
+Lout 451 45 10pH
+EG1 99 46 POLY(1) (98,30) 3.598E-01 1
+EG2 47 50 POLY(1) (30,98) 3.574E-01 1
+*
+* MODELS
+*
+.MODEL POX PMOS (LEVEL=2,KP=3.00E-05,VTO=-0.328,LAMBDA=0.015,RD=0)
+.MODEL NOX NMOS (LEVEL=2,KP=3.00E-05,VTO=+0.328,LAMBDA=0.015,RD=0)
+.MODEL PIX PMOS (LEVEL=2,KP=5.00E-05,VTO=-5.00E-01,LAMBDA=0.01)
+.MODEL DX D(IS=1E-14,RS=0.1)
+.MODEL DNOISE D(IS=1E-14,RS=0,KF=12.400E-11)
+*
+*
+.ENDS AMPB
+*
+* AD8236 SPICE Macro-model
+* Copyright 2009, 2015 by Analog Devices
+*
+*Refer to http://www.analog.com/Analog_Root/static/techSupport/designTools/spicemodels/license
+*for License Statement. Use of this model indicates your acceptance
+*of the terms and provisions in the License Staement.
+*
+* BEGIN Notes: VSY=5V, T=25°C
+**Not modeled: Distortion, PSRR, Overload Recovery,
+*             Shutdown Turn On/Turn Off time
+*
+*Parameters modeled include:
+*   Vos, Ibias, Supply Current, Input CM limits and Typ output voltge swing over full supply range,
+*   Bandwidth over all gains, Slew Rate, Output current limits, Voltage & Current Noise,
+*   Capacitive load drive, CMRR, Output Swing vs. Load Resistance
+*   Single supply & offset supply functionality.
+* END Notes
+*
+*
+* Node Assignments
+*                     -input
+*                        |  rg1
+*                        |    |   rg2
+*                        |    |   |   +input
+*                        |    |   |   |
+*                        |    |   |   |     Neg Supply
+*                        |    |   |   |     |   ref  out
+*                        |    |   |   |     |    |    |    Pos Supply
+*                        |    |   |   |     |    |    |     |
+*
+.SUBCKT AD8236          Vin- RG- RG+  Vin+ VNEG REF  VOUT  VPOS
+*
+*Amplifiers
+X_U1 Vin- RG- VPOSa VNEGa 9 AMPA
+X_U2 Vin+ 7 VPOSa VNEGa VOUT AMPB
+*
+*Charge pump for VPOS and VNEG
+VposCP VPOSa VPOS dc 0.58
+VnegCP VNEG VNEGa dc 0.57
+*
+*Gain Error for RG resistor
+R5 7 RG+ 6
+*
+*Adjustable Supply Current for Low Supply Voltage
+*I3 VPOS VNEG 6.5E-6
+*G1 VPOS VNEG VNEG VPOS 1.5E-6
+*
+*Resistor Network
+R1 REF RG- 209.8K
+R2 RG- 9 52.5K
+R3 9 7 52.5K
+R4 7 VOUT 209.85K
+.Subckt AMPA 100 101 102 103 104
+*
+***Power Supplies***
+Rz1	102	1020	 	1e-6
+Rz2	103	1030	 	1e-6
+Ibias	1020	1030	dc	0.001e-3
+DzPS	98	1020	diode
+Iquies	1020	98	dc	0.015e-3
+RSW1	98	1030	1e-3
+R1	1020	99	 	1e7
+R2	99	1030	 	1e7
+e1	111	110	1020	110	1
+e2	110	112	110	1030	1
+e3	110	0	99	0	1
+*
+*
+***Inputs***
+RSW2	1	100	1e-3
+RSW3	9	101	1e-3
+VOS	1	2	dc	-500e-6
+IbiasP	110	2	dc	1.5e-12
+IbiasN	110	9	dc	1.5e-12
+RinCMP	110	2	 	110000e6
+RinCMN	9	110	 	110000e6
+CinCMP	110	2	4.2e-12
+CinCMN	9	110	4.2e-12
+IOS	9	2	0.0000005e-6
+RinDiff	9	2	 	220000e3
+CinDiff	9	2	3e-12
+*
+*
+***Non-Inverting Input with Clamp***
+g1	3	110	110	2	0.001
+RInP	3	110	 	1e3
+RX1	40	3	 	0.001
+DInP	40	41	diode
+DInN	42	40	diode
+VinP	111	41	dc	0.46
+VinN	42	112	dc	0.46
+*
+*
+***Vnoise***
+hVn	6	5	Vmeas1	707.10678
+Vmeas1	20	110	DC	0
+Vvn	21	110	dc	0.65
+Dvn	21	20	DVnoisy
+hVn1	6	7	Vmeas2	707.10678
+Vmeas2	22	110	dc	0
+Vvn1	23	110	dc	0.65
+Dvn1	23	22	DVnoisy
+*
+*
+***Inoise***
+FnIN	9	110	Vmeas3	0.4071068
+Vmeas3	51	110	dc	0
+VnIN	50	110	dc	0.65
+DnIN	50	51	DINnoisy
+FnIN1	110	9	Vmeas4	0.4071068
+Vmeas4	53	110	dc	0
+VnIN1	52	110	dc	0.65
+DnIN1	52	53	DINnoisy
+*
+FnIP	2	110	Vmeas5	0.4071068
+Vmeas5	31	110	dc	0
+VnIP	30	110	dc	0.65
+DnIP	30	31	DIPnoisy
+FnIP1	110	2	Vmeas6	0.4071068
+Vmeas6	33	110	dc	0
+VnIP1	32	110	dc	0.65
+DnIP1	32	33	DIPnoisy
+*
+*
+***CMRR***
+RcmrrP	3	10	 	1e12
+RcmrrN	10	9	 	1e12
+g10	11	110	10	110	-1e-10
+Lcmrr	11	12	1e-12
+Rcmrr	12	110	 	1e3
+e4	5	3	11	110	1
+*
+*
+*
+***Feedback Pin***
+*RF	105	104	 	0.001
+*
+*
+***VFB Stage***
+g200	200	110	7	9	1
+R200	200	110	 	250
+DzSlewP	201	200	DzSlewP
+DzSlewN	201	110	DzSlewN
+*
+*
+***Dominant Pole at 0.1 Hz***
+g210	210	110	200	110	0.0025e-6
+R210	210	110	 	1591547.63e6
+C210	210	110	1e-12
+*
+*
+***Output Voltage Clamp-1***
+RX2	60	210	 	0.001
+DzVoutP	61	60	DzVoutP
+DzVoutN	60	62	DzVoutN
+DVoutP	61	63	diode
+DVoutN	64	62	diode
+VoutP	65	63	dc	5.022
+VoutN	64	66	dc	5.022
+e60	65	110	111	110	1.01
+e61	66	110	112	110	1.01
+*
+*
+***Pole at 1000000Hz***
+g220	220	110	210	110	0.001
+R220	220	110	 	1000
+C220	220	110	159.1548e-12
+*
+***Pole at 0.4MHz***
+g230	230	110	220	110	0.001
+R230	230	110	 	1000
+C230	230	110	397.8869e-12
+*
+***Pole at 0.5MHz***
+g240	240	110	230	110	0.001
+R240	240	110	 	1000
+C240	240	110	318.3095e-12
+*
+***Buffer***
+g245	245	110	240	110	0.001
+R245	245	110	 	1000
+*
+***Buffer***
+g250	250	110	245	110	0.001
+R250	250	110	 	1000
+*
+***Buffer***
+g255	255	110	250	110	0.001
+R255	255	110	 	1000
+*
+***Buffer***
+g260	260	110	255	110	0.001
+R260	260	110	 	1000
+*
+***Buffer***
+g265	265	110	260	110	0.001
+R265	265	110	 	1000
+*
+***Buffer***
+g270	270	110	265	110	0.001
+R270	270	110	 	1000
+*
+***Buffer***
+e280	280	110	270	110	1
+R280	280	285	 	10
+*
+***Buffer***
+e290	290	110	285	110	1
+R290	290	292	 	10
+e295	295	110	292	110	1
+*
+*
+***Output Stage***
+g300	300	110	295	110	0.001
+R300	300	110	 	1000
+e301	301	110	300	110	1
+Rout	302	303	 	 180
+Lout	303	310	 10e-9
+Cout	310	110	 2e-12
+*
+*
+***Output Current Limit***
+H1	301	304	Vsense1	100
+Vsense1	301	302	dc	0
+VIoutP	305	304	dc	3.836
+VIoutN	304	306	dc	3.836
+DIoutP	307	305	diode
+DIoutN	306	307	diode
+Rx3	307	300	 	0.001
+*
+*
+***Output Clamp-2***
+VoutP1	111	73	dc	1.27
+VoutN1	74	112	dc	1.26
+DVoutP1	75	73	diode
+DVoutN1	74	75	diode
+RX4	75	310	 	0.001
+*
+*
+***Supply Currents***
+FIoVcc	314	110	Vmeas8	1
+Vmeas8	310	311	dc	0
+R314	110	314	 	1e9
+DzOVcc	110	314	diode
+DOVcc	102	314	diode
+RX5	311	312	 	0.001
+FIoVee	315	110	Vmeas9	1
+Vmeas9	312	313	dc	0
+R315	315	110	 	1e9
+DzOVee	315	110	diode
+DOVee	315	103	diode
+*
+*
+RSW4	104	313	1e-3
+*
+*
+*** Common Models ***
+.model	diode	d(bv=100)
+.model	DClamp	D(IS=1E-15 IBV=1E-13 VJ=0.1)
+.model	DzVoutP	D(BV=4.3)
+.model	DzVoutN	D(BV=4.3)
+.model	DzSlewP	D(BV=10.821)
+.model	DzSlewN	D(BV=2.842)
+.model	DVnoisy	D(IS=7.49e-14 KF=9.87e-18)
+.model	DINnoisy	D(IS=8.58e-21 KF=0.00e0)
+.model	DIPnoisy	D(IS=8.58e-21 KF=0.00e0)
+*
+*
+.ENDS AMPA
+*
+.subckt AMPB 100 101 102 103 104
+*
+***Power Supplies***
+Rz1	102	1020	1e-6
+Rz2	103	1030	 	1e-6
+Ibias	1020	1030	dc	0.001e-3
+DzPS	98	1020	diode
+Iquies	1020	98	dc	0.015e-3
+RSW1	98	1030	1e-3
+R1	1020	99	 	1e7
+R2	99	1030	 	1e7
+e1	111	110	1020	110	1
+e2	110	112	110	1030	1
+e3	110	0	99	0	1
+*
+*
+***Inputs***
+RSW2	1	100	1e-3
+RSW3	9	101	1e-3
+VOS	1	2	dc	500e-6
+IbiasP	110	2	dc	0.000001e-6
+IbiasN	110	9	dc	0.000001e-6
+RinCMP	110	2	 	110000e6
+RinCMN	9	110	 	110000e6
+CinCMP	110	2	4.2e-12
+CinCMN	9	110	4.2e-12
+IOS	9	2	0.0000005e-6
+RinDiff	9	2	 	220000e3
+CinDiff	9	2	3e-12
+*
+*
+***Non-Inverting Input with Clamp***
+g1	3	110	110	2	0.001
+RInP	3	110	 	1e3
+RX1	40	3	 	0.001
+DInP	40	41	diode
+DInN	42	40	diode
+VinP	111	41	dc	0.46
+VinN	42	112	dc	0.46
+*
+*
+***Vnoise***
+hVn	6	5	Vmeas1	707.10678
+Vmeas1	20	110	DC	0
+Vvn	21	110	dc	0.65
+Dvn	21	20	DVnoisy
+hVn1	6	7	Vmeas2	707.10678
+Vmeas2	22	110	dc	0
+Vvn1	23	110	dc	0.65
+Dvn1	23	22	DVnoisy
+*
+*
+***Inoise***
+FnIN	9	110	Vmeas3	0.4071068
+Vmeas3	51	110	dc	0
+VnIN	50	110	dc	0.65
+DnIN	50	51	DINnoisy
+FnIN1	110	9	Vmeas4	0.4071068
+Vmeas4	53	110	dc	0
+VnIN1	52	110	dc	0.65
+DnIN1	52	53	DINnoisy
+*
+FnIP	2	110	Vmeas5	0.4071068
+Vmeas5	31	110	dc	0
+VnIP	30	110	dc	0.65
+DnIP	30	31	DIPnoisy
+FnIP1	110	2	Vmeas6	0.4071068
+Vmeas6	33	110	dc	0
+VnIP1	32	110	dc	0.65
+DnIP1	32	33	DIPnoisy
+*
+*
+***CMRR***
+RcmrrP	3	10	 	1e12
+RcmrrN	10	9	 	1e12
+g10	11	110	10	110	-1e-10
+Lcmrr	11	12	1e-12
+Rcmrr	12	110	 	1e3
+e4	5	3	11	110	1
+*
+*
+**
+*
+***Feedback Pin***
+*RF	105	104	 	0.001
+*
+*
+***VFB Stage***
+g200	200	110	7	9	1
+R200	200	110	 	250
+DzSlewP	201	200	DzSlewP
+DzSlewN	201	110	DzSlewN
+*
+*
+***Dominant Pole at 0.1 Hz***
+g210	210	110	200	110	0.0025e-6
+R210	210	110	 	1591547.63e6
+C210	210	110	1e-12
+*
+*
+***Output Voltage Clamp-1***
+RX2	60	210	 	0.001
+DzVoutP	61	60	DzVoutP
+DzVoutN	60	62	DzVoutN
+DVoutP	61	63	diode
+DVoutN	64	62	diode
+VoutP	65	63	dc	5.022
+VoutN	64	66	dc	5.022
+e60	65	110	111	110	1.01
+e61	66	110	112	110	1.01
+*
+*
+***Pole at 1000000Hz***
+g220	220	110	210	110	0.001
+R220	220	110	 	1000
+C220	220	110	159.1548e-12
+*
+***Pole at 0.4MHz***
+g230	230	110	220	110	0.001
+R230	230	110	 	1000
+C230	230	110	397.8869e-12
+*
+***Pole at 0.5MHz***
+g240	240	110	230	110	0.001
+R240	240	110	 	1000
+C240	240	110	318.3095e-12
+*
+***Buffer***
+g245	245	110	240	110	0.001
+R245	245	110	 	1000
+*
+***Buffer***
+g250	250	110	245	110	0.001
+R250	250	110	 	1000
+*
+***Buffer***
+g255	255	110	250	110	0.001
+R255	255	110	 	1000
+*
+***Buffer***
+g260	260	110	255	110	0.001
+R260	260	110	 	1000
+*
+***Buffer***
+g265	265	110	260	110	0.001
+R265	265	110	 	1000
+*
+***Buffer***
+g270	270	110	265	110	0.001
+R270	270	110	 	1000
+*
+***Buffer***
+e280	280	110	270	110	1
+R280	280	285	 	10
+*
+***Buffer***
+e290	290	110	285	110	1
+R290	290	292	 	10
+e295	295	110	292	110	1
+*
+*
+***Output Stage***
+g300	300	110	295	110	0.001
+R300	300	110	 	1000
+e301	301	110	300	110	1
+Rout	302	303	 	 180
+Lout	303	310	 1e-9
+Cout	310	110	 2e-12
+*
+*
+***Output Current Limit***
+H1	301	304	Vsense1	100
+Vsense1	301	302	dc	0
+VIoutP	305	304	dc	3.836
+VIoutN	304	306	dc	3.836
+DIoutP	307	305	diode
+DIoutN	306	307	diode
+Rx3	307	300	 	0.001
+*
+*
+***Output Clamp-2***
+VoutP1	111	73	dc	1.27
+VoutN1	74	112	dc	1.26
+DVoutP1	75	73	diode
+DVoutN1	74	75	diode
+RX4	75	310	 	0.001
+*
+*
+***Supply Currents***
+FIoVcc	314	110	Vmeas8	1
+Vmeas8	310	311	dc	0
+R314	110	314	1e9
+DzOVcc	110	314	diode
+DOVcc	102	314	diode
+RX5	311	312	 	0.001
+FIoVee	315	110	Vmeas9	1
+Vmeas9	312	313	dc	0
+R315	315	110	 	1e9
+DzOVee	315	110	diode
+DOVee	315	103	diode
+*
+*
+RSW4	104	313	1e-3
+*
+*
+*** Common Models ***
+.model	diode	d(bv=100)
+.model	DClamp	D(IS=1E-15 IBV=1E-13 VJ=0.1)
+.model	DzVoutP	D(BV=4.3)
+.model	DzVoutN	D(BV=4.3)
+.model	DzSlewP	D(BV=10.821)
+.model	DzSlewN	D(BV=2.842)
+.model	DVnoisy	D(IS=7.49e-14 KF=9.87e-18)
+.model	DINnoisy	D(IS=8.58e-21 KF=0.00e0)
+.model	DIPnoisy	D(IS=8.58e-21 KF=0.00e0)
+*
+.ENDS AMPB
+.ENDS AD8236
+*
+*
+
+* AD8634 SPICE Macro-model
+* Function: Amplifier
+*
+* Revision History:
+* Rev. 0.0 (Mar 2014) ADSJ-RM
+* Copyright 2012 by Analog Devices
+*
+* Refer to http://www.analog.com/Analog_Root/static/techSupport/designTools/spiceModels/license/spice_general.html
+* for License Statement. Use of this model indicates your acceptance
+* of the terms and provisions in the License Statement.
+*
+* modeled:
+*  +/-15V (30V) only, not checked at lower voltages
+*  modeling based on the typical values stated in the datasheet table
+*
+* Parameters modeled include:VOS , CMRR, PSRR, voltage noise,
+*  Vdo, gbw & phase margin, slew rate, CL Zout, Isy, ISC
+*
+* Node assignments
+*                non-inverting input
+*                |  inverting input
+*                |  |  positive supply
+*                |  |  |  negative supply
+*                |  |  |  |  output
+*                |  |  |  |  |
+.SUBCKT AD8634	1	2	99	50	45
+
+
+* INPUT STAGE
+*
+Q1   5  11  301  QIN 1; 301
+Q2   6   2  302  QIN 1; 302
+Cx1 5   6  7.0E-12
+Q3   7  11  303  QIP 1; 303
+Q4   8   2  304  QIP 1; 304
+Cx2  7   8  7.0E-12
+DC1  2    11   DC
+DC2  11   2    DC
+Q5   4    9    99   QIP 1;
+Q6   9    9    99   QIP 1
+Q7   3    10   50   QIN 1;
+Q8   10   10   50   QIN 1
+R1   99   5    4.5E3
+R2   99   6    4.5E3
+R3   7    50   4.0E3
+R4   8    50   4.0E3
+RE1 301    3   12.0E+1
+RE2 302    3   12.0E+1
+RE3 303    4   12.0E+1
+RE4 304    4   12.0E+1
+IREF  9   10   69E-06
+GREF  9   10   POLY(1) (99,50) 0 2.5E-07
+EOS  1    11   POLY(4) (81,98)(83,98)(22,98)(73,98) -90E-6 1 1 1 1
+IOS  1    2     -10E-09
+CIN  1    2     1.1E-12
+CICM1  1   50   2.4E-12
+CICM2  2   50   2.4E-12
+Dinp1  1  99 DC
+Dinp2  50  1 DC
+Dinn1  2  99 DC
+Dinn2  50  2 DC
+GN1  1 98    POLY(1) (1,50) 53E-09 -2.15E-9
+GN2  2 98    POLY(1) (2,50) 56E-09 -2.11E-9
+*
+
+G101 98 211 POLY(2) (5,6) (7,8) 0 5.3E-04 5.3E-04
+R101 211 98 1.0E6
+*
+E201 311 98 POLY(1) (211,98)0 2.0E+0
+R202 311 321 1.8E+3;
+C202 311 321 8E-16
+R203 321 98  1.8E+3
+*
+E3  252  98 (321 98) 2E-0
+R31 252 253 1.0E+3
+C31 253 252 9E-11; -12
+R32 253 98 1.0E+3
+*
+* GAIN STAGE
+*
+G2   98 251 (253, 98) 1.0E-06
+R5  251 98 8.2E5
+RF  251 250 75.0E+00
+CF  245 250 40.5E-11
+EF (245 98) (45,98) 1
+D3  251 451 DX
+D4  452 251 DX
+V1  451 98 -0.038 ;
+V2  452 98 -0.29
+*
+* CMRR
+*
+ECM   72 98 POLY(2) (1,98) (2,98) 0 3.42E-03 3.42E-03
+RCM1  72 73 3.061E+01
+RCM2  73 98 7.958E-03
+CCM1  72 73 1.0E-6
+*
+* PSRR
+*
+EPSY 21 98 POLY(1) (99,50) -197.534E+00 6.584E-00
+RPS1 21 22 5.341E+03
+RPS2 22 98 7.958E-04
+CPS1 21 22 1.000E-06
+*
+* VOLTAGE NOISE
+*
+VN1 80 98 0
+RN1 80 98 43.5E-3
+HN  81 98 VN1 5.3
+RN2 81 98 1
+*
+* FLICKER NOISE CORNER
+*
+DFN 82 98 DNOISE 1000
+IFN 98 82 DC 1E-03
+DFN2 182 98 DNOISE
+IFN2 98 182 DC 1E-06
+GFN 83 98 POLY(1) (182,82) 1.00E-13 1.00E-04
+RFN 83 98 1
+*
+D60 60 0 DN1 1000
+I60 0 60 1M
+D61 61 0 DN4
+I61 0 61 1U
+D62 62 0 DN3
+I62 0 62 1U
+D63 63 0 DN2
+I63 0 63 1U
+G60 3 50 61 60 .007
+G61 2 50 61 60 .008
+G62 3 2 62 60 .000092
+*
+* INTERNAL VOLTAGE REFERENCE
+*
+EREF 98  0 POLY(2) (99,0) (50,0) 0 .5 .5
+GSY  99 50 POLY(1) (99,50) 403E-6 6.036E-6
+*
+* OUTPUT STAGE
+*
+Q33  450 41 99 POUT
+Cco1 450 41  2.5E-12
+RB1  40 41 1.5E3
+EB1  99 40 POLY(1) (98,251) 7.535E-01 1;
+Q34  450 43 50 NOUT
+Cco2 450 43  5E-12
+RB2  42 43 2.0E3
+EB2  42 50 POLY(1) (251,98) 7.520E-01  1;
+Lout 45 450 1E-09
+*
+* MODELS
+*
+.MODEL DC D(IS=1E-14,CJO=1E-15)
+.MODEL DX D(IS=1E-14,CJO=1E-15)
+.MODEL DY D(IS=1E-16,RS=0.1)
+.MODEL DIN1 D(RS=5.358 KF=56E-15 AF=1)
+.MODEL DIN2 D(RS=5.358 KF=56E-15 AF=1)
+.MODEL DN1 D IS=1E-16
+.MODEL DN2 D IS=1E-16 AF=1 KF=1.05E-17
+.MODEL DN3 D IS=1E-16 AF=1 KF=2.8E-17
+.MODEL DN4 D IS=1E-16 AF=1 KF=4.5E-17
+
+.MODEL DNOISE D(IS=1E-16,RS=1E-3,KF=1.14E-11)
+.MODEL QIN NPN(BF=130 VA=200 IS=0.5E-16)
+.MODEL QIP PNP(BF=80 VA=140 IS=0.5E-16)
+.MODEL NOUT NPN(BF=140 VA=350 IS=0.5E-16 BR=8.4 VAR=20 RC=4.0E1)
+.MODEL POUT PNP(BF=80  VA=130 IS=0.5E-16 BR=5   VAR=20 RC=6.0E1)
+*
+.ENDS AD8634
+
+* AD8220 SPICE Macro-model               09/09, Rev. C
+*                                        PRB IAP ADI
+*
+* Revision History:
+*
+* Node assignments
+*                 inverting input
+*                 |   RG
+*                 |   |    RG
+*                 |   |    |  non_inverting input
+*                 |   |    |    |    negative supply
+*                 |   |    |    |    |    ref
+*                 |   |    |    |    |    |   output
+*                 |   |    |    |    |    |    |     positive supply
+*                 |   |    |    |    |    |    |     |
+.SUBCKT AD8220  IN-  RG-  RG+  IN+  -Vs   REF  VOUT  +Vs
+** INPUT STAGE
+R1 N009 N008 20E3
+R2 N008 Inverting_Out 20E3
+R3 N013 noninverting_out 20.002e3
+R4 REF N013 20e3
+R5 RG- N003 24700
+R6 RG+ N012 24724
+D3 N003 P001 D
+D4 P002 N003 D
+V3 P002 VNEGx 0.84
+V4 VPOSx P001 2.35
+D5 N012 P003 D
+D6 P004 N012 D
+V5 P004 VNEGx 0.84
+V6 VPOSx P003 2.35
+D7 N005 P005 D
+D8 P006 N005 D
+V7 P006 VNEGx -10
+V8 VPOSx P005 -10
+D9 N019 P007 D
+D10 P008 N019 D
+V9 P008 VNEGx -10
+V10 VPOSx P007 -10
+D11 N009 P009 D
+D12 P010 N009 D
+V11 P010 N016 1.03
+V12 N010 P009 1
+D13 REF P011 D
+D14 P012 REF D
+V13 P012 VNEGx .3
+V14 VPOSx P011 .3
+D15 N013 P013 D
+D16 P014 N013 D
+V15 P014 VNEGx 0.6
+V16 VPOSx P013 0.6
+E4 Inverting_Out 0 N003 0 1
+E5 noninverting_out 0 N012 0 1
+Q1 Inv_Fdbk N002 RG- 0 PNP
+Q2 Pos_Fdbk N015 RG+ 0 PNP
+V1 VBIAS -Vs -10
+I1 Pos_Fdbk VBIAS 9E-6
+I2 Inv_Fdbk VBIAS 9E-6
+
+C1 N003 Inv_Fdbk 3.8035e-12
+C2 N012 Pos_Fdbk 3.8e-12
+E8 N002 0 N005 0 1
+E9 N015 0 N019 0 1
+VOSI_Neg N004 IN- 25E-6
+VOSI_Pos IN+ N017 24E-6
+VOSO VOUT N011 300E-6
+C3 RG- 0 .200e-12
+C4 RG+ 0 .135e-12
+I23 IN- 0 3E-12
+I24 IN+ 0 3.2E-12
+G1 0 IN+ N020 N021 .7e-9
+R13 IN+ N020 10e9
+R14 N020 IN- 10e9
+R15 +Vs N021 10e9
+R16 N021 -Vs 10e9
+G2 0 IN- N020 N021 .7e-9
+E10 VPOSx 0 +Vs 0 1
+I3 +Vs -Vs 725E-6
+G3 +Vs -Vs +Vs -Vs 1e-6
+E11 VNEGx 0 -Vs 0 1
+
+R17 VBIAS Inv_Fdbk 10e9
+R18 Pos_Fdbk VBIAS 10e9
+H3 N006 N004 V24 14
+V24 N001 0 0
+R19 N001 0 .0166
+H4 N011 N009 V25 100
+V25 N007 0 0
+R20 N007 0 .0166
+H5 N018 N017 V26 14
+V26 N014 0 0
+R21 N014 0 .0166
+G4 0 N005 N006 N005 1E-3
+G5 0 N019 N018 N019 1E-3
+G6 0 N003 VBIAS Inv_Fdbk 1
+G7 0 N012 VBIAS Pos_Fdbk 1
+G8 0 N009 N013 N008 1
+R10 N005 0 10e9
+R7 N003 0 10E9
+R11 N019 0 10E9
+R8 N012 0 10E9
+R9 N009 0 10E9
+*C5 N008 N009 8e-12
+
+
+H1 VPOSx N010 POLY(1) VOSO 0 0 8000
+H2 N016 VNEGx POLY(1) VOSO 0 0 8000
+
+* MODELS USED
+*
+.model D D
+.model PNP PNP (BF=10E5 VAF=20000)
+.ENDS AD8220
+
+* AD8221 SPICE Macro-model
+* Revision History:
+* A (10/2010) - PRB (Changed Negative Zero stage to remove the
+*     negative capacitor value.)
+* C (09/2014) - SH (Improved convergence of input clamps, added 1/f noise and current noise, removed LIMIT statement,
+*		 load currents from output and preamplifier are reflected in the supplies, bug fixes, organized netlist)
+* Copyright 2010, 2014 by Analog Devices.
+*
+* Refer to http://www.analog.com/Analog_Root/static/techSupport/designTools/spiceModels/license/spice_general.html for License Statement. Use of this model
+* indicates your acceptance with the terms and provisions in the License Statement.
+*
+* BEGIN Notes:
+*
+* Not Modeled:
+*   Temperature effects
+*   PSRR
+*
+* Parameters modeled include:
+*   Gain error, Vos, Ibias
+*   Bandwidth
+*   Voltage and current noise with 1/f noise
+*   CMRR vs frequency
+*   Supply current incl preamp and output load currents
+*   Output clamp vs load
+*   Input common-mode range limitations
+*   Slew Rate
+*   Pulse response vs cap load
+*
+* END Notes
+*
+* Node assignments
+*                 inverting input
+*                 |   RG
+*                 |   |    RG
+*                 |   |    |  non_inverting input
+*                 |   |    |    |    negative supply
+*                 |   |    |    |    |    ref
+*                 |   |    |    |    |    |   output
+*                 |   |    |    |    |    |    |     positive supply
+*                 |   |    |    |    |    |    |     |
+.SUBCKT AD8221  IN-  RG-  RG+  IN+  -Vs   REF  VOUT  +Vs
+** INPUT STAGE ***
+FIBIAS1 IN- 0 POLY(1) V21 1.4e-9 4e-5
+VOSI_Neg 3 IN- 25E-6
+H3 4 3 V24 3
+G4 0 5 4 0 2e-3
+R10 5 0 500
+D7 5 9 D
+D8 10 5 D
+V7 10 VNEGx 1.8
+V8 VPOSx 9 1.1
+E8 22 0 5 0 1
+FIBIAS2 IN+ 0 POLY(1) V23 0.8e-9 4e-5
+VOSI_Pos IN+ 6 24E-6
+H5 7 6 V26 3
+G5 0 8 7 0 2e-3
+R11 8 0 500
+D9 8 11 D
+D10 12 8 D
+V9 12 VNEGx 1.8
+V10 VPOSx 11 1.1
+E9 15 0 8 0 1
+G1 0 IN+ 13 14 .0025e-9
+R13 IN+ 13 10e9
+R14 13 IN- 10e9
+R15 +Vs 14 10e9
+R16 14 -Vs 10e9
+G2 0 IN- 13 14 .0025e-9
+*
+*** PREAMPLIFIER STAGE ***
+Q1 Pos_Fdbk 15 RG+ 0 NPN
+C4 RG+ 0 .135e-12
+R6 RG+ 17 24735
+VCS2 noninverting_out 17 0
+I1 VBIAS Pos_Fdbk 20E-6
+R23 Pos_Fdbk VBIAS 1e9
+G7 0 18 VBIAS Pos_Fdbk 1
+R8 18 0 10E9
+C2 noninverting_out Pos_Fdbk 9.2e-12
+R25 19 18 100
+D5 19 20 D
+D6 21 19 D
+V5 21 VNEGx 0.3
+V6 VPOSx 20 2.1
+Q2 Inv_Fdbk 22 RG- 0 NPN
+C3 RG- 0 .200e-12
+R5 RG- 24 24735
+VCS1 Inverting_Out 24 0
+I2 VBIAS Inv_Fdbk 20E-6
+R18 VBIAS Inv_Fdbk 1e9
+G6 0 25 VBIAS Inv_Fdbk 1
+R7 25 0 10E9
+C1 Inverting_Out Inv_Fdbk 9.235e-12
+R24 26 25 100
+D3 26 27 D
+D4 28 26 D
+V3 28 VNEGx 0.3
+V4 VPOSx 27 2.1
+V1 VBIAS VPOSx 20
+D40 Inv_Fdbk VBIAS D
+D41 Pos_Fdbk VBIAS D
+*
+*** SUBTRACTOR STAGE ***
+E4 Inverting_Out 0 26 0 1
+E5 noninverting_out 0 19 0 1
+R1 31 sub_neg 10E3
+R2 sub_neg 24 10E3
+R3 sub_pos 17 10001
+R4 REF sub_pos 10E3
+VCS3 sub_out 31 0
+G8 0 sub_out sub_pos sub_neg 1
+R9 sub_out 0 10E9
+D13 REF 38 D
+D14 39 REF D
+V13 39 VNEGx .3
+V14 VPOSx 38 .3
+D15 sub_pos 36 D
+D16 37 sub_pos D
+V15 37 VNEGx 0.9
+V16 VPOSx 36 0.9
+R22 sub_out_cl sub_out 100
+D1 sub_out_cl 33 D
+V2 32 33 1.15
+D2 34 sub_out_cl D
+V17 34 35 1.05
+H6 VPOSx 32 POLY(1) VOSO 0 0 8000
+H7 35 VNEGx POLY(1) VOSO 0 0 8000
+H4 VX sub_out_cl V25 64
+*
+*** SLEW RATE AND OUTPUT STAGE ***
+G11 0 VZ VX VY 1e-3
+R26 VZ 0 100E6
+D21 40 VZ DSLEWP
+D22 40 0 DSLEWN
+G12 0 VY VZ 0 1E-4
+C7 VY 0 1E-9
+R30 VY 0 10e9
+G9 0 41 VY 42 1
+R12 41 0 1e10
+C5 41 0 1.4e-7
+G10 0 42 41 0 .002
+R17 42 0 500
+C6 42 0 700e-12
+R27 43 42 0.1
+D11 43 45 D
+D12 46 43 D
+V11 46 47 1.05
+V12 44 45 1.15
+H1 VPOSx 44 POLY(1) VOSO 0 0 8000
+H2 47 VNEGx POLY(1) VOSO 0 0 8000
+VOSO VOUT 43 300E-6
+*
+*** NOISE ***
+V24 60 0 0
+R19 60 0 .0166
+D17 61 60 DN
+V18 61 0 0.2
+V26 62 0 0
+R21 62 0 .0166
+D18 63 62 DN
+V19 63 0 0.2
+V25 64 0 0
+R20 64 0 .0166
+D19 65 64 DN
+V20 65 0 0.2
+V21 70 0 0
+R28 70 0 .0166
+D38 71 70 DIN
+V22 71 0 0.2
+V23 72 0 0
+R29 72 0 .0166
+D39 73 72 DIN
+V27 73 0 0.2
+*
+*** SUPPLY CURRENT AND BIASING ***
+ISUP +Vs -Vs 800E-6
+GSUP +Vs -Vs +Vs -Vs 1e-6
+FSUP1 56 0 VOSO -1
+D20 +Vs 90 D
+D23 52 -Vs D
+D24 56 90 DZ
+D25 52 56 DZ
+FSUP2 57 0 VCS1 1
+D26 +Vs 91 D
+D27 53 -Vs D
+D28 57 91 DZ
+D29 53 57 DZ
+FSUP3 58 0 VCS2 1
+D30 +Vs 92 D
+D31 54 -Vs D
+D32 58 92 DZ
+D33 54 58 DZ
+FSUP4 59 0 VCS3 1
+D34 +Vs 93 D
+D35 55 -Vs D
+D36 59 93 DZ
+D37 55 59 DZ
+E10 VPOSx 0 +Vs 0 1
+E11 VNEGx 0 -Vs 0 1
+*
+*
+.MODEL NPN NPN
+.MODEL D D(IS=1e-15 N=0.1)
+.MODEL DN D(IS=1e-15 KF=3e-6)
+.MODEL DIN D(IS=1e-15 KF=5e1 AF=1.5)
+.MODEL DZ D(IS=1e-15 BV=50 RS=1)
+.MODEL DSLEWP D(IS=1e-15 BV=19.5 RS=0.1)
+.MODEL DSLEWN D(IS=1e-15 BV=19.5 RS=0.1)
+*
+.ENDS AD8221
+*
+* AD8222 SPICE Macro-model
+* Revision History:
+* A (10/2010) - PRB (The AD8222 is a dual of the AD8221, this SPICE model
+*     is a single channel)
+* C (09/2014) - SH (Improved convergence of input clamps, added 1/f noise and current noise, removed LIMIT statement,
+*		 load currents from output and preamplifier are reflected in the supplies, bug fixes, organized netlist)
+* Copyright 2010, 2014 by Analog Devices.
+*
+* Refer to http://www.analog.com/Analog_Root/static/techSupport/designTools/spiceModels/license/spice_general.html for License Statement. Use of this model
+* indicates your acceptance with the terms and provisions in the License Statement.
+*
+* BEGIN Notes:
+*
+* Not Modeled:
+*   Temperature effects
+*   PSRR
+*
+* Parameters modeled include:
+*   Gain error, Vos, Ibias
+*   Bandwidth
+*   Voltage and current noise with 1/f noise
+*   CMRR vs frequency
+*   Supply current incl preamp and output load currents
+*   Output clamp vs load
+*   Input common-mode range vs output swing limitations
+*   Slew Rate
+*   Pulse response vs cap load
+*
+* END Notes
+*
+* Node assignments
+*                 inverting input
+*                 |   RG
+*                 |   |    RG
+*                 |   |    |  non_inverting input
+*                 |   |    |    |    negative supply
+*                 |   |    |    |    |    ref
+*                 |   |    |    |    |    |   output
+*                 |   |    |    |    |    |    |     positive supply
+*                 |   |    |    |    |    |    |     |
+.SUBCKT AD8222  IN-  RG-  RG+  IN+  -Vs   REF  VOUT  +Vs
+** INPUT STAGE ***
+FIBIAS1 IN- 0 POLY(1) V21 1.4e-9 4e-5
+VOSI_Neg 3 IN- 25E-6
+H3 4 3 V24 3
+G4 0 5 4 0 2e-3
+R10 5 0 500
+D7 5 9 D
+D8 10 5 D
+V7 10 VNEGx 1.8
+V8 VPOSx 9 1.1
+E8 22 0 5 0 1
+FIBIAS2 IN+ 0 POLY(1) V23 0.8e-9 4e-5
+VOSI_Pos IN+ 6 24E-6
+H5 7 6 V26 3
+G5 0 8 7 0 2e-3
+R11 8 0 500
+D9 8 11 D
+D10 12 8 D
+V9 12 VNEGx 1.8
+V10 VPOSx 11 1.1
+E9 15 0 8 0 1
+G1 0 IN+ 13 14 .0025e-9
+R13 IN+ 13 10e9
+R14 13 IN- 10e9
+R15 +Vs 14 10e9
+R16 14 -Vs 10e9
+G2 0 IN- 13 14 .0025e-9
+*
+*** PREAMPLIFIER STAGE ***
+Q1 Pos_Fdbk 15 RG+ 0 NPN
+C4 RG+ 0 .135e-12
+R6 RG+ 17 24735
+VCS2 noninverting_out 17 0
+I1 VBIAS Pos_Fdbk 20E-6
+R23 Pos_Fdbk VBIAS 1e9
+G7 0 18 VBIAS Pos_Fdbk 1
+R8 18 0 10E9
+C2 noninverting_out Pos_Fdbk 9.2e-12
+R25 19 18 100
+D5 19 20 D
+D6 21 19 D
+V5 21 VNEGx 0.3
+V6 VPOSx 20 2.1
+Q2 Inv_Fdbk 22 RG- 0 NPN
+C3 RG- 0 .200e-12
+R5 RG- 24 24735
+VCS1 Inverting_Out 24 0
+I2 VBIAS Inv_Fdbk 20E-6
+R18 VBIAS Inv_Fdbk 1e9
+G6 0 25 VBIAS Inv_Fdbk 1
+R7 25 0 10E9
+C1 Inverting_Out Inv_Fdbk 9.235e-12
+R24 26 25 100
+D3 26 27 D
+D4 28 26 D
+V3 28 VNEGx 0.3
+V4 VPOSx 27 2.1
+V1 VBIAS VPOSx 20
+D40 Inv_Fdbk VBIAS D
+D41 Pos_Fdbk VBIAS D
+*
+*** SUBTRACTOR STAGE ***
+E4 Inverting_Out 0 26 0 1
+E5 noninverting_out 0 19 0 1
+R1 31 sub_neg 10E3
+R2 sub_neg 24 10E3
+R3 sub_pos 17 10001
+R4 REF sub_pos 10E3
+VCS3 sub_out 31 0
+G8 0 sub_out sub_pos sub_neg 1
+R9 sub_out 0 10E9
+D13 REF 38 D
+D14 39 REF D
+V13 39 VNEGx .3
+V14 VPOSx 38 .3
+D15 sub_pos 36 D
+D16 37 sub_pos D
+V15 37 VNEGx 0.9
+V16 VPOSx 36 0.9
+R22 sub_out_cl sub_out 100
+D1 sub_out_cl 33 D
+V2 32 33 1.15
+D2 34 sub_out_cl D
+V17 34 35 1.05
+H6 VPOSx 32 POLY(1) VOSO 0 0 8000
+H7 35 VNEGx POLY(1) VOSO 0 0 8000
+H4 VX sub_out_cl V25 64
+*
+*** SLEW RATE AND OUTPUT STAGE ***
+G11 0 VZ VX VY 1e-3
+R26 VZ 0 100E6
+D21 40 VZ DSLEWP
+D22 40 0 DSLEWN
+G12 0 VY VZ 0 1E-4
+C7 VY 0 1E-9
+R30 VY 0 10e9
+G9 0 41 VY 42 1
+R12 41 0 1e10
+C5 41 0 1.4e-7
+G10 0 42 41 0 .002
+R17 42 0 500
+C6 42 0 700e-12
+R27 43 42 0.1
+D11 43 45 D
+D12 46 43 D
+V11 46 47 1.05
+V12 44 45 1.15
+H1 VPOSx 44 POLY(1) VOSO 0 0 8000
+H2 47 VNEGx POLY(1) VOSO 0 0 8000
+VOSO VOUT 43 300E-6
+*
+*** NOISE ***
+V24 60 0 0
+R19 60 0 .0166
+D17 61 60 DN
+V18 61 0 0.2
+V26 62 0 0
+R21 62 0 .0166
+D18 63 62 DN
+V19 63 0 0.2
+V25 64 0 0
+R20 64 0 .0166
+D19 65 64 DN
+V20 65 0 0.2
+V21 70 0 0
+R28 70 0 .0166
+D38 71 70 DIN
+V22 71 0 0.2
+V23 72 0 0
+R29 72 0 .0166
+D39 73 72 DIN
+V27 73 0 0.2
+*
+*** SUPPLY CURRENT AND BIASING ***
+ISUP +Vs -Vs 800E-6
+GSUP +Vs -Vs +Vs -Vs 1e-6
+FSUP1 56 0 VOSO -1
+D20 +Vs 90 D
+D23 52 -Vs D
+D24 56 90 DZ
+D25 52 56 DZ
+FSUP2 57 0 VCS1 1
+D26 +Vs 91 D
+D27 53 -Vs D
+D28 57 91 DZ
+D29 53 57 DZ
+FSUP3 58 0 VCS2 1
+D30 +Vs 92 D
+D31 54 -Vs D
+D32 58 92 DZ
+D33 54 58 DZ
+FSUP4 59 0 VCS3 1
+D34 +Vs 93 D
+D35 55 -Vs D
+D36 59 93 DZ
+D37 55 59 DZ
+E10 VPOSx 0 +Vs 0 1
+E11 VNEGx 0 -Vs 0 1
+*
+*
+.MODEL NPN NPN
+.MODEL D D(IS=1e-15 N=0.1)
+.MODEL DN D(IS=1e-15 KF=3e-6)
+.MODEL DIN D(IS=1e-15 KF=5e1 AF=1.5)
+.MODEL DZ D(IS=1e-15 BV=50 RS=1)
+.MODEL DSLEWP D(IS=1e-15 BV=19.5 RS=0.1)
+.MODEL DSLEWN D(IS=1e-15 BV=19.5 RS=0.1)
+*
+.ENDS AD8222
+*$
+* AD8224 SPICE Macro-model               09/09, Rev. C
+*                                        PRB IAP ADI
+*
+* Revision History:
+*
+* Node assignments
+*                 inverting input
+*                 |   RG
+*                 |   |    RG
+*                 |   |    |  non_inverting input
+*                 |   |    |    |    negative supply
+*                 |   |    |    |    |    ref
+*                 |   |    |    |    |    |   output
+*                 |   |    |    |    |    |    |     positive supply
+*                 |   |    |    |    |    |    |     |
+.SUBCKT AD8224  IN-  RG-  RG+  IN+  -Vs   REF  VOUT  +Vs
+** INPUT STAGE
+R1 N009 N008 20E3
+R2 N008 Inverting_Out 20E3
+R3 N013 noninverting_out 20.002e3
+R4 REF N013 20e3
+R5 RG- N003 24700
+R6 RG+ N012 24724
+D3 N003 P001 D
+D4 P002 N003 D
+V3 P002 VNEGx 0.84
+V4 VPOSx P001 2.35
+D5 N012 P003 D
+D6 P004 N012 D
+V5 P004 VNEGx 0.84
+V6 VPOSx P003 2.35
+D7 N005 P005 D
+D8 P006 N005 D
+V7 P006 VNEGx -10
+V8 VPOSx P005 -10
+D9 N019 P007 D
+D10 P008 N019 D
+V9 P008 VNEGx -10
+V10 VPOSx P007 -10
+D11 N009 P009 D
+D12 P010 N009 D
+V11 P010 N016 1.03
+V12 N010 P009 1
+D13 REF P011 D
+D14 P012 REF D
+V13 P012 VNEGx .3
+V14 VPOSx P011 .3
+D15 N013 P013 D
+D16 P014 N013 D
+V15 P014 VNEGx 0.6
+V16 VPOSx P013 0.6
+E4 Inverting_Out 0 N003 0 1
+E5 noninverting_out 0 N012 0 1
+Q1 Inv_Fdbk N002 RG- 0 PNP
+Q2 Pos_Fdbk N015 RG+ 0 PNP
+V1 VBIAS -Vs -10
+I1 Pos_Fdbk VBIAS 9E-6
+I2 Inv_Fdbk VBIAS 9E-6
+
+C1 N003 Inv_Fdbk 3.8035e-12
+C2 N012 Pos_Fdbk 3.8e-12
+E8 N002 0 N005 0 1
+E9 N015 0 N019 0 1
+VOSI_Neg N004 IN- 25E-6
+VOSI_Pos IN+ N017 24E-6
+VOSO VOUT N011 300E-6
+C3 RG- 0 .200e-12
+C4 RG+ 0 .135e-12
+I23 IN- 0 3E-12
+I24 IN+ 0 3.2E-12
+G1 0 IN+ N020 N021 .7e-9
+R13 IN+ N020 10e9
+R14 N020 IN- 10e9
+R15 +Vs N021 10e9
+R16 N021 -Vs 10e9
+G2 0 IN- N020 N021 .7e-9
+E10 VPOSx 0 +Vs 0 1
+I3 +Vs -Vs 725E-6
+G3 +Vs -Vs +Vs -Vs 1e-6
+E11 VNEGx 0 -Vs 0 1
+
+R17 VBIAS Inv_Fdbk 10e9
+R18 Pos_Fdbk VBIAS 10e9
+H3 N006 N004 V24 14
+V24 N001 0 0
+R19 N001 0 .0166
+H4 N011 N009 V25 100
+V25 N007 0 0
+R20 N007 0 .0166
+H5 N018 N017 V26 14
+V26 N014 0 0
+R21 N014 0 .0166
+G4 0 N005 N006 N005 1E-3
+G5 0 N019 N018 N019 1E-3
+G6 0 N003 VBIAS Inv_Fdbk 1
+G7 0 N012 VBIAS Pos_Fdbk 1
+G8 0 N009 N013 N008 1
+R10 N005 0 10e9
+R7 N003 0 10E9
+R11 N019 0 10E9
+R8 N012 0 10E9
+R9 N009 0 10E9
+*C5 N008 N009 8e-12
+
+
+H1 VPOSx N010 POLY(1) VOSO 0 0 8000
+H2 N016 VNEGx POLY(1) VOSO 0 0 8000
+
+* MODELS USED
+*
+.model D D
+.model PNP PNP (BF=10E5 VAF=20000)
+.ENDS AD8224
+
+* AD8226 SPICE Macro-model
+* Copyright 2012 by Analog Devices.
+*
+* Refer to http://www.analog.com/Analog_Root/static/techSupport/designTools/spiceModels/license/spice_general.html for License Statement. Use of this model
+* indicates your acceptance with the terms and provisions in the License Statement.
+*
+* BEGIN Notes:
+*
+* Not Modeled:
+*
+* Parameters modeled include:
+*
+* END Notes
+*
+* Node assignments
+*                 inverting input
+*                 |   RG
+*                 |   |    RG
+*                 |   |    |  non_inverting input
+*                 |   |    |    |    negative supply
+*                 |   |    |    |    |    ref
+*                 |   |    |    |    |    |   output
+*                 |   |    |    |    |    |    |     positive supply
+*                 |   |    |    |    |    |    |     |
+.SUBCKT AD8226  IN-  RG-  RG+  IN+  -Vs   REF  VOUT  +Vs
+** INPUT STAGE
+R1 N009 N008 50E3
+R2 N008 Inverting_Out 50E3
+R3 N013 noninverting_out 50000
+R4 REF N013 50k
+R5 RG- N003 24700
+R6 RG+ N012 24724
+D3 N003 P001 D
+D4 P002 N003 D
+V3 P002 VNEGx 0.84
+V4 VPOSx P001 .61
+D5 N012 P003 D
+D6 P004 N012 D
+V5 P004 VNEGx 0.84
+V6 VPOSx P003 .61
+D7 N005 P005 D
+D8 P006 N005 D
+V7 P006 VNEGx 0
+V8 VPOSx P005 0
+D9 N019 P007 D
+D10 P008 N019 D
+V9 P008 VNEGx 0
+V10 VPOSx P007 0
+D11 N009 P009 D
+D12 P010 N009 D
+V11 P010 N016 0.750
+V12 N010 P009 0.83
+D13 REF P011 D
+D14 P012 REF D
+V13 P012 VNEGx .3
+V14 VPOSx P011 .3
+D15 N013 P013 D
+D16 P014 N013 D
+V15 P014 VNEGx 0.6
+V16 VPOSx P013 0.6
+E4 Inverting_Out 0 N003 0 1
+E5 noninverting_out 0 N012 0 1
+Q1 Inv_Fdbk N002 RG- 0 PNP
+Q2 Pos_Fdbk N015 RG+ 0 PNP
+V1 VBIAS -Vs -10
+I1 Pos_Fdbk VBIAS 2E-6
+I2 Inv_Fdbk VBIAS 2E-6
+
+C1 N003 Inv_Fdbk 4.035e-12
+C2 N012 Pos_Fdbk 4.0e-12
+E8 N002 0 N005 0 1
+E9 N015 0 N019 0 1
+VOSI_Neg N004 IN- 25E-6
+VOSI_Pos IN+ N017 24E-6
+VOSO VOUT N011 300E-6
+C3 RG- 0 .242e-12
+C4 RG+ 0 .1635e-12
+I23 IN- 0 -22.3E-9
+I24 IN+ 0 -22E-9
+G1 0 IN+ N020 N021 .7e-9
+R13 IN+ N020 10e9
+R14 N020 IN- 10e9
+R15 +Vs N021 10e9
+R16 N021 -Vs 10e9
+G2 0 IN- N020 N021 .7e-9
+E10 VPOSx 0 +Vs 0 1
+I3 +Vs -Vs 300E-6
+G3 +Vs -Vs +Vs -Vs 1e-6
+E11 VNEGx 0 -Vs 0 1
+
+R17 VBIAS Inv_Fdbk 10e9
+R18 Pos_Fdbk VBIAS 10e9
+H3 N006 N004 V24 14
+V24 N001 0 0
+R19 N001 0 .0166
+H4 N011 N009 V25 100
+V25 N007 0 0
+R20 N007 0 .0166
+H5 N018 N017 V26 14
+V26 N014 0 0
+R21 N014 0 .0166
+G4 0 N005 N006 N005 1E-3
+G5 0 N019 N018 N019 1E-3
+G6 0 N003 VBIAS Inv_Fdbk 1
+G7 0 N012 VBIAS Pos_Fdbk 1
+G8 0 N009 N013 N008 1
+R10 N005 0 10e9
+R7 N003 0 10E9
+R11 N019 0 10E9
+R8 N012 0 10E9
+R9 N009 0 10E9
+
+
+H1 VPOSx N010 POLY(1) VOSO 0 0 8000
+H2 N016 VNEGx POLY(1) VOSO 0 0 8000
+
+* MODELS USED
+*
+.model D D
+.model PNP PNP (BF=10E5 VAF=20000)
+.ENDS AD8226
+
+* AD8227 SPICE Macro-model
+* Revision History:
+* 1.0 (09/2010) - PRB (Original Model)
+* 1.1 (08/2012) - PRB (Updated to new header style)
+* 2.0 (12/2014) - SH  (Bug fixes and major performance improvements. Added slew rate, current noise and 1/f noise.
+*                    Load currents reflected in supply. Organized and commented netlist.)
+* Copyright 2010, 2014 by Analog Devices.
+*
+* Refer to http://www.analog.com/Analog_Root/static/techSupport/designTools/spiceModels/license/spice_general.html for License Statement. Use of this model
+* indicates your acceptance with the terms and provisions in the License Statement.
+*
+* BEGIN Notes:
+*
+* Not Modeled:
+*   Temperature effects
+*   PSRR
+*
+* Parameters Modeled Include:
+*   Gain error, Vos, Ibias
+*   Bandwidth
+*   Voltage and current noise with 1/f noise
+*   CMRR vs frequency
+*   Supply current incl preamp and output load currents
+*   Output clamp vs load
+*   Input range and internal voltage limitations
+*   Slew Rate
+*   Pulse response vs cap load
+*   Input impedance
+*
+* Typical Specifications from ±15V Table Used in Model
+*
+* END Notes
+*
+* Node Assignments
+*                inverting input
+*                |   RG
+*                |   |    RG
+*                |   |    |  non_inverting input
+*                |   |    |    |    negative supply
+*                |   |    |    |     |    ref
+*                |   |    |    |     |    |   output
+*                |   |    |    |     |    |    |     positive supply
+*                |   |    |    |     |    |    |     |
+.SUBCKT AD8227  IN-  RG-  RG+  IN+  -Vs   REF  VOUT  +Vs
+*** INPUT STAGE ***
+FIBIAS1 IN- 0 POLY(1) V21 -19.5E-9 1.0E-4
+H3 4 IN- V24 21.265
+G4 0 5 4 0 257.8E-6
+R10 5 0 3878.788
+D7 5 9 D
+D8 10 5 D
+V7 10 VNEGx -0.06
+V8 VPOSx 9 0.84
+E8 22 0 5 0 1
+FIBIAS2 IN+ 0 POLY(1) V23 -20.5E-9 1.0E-4
+VOSI 7 IN+ -100.0E-6
+G5 0 8 7 0 257.8E-6
+R11 8 0 3878.788
+D9 8 9 D
+D10 10 8 D
+E9 15 0 8 0 1
+G1 IN+ 0 POLY(2) (IN+, VMID) (IN+, IN-) 0 1.25E-9 1.25E-9
+G2 IN- 0 POLY(2) (IN-, VMID) (IN-, IN+) 0 1.25E-9 1.25E-9
+CCM1 IN+ 0 1.0E-12
+CCM2 IN- 0 1.0E-12
+CDIFF IN+ IN- 1.5E-12
+*
+*** PREAMPLIFIER STAGE ***
+GP1 16 Pos_Fdbk 16 15 115.0E-6
+VSH1 RG+ 16 0.553
+C4 RG+ 0 31.84E-12
+R6 RG+ 17 8010.4
+VCS2 noninverting_out 17 0
+I1 Pos_Fdbk VBIAS 10.0E-6
+R23 Pos_Fdbk VBIAS 1E9
+G7 0 18 VBIAS Pos_Fdbk 1
+R8 18 0 10E9
+C2 noninverting_out Pos_Fdbk 18.17E-12
+R25 19 18 100
+D5 19 20 D
+D6 21 19 D
+V5 21 VNEGx 0.35
+V6 VPOSx 20 0.15
+GP2 23 Inv_Fdbk 23 22 115.0E-6
+VSH2 RG- 23 0.553
+C3 RG- 0 31.74E-12
+R5 RG- 24 8010.4
+VCS1 Inverting_Out 24 0
+I2 Inv_Fdbk VBIAS 10.0E-6
+R18 VBIAS Inv_Fdbk 1E9
+G6 0 25 VBIAS Inv_Fdbk 1
+R7 25 0 10E9
+C1 Inverting_Out Inv_Fdbk 18.26E-12
+R24 26 25 100
+D3 26 20 D
+D4 21 26 D
+V1 -Vs VBIAS 20
+D40 Inv_Fdbk VBIAS D
+D41 Pos_Fdbk VBIAS D
+D42 VBIAS Inv_Fdbk D
+D43 VBIAS Pos_Fdbk D
+*
+*** SUBTRACTOR STAGE ***
+E4 Inverting_Out 0 26 0 1
+E5 noninverting_out 0 19 0 1
+R1 31 sub_neg 50000.0
+R2 sub_neg 24 9998.05
+R3 sub_pos 17 9997.45
+R4 REF sub_pos 50000.0
+VCS3 sub_out 31 0
+G8 0 sub_out sub_pos sub_neg 1E3
+R9 sub_out 0 10E6
+D13 REF 38 D
+D14 39 REF D
+V13 39 VNEGx 0.3
+V14 VPOSx 38 0.3
+D15 sub_pos 36 D
+D16 37 sub_pos D
+V15 37 VNEGx 0.05
+V16 VPOSx 36 0.95
+R22 sub_out_cl sub_out 100
+D1 sub_out_cl 45 D
+D2 46 sub_out_cl D
+H4 VX sub_out_cl V25 294.46
+*
+*** SLEW RATE AND OUTPUT STAGE ***
+G11 0 VZ VX VY 1e-3
+R26 VZ 0 100E6
+D21 40 VZ DSLEWP
+D22 40 0 DSLEWN
+G12 0 VY VZ 0 40.0E-6
+C7 VY 0 1E-9
+R30 VY 0 10e9
+G9 0 41 VY 42 1
+R12 41 0 1e10
+C5 41 0 851.7E-9
+G10 0 42 41 0 1.0E-3
+R17 42 0 1000.0
+C6 42 0 340.7E-12
+R27 43 42 0.1
+D11 43 45 D
+D12 46 43 D
+H1 VPOSx 45 POLY(1) VSRC 0.15 0 14793
+H2 46 VNEGx POLY(1) VSNK 0.15 0 14793
+VOSO VOUT 43 464.0E-6
+*
+*** NOISE ***
+V24 60 0 0
+R19 60 0 .0166
+D17 61 60 DN
+V18 61 0 0.2
+V25 64 0 0
+R20 64 0 .0166
+D19 65 64 DN
+V20 65 0 0.202
+V21 70 0 0
+R28 70 0 .0166
+D38 71 70 DIN
+V22 71 0 0.2
+V23 72 0 0
+R29 72 0 .0166
+D39 73 72 DIN
+V27 73 0 0.2
+*
+*** SUPPLY CURRENT AND BIASING ***
+GSUP +Vs -Vs POLY(1) (+Vs,-Vs) 290.5E-6 916.0E-9
+FSUP1 56 0 VOSO -1
+D24 90 +Vs DZ
+D25 -Vs 52 DZ
+D20 90 95 D
+VSRC 95 56 0
+D23 55 52 D
+VSNK 56 55 0
+FSUP2 57 0 VCS1 1
+D26 90 57 D
+D27 57 52 D
+FSUP3 58 0 VCS2 1
+D30 90 58 D
+D31 58 52 D
+FSUP4 59 0 VCS3 1
+D34 90 59 D
+D35 59 52 D
+E10 VPOSx 0 +Vs 0 1
+E11 VNEGx 0 -Vs 0 1
+EMID VMID 0 POLY(2) (+Vs, 0) (-Vs, 0) 0 0.5 0.5
+*
+*
+.MODEL D D(IS=1e-15 N=0.1 RS=1e-3)
+.MODEL DN D(IS=1e-15 KF=2.946E-7)
+.MODEL DIN D(IS=1e-15 KF=2.592E-6)
+.MODEL DZ D(IS=1e-15 BV=50 RS=1)
+.MODEL DSLEWP D(IS=1e-15 BV=19.5 RS=0.1)
+.MODEL DSLEWN D(IS=1e-15 BV=19.5 RS=0.1)
+*
+*
+.ENDS AD8227
+*
+* AD8418A MACROMODEL
+* Copyright 2013 by Analog Devices, Inc.
+*
+* Refer to http://www.analog.com/Analog_Root/static/techSupport/designTools/spiceModels/license/spice_general.html for License Statement. Use of this model
+* indicates your acceptance of the terms and provisions in the License Statement.
+*
+* BEGIN Notes:
+*
+* Not Modeled:
+*    Temperature
+*    PSRR
+* Parameters modeled include:
+*    Offset Voltage
+*    Bias Current vs. Common Mode Voltage
+*    DC Transfer Characteristic
+*    DC CMRR
+*    Gain vs. Frequency
+*    CMRR vs. Frequency
+*    Spectral Noise
+*    Slew Rate
+*    Pulse Response
+*    Capacitive Loading Effects
+*    Common-Mode Step Response
+* END Notes
+*
+************************
+.SUBCKT AD8418A  VIN- GND REF2 VOUT VS REF1 VIN+
+*#ASSOC Category="Current Sense Amplifiers" Symbol=ADICurSense7p Mapping=1,2,5,7,6,3,4
+
+D24 36 37 DIODE
+V14 0 38 dc 2.35
+D26 38 2 DIODE
+D25 2 VIN- DIODE
+V12 0 36 dc 2.35
+D23 37 VIN+ DIODE
+R9 35 REF2x 100000
+R8 35 REF1x 100000
+RRef2 5 REF2 100000
+RRef1 5 REF1 100000
+I6 4 0 dc 8e-005
+V9 34 0 dc 1.5
+D22 34 4 DIODE
+D21 VIN+ 4 DIODE
+R6 VIN+ 35 720000
+R5 VIN- 0 1575000
+Lcm 18 33 0.0027
+D19 29 6 DIODE
+D13 28 29 DIODE
+D18 25 20 DIODE
+D17 20 27 DIODE
+D16 27 26 DIODE
+D15 26 12 DIODE
+D14 12 28 DIODE
+D12 8 25 DIODE
+D6 9 8 DIODE
+D5 10 9 DIODE
+D4 11 10 DIODE
+D3 6 11 DIODE
+R14 0 20 1
+GI11 0 20 VIN+ 0 1
+V13 V85 22 dc 1.5
+D10 20 22 DIODE
+V7 21 VNEG4 dc 1.5
+D9 21 20 DIODE
+R13 0 6 1
+GI10 0 6 VIN- 0 1
+V4 19 VNEG4 dc 1.5
+D8 19 6 DIODE
+V2 V85 17 dc 1.5
+D7 6 17 DIODE
+EV8 Vsl+in 0 20 0 1
+EV6 7 0 6 0 1
+Vos 3 7 dc 0.0002
+R7 Vo1 0 1000000000
+R4 1 5 1450000
+R3 Vsl+out 1 75000
+R2 33 Vo1 1500000
+Rcm 3 18 75007.5
+GI1 0 Vo1 1 33 1
+
+* Noise
+
+V11 15 0 dc 0
+Rn 16 15 0.00166
+Vn 16 0 dc 0
+Hn 32 Vo1 Vn 620
+
+V10 0 30 dc 100
+D20 30 14 DIODE
+V19 0 24 dc -100
+D11 14 24 DIODE
+V5 VS 13 dc 0.85
+D1 VOUT 13 DIODE
+V1 23 GND dc 0.85
+D2 23 VOUT DIODE
+
+* Gain stage
+
+Rg2 VOUT 0 454.5
+Cg2 VOUT 0 1.4e-009
+GIg2 0 VOUT 14 0 0.0022
+Cg1 0 14 6.37e-007
+Rg1 0 14 1000000
+GIg1 0 14 31 VOUT 1
+
+* Slew Rate
+
+GIsl 0 31 VALUE={LIMIT(1*V(32,31),0.1,-0.1)}
+Rsl 31 0 1000000000
+Csl 31 0 1e-007
+
+* Supplies
+
+EV20 REF2x 0 REF2 0 1
+EV18 REF1x 0 REF1 0 1
+V16 0 VNEG4 dc 4
+V15 V85 0 dc 85
+I4 VS GND dc 0.002
+
+* Common-Mode Step Response
+
+R1 Vsl+out 0 1000000000
+C1 Vsl+out 0 1e-009
+GI2 0 Vsl+out VALUE={LIMIT(1*V(Vsl+in,Vsl+out),15,-15)}
+
+.model DIODE D(Is=1E-14)
+
+.ENDS AD8418A
+
+* AD8421 SPICE Macro-model
+* Revision History:
+* 0(09/2012) - MI Initial Rev
+* A(04/2013) - SH (Updated to new header style. Modified diamond plot and bandwidth parameters)
+* Copyright 2012 by Analog Devices, Inc.
+*
+* Refer to http://www.analog.com/Analog_Root/static/techSupport/designTools/spiceModels/license/spice_general.html for License Statement. Use of this model
+* indicates your acceptance of the terms and provisions in the License Statement.
+*
+*
+* BEGIN Notes:
+*
+* Not Modeled:
+*   Temperature effects
+*   PSRR
+*
+* Parameters modeled include:
+*   Output swing vs Common-mode Voltage
+*   Supply current vs power supplies
+*   DC errors, Vos, Ibias
+*   Noise
+*   Bandwidth
+*   Slew rate
+*   CMRR vs frequency
+*   Small signal pulse response
+*
+* Supply range:
+*    Single Supply: 5V to 36V
+*    Dual Supplies: +/-2.5V to +/-18V
+*
+* END Notes
+*
+* Node assignments
+*                 inverting input
+*                 |   RG
+*                 |   |    RG
+*                 |   |    |  non_inverting input
+*                 |   |    |    |    negative supply
+*                 |   |    |    |    |    ref
+*                 |   |    |    |    |    |   output
+*                 |   |    |    |    |    |    |     positive supply
+*                 |   |    |    |    |    |    |     |
+.SUBCKT AD8421  IN-  RG-  RG+  IN+  -Vs   REF  VOUT  +Vs
+R1 sub_out sub_neg 10e3
+R2 sub_neg Inverting_Out 10e3
+R3 sub_pos Non-inverting_Out 10001.8
+R4 REF sub_pos 10e3
+R5 RG- N004 4.96e3
+R6 RG+ N016 4.95e3
+D3 N005 P001 D
+D4 P002 N005 D
+V3 P002 VNEGx 2
+V4 VPOSx P001 4.4
+D5 N023 P003 D
+D6 P004 N023 D
+V5 P004 VNEGx 2
+V6 VPOSx P003 4.4
+D7 N008 P005 D
+D8 P006 N008 D
+V7 P006 VNEGx 2.9
+V8 VPOSx P005 2.4
+D9 N027 P007 D
+D10 P008 N027 D
+V9 P008 VNEGx 2.9
+V10 VPOSx P007 2.4
+D11 N015 P009 D
+D12 P010 N015 D
+V11 P010 N028 1.8
+V12 N013 P009 2.2
+D13 REF P011 D
+D14 P012 REF D
+V13 P012 VNEGx .3
+V14 VPOSx P011 .3
+D15 sub_pos P013 D
+D16 P014 sub_pos D
+V15 P014 VNEGx 1.8
+V16 VPOSx P013 1.8
+E4 Inverting_Out 0 N005 0 1
+E5 Non-inverting_Out 0 N023 0 1
+V1 VBIAS1 +Vs 5
+I1 VBIAS2 Pos_Fdbk 200e-6
+I2 VBIAS1 Inv_Fdbk 200e-6
+C1 N011 Inv_Fdbk 4.25e-12
+C2 N022 Pos_Fdbk 4.3e-12
+E8 N003 0 N008 0 1
+E9 N021 0 N027 0 1
+VOSI_Neg N006 IN- 0
+VOSI_Pos N024 IN+ 60e-6
+VOSO VOUT N015 -1.65e-3
+C3 RG- 0 4.3e-12
+C4 RG+ 0 4.15e-12
+I23 IN- 0 -1.5e-9
+I24 IN+ 0 0.5e-9
+G1 0 IN+ N029 N030 -0.033e-9
+R13 IN+ N029 15e9
+R14 N029 IN- 15e9
+R15 +Vs N030 10e9
+R16 N030 -Vs 10e9
+G2 0 IN- N029 N030 -0.033e-9
+E10 VPOSx 0 +Vs 0 1
+I3 +Vs -Vs 2.1e-3
+G3 +Vs -Vs +Vs -Vs 5e-6
+E11 VNEGx 0 -Vs 0 1
+H1 VPOSx N013 POLY(1) VOSO 0 -29.4 588.5 -6078
+H2 N028 VNEGx POLY(1) VOSO 0 50 -1882 31700
+H3 N009 N006 V24 1.95
+V24 N001 0 0
+R19 N001 0 .0166
+H4 VX N014 V25 47.34
+V25 N010 0 0
+R20 N010 0 .0166
+H5 N025 N024 V26 1.95
+V26 N017 0 0
+R21 N017 0 .0166
+G4 0 N007 N009 N007 1
+G5 0 N026 N025 N026 1
+G6 0 N004 VBIAS1 Inv_Fdbk 1
+G7 0 N016 VBIAS2 Pos_Fdbk 1
+G8 0 sub_out sub_pos sub_neg 1
+R10 N007 0 10e9
+R7 N004 0 10e9
+R11 N026 0 10E9
+R8 N016 0 10e9
+R9 sub_out 0 10E9
+Q1 Pos_Fdbk N021 RG+ 0 NPN
+Q2 Inv_Fdbk N003 RG- 0 NPN
+G9 0 N018 VY N019 1
+G10 0 N019 N018 0 8.32e-3
+R12 N018 0 1e9
+R17 N019 0 120.13
+C5 N018 0 10E-9
+C6 N019 0 300e-12
+C8 VY 0 1e-9
+G11 0 VY VALUE = { LIMIT( 1*V(VX,VY), .035, -.035) }
+R22 VY 0 1e9
+R18 VBIAS1 Inv_Fdbk 1e9
+R23 Pos_Fdbk VBIAS2 1e9
+D1 N014 P015 D
+V2 VPOSx P015 2.2
+D2 P016 N014 D
+V17 P016 VNEGx 1.8
+I4 +Vs 0 -435e-6
+R26 N016 N022 1.5k
+R27 N004 N011 1.5k
+V18 N031 -Vs 5
+E1 VBIAS2 N031 +Vs -Vs 1
+R25 N007 N008 1
+R28 N026 N027 1
+R29 N016 N023 1
+R30 N004 N005 1
+R31 sub_out N014 1
+R32 N019 N015 0.1
+V19 N020 0 0.1
+D17 N020 N017 DNoise
+V20 N002 0 0.1
+D18 N002 N001 DNoise
+V21 N012 0 0.12
+D19 N012 N010 DNoise
+
+
+* MODELS USED
+*
+.model D D
+.model DNoise D (Is=1e-11, kf=8e-9)
+.model NPN NPN
+.ENDS AD8421
+
+* AD8422 SPICE Macro-model
+* Copyright 2015 by Analog Devices.
+*
+* Refer to http://www.analog.com/Analog_Root/static/techSupport/designTools/spiceModels/license/spice_general.html for License Statement. Use of this model
+* indicates your acceptance with the terms and provisions in the License Statement.
+*
+* BEGIN Notes:
+*
+* Not Modeled:
+*   Temperature effects
+*   PSRR
+*
+* Parameters Modeled Include:
+*   Gain error, Vos, Ibias
+*   Bandwidth
+*   Voltage and current noise with 1/f noise
+*   CMRR vs frequency
+*   Supply current incl preamp and output load currents
+*   Output clamp vs load
+*   Input range and internal voltage limitations
+*   Slew Rate
+*   Pulse response vs cap load
+*   Input impedance
+*
+* Typical Specifications from ±15V Table Used in Model
+*
+* END Notes
+*
+* Node Assignments
+*                inverting input
+*                |   RG
+*                |   |    RG
+*                |   |    |  non_inverting input
+*                |   |    |    |    negative supply
+*                |   |    |    |     |    ref
+*                |   |    |    |     |    |   output
+*                |   |    |    |     |    |    |     positive supply
+*                |   |    |    |     |    |    |     |
+.SUBCKT AD8422  IN-  RG-  RG+  IN+  -Vs   REF  VOUT  +Vs
+*** INPUT STAGE ***
+FIBIAS1 IN- 0 POLY(1) V21 600.0E-12 9.0E-5
+H3 4 IN- V24 6.645
+G4 0 5 4 0 2.64E-3
+R10 5 0 378.788
+D7 5 9 D
+D8 10 5 D
+V7 10 VNEGx 1.24
+V8 VPOSx 9 1.24
+E8 22 0 5 0 1
+FIBIAS2 IN+ 0 POLY(1) V23 400.0E-12 9.0E-5
+VOSI 7 IN+ -25.0E-6
+G5 0 8 7 0 2.64E-3
+R11 8 0 378.788
+D9 8 9 D
+D10 10 8 D
+E9 15 0 8 0 1
+G1 IN+ 0 POLY(2) (IN+, VMID) (IN+, IN-) 0 2.5E-12 5.0E-12
+G2 IN- 0 POLY(2) (IN-, VMID) (IN-, IN+) 0 2.5E-12 5.0E-12
+CCM1 IN+ 0 1.0E-12
+CCM2 IN- 0 1.0E-12
+CDIFF IN+ IN- 1.5E-12
+*
+*** PREAMPLIFIER STAGE ***
+GN1 Pos_Fdbk 16 15 16 778.8E-6
+VSH1 RG+ 16 -0.474
+C4 RG+ 0 3.688E-12
+R6 RG+ 17 9802.94
+VCS2 noninverting_out 17 0
+I1 VBIAS Pos_Fdbk 20.0E-6
+R23 Pos_Fdbk VBIAS 1E9
+G7 0 18 VBIAS Pos_Fdbk 1
+R8 18 0 10E9
+C2 noninverting_out Pos_Fdbk 10.19E-12
+R25 19 18 100
+D5 19 20 D
+D6 21 19 D
+V5 21 VNEGx 0.19
+V6 VPOSx 20 0.19
+GN2 Inv_Fdbk 23 22 23 778.8E-6
+VSH2 RG- 23 -0.474
+C3 RG- 0 3.692E-12
+R5 RG- 24 9802.94
+VCS1 Inverting_Out 24 0
+I2 VBIAS Inv_Fdbk 20.0E-6
+R18 VBIAS Inv_Fdbk 1E9
+G6 0 25 VBIAS Inv_Fdbk 1
+R7 25 0 10E9
+C1 Inverting_Out Inv_Fdbk 10.31E-12
+R24 26 25 100
+D3 26 20 D
+D4 21 26 D
+V1 VBIAS +Vs 20
+D40 Inv_Fdbk VBIAS D
+D41 Pos_Fdbk VBIAS D
+D42 VBIAS Inv_Fdbk D
+D43 VBIAS Pos_Fdbk D
+*
+*** SUBTRACTOR STAGE ***
+E4 Inverting_Out 0 26 0 1
+E5 noninverting_out 0 19 0 1
+R1 31 sub_neg 10000.0
+R2 sub_neg 24 9999.05
+R3 sub_pos 17 9998.85
+R4 REF sub_pos 10000.0
+VCS3 sub_out 31 0
+G8 0 sub_out sub_pos sub_neg 1E3
+R9 sub_out 0 10E6
+D13 REF 38 D
+D14 39 REF D
+V13 39 VNEGx 0.3
+V14 VPOSx 38 0.3
+D15 sub_pos 36 D
+D16 37 sub_pos D
+V15 37 VNEGx 0.05
+V16 VPOSx 36 1.05
+R22 sub_out_cl sub_out 100
+D1 sub_out_cl 45 D
+D2 46 sub_out_cl D
+H4 VX sub_out_cl V25 71.74
+*
+*** SLEW RATE AND OUTPUT STAGE ***
+G11 0 VZ VX VY 1e-3
+R26 VZ 0 100E6
+D21 40 VZ DSLEWP
+D22 40 0 DSLEWN
+G12 0 VY VZ 0 40.0E-6
+C7 VY 0 1E-9
+R30 VY 0 10e9
+G9 0 41 VY 42 1
+R12 41 0 1e10
+C5 41 0 56.15E-9
+G10 0 42 41 0 1.0E-3
+R17 42 0 1000.0
+C6 42 0 87.03E-12
+R27 43 42 0.1
+D11 43 45 D
+D12 46 43 D
+H1 VPOSx 45 POLY(1) VSRC 0.15 0 3E3
+H2 46 VNEGx POLY(1) VSNK 0.15 0 3E3
+VOSO VOUT 43 157.0E-6
+*
+*** NOISE ***
+V24 60 0 0
+R19 60 0 .0166
+D17 61 60 DN
+V18 61 0 0.2
+V25 64 0 0
+R20 64 0 .0166
+D19 65 64 DN
+V20 65 0 0.209
+V21 70 0 0
+R28 70 0 .0166
+D38 71 70 DIN
+V22 71 0 0.2
+V23 72 0 0
+R29 72 0 .0166
+D39 73 72 DIN
+V27 73 0 0.2
+*
+*** SUPPLY CURRENT AND BIASING ***
+GSUP +Vs -Vs POLY(1) (+Vs,-Vs) 195.2E-6 1.0E-6
+FSUP1 56 0 VOSO -1
+D24 90 +Vs DZ
+D25 -Vs 52 DZ
+D20 90 95 D
+VSRC 95 56 0
+D23 55 52 D
+VSNK 56 55 0
+FSUP2 57 0 VCS1 1
+D26 90 57 D
+D27 57 52 D
+FSUP3 58 0 VCS2 1
+D30 90 58 D
+D31 58 52 D
+FSUP4 59 0 VCS3 1
+D34 90 59 D
+D35 59 52 D
+E10 VPOSx 0 +Vs 0 1
+E11 VNEGx 0 -Vs 0 1
+EMID VMID 0 POLY(2) (+Vs, 0) (-Vs, 0) 0 0.5 0.5
+*
+*
+.MODEL D D(IS=1e-15 N=0.1 RS=1e-3)
+.MODEL DN D(IS=1e-15 KF=3.142E-7)
+.MODEL DIN D(IS=1e-15 KF=6.221E-6)
+.MODEL DZ D(IS=1e-15 BV=50 RS=1)
+.MODEL DSLEWP D(IS=1e-15 BV=19.5 RS=0.1)
+.MODEL DSLEWN D(IS=1e-15 BV=19.5 RS=0.1)
+*
+*
+.ENDS AD8422
+*$
+* AD8429 SPICE Macro-model
+* Generic Desc: 36V 1nV/rtHz Low Noise, Low Distortion, High Speed In-Amp
+* Developed by: ADI - LPG
+*
+* Revision History:
+* 4.0 (10/2012) - PRB (Updated to new header style)
+* 5.0 (9/2014) - SH (Performance improvements, bug fixes, organized netlist)
+* Copyright 2012, 2014 by Analog Devices.
+*
+* Refer to http://www.analog.com/Analog_Root/static/techSupport/designTools/spiceModels/license/spice_general.html for License Statement. Use of this model
+* indicates your acceptance with the terms and provisions in the License Statement.
+*
+* BEGIN Notes:
+*
+* Not Modeled:
+*   Temperature effects
+*   PSRR
+*
+* Parameters Modeled Include:
+*   Gain error, Vos, Ibias
+*   Bandwidth
+*   Voltage and current noise with 1/f noise
+*   CMRR vs frequency
+*   Supply current incl preamp and output load currents
+*   Output clamp vs load
+*   Input range and internal voltage limitations
+*   Slew Rate
+*   Pulse response vs cap load
+*   Input impedance
+*
+* Typical Specifications from ±15V Table Used in Model
+*
+* END Notes
+*
+* Node Assignments
+*                inverting input
+*                |   RG
+*                |   |    RG
+*                |   |    |  non_inverting input
+*                |   |    |    |    negative supply
+*                |   |    |    |     |    ref
+*                |   |    |    |     |    |   output
+*                |   |    |    |     |    |    |     positive supply
+*                |   |    |    |     |    |    |     |
+.SUBCKT AD8429  IN-  RG-  RG+  IN+  -Vs   REF  VOUT  +Vs
+*** INPUT STAGE ***
+FIBIAS1 IN- 0 POLY(1) V21 165.0E-9 1.5E-3
+H3 4 IN- V24 0.886
+G4 0 5 4 0 148.5E-3
+R10 5 0 6.734
+D7 5 9 D
+D8 10 5 D
+V7 10 VNEGx 2.85
+V8 VPOSx 9 2.55
+E8 22 0 5 0 1
+FIBIAS2 IN+ 0 POLY(1) V23 135.0E-9 1.5E-3
+VOSI 7 IN+ -50.0E-6
+G5 0 8 7 0 148.5E-3
+R11 8 0 6.734
+D9 8 11 D
+D10 12 8 D
+V9 12 VNEGx 2.85
+V10 VPOSx 11 2.55
+E9 15 0 8 0 1
+G1 IN+ 0 13 14 666.7E-12
+G2 IN- 0 13 14 666.7E-12
+R13 IN+ 13 1.5E9
+R14 13 IN- 1.5E9
+R15 +Vs 14 10E9
+R16 14 -Vs 10E9
+CCM1 IN+ 0 3.0E-12
+CCM2 IN- 0 3.0E-12
+*
+*** PREAMPLIFIER STAGE ***
+GN1 Pos_Fdbk 16 15 16 11.78E-3
+VSH1 RG+ 16 -0.744
+IBOT1 RG+ -Vs 660.0E-6
+C4 RG+ 0 7.65E-12
+R6 RG+ 17 3003.9
+VCS2 noninverting_out 17 0
+I1 VBIAS Pos_Fdbk 660.0E-6
+R23 Pos_Fdbk VBIAS 1E9
+G7 0 18 VBIAS Pos_Fdbk 1
+R8 18 0 10E9
+C2 noninverting_out Pos_Fdbk 7.544E-12
+R25 19 18 100
+D5 19 20 D
+D6 21 19 D
+V5 21 VNEGx 2.4
+V6 VPOSx 20 2.45
+GN2 Inv_Fdbk 23 22 23 11.78E-3
+VSH2 RG- 23 -0.744
+IBOT2 RG- -Vs 660.0E-6
+C3 RG- 0 16.37E-12
+R5 RG- 24 3003.9
+VCS1 Inverting_Out 24 0
+I2 VBIAS Inv_Fdbk 660.0E-6
+R18 VBIAS Inv_Fdbk 1E9
+G6 0 25 VBIAS Inv_Fdbk 1
+R7 25 0 10E9
+C1 Inverting_Out Inv_Fdbk 16.6E-12
+R24 26 25 100
+D3 26 27 D
+D4 28 26 D
+V3 28 VNEGx 2.4
+V4 VPOSx 27 2.45
+V1 VBIAS +Vs 20
+D40 Inv_Fdbk VBIAS D
+D41 Pos_Fdbk VBIAS D
+D42 VBIAS Inv_Fdbk D
+D43 VBIAS Pos_Fdbk D
+*
+*** SUBTRACTOR STAGE ***
+E4 Inverting_Out 0 26 0 1
+E5 noninverting_out 0 19 0 1
+R1 31 sub_neg 5000.0
+R2 sub_neg 24 4999.079
+R3 sub_pos 17 4998.763
+R4 REF sub_pos 5000.0
+VCS3 sub_out 31 0
+G8 0 sub_out sub_pos sub_neg 1E3
+R9 sub_out 0 10E6
+D13 REF 38 D
+D14 39 REF D
+V13 39 VNEGx 0.3
+V14 VPOSx 38 0.3
+D15 sub_pos 36 D
+D16 37 sub_pos D
+V15 37 VNEGx 2.05
+V16 VPOSx 36 0.25
+R22 sub_out_cl sub_out 100
+D1 sub_out_cl 33 D
+V2 32 33 1.15
+D2 34 sub_out_cl D
+V17 34 35 1.75
+H6 VPOSx 32 POLY(1) VOSO 0 0 2041
+H7 35 VNEGx POLY(1) VOSO 0 0 2041
+H4 VX sub_out_cl V25 40.13
+*
+*** SLEW RATE AND OUTPUT STAGE ***
+G11 0 VZ VX VY 1e-3
+R26 VZ 0 100E6
+D21 40 VZ DSLEWP
+D22 40 0 DSLEWN
+G12 0 VY VZ 0 1.1E-3
+C7 VY 0 1E-9
+R30 VY 0 10e9
+G9 0 41 VY 42 1
+R12 41 0 1e10
+C5 41 0 11.71E-9
+G10 0 42 41 0 1.0E-2
+R17 42 0 100.0
+C6 42 0 152.3E-12
+R27 43 42 0.1
+D11 43 45 D
+D12 46 43 D
+V11 46 47 1.75
+V12 44 45 1.15
+H1 VPOSx 44 POLY(1) VOSO 0 0 2041
+H2 47 VNEGx POLY(1) VOSO 0 0 2041
+VOSO VOUT 43 525.3E-6
+*
+*** NOISE ***
+V24 60 0 0
+R19 60 0 .0166
+D17 61 60 DN
+V18 61 0 0.2
+V25 64 0 0
+R20 64 0 .0166
+D19 65 64 DN
+V20 65 0 0.231
+V21 70 0 0
+R28 70 0 .0166
+D38 71 70 DIN
+V22 71 0 0.2
+V23 72 0 0
+R29 72 0 .0166
+D39 73 72 DIN
+V27 73 0 0.2
+*
+*** SUPPLY CURRENT AND BIASING ***
+GSUP +Vs -Vs POLY(1) (+Vs,-Vs) 4.7E-3 20.0E-6
+FSUP1 56 0 VOSO -1
+D24 90 +Vs DZ
+D25 -Vs 52 DZ
+D20 90 56 D
+D23 56 52 D
+FSUP2 57 0 VCS1 1
+D26 90 57 D
+D27 57 52 D
+FSUP3 58 0 VCS2 1
+D30 90 58 D
+D31 58 52 D
+FSUP4 59 0 VCS3 1
+D34 90 59 D
+D35 59 52 D
+E10 VPOSx 0 +Vs 0 1
+E11 VNEGx 0 -Vs 0 1
+*
+*
+.MODEL D D(IS=1e-15 N=0.1)
+.MODEL DN D(IS=1e-15 KF=3.142E-6)
+.MODEL DIN D(IS=1e-15 KF=4.147E-5)
+.MODEL DZ D(IS=1e-15 BV=50 RS=1)
+.MODEL DSLEWP D(IS=1e-15 BV=19.5 RS=0.1)
+.MODEL DSLEWN D(IS=1e-15 BV=19.5 RS=0.1)
+*
+*
+.ENDS AD8429
+*$
+* AD8505 SPICE Macro-model
+* Generic Desc: 1.8/5V, CMOS, OP, ZCO, RRIO, 1X
+* Developed by: HH ADSJ
+* Revision History: 08/10/2012 - Updated to new header style
+* 1.0 (04/2008)
+* Copyright 2008, 2012 by Analog Devices
+*
+* Refer to http://www.analog.com/Analog_Root/static/techSupport/designTools/spiceModels/license/spice_general.html for License Statement. Use of this model
+* indicates your acceptance of the terms and provisions in the License Statement.
+*
+* BEGIN Notes: VSY=5V, T=25degC
+*
+* Not Modeled:
+*
+* Parameters modeled include:
+*
+* END Notes
+*
+* Node Assignments
+*                       noninverting input
+*                       |   inverting input
+*                       |   |    positive supply
+*                       |   |    |   negative supply
+*                       |   |    |   |   output
+*                       |   |    |   |   |
+*                       |   |    |   |   |
+.SUBCKT AD8505          1   2   99  50  45
+*#ASSOC Category="Op-amps" symbol=opamp
+*
+* INPUT STAGE
+*
+M1   4  7  8  8 PIX L=2E-6 W=9.070E-04
+M2   6  2  8  8 PIX L=2E-6 W=9.070E-04
+Cinp 1 50 4.2pF
+Cinn 2 50 4.2pF
+Cdiff 1 2 3pF
+RD1  4 50  5.333E+04
+RD2  6 50  5.333E+04
+C1   4  6  7.650E-12
+I1  99  8  7.500E-06
+V1   9  8 +0.025E-00
+D1   9 99 DX
+EOS  7  1 POLY(4) (73,98) (22,98) (81,98) (83,98) 5.00E-04 1 1 1 1
+IOS  1  2 1.50E-12
+*
+* CMRR=95dB, POLE AT 3500 Hz
+*
+E1  72 98 POLY(2) (1,98) (2,98) 0 1.289E-02  1.289E-02
+R10 72 73 4.613E+01
+R20 73 98 3.183E-02
+C10 72 73 1.000E-06
+*
+* PSRR=100dB, POLE AT 100 Hz
+*
+EPSY 21 98 POLY(1) (99,50) -0.181E-00 0.036E-00
+RPS1 21 22 2.274E+04
+RPS2 22 98 1.989E-00
+CPS1 21 22 1.00E-06
+*
+* VOLTAGE NOISE REFERENCE OF 37nV/rt(Hz)
+*
+VN1 80 98 0
+RN1 80 98 17.500E-3
+HN  81 98 VN1 3.651E+01
+RN2 81 98 1
+*
+* FLICKER NOISE CORNER = 20000 Hz
+*
+DFN 82 98 DNOISE
+VFN 82 98 DC 0.6531
+HFN 83 98 POLY(1) VFN 1.00E-03 1.00E+00
+RFN 83 98 1
+*
+* INTERNAL VOLTAGE REFERENCE
+*
+EREF 98  0 POLY(2) (99,0) (50,0) 0 0.5 0.5
+GSY  99 50 POLY(1) (99,50) +0.580E-06 0.2710E-06
+EVP  97 98 (99,50) 0.5
+EVN  51 98 (50,99) 0.5
+*
+* GAIN STAGE
+*
+G1 98 30 (4,6) 4.474E-04
+R1 30 98 1.00E+06
+CF 30 31 1.350E-08
+RZ 455 31 1.2280E-03
+EZ 455 98  (451 98) 1
+V3 32 30 0.279E+00
+V4 30 33 0.362E-00
+D3 32 97 DX
+D4 51 33 DX
+*
+* OUTPUT STAGE
+*
+M5  451 46 99 99 POX L=1E-6 W=3.940E-04
+M6  451 47 50 50 NOX L=1E-6 W=4.598E-04
+Lout 451 45 10pH
+EG1 99 46 POLY(1) (98,30) 3.598E-01 1
+EG2 47 50 POLY(1) (30,98) 3.574E-01 1
+*
+* MODELS
+*
+.MODEL POX PMOS (LEVEL=2,KP=3.00E-05,VTO=-0.328,LAMBDA=0.015,RD=0)
+.MODEL NOX NMOS (LEVEL=2,KP=3.00E-05,VTO=+0.328,LAMBDA=0.015,RD=0)
+.MODEL PIX PMOS (LEVEL=2,KP=5.00E-05,VTO=-5.00E-01,LAMBDA=0.01)
+.MODEL DX D(IS=1E-14,RS=0.1)
+.MODEL DNOISE D(IS=1E-14,RS=0,KF=12.400E-11)
+.ENDS AD8505
+
+
+* AD8506 SPICE Macro-model
+* Generic Desc: 1.8/5V, CMOS, OP, ZCO, RRIO, 2X
+* Developed by: HH ADSJ
+* Revision History: 08/10/2012 - Updated to new header style
+* 1.0 (04/2008)
+* Copyright 2008, 2012 by Analog Devices
+*
+* Refer to http://www.analog.com/Analog_Root/static/techSupport/designTools/spiceModels/license/spice_general.html for License Statement. Use of this model
+* indicates your acceptance of the terms and provisions in the License Statement.
+*
+* BEGIN Notes: VSY=5V, T=25degC
+*
+* Not Modeled:
+*
+* Parameters modeled include:
+*
+* END Notes
+*
+* Node Assignments
+*                       noninverting input
+*                       |   inverting input
+*                       |   |    positive supply
+*                       |   |    |   negative supply
+*                       |   |    |   |   output
+*                       |   |    |   |   |
+*                       |   |    |   |   |
+.SUBCKT AD8506          1   2   99  50  45
+*#ASSOC Category="Op-amps" symbol=opamp
+*
+* INPUT STAGE
+*
+M1   4  7  8  8 PIX L=2E-6 W=9.070E-04
+M2   6  2  8  8 PIX L=2E-6 W=9.070E-04
+Cinp 1 50 4.2pF
+Cinn 2 50 4.2pF
+Cdiff 1 2 3pF
+RD1  4 50  5.333E+04
+RD2  6 50  5.333E+04
+C1   4  6  7.650E-12
+I1  99  8  7.500E-06
+V1   9  8 +0.025E-00
+D1   9 99 DX
+EOS  7  1 POLY(4) (73,98) (22,98) (81,98) (83,98) 5.00E-04 1 1 1 1
+IOS  1  2 1.50E-12
+*
+* CMRR=95dB, POLE AT 3500 Hz
+*
+E1  72 98 POLY(2) (1,98) (2,98) 0 1.289E-02  1.289E-02
+R10 72 73 4.613E+01
+R20 73 98 3.183E-02
+C10 72 73 1.000E-06
+*
+* PSRR=100dB, POLE AT 100 Hz
+*
+EPSY 21 98 POLY(1) (99,50) -0.181E-00 0.036E-00
+RPS1 21 22 2.274E+04
+RPS2 22 98 1.989E-00
+CPS1 21 22 1.00E-06
+*
+* VOLTAGE NOISE REFERENCE OF 37nV/rt(Hz)
+*
+VN1 80 98 0
+RN1 80 98 17.500E-3
+HN  81 98 VN1 3.651E+01
+RN2 81 98 1
+*
+* FLICKER NOISE CORNER = 20000 Hz
+*
+DFN 82 98 DNOISE
+VFN 82 98 DC 0.6531
+HFN 83 98 POLY(1) VFN 1.00E-03 1.00E+00
+RFN 83 98 1
+*
+* INTERNAL VOLTAGE REFERENCE
+*
+EREF 98  0 POLY(2) (99,0) (50,0) 0 0.5 0.5
+GSY  99 50 POLY(1) (99,50) +0.580E-06 0.2710E-06
+EVP  97 98 (99,50) 0.5
+EVN  51 98 (50,99) 0.5
+*
+* GAIN STAGE
+*
+G1 98 30 (4,6) 4.474E-04
+R1 30 98 1.00E+06
+CF 30 31 1.350E-08
+RZ 455 31 1.2280E-03
+EZ 455 98  (451 98) 1
+V3 32 30 0.279E+00
+V4 30 33 0.362E-00
+D3 32 97 DX
+D4 51 33 DX
+*
+* OUTPUT STAGE
+*
+M5  451 46 99 99 POX L=1E-6 W=3.940E-04
+M6  451 47 50 50 NOX L=1E-6 W=4.598E-04
+Lout 451 45 10pH
+EG1 99 46 POLY(1) (98,30) 3.598E-01 1
+EG2 47 50 POLY(1) (30,98) 3.574E-01 1
+*
+* MODELS
+*
+.MODEL POX PMOS (LEVEL=2,KP=3.00E-05,VTO=-0.328,LAMBDA=0.015,RD=0)
+.MODEL NOX NMOS (LEVEL=2,KP=3.00E-05,VTO=+0.328,LAMBDA=0.015,RD=0)
+.MODEL PIX PMOS (LEVEL=2,KP=5.00E-05,VTO=-5.00E-01,LAMBDA=0.01)
+.MODEL DX D(IS=1E-14,RS=0.1)
+.MODEL DNOISE D(IS=1E-14,RS=0,KF=12.400E-11)
+.ENDS AD8506
+*
+
+
+* AD8508 SPICE Macro-model
+* Generic Desc: 1.8/5V, CMOS, OP, ZCO, RRIO, 4X
+* Developed by: HH ADSJ
+* Revision History: 08/10/2012 - Updated to new header style
+* 1.0 (04/2008)
+* Copyright 2008, 2012 by Analog Devices
+*
+* Refer to http://www.analog.com/Analog_Root/static/techSupport/designTools/spiceModels/license/spice_general.html for License Statement. Use of this model
+* indicates your acceptance of the terms and provisions in the License Statement.
+*
+* BEGIN Notes: VSY=5V, T=25degC
+*
+* Not Modeled:
+*
+* Parameters modeled include:
+*
+* END Notes
+*
+* Node Assignments
+*                       noninverting input
+*                       |   inverting input
+*                       |   |    positive supply
+*                       |   |    |   negative supply
+*                       |   |    |   |   output
+*                       |   |    |   |   |
+*                       |   |    |   |   |
+.SUBCKT AD8508          1   2   99  50  45
+*#ASSOC Category="Op-amps" symbol=opamp
+*
+* INPUT STAGE
+*
+M1   4  7  8  8 PIX L=2E-6 W=9.070E-04
+M2   6  2  8  8 PIX L=2E-6 W=9.070E-04
+Cinp 1 50 4.2pF
+Cinn 2 50 4.2pF
+Cdiff 1 2 3pF
+RD1  4 50  5.333E+04
+RD2  6 50  5.333E+04
+C1   4  6  7.650E-12
+I1  99  8  7.500E-06
+V1   9  8 +0.025E-00
+D1   9 99 DX
+EOS  7  1 POLY(4) (73,98) (22,98) (81,98) (83,98) 5.00E-04 1 1 1 1
+IOS  1  2 1.50E-12
+*
+* CMRR=95dB, POLE AT 3500 Hz
+*
+E1  72 98 POLY(2) (1,98) (2,98) 0 1.289E-02  1.289E-02
+R10 72 73 4.613E+01
+R20 73 98 3.183E-02
+C10 72 73 1.000E-06
+*
+* PSRR=100dB, POLE AT 100 Hz
+*
+EPSY 21 98 POLY(1) (99,50) -0.181E-00 0.036E-00
+RPS1 21 22 2.274E+04
+RPS2 22 98 1.989E-00
+CPS1 21 22 1.00E-06
+*
+* VOLTAGE NOISE REFERENCE OF 37nV/rt(Hz)
+*
+VN1 80 98 0
+RN1 80 98 17.500E-3
+HN  81 98 VN1 3.651E+01
+RN2 81 98 1
+*
+* FLICKER NOISE CORNER = 20000 Hz
+*
+DFN 82 98 DNOISE
+VFN 82 98 DC 0.6531
+HFN 83 98 POLY(1) VFN 1.00E-03 1.00E+00
+RFN 83 98 1
+*
+* INTERNAL VOLTAGE REFERENCE
+*
+EREF 98  0 POLY(2) (99,0) (50,0) 0 0.5 0.5
+GSY  99 50 POLY(1) (99,50) +0.580E-06 0.2710E-06
+EVP  97 98 (99,50) 0.5
+EVN  51 98 (50,99) 0.5
+*
+* GAIN STAGE
+*
+G1 98 30 (4,6) 4.474E-04
+R1 30 98 1.00E+06
+CF 30 31 1.350E-08
+RZ 455 31 1.2280E-03
+EZ 455 98  (451 98) 1
+V3 32 30 0.279E+00
+V4 30 33 0.362E-00
+D3 32 97 DX
+D4 51 33 DX
+*
+* OUTPUT STAGE
+*
+M5  451 46 99 99 POX L=1E-6 W=3.940E-04
+M6  451 47 50 50 NOX L=1E-6 W=4.598E-04
+Lout 451 45 10pH
+EG1 99 46 POLY(1) (98,30) 3.598E-01 1
+EG2 47 50 POLY(1) (30,98) 3.574E-01 1
+*
+* MODELS
+*
+.MODEL POX PMOS (LEVEL=2,KP=3.00E-05,VTO=-0.328,LAMBDA=0.015,RD=0)
+.MODEL NOX NMOS (LEVEL=2,KP=3.00E-05,VTO=+0.328,LAMBDA=0.015,RD=0)
+.MODEL PIX PMOS (LEVEL=2,KP=5.00E-05,VTO=-5.00E-01,LAMBDA=0.01)
+.MODEL DX D(IS=1E-14,RS=0.1)
+.MODEL DNOISE D(IS=1E-14,RS=0,KF=12.400E-11)
+*
+*
+.ENDS AD8508
+
+
+* AD8565 SPICE Macro-model Typical Values
+* Generic Desc: Single LCD driver amp - 16V rail-rail
+* Developed by: RM / ADSJ
+* Revision History: 08/10/2012 - Updated to new header style
+* 1.0 (06/2007)
+* Copyright 2004, 2012 by Analog Devices
+*
+* Refer to http://www.analog.com/Analog_Root/static/techSupport/designTools/spiceModels/license/spice_general.html for License Statement. Use of this model
+* indicates your acceptance of the terms and provisions in the License Statement.
+*
+* BEGIN Notes:
+*
+* Not Modeled:
+*
+* Parameters modeled include:
+*
+* END Notes
+*
+* Node Assignments
+*		noninverting input
+*		|	inverting input
+*		|	|	 positive supply
+*		|	|	 |	 negative supply
+*		|	|	 |	 |	 output
+*		|	|	 |	 |	 |
+*		|	|	 |	 |	 |
+.SUBCKT AD8565	1	2	99	50	45
+*
+* INPUT STAGE
+*
+Q1   4  7 18 PIX
+Q2   6  2 17 PIX
+Q3  11  7 15 NIX
+Q4  12  2 16 NIX
+RC1  4 50 2000
+RC2  6 50 2000
+RC3 99 11 2000
+RC4 99 12 2000
+C1   4  6 3.3E-12
+C2  11 12 3.3E-12
+RE1  8 18 1.2E3
+RE2  8 17 1.2E3
+RE3 15 10 1.2E3
+RE4 16 10 1.2E3
+I1  99  8 100E-6
+I2  10 50 100E-6
+V1   9  8 1
+V2  13 50 1
+D1   9 99 DX
+D2  13 10 DX
+EOS  7  1 POLY(3) (22,98) (73,98) (81,98) 2E-3 1 1 1
+IOS  1  2 5E-9
+*
+* CMRR 95dB, ZERO AT 20kHz
+*
+ECM1 21 98 POLY(2) (1,98) (2,98) 0 .5 .5
+RCM1 21 22 500E3
+CCM1 21 22 15.9E-12
+RCM2 22 98 8.9
+*
+* PSRR=100dB, ZERO AT 100Hz
+*
+* RPS1 70  0 1E6
+* RPS2 71  0 1E6
+* CPS1 99 70 1E-5
+* CPS2 50 71 1E-5
+* EPSY 98 72 POLY(2) (70,0) (0,71) 0 1 1
+EPSY 98 72 POLY(2) (99,0) (0,50) 0 1 1
+RPS1 72 73 1.59E6
+CPS1 72 73 1E-9
+RPS2 73 98 50
+*
+* VOLTAGE NOISE REFERENCE OF 24nV/rt(Hz)
+*
+VN1 80 98 0
+RN1 80 98 16.45E-3
+HN  81 98 VN1 24
+RN2 81 98 1
+*
+* INTERNAL VOLTAGE REFERENCE
+*
+EREF 98  0 POLY(2) (99,0) (50,0) 0 .5 .5
+GSY  99 50 (99,50) 12.5E-6
+EVP  97 98 (99,50) 0.5
+EVN  51 98 (50,99) 0.5
+*
+* LHP ZERO AT 7MHz, POLE AT 50MHz
+*
+E1 32 98 POLY(2) (4,6) (11,12) 0 .5814 .5814
+R2 32 33 3.7E3
+R3 33 98 22.74E3
+C3 32 33 1E-12
+*
+* GAIN STAGE
+*
+G1 98 30 POLY(2) (4,6) (11,12) 0 150E-6 150E-6
+R1 30 98 542E3
+CF 45 30 10E-12
+D3 30 97 DX
+D4 51 30 DX
+*
+* OUTPUT STAGE
+*
+M5  45 46 99 99 POX L=1u W=1610u
+M6  45 47 50 50 NOX L=1u W=1610u
+EG1 99 46 POLY(1) (98,30) 0.5209 1
+EG2 47 50 POLY(1) (30,98) 0.5209 1
+*
+* MODELS
+*
+.MODEL POX PMOS (LEVEL=2,KP=10E-6,VTO=-0.328,LAMBDA=0.01,RD=0)
+.MODEL NOX NMOS (LEVEL=2,KP=10E-6,VTO=+0.328,LAMBDA=0.01,RD=0)
+.MODEL PIX PNP (BF=103,IS=1E-14,VA=100,KF=4.3E-14)
+.MODEL NIX NPN (BF=124,IS=1E-14,VA=100,KF=4.3E-14)
+.MODEL DX D(IS=1E-14,RS=5)
+.ENDS AD8565
+
+
+
+* AD8613 SPICE Macro-model
+* Generic Desc: 1.8/5V, CMOS, OP, Low Pwr, RRIO, 1X
+* Developed by: RM
+* Revision History: 08/10/2012 - Updated to new header style
+* 0.0 (02/2007)
+* 1.0 (08/2012) - Updated to new header style
+* 2.0 (03/2017) - Revised CMRR section to 100dB - KF
+* Copyright 2007, 2012 by Analog Devices
+*
+* Refer to http://www.analog.com/Analog_Root/static/techSupport/designTools/spiceModels/license/spice_general.html for License Statement. Use of this model
+* indicates your acceptance of the terms and provisions in the License Statement.
+*
+* BEGIN Notes:
+*
+* Not Modeled:
+*
+* Parameters modeled include:
+*
+* END Notes
+*
+* Node Assignments
+*                       noninverting input
+*                       |   inverting input
+*                       |   |    positive supply
+*                       |   |    |   negative supply
+*                       |   |    |   |   output
+*                       |   |    |   |   |
+*                       |   |    |   |   |
+.SUBCKT AD8613          1   2   99  50  45
+*#ASSOC Category="Op-amps" symbol=opamp
+*
+* INPUT STAGE
+*
+M1  14  7  8  8 PIX L=1E-6 W=2.37E-04
+M2  16  2  8  8 PIX L=1E-6 W=2.37E-04
+M3  17  7 10 10 NIX L=1E-6 W=8.88E-05
+M4  18  2 10 10 NIX L=1E-6 W=8.88E-05
+RD1 14 50 8.00E+04
+RD2 16 50 8.00E+04
+RD3 99 17 8.00E+04
+RD4 99 18 8.00E+04
+C1  14 16 8.08E-13
+C2  17 18 8.08E-13
+I1  99  8 5.00E-06
+I2  10 50 5.00E-06
+V1  99  9 2.625E-01
+V2  13 50 1.625E-01
+D1   8  9 DX
+D2  13 10 DX
+EOS  7  1 POLY(4) (22,98) (73,98) (81,98) (70,98) 4.00E-04 1 1 1 1
+IOS  1  2 5.00E-14
+*
+*CMRR=95dB, POLE AT 1000 Hz
+*
+E1  21 98 POLY(2) (1,98) (2,98) 0 8.89E-03 8.89E-03
+R10 21 22 1.59E+04
+R20 22 98 1.59E-01
+C10 21 22 1.00E-09
+*
+* PSRR=90dB, POLE AT 100 Hz
+*
+EPSY 72 98 POLY(1) (99,50) -1.58113883 0.316227766
+CPS3 72 73 1.00E-06
+RPS3 72 73 1.59E+03
+RPS4 73 98 1.59E-01
+*
+* VOLTAGE NOISE REFERENCE OF 22nV/rt(Hz)
+*
+VN1 80 98 0
+RN1 80 98 16.45E-3
+HN  81 98 VN1 1.98E+01
+RN2 81 98 1
+*
+* FLICKER NOISE CORNER = 100 Hz
+*
+D5  69 98 DNOISE
+VSN 69 98 DC 0.6551
+H1  70 98 POLY(1) VSN 1.00E-03 1.00E+00
+RN  70 98 1
+*
+* INTERNAL VOLTAGE REFERENCE
+*
+EREF 98  0 POLY(2) (99,0) (50,0) 0 0.5 0.5
+GSY  99 50 POLY(1) (99,50) -8.09E-06 3.0E-06
+EVP  97 98 POLY(1) (99,50) 0 0.5
+EVN  51 98 POLY(1) (50,99) 0 0.5
+*
+* GAIN STAGE
+*
+G1 98 30 POLY(2) (14,16) (17,18) 0 4.15E-05 4.15E-05
+R1 30 98 1.00E+06
+RZ 30 31 7.91E+02
+CF 45 31 3.32E-10
+V3 32 30 3.53E-01
+V4 30 33 -7.53E-01
+D3 32 97 DX
+D4 51 33 DX
+*
+* OUTPUT STAGE
+*
+M5  45 46 99 99 POX L=1E-6 W=2.50E-04
+M6  45 47 50 50 NOX L=1E-6 W=1.93E-03
+EG1 99 46 POLY(1) (98,30) 7.465E-01 1
+EG2 47 50 POLY(1) (30,98) 6.335E-01 1
+*
+* MODELS
+*
+.MODEL POX PMOS (LEVEL=2,KP=4.00E-05,VTO=-0.7,LAMBDA=0.047,RD=0)
+.MODEL NOX NMOS (LEVEL=2,KP=1.00E-05,VTO=+0.6,LAMBDA=0.022,RD=0)
+.MODEL PIX PMOS (LEVEL=2,KP=1.50E-05,VTO=-0.5,LAMBDA=0.047)
+.MODEL NIX NMOS (LEVEL=2,KP=4.00E-05,VTO=0.5,LAMBDA=0.022)
+.MODEL DX D(IS=1E-14,RS=5)
+.MODEL DNOISE D(IS=1E-14,RS=0,KF=4.84E-11)
+*
+*
+.ENDS AD8613
+*
+
+* AD8617 SPICE Macro-model
+* Generic Desc: 1.8/5V, CMOS, OP, Low Pwr, RRIO, 2X
+* Developed by: VW ADSJ
+* Revision History: 08/10/2012 - Updated to new header style
+* 2.0 (02/2010)
+* 3.0 (03/2017) - Followed AD8613 model, dual version only
+* Copyright 2010, 2012 by Analog Devices
+*
+* Refer to http://www.analog.com/Analog_Root/static/techSupport/designTools/spiceModels/license/spice_general.html for License Statement. Use of this model
+* indicates your acceptance of the terms and provisions in the License Statement.
+*
+* BEGIN Notes: VSY=5V, T=25degC
+*
+* Not Modeled:
+*
+* Parameters modeled include:
+*
+* END Notes
+*
+* Node Assignments
+*                       noninverting input
+*                       |   inverting input
+*                       |   |    positive supply
+*                       |   |    |   negative supply
+*                       |   |    |   |   output
+*                       |   |    |   |   |
+*                       |   |    |   |   |
+.SUBCKT AD8617          1   2   99  50  45
+*#ASSOC Category="Op-amps" symbol=opamp
+*
+* INPUT STAGE
+*
+M1  14  7  8  8 PIX L=1E-6 W=2.37E-04
+M2  16  2  8  8 PIX L=1E-6 W=2.37E-04
+M3  17  7 10 10 NIX L=1E-6 W=8.88E-05
+M4  18  2 10 10 NIX L=1E-6 W=8.88E-05
+RD1 14 50 8.00E+04
+RD2 16 50 8.00E+04
+RD3 99 17 8.00E+04
+RD4 99 18 8.00E+04
+C1  14 16 8.08E-13
+C2  17 18 8.08E-13
+I1  99  8 5.00E-06
+I2  10 50 5.00E-06
+V1  99  9 2.625E-01
+V2  13 50 1.625E-01
+D1   8  9 DX
+D2  13 10 DX
+EOS  7  1 POLY(4) (22,98) (73,98) (81,98) (70,98) 4.00E-04 1 1 1 1
+IOS  1  2 5.00E-14
+*
+*CMRR=95dB, POLE AT 1000 Hz
+*
+E1  21 98 POLY(2) (1,98) (2,98) 0 8.89E-03 8.89E-03
+R10 21 22 1.59E+04
+R20 22 98 1.59E-01
+C10 21 22 1.00E-09
+*
+* PSRR=90dB, POLE AT 100 Hz
+*
+EPSY 72 98 POLY(1) (99,50) -1.58113883 0.316227766
+CPS3 72 73 1.00E-06
+RPS3 72 73 1.59E+03
+RPS4 73 98 1.59E-01
+*
+* VOLTAGE NOISE REFERENCE OF 22nV/rt(Hz)
+*
+VN1 80 98 0
+RN1 80 98 16.45E-3
+HN  81 98 VN1 1.98E+01
+RN2 81 98 1
+*
+* FLICKER NOISE CORNER = 100 Hz
+*
+D5  69 98 DNOISE
+VSN 69 98 DC 0.6551
+H1  70 98 POLY(1) VSN 1.00E-03 1.00E+00
+RN  70 98 1
+*
+* INTERNAL VOLTAGE REFERENCE
+*
+EREF 98  0 POLY(2) (99,0) (50,0) 0 0.5 0.5
+GSY  99 50 POLY(1) (99,50) -8.09E-06 3.0E-06
+EVP  97 98 POLY(1) (99,50) 0 0.5
+EVN  51 98 POLY(1) (50,99) 0 0.5
+*
+* GAIN STAGE
+*
+G1 98 30 POLY(2) (14,16) (17,18) 0 4.15E-05 4.15E-05
+R1 30 98 1.00E+06
+RZ 30 31 7.91E+02
+CF 45 31 3.32E-10
+V3 32 30 3.53E-01
+V4 30 33 -7.53E-01
+D3 32 97 DX
+D4 51 33 DX
+*
+* OUTPUT STAGE
+*
+M5  45 46 99 99 POX L=1E-6 W=2.50E-04
+M6  45 47 50 50 NOX L=1E-6 W=1.93E-03
+EG1 99 46 POLY(1) (98,30) 7.465E-01 1
+EG2 47 50 POLY(1) (30,98) 6.335E-01 1
+*
+* MODELS
+*
+.MODEL POX PMOS (LEVEL=2,KP=4.00E-05,VTO=-0.7,LAMBDA=0.047,RD=0)
+.MODEL NOX NMOS (LEVEL=2,KP=1.00E-05,VTO=+0.6,LAMBDA=0.022,RD=0)
+.MODEL PIX PMOS (LEVEL=2,KP=1.50E-05,VTO=-0.5,LAMBDA=0.047)
+.MODEL NIX NMOS (LEVEL=2,KP=4.00E-05,VTO=0.5,LAMBDA=0.022)
+.MODEL DX D(IS=1E-14,RS=5)
+.MODEL DNOISE D(IS=1E-14,RS=0,KF=4.84E-11)
+*
+*
+.ENDS AD8617
+
+
+
+* AD8619 SPICE Macro-model
+* Generic Desc: 1.8/5V, CMOS, OP, Low Pwr, RRIO, 4X
+* Developed by: VW ADSJ
+* Revision History: 08/10/2012 - Updated to new header style
+* 2.0 (02/2010)
+* 3.0 (03/201) - Revised to follow AD8613 model, quad version - KF
+* Copyright 2010, 2012 by Analog Devices
+*
+* Refer to http://www.analog.com/Analog_Root/static/techSupport/designTools/spiceModels/license/spice_general.html for License Statement. Use of this model
+* indicates your acceptance of the terms and provisions in the License Statement.
+*
+* BEGIN Notes: VSY=5V, T=25degC
+*
+* Not Modeled:
+*
+* Parameters modeled include:
+*
+* END Notes
+*
+* Node Assignments
+*                       noninverting input
+*                       |   inverting input
+*                       |   |    positive supply
+*                       |   |    |   negative supply
+*                       |   |    |   |   output
+*                       |   |    |   |   |
+*                       |   |    |   |   |
+.SUBCKT AD8619          1   2   99  50  45
+*#ASSOC Category="Op-amps" symbol=opamp
+*
+* INPUT STAGE
+*
+M1  14  7  8  8 PIX L=1E-6 W=2.37E-04
+M2  16  2  8  8 PIX L=1E-6 W=2.37E-04
+M3  17  7 10 10 NIX L=1E-6 W=8.88E-05
+M4  18  2 10 10 NIX L=1E-6 W=8.88E-05
+RD1 14 50 8.00E+04
+RD2 16 50 8.00E+04
+RD3 99 17 8.00E+04
+RD4 99 18 8.00E+04
+C1  14 16 8.08E-13
+C2  17 18 8.08E-13
+I1  99  8 5.00E-06
+I2  10 50 5.00E-06
+V1  99  9 2.625E-01
+V2  13 50 1.625E-01
+D1   8  9 DX
+D2  13 10 DX
+EOS  7  1 POLY(4) (22,98) (73,98) (81,98) (70,98) 4.00E-04 1 1 1 1
+IOS  1  2 5.00E-14
+*
+*CMRR=95dB, POLE AT 1000 Hz
+*
+E1  21 98 POLY(2) (1,98) (2,98) 0 8.89E-03 8.89E-03
+R10 21 22 1.59E+04
+R20 22 98 1.59E-01
+C10 21 22 1.00E-09
+*
+* PSRR=90dB, POLE AT 100 Hz
+*
+EPSY 72 98 POLY(1) (99,50) -1.58113883 0.316227766
+CPS3 72 73 1.00E-06
+RPS3 72 73 1.59E+03
+RPS4 73 98 1.59E-01
+*
+* VOLTAGE NOISE REFERENCE OF 22nV/rt(Hz)
+*
+VN1 80 98 0
+RN1 80 98 16.45E-3
+HN  81 98 VN1 1.98E+01
+RN2 81 98 1
+*
+* FLICKER NOISE CORNER = 100 Hz
+*
+D5  69 98 DNOISE
+VSN 69 98 DC 0.6551
+H1  70 98 POLY(1) VSN 1.00E-03 1.00E+00
+RN  70 98 1
+*
+* INTERNAL VOLTAGE REFERENCE
+*
+EREF 98  0 POLY(2) (99,0) (50,0) 0 0.5 0.5
+GSY  99 50 POLY(1) (99,50) -8.09E-06 3.0E-06
+EVP  97 98 POLY(1) (99,50) 0 0.5
+EVN  51 98 POLY(1) (50,99) 0 0.5
+*
+* GAIN STAGE
+*
+G1 98 30 POLY(2) (14,16) (17,18) 0 4.15E-05 4.15E-05
+R1 30 98 1.00E+06
+RZ 30 31 7.91E+02
+CF 45 31 3.32E-10
+V3 32 30 3.53E-01
+V4 30 33 -7.53E-01
+D3 32 97 DX
+D4 51 33 DX
+*
+* OUTPUT STAGE
+*
+M5  45 46 99 99 POX L=1E-6 W=2.50E-04
+M6  45 47 50 50 NOX L=1E-6 W=1.93E-03
+EG1 99 46 POLY(1) (98,30) 7.465E-01 1
+EG2 47 50 POLY(1) (30,98) 6.335E-01 1
+*
+* MODELS
+*
+.MODEL POX PMOS (LEVEL=2,KP=4.00E-05,VTO=-0.7,LAMBDA=0.047,RD=0)
+.MODEL NOX NMOS (LEVEL=2,KP=1.00E-05,VTO=+0.6,LAMBDA=0.022,RD=0)
+.MODEL PIX PMOS (LEVEL=2,KP=1.50E-05,VTO=-0.5,LAMBDA=0.047)
+.MODEL NIX NMOS (LEVEL=2,KP=4.00E-05,VTO=0.5,LAMBDA=0.022)
+.MODEL DX D(IS=1E-14,RS=5)
+.MODEL DNOISE D(IS=1E-14,RS=0,KF=4.84E-11)
+*
+*
+.ENDS AD8619
+
+
+* AD8657 SPICE Macro-model Typical Values
+* Generic Desc: 3/18V, CMOS, OP, Low Pwr, RRIO, 2X
+* Developed by: VW ADSJ
+* Revision History: 08/10/2012 - Updated to new header style
+* 1.1 (01/2011)
+* Copyright 2010, 2012 by Analog Devices
+*
+* Refer to http://www.analog.com/Analog_Root/static/techSupport/designTools/spiceModels/license/spice_general.html for License Statement.  Use of this model
+* indicates your acceptance of the terms and provisions in the License Statement.
+*
+* BEGIN Notes:
+*
+* Not Modeled:
+*
+* Parameters modeled include: VSY=18V, T=25°C
+*
+* END Notes
+*
+* Node Assignments
+*                       noninverting input
+*                       |   inverting input
+*                       |   |    positive supply
+*                       |   |    |   negative supply
+*                       |   |    |   |   output
+*                       |   |    |   |   |
+*                       |   |    |   |   |
+.SUBCKT AD8657          1   2   99  50  45
+*
+* INPUT STAGE
+*
+M1   4  7  8  8 PIX L= 1.000E-06 W= 1.532E-04
+M2   6  2  8  8 PIX L= 1.000E-06 W=1.532E-04
+M3  14  7 18 18 NIX L=1.000E-06 W=4.085E-04
+M4  16  2 18 18 NIX L=1.000E-06 W=4.085E-04
+RD1  4 50 2.0E+04
+RD2  6 50 2.0E+04
+RD3 99 14 2.0E+04
+RD4 99 16 2.0E+04
+C1   4  6 9.4750E-12
+C2  14 16 9.4750E-12
+I1  99  8 1.722E-05
+I2  18 50 1.722E-05
+V1  99  9 1.429E-01
+V2  19 50 1.429E-01
+D1   8  9 DX
+D2  19 18 DX
+EOS  7  1 POLY(4) (73,98) (22,98) (81,98) (83,98) 3.500E-04 1 1 1 1
+IOS  1  2 2.000E-11
+CDiff  1 2 3.5E-12
+Cin1   1 50 10.5E-12
+Cin2   2 50 10.5E-12
+*
+*
+* CMRR
+*
+E1  72 98 POLY(2) (1,98) (2,98) 0 6.817E-02 6.817E-02
+R10 72 73 2.894E+02
+R20 73 98 1.592E-02
+C10 72 73 1.000E-06
+*
+* PSRR
+*
+EPSY 21 98 POLY(1) (99,50) -1.757E+02 9.762E+00
+RPS1 21 22 3.183E+03
+RPS2 22 98 7.958E-01
+CPS1 21 22 1.000E-06
+*
+* VOLTAGE NOISE
+*
+VN1 80 98 0
+RN1 80 98 16.45E-3
+HN  81 98 VN1 4.5165E+01
+RN2 81 98 1
+*
+* FLICKER NOISE
+*
+DFN 82 98 DNOISE
+VFN 82 98 DC 0.6551
+HFN 83 98 POLY(1) VFN 1.000E-03 1.000E+00
+RFN 83 98 1
+*
+* INTERNAL VOLTAGE REFERENCE
+*
+EREF 98  0 POLY(2) (99,0) (50,0) 0 0.5 0.5
+GSY  99 50 POLY(1) (99,50) -1.74975E-05 5.031E-08
+EVP  97 98 POLY(1) (99,50) -1.05 0.25
+EVN  51 98 POLY(1) (50,99) 1.45 0.3
+
+*
+* GAIN STAGE
+*
+G1 98 30 POLY(2) (4,6) (14,16) 0 5.693E-05 5.693E-05
+R1 30 98 1.000E+06
+RZ 30 31 8.2720E+03
+CF 45 31 5.60E-10
+D3 30 97 DX
+D4 51 30 DX
+*
+* OUTPUT STAGE
+*
+M5  45 46 99 99 POX L= 2.000E-06 W=2.450E-04
+M6  45 47 50 50 NOX L= 2.000E-06 W=1.591E-04
+EG1 99 46 POLY(1) (98,30) 3.347E-01 1
+EG2 47 50 POLY(1) (30,98) 3.216E-01 1
+*
+* MODELS
+*
+.MODEL POX PMOS (LEVEL=2,KP=1.000E-05,VTO=-0.3,LAMBDA=0.01,RD=0)
+.MODEL NOX NMOS (LEVEL=2,KP=4.000E-05,VTO=+0.3,LAMBDA=0.01,RD=0)
+.MODEL PIX PMOS (LEVEL=2,KP=4.000E-05,VTO=-0.5,LAMBDA=0.01)
+.MODEL NIX NMOS (LEVEL=2,KP=1.500E-05,VTO=0.5,LAMBDA=0.01)
+.MODEL DX D(IS=1E-14,RS=0.1)
+.MODEL DNOISE D(IS=1E-14,RS=0,KF=1.5E-10)
+*
+*
+.ENDS AD8657
+*
+
+
+
+* AD8662 SPICE Macro-model
+* Generic Desc: 5/16V, CMOS, OP, Low Noise, S SPLY, 2X
+* Developed by: RM, ADSJ-HH
+* Revision History: 08/10/2012 - Updated to new header style
+* 1.0
+* Copyright 2010, 2012 by Analog Devices
+*
+* Refer to http://www.analog.com/Analog_Root/static/techSupport/designTools/spiceModels/license/spice_general.html for License Statement.  Use of this model
+* indicates your acceptance of the terms and provisions in the License Statement.
+*
+* BEGIN Notes:
+*
+* Not Modeled:
+*
+* Parameters modeled include:
+*
+* END Notes
+*
+* Node Assignments
+*                       noninverting input
+*                       |   inverting input
+*                       |   |    positive supply
+*                       |   |    |   negative supply
+*                       |   |    |   |   output
+*                       |   |    |   |   |
+*                       |   |    |   |   |
+.SUBCKT AD8662          1   2   99  50  45
+*#ASSOC Category="Op-amps" symbol=opamp
+*
+* INPUT STAGE
+*
+M1  14  7  8  8 PIX L=1E-6 W=3.02E-03
+M2  16  2  8  8 PIX L=1E-6 W=3.02E-03
+RC5 14 50 8.00E+02
+RC6 16 50 8.00E+02
+C1  14 16 1.00E-11
+I1  99  8 5.00E-04
+V1  99  9 2.071E+00
+D1   8  9 DX
+EOS  7  1 POLY(4) (22,98) (73,98) (81,98) (70,98) 5.00E-05 1 1 1 1
+IOS  1  2 1.00E-13
+*
+*
+* CMRR=110dB, POLE AT 250 Hz
+*
+E1  21 98 POLY(2) (1,98) (2,98) 0 1.26E-01 1.26E-01
+R10 21 22 6.37E+02
+R20 22 98 7.96E-03
+C10 21 22 1.00E-06
+*
+* PSRR=115dB, POLE AT 20 Hz
+*
+EPSY 72 98 POLY(1) (99,50) -2.13E+01 1.33E+00
+CPS3 72 73 1.00E-06
+RPS3 72 73 7.96E+03
+RPS4 73 98 1.06E-02
+*
+* VOLTAGE NOISE REFERENCE OF 10nV/rt(Hz)
+*
+VN1 80 98 0
+RN1 80 98 16.45E-3
+HN  81 98 VN1 9.89E+00
+RN2 81 98 1
+*
+* FLICKER NOISE CORNER = 300 Hz
+*
+D5  69 98 DNOISE
+VSN 69 98 DC 0.6551
+H1  70 98 POLY(1) VSN 1.00E-03 1.00E+00
+RN  70 98 1
+*
+* INTERNAL VOLTAGE REFERENCE
+*
+EREF 98  0 POLY(2) (99,0) (50,0) 0 0.5 0.5
+GSY  99 50 POLY(1) (99,50) -1.34E-05 1.10E-05
+EVP  97 98 POLY(1) (99,50) 0 0.5
+EVN  51 98 POLY(1) (50,99) 0 0.5
+*
+* GAIN STAGE
+*
+G1 98 30 POLY(1) (14,16)  0 4.83E-04
+R1 30 98 1.00E+06
+RZ 30 31 2.05E+02
+CF 45 31 5.52E-11
+V3 32 30 2.89E+00
+V4 30 33 -1.86E+00
+D3 32 97 DX
+D4 51 33 DX
+*
+* OUTPUT STAGE
+*
+M5  45 46 99 99 POX L=1E-6 W=2.23E-04
+M6  45 47 50 50 NOX L=1E-6 W=7.38E-04
+EG1 99 46 POLY(1) (98,30) 9.639E-01 1
+EG2 47 50 POLY(1) (30,98) 6.777E-01 1
+*
+* MODELS
+*
+.MODEL POX PMOS (LEVEL=2,KP=1.00E-05,VTO=-0.328,LAMBDA=0.01,RD=0)
+.MODEL NOX NMOS (LEVEL=2,KP=1.00E-05,VTO=+0.328,LAMBDA=0.01,RD=0)
+.MODEL PIX PMOS (LEVEL=2,KP=1.00E-05,VTO=-5.00E-01,LAMBDA=0.01)
+.MODEL DX D(IS=1E-14,RS=5)
+.MODEL DNOISE D(IS=1E-14,RS=0,KF=3.00E-11)
+*
+*
+.ENDS AD8662
+*
+*
+
+
+
+
+* AD8664 SPICE Macro-model
+* Generic Desc: 5/16V, CMOS, OP, Low Noise, S SPLY, 4X
+* Developed by: RM
+* Revision History: 08/10/2012 - Updated to new header style
+* 1.0 (04/2008)
+* Copyright 2010, 2012 by Analog Devices
+*
+* Refer to http://www.analog.com/Analog_Root/static/techSupport/designTools/spiceModels/license/spice_general.html for License Statement.  Use of this model
+* indicates your acceptance of the terms and provisions in the License Statement.
+*
+* BEGIN Notes:
+*
+* Not Modeled:
+*
+* Parameters modeled include:
+*
+* END Notes
+*
+* Node Assignments
+*                       noninverting input
+*                       |   inverting input
+*                       |   |    positive supply
+*                       |   |    |   negative supply
+*                       |   |    |   |   output
+*                       |   |    |   |   |
+*                       |   |    |   |   |
+.SUBCKT AD8664          1   2   99  50  45
+*#ASSOC Category="Op-amps" symbol=opamp
+*
+* INPUT STAGE
+*
+M1  14  7  8  8 PIX L=1E-6 W=3.02E-03
+M2  16  2  8  8 PIX L=1E-6 W=3.02E-03
+RC5 14 50 8.00E+02
+RC6 16 50 8.00E+02
+C1  14 16 1.00E-11
+I1  99  8 5.00E-04
+V1  99  9 2.071E+00
+D1   8  9 DX
+EOS  7  1 POLY(4) (22,98) (73,98) (81,98) (70,98) 5.00E-05 1 1 1 1
+IOS  1  2 1.00E-13
+*
+*
+* CMRR=110dB, POLE AT 250 Hz
+*
+E1  21 98 POLY(2) (1,98) (2,98) 0 1.26E-01 1.26E-01
+R10 21 22 6.37E+02
+R20 22 98 7.96E-03
+C10 21 22 1.00E-06
+*
+* PSRR=115dB, POLE AT 20 Hz
+*
+EPSY 72 98 POLY(1) (99,50) -2.13E+01 1.33E+00
+CPS3 72 73 1.00E-06
+RPS3 72 73 7.96E+03
+RPS4 73 98 1.06E-02
+*
+* VOLTAGE NOISE REFERENCE OF 10nV/rt(Hz)
+*
+VN1 80 98 0
+RN1 80 98 16.45E-3
+HN  81 98 VN1 9.89E+00
+RN2 81 98 1
+*
+* FLICKER NOISE CORNER = 300 Hz
+*
+D5  69 98 DNOISE
+VSN 69 98 DC 0.6551
+H1  70 98 POLY(1) VSN 1.00E-03 1.00E+00
+RN  70 98 1
+*
+* INTERNAL VOLTAGE REFERENCE
+*
+EREF 98  0 POLY(2) (99,0) (50,0) 0 0.5 0.5
+GSY  99 50 POLY(1) (99,50) -1.34E-05 1.10E-05
+EVP  97 98 POLY(1) (99,50) 0 0.5
+EVN  51 98 POLY(1) (50,99) 0 0.5
+*
+* GAIN STAGE
+*
+G1 98 30 POLY(1) (14,16)  0 4.83E-04
+R1 30 98 1.00E+06
+RZ 30 31 2.05E+02
+CF 45 31 5.52E-11
+V3 32 30 2.89E+00
+V4 30 33 -1.86E+00
+D3 32 97 DX
+D4 51 33 DX
+*
+* OUTPUT STAGE
+*
+M5  45 46 99 99 POX L=1E-6 W=2.23E-04
+M6  45 47 50 50 NOX L=1E-6 W=7.38E-04
+EG1 99 46 POLY(1) (98,30) 9.639E-01 1
+EG2 47 50 POLY(1) (30,98) 6.777E-01 1
+*
+* MODELS
+*
+.MODEL POX PMOS (LEVEL=2,KP=1.00E-05,VTO=-0.328,LAMBDA=0.01,RD=0)
+.MODEL NOX NMOS (LEVEL=2,KP=1.00E-05,VTO=+0.328,LAMBDA=0.01,RD=0)
+.MODEL PIX PMOS (LEVEL=2,KP=1.00E-05,VTO=-5.00E-01,LAMBDA=0.01)
+.MODEL DX D(IS=1E-14,RS=5)
+.MODEL DNOISE D(IS=1E-14,RS=0,KF=3.00E-11)
+*
+*
+.ENDS AD8664
+*
+*
+
+
+
+
+* AD8665 SPICE Macro-model
+* 0.9Beta Rev (10/14/2013)
+* Generic Desc: 5/16V, CMOS, OP, Low Noise, S SPLY, 1X
+* Developed by: RM
+* Revsion history: 02/06/2015 (KF) - fixed output swing
+* Revision History: 08/10/2012 - Updated to new header style
+* 0.0 (05/2008)
+
+* Copyright 2006, 2012 by Analog Devices
+*
+* Refer to http://www.analog.com/Analog_Root/static/techSupport/designTools/spiceModels/license/spice_general.html for License Statement.  Use of this model
+* indicates your acceptance of the terms and provisions in the License Statement.
+*
+* BEGIN Notes:
+*
+* Not Modeled:
+*
+* Parameters modeled include:
+*
+* END Notes
+*
+* Node Assignments
+*                       noninverting input
+*                       |   inverting input
+*                       |   |    positive supply
+*                       |   |    |   negative supply
+*                       |   |    |   |   output
+*                       |   |    |   |   |
+*                       |   |    |   |   |
+.SUBCKT AD8665          1   2   99  50  45
+*
+*
+* INPUT STAGE
+*
+M1  14  7  8  8 PIX L=1E-6 W=3.02E-03
+M2  16  2  8  8 PIX L=1E-6 W=3.02E-03
+RC5 14 50 8.00E+02
+RC6 16 50 8.00E+02
+C1  14 16 1.00E-11
+I1  99  8 5.00E-04
+V1  99  9 2.071E+00
+D1   8  9 DX
+EOS  7  1 POLY(4) (22,98) (73,98) (81,98) (70,98) 6.00E-04 1 1 1 1
+IOS  1  2 1.00E-13
+*
+*
+* CMRR=110dB, POLE AT 250 Hz
+*
+E1  21 98 POLY(2) (1,98) (2,98) 0 1.26E-01 1.26E-01
+R10 21 22 6.37E+02
+R20 22 98 7.96E-03
+C10 21 22 1.00E-06
+*
+* PSRR=115dB, POLE AT 20 Hz
+*
+EPSY 72 98 POLY(1) (99,50) -2.13E+01 1.33E+00
+CPS3 72 73 1.00E-06
+RPS3 72 73 7.96E+03
+RPS4 73 98 1.06E-02
+*
+* VOLTAGE NOISE REFERENCE OF 10nV/rt(Hz)
+*
+VN1 80 98 0
+RN1 80 98 16.45E-3
+HN  81 98 VN1 9.89E+00
+RN2 81 98 1
+*
+* FLICKER NOISE CORNER = 300 Hz
+*
+D5  69 98 DNOISE
+VSN 69 98 DC 0.6551
+H1  70 98 POLY(1) VSN 1.00E-03 1.00E+00
+RN  70 98 1
+*
+* INTERNAL VOLTAGE REFERENCE
+*
+EREF 98  0 POLY(2) (99,0) (50,0) 0 0.5 0.5
+GSY  99 50 POLY(1) (99,50) -1.34E-05 1.10E-05
+EVP  97 98 POLY(1) (99,50) 0 0.5
+EVN  51 98 POLY(1) (50,99) 0 0.5
+*
+* GAIN STAGE
+*
+G1 98 30 POLY(1) (14,16)  0 4.83E-04
+R1 30 98 1.00E+06
+RZ 30 31 2.05E+02
+CF 45 31 5.52E-11
+*V3 32 30 2.89E+00
+V3 32 30 5.59E+00
+V4 30 33 -0.16E+00
+*V4 30 33 -0.86E+00
+D3 32 97 DX
+D4 51 33 DX
+*
+* OUTPUT STAGE
+*
+M5  45 46 99 99 POX L=1E-6 W=2.23E-04
+*M5  45 46 99 99 POX L=1E-6 W=7.23E-04
+M6  45 47 50 50 NOX L=1E-6 W=7.38E-04
+EG1 99 46 POLY(1) (98,30) 6.639E-01 1
+*EG1 99 46 POLY(1) (98,30) 20.639E-01 1
+*EG2 47 50 POLY(1) (30,98) 6.77E-01 1
+EG2 47 50 POLY(1) (30,98) 6.77E-01 1
+*
+* MODELS
+*
+.MODEL POX PMOS (LEVEL=2,KP=1.00E-05,VTO=-0.328,LAMBDA=0.01,RD=0)
+.MODEL NOX NMOS (LEVEL=2,KP=1.00E-05,VTO=+0.328,LAMBDA=0.01,RD=0)
+.MODEL PIX PMOS (LEVEL=2,KP=1.00E-05,VTO=-5.00E-01,LAMBDA=0.01)
+.MODEL DX D(IS=1E-14,RS=5)
+.MODEL DNOISE D(IS=1E-14,RS=0,KF=3.00E-11)
+*
+*
+.ENDS AD8665
+*
+*$
+
+
+
+* AD8666 SPICE Macro-model
+* 0.9Beta Rev (10/14/2013)
+* Generic Desc: 5/16V, CMOS, OP, Low Noise, S SPLY, 1X
+* Developed by: RM
+* Revsion history: 02/06/2015 (KF) - fixed output swing
+* Revision History: 08/10/2012 - Updated to new header style
+* 0.0 (05/2008)
+
+* Copyright 2006, 2012 by Analog Devices
+*
+* Refer to http://www.analog.com/Analog_Root/static/techSupport/designTools/spiceModels/license/spice_general.html for License Statement.  Use of this model
+* indicates your acceptance of the terms and provisions in the License Statement.
+*
+* BEGIN Notes:
+*
+* Not Modeled:
+*
+* Parameters modeled include:
+*
+* END Notes
+*
+* Node Assignments
+*                       noninverting input
+*                       |   inverting input
+*                       |   |    positive supply
+*                       |   |    |   negative supply
+*                       |   |    |   |   output
+*                       |   |    |   |   |
+*                       |   |    |   |   |
+.SUBCKT AD8666          1   2   99  50  45
+*
+*
+* INPUT STAGE
+*
+M1  14  7  8  8 PIX L=1E-6 W=3.02E-03
+M2  16  2  8  8 PIX L=1E-6 W=3.02E-03
+RC5 14 50 8.00E+02
+RC6 16 50 8.00E+02
+C1  14 16 1.00E-11
+I1  99  8 5.00E-04
+V1  99  9 2.071E+00
+D1   8  9 DX
+EOS  7  1 POLY(4) (22,98) (73,98) (81,98) (70,98) 6.00E-04 1 1 1 1
+IOS  1  2 1.00E-13
+*
+*
+* CMRR=110dB, POLE AT 250 Hz
+*
+E1  21 98 POLY(2) (1,98) (2,98) 0 1.26E-01 1.26E-01
+R10 21 22 6.37E+02
+R20 22 98 7.96E-03
+C10 21 22 1.00E-06
+*
+* PSRR=115dB, POLE AT 20 Hz
+*
+EPSY 72 98 POLY(1) (99,50) -2.13E+01 1.33E+00
+CPS3 72 73 1.00E-06
+RPS3 72 73 7.96E+03
+RPS4 73 98 1.06E-02
+*
+* VOLTAGE NOISE REFERENCE OF 10nV/rt(Hz)
+*
+VN1 80 98 0
+RN1 80 98 16.45E-3
+HN  81 98 VN1 9.89E+00
+RN2 81 98 1
+*
+* FLICKER NOISE CORNER = 300 Hz
+*
+D5  69 98 DNOISE
+VSN 69 98 DC 0.6551
+H1  70 98 POLY(1) VSN 1.00E-03 1.00E+00
+RN  70 98 1
+*
+* INTERNAL VOLTAGE REFERENCE
+*
+EREF 98  0 POLY(2) (99,0) (50,0) 0 0.5 0.5
+GSY  99 50 POLY(1) (99,50) -1.34E-05 1.10E-05
+EVP  97 98 POLY(1) (99,50) 0 0.5
+EVN  51 98 POLY(1) (50,99) 0 0.5
+*
+* GAIN STAGE
+*
+G1 98 30 POLY(1) (14,16)  0 4.83E-04
+R1 30 98 1.00E+06
+RZ 30 31 2.05E+02
+CF 45 31 5.52E-11
+*V3 32 30 2.89E+00
+V3 32 30 5.59E+00
+V4 30 33 -0.16E+00
+*V4 30 33 -0.86E+00
+D3 32 97 DX
+D4 51 33 DX
+*
+* OUTPUT STAGE
+*
+M5  45 46 99 99 POX L=1E-6 W=2.23E-04
+*M5  45 46 99 99 POX L=1E-6 W=7.23E-04
+M6  45 47 50 50 NOX L=1E-6 W=7.38E-04
+EG1 99 46 POLY(1) (98,30) 6.639E-01 1
+*EG1 99 46 POLY(1) (98,30) 20.639E-01 1
+*EG2 47 50 POLY(1) (30,98) 6.77E-01 1
+EG2 47 50 POLY(1) (30,98) 6.77E-01 1
+*
+* MODELS
+*
+.MODEL POX PMOS (LEVEL=2,KP=1.00E-05,VTO=-0.328,LAMBDA=0.01,RD=0)
+.MODEL NOX NMOS (LEVEL=2,KP=1.00E-05,VTO=+0.328,LAMBDA=0.01,RD=0)
+.MODEL PIX PMOS (LEVEL=2,KP=1.00E-05,VTO=-5.00E-01,LAMBDA=0.01)
+.MODEL DX D(IS=1E-14,RS=5)
+.MODEL DNOISE D(IS=1E-14,RS=0,KF=3.00E-11)
+*
+*
+.ENDS AD8666
+*
+*$
+
+
+
+* AD8668 SPICE Macro-model
+* 0.9Beta Rev (10/14/2013)
+* Generic Desc: 5/16V, CMOS, OP, Low Noise, S SPLY, 1X
+* Developed by: RM
+* Revsion history: 02/06/2015 (KF) - fixed output swing
+* Revision History: 08/10/2012 - Updated to new header style
+* 0.0 (05/2008)
+
+* Copyright 2006, 2012 by Analog Devices
+*
+* Refer to http://www.analog.com/Analog_Root/static/techSupport/designTools/spiceModels/license/spice_general.html for License Statement.  Use of this model
+* indicates your acceptance of the terms and provisions in the License Statement.
+*
+* BEGIN Notes:
+*
+* Not Modeled:
+*
+* Parameters modeled include:
+*
+* END Notes
+*
+* Node Assignments
+*                       noninverting input
+*                       |   inverting input
+*                       |   |    positive supply
+*                       |   |    |   negative supply
+*                       |   |    |   |   output
+*                       |   |    |   |   |
+*                       |   |    |   |   |
+.SUBCKT AD8668          1   2   99  50  45
+*
+*
+* INPUT STAGE
+*
+M1  14  7  8  8 PIX L=1E-6 W=3.02E-03
+M2  16  2  8  8 PIX L=1E-6 W=3.02E-03
+RC5 14 50 8.00E+02
+RC6 16 50 8.00E+02
+C1  14 16 1.00E-11
+I1  99  8 5.00E-04
+V1  99  9 2.071E+00
+D1   8  9 DX
+EOS  7  1 POLY(4) (22,98) (73,98) (81,98) (70,98) 6.00E-04 1 1 1 1
+IOS  1  2 1.00E-13
+*
+*
+* CMRR=110dB, POLE AT 250 Hz
+*
+E1  21 98 POLY(2) (1,98) (2,98) 0 1.26E-01 1.26E-01
+R10 21 22 6.37E+02
+R20 22 98 7.96E-03
+C10 21 22 1.00E-06
+*
+* PSRR=115dB, POLE AT 20 Hz
+*
+EPSY 72 98 POLY(1) (99,50) -2.13E+01 1.33E+00
+CPS3 72 73 1.00E-06
+RPS3 72 73 7.96E+03
+RPS4 73 98 1.06E-02
+*
+* VOLTAGE NOISE REFERENCE OF 10nV/rt(Hz)
+*
+VN1 80 98 0
+RN1 80 98 16.45E-3
+HN  81 98 VN1 9.89E+00
+RN2 81 98 1
+*
+* FLICKER NOISE CORNER = 300 Hz
+*
+D5  69 98 DNOISE
+VSN 69 98 DC 0.6551
+H1  70 98 POLY(1) VSN 1.00E-03 1.00E+00
+RN  70 98 1
+*
+* INTERNAL VOLTAGE REFERENCE
+*
+EREF 98  0 POLY(2) (99,0) (50,0) 0 0.5 0.5
+GSY  99 50 POLY(1) (99,50) -1.34E-05 1.10E-05
+EVP  97 98 POLY(1) (99,50) 0 0.5
+EVN  51 98 POLY(1) (50,99) 0 0.5
+*
+* GAIN STAGE
+*
+G1 98 30 POLY(1) (14,16)  0 4.83E-04
+R1 30 98 1.00E+06
+RZ 30 31 2.05E+02
+CF 45 31 5.52E-11
+*V3 32 30 2.89E+00
+V3 32 30 5.59E+00
+V4 30 33 -0.16E+00
+*V4 30 33 -0.86E+00
+D3 32 97 DX
+D4 51 33 DX
+*
+* OUTPUT STAGE
+*
+M5  45 46 99 99 POX L=1E-6 W=2.23E-04
+*M5  45 46 99 99 POX L=1E-6 W=7.23E-04
+M6  45 47 50 50 NOX L=1E-6 W=7.38E-04
+EG1 99 46 POLY(1) (98,30) 6.639E-01 1
+*EG1 99 46 POLY(1) (98,30) 20.639E-01 1
+*EG2 47 50 POLY(1) (30,98) 6.77E-01 1
+EG2 47 50 POLY(1) (30,98) 6.77E-01 1
+*
+* MODELS
+.MODEL POX PMOS (LEVEL=2,KP=1.00E-05,VTO=-0.328,LAMBDA=0.01,RD=0)
+.MODEL NOX NMOS (LEVEL=2,KP=1.00E-05,VTO=+0.328,LAMBDA=0.01,RD=0)
+.MODEL PIX PMOS (LEVEL=2,KP=1.00E-05,VTO=-5.00E-01,LAMBDA=0.01)
+.MODEL DX D(IS=1E-14,RS=5)
+.MODEL DNOISE D(IS=1E-14,RS=0,KF=3.00E-11)
+.ENDS AD8668
+*
+.subckt ADA4177-1 1 2 3 4 5
+C1 N006 N005 {Cf}
+A1 N009 0 N010 N010 N010 N010 N005 N010 OTA g={Ga} Iout={Islew} en=8n enk=12 Vhigh=1e308 Vlow=-1e308
+D5 N006 3 X
+D6 4 N006 X
+G2 0 N010 3 0 500µ
+R4 N010 0 1K noiseless
+G3 0 N010 4 0 500µ
+S1 N005 N010 4 3 SD
+C4 N004 0 {5p*x} Rpar=1K noiseless
+C18 2 1 1p Rpar=4Meg noiseless
+D8 3 1 1nA m=.4
+C3 3 5 1p
+C7 5 4 .25p
+A2 2 1 0 0 0 0 0 0 OTA g=0 in=.2p ink=1.5K incm=.02p incmk=1.5k
+Ö1 N006 3 4 N005 N010 Gm1={Gb} Ibias=500u
+D1 3 2 1nA m=.4
+R5 5 N006 25
+L2 N004 N007 {5µ*x}
+C10 N007 0 {5p*x} Rpar=1K noiseless
+D2 2 3 OVP1
+D4 2 3 OVP2
+D7 4 1 OVP1
+D9 4 1 OVP2
+C2 3 2 2p
+C5 3 1 2p
+C6 2 4 2p
+C11 1 4 2p
+D10 2 1 DIN
+B3 N004 0 I=2m*dnlim(uplim(V(2),V(3)-1.4,.1), V(4)+1.4, .1)+100n*V(2)
+B4 0 N004 I=2m*dnlim(uplim(V(1),V(3)-1.4,.1), V(4)+1.4, .1)+100n*V(1)
+D11 N010 N005 IO
+L1 N008 0 10µ Rser=1K noiseless
+G1 0 N008 N007 0 1m
+L3 N009 0 10µ Rser=1K noiseless
+G4 0 N009 N008 0 1m
+.param Cf = 1p
+.param Ro       =  11.8K
+.param Avol     =  320K
+.param RL       =  2K
+.param AVmid =  3.5
+.param FmidA = 1Meg
+.param Zomid  = .08
+.param FmidZ  = 1k
+.param Vslew  = 1.5Meg
+.param Vmin = 3.5
+.param Roe = 1/(1/RL+1/Ro)
+.param Gb = ((FmidZ/FmidA)*(Roe/(AVmid*Zomid))-1)/Roe
+.param Ga = 2*pi*FmidZ*Cf/(Zomid*gb)
+.param RH = Avol/(Ga*Gb*Roe)
+.param Islew = Vslew*Cf*(1+1/(Roe*Gb))
+.model X D(Ron=1m Roff=1G Vfwd=-25m epsilon=10m noiseless)
+.model SD SW(Ron=10m Roff={RH} Vt={-Vmin-100m} Vh=-.1 noiseless)
+.model 1nA D(Ron=500Meg epsilon=.5 Ilimit=1n noiseless)
+.model IO  D(Ron=2K Roff=1T Vfwd={51m/Gb} Vrev={64m/Gb} revepsilon=.1 epsilon=.1 noiseless)
+.model OVP1 D(Ron=400 Roff=400G epsilon=1 Ilimit=8m noiseless)
+.model OVP2 D(Ron=12K Roff=400G Vfwd=6 epsilon=1 noiseless)
+.model DIN D(Ron=300 epsilon=.5 Vfwd=1 Ilimit=10m revIlimit=10m Vrev=1 revepsilon=.5 noiseless)
+.param X=2.5
+.ends ADA4177-1
+*
+*
+.subckt ADA4177 1 2 3 4 5
+C1 N006 N005 {Cf}
+A1 N009 0 N010 N010 N010 N010 N005 N010 OTA g={Ga} Iout={Islew} en=8n enk=12 Vhigh=1e308 Vlow=-1e308
+D5 N006 3 X
+D6 4 N006 X
+G2 0 N010 3 0 500µ
+R4 N010 0 1K noiseless
+G3 0 N010 4 0 500µ
+S1 N005 N010 4 3 SD
+C4 N004 0 {5p*x} Rpar=1K noiseless
+C18 2 1 1p Rpar=4Meg noiseless
+D8 3 1 1nA m=.4
+C3 3 5 1p
+C7 5 4 .25p
+A2 2 1 0 0 0 0 0 0 OTA g=0 in=.2p ink=1.5K incm=.02p incmk=1.5k
+Ö1 N006 3 4 N005 N010 Gm1={Gb} Ibias=500u
+D1 3 2 1nA m=.4
+R5 5 N006 25
+L2 N004 N007 {5µ*x}
+C10 N007 0 {5p*x} Rpar=1K noiseless
+D2 2 3 OVP1
+D4 2 3 OVP2
+D7 4 1 OVP1
+D9 4 1 OVP2
+C2 3 2 2p
+C5 3 1 2p
+C6 2 4 2p
+C11 1 4 2p
+D10 2 1 DIN
+B3 N004 0 I=2m*dnlim(uplim(V(2),V(3)-1.4,.1), V(4)+1.4, .1)+100n*V(2)
+B4 0 N004 I=2m*dnlim(uplim(V(1),V(3)-1.4,.1), V(4)+1.4, .1)+100n*V(1)
+D11 N010 N005 IO
+L1 N008 0 10µ Rser=1K noiseless
+G1 0 N008 N007 0 1m
+L3 N009 0 10µ Rser=1K noiseless
+G4 0 N009 N008 0 1m
+.param Cf = 1p
+.param Ro       =  11.8K
+.param Avol     =  320K
+.param RL       =  2K
+.param AVmid =  3.5
+.param FmidA = 1Meg
+.param Zomid  = .08
+.param FmidZ  = 1k
+.param Vslew  = 1.5Meg
+.param Vmin = 3.5
+.param Roe = 1/(1/RL+1/Ro)
+.param Gb = ((FmidZ/FmidA)*(Roe/(AVmid*Zomid))-1)/Roe
+.param Ga = 2*pi*FmidZ*Cf/(Zomid*gb)
+.param RH = Avol/(Ga*Gb*Roe)
+.param Islew = Vslew*Cf*(1+1/(Roe*Gb))
+.model X D(Ron=1m Roff=1G Vfwd=-25m epsilon=10m noiseless)
+.model SD SW(Ron=10m Roff={RH} Vt={-Vmin-100m} Vh=-.1 noiseless)
+.model 1nA D(Ron=500Meg epsilon=.5 Ilimit=1n noiseless)
+.model IO  D(Ron=2K Roff=1T Vfwd={51m/Gb} Vrev={64m/Gb} revepsilon=.1 epsilon=.1 noiseless)
+.model OVP1 D(Ron=400 Roff=400G epsilon=1 Ilimit=8m noiseless)
+.model OVP2 D(Ron=12K Roff=400G Vfwd=6 epsilon=1 noiseless)
+.model DIN D(Ron=300 epsilon=.5 Vfwd=1 Ilimit=10m revIlimit=10m Vrev=1 revepsilon=.5 noiseless)
+.param X=2.5
+.ends ADA4177
+*
+* ADA4637 SPICE Macro-model                   
+* Description: Amplifier
+* Generic Desc: 8/30V, JFET, OP, Low Noise, Low Ib, 1X
+* Developed by: HH / ADSJ
+* Revision History: 08/10/2012 - Updated to new header style
+* 04/15/2021 - Corrected output voltage limit versus supply voltage.
+* 05/10/2021 - Corrected open-loop gain/phase behavior.
+* 1.0 (08/2010)
+* Copyright 2010, 2012, 2021 by Analog Devices
+*
+* Refer to http://www.analog.com/Analog_Root/static/techSupport/designTools/spiceModels/license/spice_general.html for License Statement.  Use of this model
+* indicates your acceptance of the terms and provisions in the License Statement.
+*
+* BEGIN Notes: 
+*  CAUTION!!  To aid in convergence, most Spice simulators add a
+*  conductance on every node to insure that no node is floating.
+*  This is GMIN, and the default value is usually 1E-12.  To properly 
+*  simulate the low input bias current and low current noise, the 
+*  Spice simulator options have to be set to the following:
+*  .OPTIONS GMIN=0.01p
+*  .OPTIONS ABSTOL=0.01pA
+*  .OPTIONS ITL1=500
+*  .OPTIONS ITL2=200
+*  .OPTIONS ITL4=100
+*
+* Not Modeled:
+*    
+* Parameters modeled include: 
+*  This model simulates typical values at Vs=±15V
+*  The ADA4637 is decompensated. Operate at a noise gain >5
+*
+* END Notes
+*
+* Node assignments
+*            	  non-inverting input
+*                 |   inverting input
+*                 |   |    positive supply
+*                 |   |    |    negative supply
+*                 |   |    |    |    output
+*                 |   |    |    |    |
+.SUBCKT ADA4637   1   2   99   50   30
+*
+* INPUT STAGE
+*
+Cdiff 1   2  3E-12
+Cin1  1  50  5E-12
+Cin2  2  50  5E-12
+*
+R3   5  99a    2.579E+02
+R4   6  99a    2.579E+02
+Ddp  99b 99a DX
+VCP  99 99b -0.3V
+J1   5   2    4   JX
+J2   6   7    4   JX
+*
+I1   4  50    3.877E-03
+IOS  1   2    67.25E-12
+EOS  7   1    POLY(3)  (17,24) (73,98) (42,0) 110E-6  1 1 1 1
+*
+EREF 98  0    24  0   1
+*
+* SECOND STAGE 
+*
+R5   9  98    3.974E+05
+C3   9  98    1.050E-9
+G1   98  9    5  6  1.700E-01
+V2   99  8    2.7; source
+V3   10  50   2.3;  sink
+D1   9   8    DX2
+D2   10  9    DX2
+*
+* 2nd 
+*
+G5   98 18    9  98  1E-03
+R13  18 19    1.0E+03
+R13a 19 98    4.0E-3	
+C13a 18 98    1E-13
+*
+* COMMON-MODE GAIN NETWORK 
+*
+R11  16 17     1.447E+01
+R12  17 98     1.768E-03
+E3   16 98     POLY(2) 1  98  2  98  0  7.192E-02 7.192E-02
+C8   16 17     1.0E-6
+*
+* PSRR NETWORK
+*
+EPSY 98 72 POLY(1) (99,50) 2.897E-04  8.692E-03
+CPS3 72 73 1.000E-09
+RPS3 72 73 8.603E+04
+RPS4 73 98 1.326E+02
+*
+* VOLTAGE NOISE GENERATOR
+*
+VN1  41  0    DC 2
+DN1  41 42    DEN
+DN2  42 43    DEN
+VN2  0  43    DC 2
+*
+*
+GSY  99 50 POLY(1) (99,50) 3.615E-03 11.7E-06
+*
+* OUTPUT STAGE
+*
+R14  24 99     500E3
+R15  24 50     500E3
+R16  29 99     100
+R17  29 50     100
+G8   29 99  POLY(1)    99 18  1E-16 1.00E-2 
+G9   50 29  POLY(1)    18 50  1E-16 1.00E-2
+*
+V4   25 29     2.02; Isc high side
+V5   29 26     1.83
+D3   18 25     DX
+D4   26 18     DX
+*
+G6   27 50 18 29  10.0E-03 
+G7   28 50 29 18  10.0E-03
+D5   99 27     DX
+D6   99 28     DX
+D7   50 27     DY
+D8   50 28     DY
+F1   29  0     V4  1
+F2   0  29     V5  1
+*
+*
+* HIGHER-ORDER POLES
+*
+.param C0=437p
+GO1 0 29a 29 0 1
+RO1 29a 0 1 Temp=-273.15
+CO1 29a 0 {C0}
+GO2 0 29b 29a 0 1
+RO2 29b 0 1 Temp=-273.15
+CO2 29b 0 {C0}
+GO3 0 29c 29b 0 1
+RO3 29c 0 1 Temp=-273.15
+CO3 29c 0 {C0}
+GO4 0 29d 29c 0 1
+RO4 29d 0 1 Temp=-273.15
+CO4 29d 0 {C0}
+GO5 0 29e 29d 0 1
+RO5 29e 0 1 Temp=-273.15
+CO5 29e 0 {C0}
+GO6 0 29f 29e 0 1
+RO6 29f 0 1 Temp=-273.15
+CO6 29f 0 {C0}
+GO7 0 29g 29f 0 1
+RO7 29g 0 1 Temp=-273.15
+CO7 29g 0 {C0}
+GO8 0 29h 29g 0 1
+RO8 29h 0 1 Temp=-273.15
+CO8 29h 0 {C0}
+*
+* OUTPUT
+*
+L1   29h 30a     1E-15
+R24  30a 30  1m;  30 is output pin
+*
+* MODELS USED
+*
+.MODEL JX NJF(BETA=1.699E-02  VTO=-1.500  IS=7E-13 RD=1m
++ RS=1m CGD=1.5E-14 CGS=1.5E-14  LAMBDA=0.01 )
+*.MODEL JX PJF(BETA=1.4E-3  VTO=-1.000  IS=20E-12 RD=0
+*+ RS=0 CGD=3E-12 CGS=3E-12)
+.MODEL DX   D(IS=1E-15 RS=0 CJO=1E-12)
+.MODEL DY   D(IS=1E-15 BV=50 RS=10 CJO=1E-12)
+.MODEL DEN  D(IS=1E-12 RS=2.4E3, KF=3.7E-15 AF=1)
+.MODEL DIN  D(IS=1E-12 RS=12090 KF=0 AF=1)
+.MODEL DX2  D(Ron=1m Roff=1G Vfwd=0 Epsilon=0.3)
+*
+.ENDS ADA4637
+*
+*
+*$
+* ADA4666-2 SPICE Macro-model
+* Typical Values
+* 07/13, Version 0
+* VW ADSJ
+*
+* Copyright 2013 by Analog Devices
+*
+* VSY=18V, T=25°C
+*
+* Refer to "README.DOC" file for License Statement.  Use of this
+* model indicates your acceptance of the terms and provisions in
+* the License Statement.
+*
+* Node Assignments
+*                       noninverting input
+*                       |   inverting input
+*                       |   |    positive supply
+*                       |   |    |   negative supply
+*                       |   |    |   |   output
+*                       |   |    |   |   |
+*                       |   |    |   |   |
+.SUBCKT ADA4666-2       1   2   99  50  45
+*
+* INPUT STAGE
+*
+M1   4  7  8  8 PIX L=1E-6 W=2.65E-04
+M2   6  2  8  8 PIX L=1E-6 W=2.65E-04
+M3  14  7 18 18 NIX L=1E-6 W=1.18E-04
+M4  16  2 18 18 NIX L=1E-6 W=1.18E-04
+RD1  4 50 1.33E+04
+RD2  6 50 1.33E+04
+RD3 99 14 1.33E+04
+RD4 99 16 1.33E+04
+C1   4  6 8.15E-13
+C2  14 16 8.15E-13
+I1  99  8 3.00E-05
+I2  18 50 3.00E-05
+V1  99  9 2.113E+00
+V2  19 50 1.203E-01
+D1   8  9 DX
+D2  19 18 DX
+EOS  7  1 POLY(4) (73,98) (22,98) (81,98) (83,98) 2.2E-03 1 1 1 1
+IOS  1  2 1.50E-12
+Ccm1 1 50 3E-12
+Ccm2 2 50 3E-12
+Cdm 1 2 8.5E-12
+*
+*CMRR
+*
+E1  72 98 POLY(2) (1,98) (2,98) 0 5.25E-03 5.25E-03
+R10 72 73 1.89E+02
+R20 73 98 7.959E-02
+C10 72 73 1.00E-06
+*
+* PSRR
+*
+EPSY 21 98 POLY(1) (99,50) -2.074E+02 1.152E+1
+RPS1 21 22 1.59E+05
+RPS2 22 98 3.18E-02
+CPS1 21 22 1.00E-06
+*
+* VOLTAGE NOISE
+*
+VN1 80 98 0
+RN1 80 98 16.45E-3
+HN  81 98 VN1 1.07E+01
+RN2 81 98 1
+*
+* FLICKER NOISE CORNER
+*
+DFN 82 98 DNOISE
+VFN 82 98 DC 0.6441
+HFN 83 98 POLY(1) VFN 1.00E-03 1.00E+00
+RFN 83 98 1
+*
+* INTERNAL VOLTAGE REFERENCE
+*
+EREF 98  0 POLY(2) (99,0) (50,0) 0 0.5 0.5
+GSY  99 50 POLY(1) (99,50) 4.575E-04 -1.55E-6
+EVP  97 98 POLY(1)(99,50) 0.5 0.175
+EVN  51 98 POLY(1)(50,99) 0.5 0.375
+*
+* GAIN STAGE
+*
+G1 98 30 POLY(2) (4,6) (14,16) 0 7.103E-03 7.103E-03
+R1 30 98 1.00E+06
+RZ 455 31 0.195E+00
+CF 30 31 2.95E-9
+EZ 455 98 (45,98) 1
+D3 30 97 DX
+D4 51 30 DX
+*
+* OUTPUT STAGE
+*
+M5  45 46 99 99 POX L=3E-6 W=5.99E-04
+M6  45 47 50 50 NOX L=3E-6 W=5.99E-03
+EG1 99 46 POLY(1) (98,30) 8.523E-01 1
+EG2 47 50 POLY(1) (30,98) 6.964E-01 1
+
+*
+* MODELS
+*
+.MODEL POX PMOS (LEVEL=2,KP=4.00E-05,VTO=-0.7,LAMBDA=0.047,RD=0)
+.MODEL NOX NMOS (LEVEL=2,KP=1.00E-05,VTO=+0.6,LAMBDA=0.022,RD=0)
+.MODEL PIX PMOS (LEVEL=2,KP=1.50E-05,VTO=-0.5,LAMBDA=0.047)
+.MODEL NIX NMOS (LEVEL=2,KP=4.00E-05,VTO=0.5,LAMBDA=0.022)
+.MODEL DX D(IS=1E-14,RS=0.1)
+.MODEL DNOISE D(IS=1E-14,RS=0,KF=1.53E-10)
+*
+*
+.ENDS ADA4666-2
+*
+* Generic Desc: 10V/100V, BIPOLAR
+* Developed by: DB / ADSJ
+* Revision History:
+*02/18/2014 - initial release
+*02/26/2014 rev 0.1 - Edited subckt line
+* 0.1 (02/2014)
+*
+* Copyright 2014 by Analog Devices
+*
+* T=25°C
+*
+* Refer to "README.DOC" file for License Statement.  Use of this
+* model indicates your acceptance of the terms and provisions in
+* the License Statement.
+
+*****************************************************
+*                      in+ in- vps+ vps- out
+.SUBCKT ADA4700-1      1   2   99   50   5
+*
+*****************************************************
+*
+*****************************************************
+* input gm (voltage -> current) stage
+q1    99      3       6      50        npn1  10
+q2    99      4       7      50        npn1  10
+q3    50      3       6      50        pnp1   1
+q4    50      4       7      50        pnp1   1
+c3    1       50      5.0pf
+c4    2       50      5.0pf
+c5    3       4       0.5pf
+r5    1       3       2k
+r6    2       4       2k
+d01   6       8       d1
+d02   7       9       d1
+d03   9       8       d1
+d04   8       9       d1
+g01   8       50      56       55     160e-6
+g02   9       50      56       55     160e-6
+e01   10      55      87       9      1.00
+e02   91      55      11       55     1.00
+e03   92      55      12       55     1.00
+e04   93      91      56       55     12e-3
+e05   92      94      56       55     12e-3
+d05   10      11      d1
+d06   12      10      d1
+d07   95      93      d1
+d08   94      96      d1
+r7    55      95      200
+r8    96      55      200
+g04   55      14      55       95     3.00e-3
+g05   15      55      96       55     3.00e-3
+g06   11      14      56       55     100e-6
+g07   15      12      56       55     100e-6
+*
+* input (NPN) base current caneclation
+q5    99      45      44      50        npn1  10
+g14   44      50      56      55        160e-6
+e15   99      46      56      55        0.6
+g20   99      45      46      45        10e-6
+g21   99      3       46      45        10e-6
+g22   99      4       46      45        10e-6
+*
+********************************************************
+* current mirror, voltage gain, and compensation at negative supply
+g08   14      50      14     50        0.5e-3
+g09   18      50      14     50        0.5e-3
+c13   16      20      3.0pf
+c15   20      18      15pf
+c17   14      50      4.0pf
+c19   20      50      3.0pf
+r13   14      16      2.0k
+c22   18      50      6.0pf
+c23   21      50      20pf
+r10   14      50      1e9
+r21   18      50      400e6
+*
+********************************************************
+* current mirror, voltage gain, and compensation at postive supply
+g10   99      15      99      15      0.5e-3
+g11   99      19      99      15      0.5e-3
+c14   17      20      3.0pf
+c16   20      19      15pf
+c18   99      15      4.0pf
+c20   99      20      3.0pf
+r14   15      17      2.0k
+c24   19      99      6.0pf
+c25   22      99      20pf
+r11   99      15      1e9
+r23   19      99      400e6
+*
+********************************************************
+* unit gain voltage buffer and output drive and bias
+q12   34      34      29      50        pnp1  600
+q13   35      35      29      50        npn1  300
+e06   28      50      27      50        1.0
+d9    23      21      d1
+d10   24      23      d1
+d11   20      24      d1
+d12   25      20      d1
+d13   26      25      d1
+d14   22      26      d1
+d15   32      27      d1
+d16   27      33      d1
+d21   34      29      d1
+d22   29      35      d1
+r15   21      18      1.2k
+r16   19      22      1.2k
+r19   20      21      7.0k
+r20   22      20      7.0k
+r27   29      28      2.0k
+* noiseless 40k resistors
+g18   20      27      20      27      25e-6
+*
+g12   34      50      56      55     100e-6
+g13   99      35      56      55     100e-6
+e13   32      50      54      55     2.6
+e14   99      33      54      55     2.7
+*
+* output transistors w/short current limit and output feedback compensation
+q17   99      37      39      50        npn1  300
+q18   50      36      38      50        pnp1  600
+q19   43      39      38      50        npn1  1
+q20   42      38      39      50        pnp1  1
+d19   22      43      d1
+d20   42      21      d1
+r3    39      5       20
+r4    5       38      20
+r17   35      37      2.0k
+r18   34      36      1.0k
+* current boost for output transistors
+g16   36      50      36      34      15e-3
+g17   99      37      35      37      3.0e-3
+*
+r25   42      21      100k
+r26   22      43      100k
+*
+c1    5       41      20.0pf
+r1    22      41      5.0k
+c2    5       40      20.0pf
+r2    21      40      5.0k
+*
+********************************************************
+* macromodel turn on control and bias
+*
+* Generate 1.0 volt reference
+qb1   60      60      99      50      pnp1   1
+qb2   62      61      50      50      npn1   1
+qb3   64      62      63      50      npn1   10
+d64   65      64      d1
+d65   99      65      d1
+d66   66      64      d1
+d67   67      55      d1
+d68   68      55      d1
+rb1   60      61      2e6
+rb2   61      62      1.0k
+rb3   61      50      500k
+rb4   63      50      300
+rb5   65      64      20k
+rb6   99      65      20k
+rb7   99      66      20k
+rb8   67      55      10e6
+rb9   68      55      160e6
+g67   99      67      99      66     160e-6
+g68   99      68      99      66     10e-6
+e67   69      55      67      55     0.77
+e68   70      69      67      68     7.90
+*
+* Buffer and filter 1.0 volt reference
+r51   70      51      10k
+c51   51      55      40pf
+e51   53      55      51      55     1.00
+r52   53      52      10k
+c52   52      55      40pf
+e52   56      55      52      55     1.00
+*
+* Generate voltage half way between the power suppplies
+eb1   55      50      99      50     0.50
+*
+* Generate  one diode voltage
+g54   55      54      56      55     100e-6
+d40   54      55      d1
+rb10  54      55      20k
+*
+********************************************************
+* input error adjusts and input noise
+*
+* Vos
+e84   84      8       56      55     1e-15
+*
+* Input Voltage Noise flat band and 1/f
+e87   87      84      78      79     1.6
+d76   76      55      dnoise
+d77   77      55      dnoise
+g76   55      76      56      55     160e-6
+g77   55      77      56      55     160e-6
+c77   79      78      5.0pf
+r77   79      78      2.0k
+r78   76      78      300k
+r79   77      79      300k
+*
+* Input Current Noise flat band and 1/f
+d80   80      55      dnoise
+d81   81      55      dnoise
+d82   82      55      dnoise
+g80   55      80      56      55     160e-6
+g81   55      81      56      55     160e-6
+g82   55      82      56      55     160e-6
+g31   2       50      81      80     0.20e-6
+g32   1       50      82      80     0.20e-6
+*
+********************************************************
+* adjust supply current
+*
+* set supply current at low voltage supply voltage
+g15   99      50      56      55     600e-6
+*
+* set supply current change with supply voltage change
+r30   99      50      1.0e6
+*
+********************************************************
+* esd diodes
+d51   50      1       d2
+d52   1       99      d2
+d53   50      2       d2
+d54   2       99      d2
+d55   50      5       d2
+d56   5       99      d2
+d57   50      99      dz120
+*
+********************************************************
+* models
+*
+.MODEL npn1 NPN is=1e-16, bf=200, vaf=150, ikf=100e-6
+*.MODEL npn1 NPN is=1e-16, bf=400, vaf=150, ikf=100e-6
+.MODEL pnp1 PNP is=1e-16, bf=100, vaf=100, ikf=50e-6
+*
+*.model d1     d  is=1e-14, rs=1.0
+.model d1     d  is=1e-14, rs=10
+.model d2     d  is=1e-14, rs=1.0
+.model dnoise d  is=1e-14, rs=1.0, kf=5.0e-11
+.model dz120  d  is=1e-13, rs=1.0, bv=120, ibv=5e-4
+*
+********************************************************
+* generator format
+* g_gen  out_sink  out_source  input_pos  input_neg  gain(amp/volt)
+* e_gen  out_pos   out_neg     input_pos  input_neg  gain(volt/volt)
+********************************************************
+*
+.ENDS ADA4700-1
+*
+*****************************************************
+*ADA4830 Macro-model
+*Function:Video Amplifier
+*
+*Revision History:
+*Rev.1.0 Nov 2017-CJG
+*Copyright 2017 by Analog Devices
+*
+*Refer to http://www.analog.com/Analog_Root/static/techSupport/designTools/spicemodels/license
+*for License Statement. Use of this model indicates your acceptance
+*of the terms and provisions in the License Staement.
+*
+*Tested on MultiSim, SiMetrix, LTSpice
+*
+*Not modeled:
+*	PSRR, CMR, Output Offset Voltage, Distortion
+*
+*
+*
+*Parameters modeled include:
+*   Input CM limits and Typ output voltge swing over full supply range,
+*   Gain, Output current limits, Voltage Noise, Input Clamps, Output Clamps,
+*   Power Down,Quiescent supply current, Short-to-battery flag.
+*
+*
+*
+* Node assignments
+*                	voltage reference
+*                	|    non-inverting input
+*                	|    |   inverting input
+*                	|    |   |   positive supply
+*                	|    |   |   |   negative supply
+*                	|    |   |   |   |   enable
+*                	|    |   |   |   |   |	  short-to-battery
+*					|    |   |   |   |   |	  |   output
+*					|    |   |   |   |   |	  |	  |
+.SUBCKT ADA4830    VREF INP INN VSY GND ENA  STB OUT
+
+
+
+**Power Supplies**
+
+R11 VSY 17 Rideal 1e-006
+D4 GND 17 DIODE
+I1 17 34 dc 0.01
+S6 34 GND ENA ENAN SWITCHe
+E11 VSY1 GND 17 GND 1
+V9 VCL GND dc 10
+V11 VEE GND dc -10
+******************************************************************************************
+
+**Input Stage**
+
+Rdiff INN INP Rideal 6700
+Rcm1 INP GND Rideal 2000
+Rcm2 INN GND Rideal 2000
+S1 INP 29 ENA ENAN SWITCHe
+S2 INN 30 ENA ENAN SWITCHe
+E1 INPCL GND 29 GND 1
+E2 INNCL GND 30 GND 1
+******************************************************************************************
+
+**Input Clamp**
+
+R15 INPCL OPCL Rideal 10
+D6 OPCL 36 DIODE
+D7 37 OPCL DIODE
+V5 37 VEE dc 0.8
+V6 VCL 36 dc 1.28
+R16 INNCL ONCL Rideal 10
+D8 ONCL 19 DIODE
+D9 23 ONCL DIODE
+V18 23 VEE dc 0.8
+V19 VCL 19 dc 1.28
+E3 INPx GND OPCL GND 1
+E4 INNx GND ONCL GND 1
+******************************************************************************************
+
+**Filter Stage**
+
+R2 2 INPx Rideal 1
+R4 6 INNx Rideal 1
+C1 2 GND 9.8e-010
+C4 6 GND 9.8e-010
+L1 2 3 2.679e-009
+L4 6 12 2.679e-009
+C2 3 GND 3.66e-009
+C5 12 GND 3.66e-009
+L2 3 4 3.66e-009
+L5 12 16 3.66e-009
+C3 4 GND 2.679e-009
+C6 16 GND 2.679e-009
+L3 4 5 4e-010
+L6 16 18 4e-010
+R3 GND 5 Rideal 1
+R5 GND 18 Rideal 1
+E5 FPO GND 5 GND 2
+E6 FNO GND 18 GND 2
+******************************************************************************************
+
+**Voltage Reference**
+
+Rref1 VREF VSY1 Rideal 40000
+Rref2 VREF GND Rideal 40000
+E7 14 GND VREF GND 1
+R1 33 43 Rideal 5000
+S3 33 VREFx ENA ENAN SWITCHe
+
+******************************************************************************************
+
+**Vref Clamp**
+
+R19 14 43 Rideal 10
+D10 43 31 DIODE
+D11 32 43 DIODE
+V20 VSY 31 dc 1.9
+V32 32 GND dc 0.93
+******************************************************************************************
+
+**Gain Stage**
+
+R6 VREFx FPO Rideal 10000
+R7 1 FNO Rideal 10000
+G1 GND Vox VREFx 1 1
+R8 GND Vox Rideal 1000000
+R9 Vox 1 Rideal 5000
+C7 GND Vox 3e-010
+******************************************************************************************
+
+**Enable**
+
+R14 ENA 26 Rideal 1600000000
+E12 24 27 26 GND 1
+V13 GND 27 dc 1
+R18 24 25 Rideal 1000000
+D5 GND 25 DIODE
+E13 26 28 25 GND 1
+E14 28 ENAN 21 GND 1
+V4 20 GND dc 2
+R17 22 20 Rideal 0.1
+S5 22 21 ENA ENAN SWITCHe
+R13 GND 21 Rideal 100
+C8 21 GND 1e-012
+******************************************************************************************
+
+**Spectral Noise**
+
+h1 10 Vox Vmeas1 1
+Vmeas1 8 GND dc 0
+R10 8 GND Rideal 0.0167
+D1 9 8 DNOISE
+V30 9 GND dc 0.1
+E8 7 GND 10 GND 1
+******************************************************************************************
+
+**Output Clamp**
+
+R12 11 7 Rideal 100
+D2 11 13 DIODE
+D3 41 11 DIODE
+V21 41 GND dc 0.75
+V3 VSY 13 dc 0.987
+E9 15 GND 11 GND 1
+******************************************************************************************
+
+**Output Current**
+
+E10 42 GND 15 GND 1
+h2 42 38 Vmeas2 20
+Vmeas2 42 35 dc 0
+D12 15 40 DIODE
+D13 39 15 DIODE
+V22 38 39 dc 1.805
+V23 40 38 dc 1.805
+S4 35 OUT ENA ENAN SWITCHe
+******************************************************************************************
+
+**Short to Battery Flag**
+Vstb1 46 GND dc 0.11
+Vstb2 47 GND dc 0.11
+R20 44 46 Rideal 152
+R21 45 47 Rideal 152
+S7 44 STB INP GND SWITCHstb
+S8 45 STB INN GND SWITCHstb
+******************************************************************************************
+
+**Models**
+
+.model SWITCHe vswitch(Von=5,Voff=0,ron=0.01,roff=1e06)
+.model SWITCHstb vswitch(Von=11.5,Voff=10.5,ron=0.01,roff=1e016)
+.model DIODE  D
+.model DNOISE  D(KF=1.375e03)
+.model	Rideal	res(T_ABS=-273)
+
+.ends ADA4830*TEST3 Macro-model
+*Function:Amplifier
+*
+*Revision History:
+*Rev.2.1 Nov 2016-JL
+*Power Down Function Updated - 11/21/2016 (JL)
+*Copyright 2016 by Analog Devices
+*
+*Refer to http://www.analog.com/Analog_Root/static/techSupport/designTools/spicemodels/license
+*for License Statement. Use of this model indicates your acceptance
+*of the terms and provisions in the License Staement.
+*
+*Tested on MultSIm, SiMetrix(NGSpice), PSpice
+*
+*Not modeled: Distortion, PSRR, Overload Recovery,
+*             Shutdown Turn On/Turn Off time, CMRR
+*
+*Parameters modeled include:
+*   Vos, Ibias, Input CM limits and Typ output voltge swing over full supply range,
+*   Open Loop Gain & Phase, Slew Rate, Output current limits, Voltage & Current Noise over temp,
+*   Capacitive load drive, Quiescent and dynamic supply currents,
+*   Shut Down pin functionality where applicable,
+*   Single supply & offset supply functionality.
+*
+*Removed FB pin for LTSPICE (temporary)
+*
+*Node Assignments
+*              Non-Inverting Input
+*              |   Inverting Input
+*              |   |   Positive supply
+*              |   |   |   Negative supply
+*              |   |   |   |   Output
+*              |   |   |   |   |
+*              |   |   |   |   |    PD
+*              |   |   |   |   |    |
+.Subckt ADA4857 100 101 102 103 104 106
+*
+***Power Supplies***
+Rz1	102	1020	Rideal	1e-6
+Rz2	103	1030	Rideal	1e-6
+Ibias	1020	1030	dc	0.35e-3
+DzPS	98	1020	diode
+Iquies	1020	98	dc	4.65e-3
+S1	98	1030	113	106	Switch
+R1	1020	99	Rideal	1e7
+R2	99	1030	Rideal	1e7
+e1	111	110	1020	110	1
+e2	110	112	110	1030	1
+e3	110	0	99	0	1
+*
+*
+***Inputs***
+S2	1	100	113	106	Switch
+S3	9	101	113	106	Switch
+VOS	1	2	dc	2e-3
+IbiasP	110	2	dc	-2e-6
+IbiasN	110	9	dc	-2e-6
+RinCMP	110	2	Rideal	8e6
+RinCMN	9	110	Rideal	8e6
+CinCMP	110	2	0.4e-12
+CinCMN	9	110	0.4e-12
+IOS	9	2	0.05e-6
+RinDiff	9	2	Rideal	4000e3
+CinDiff	9	2	0.25e-12
+*
+*
+***Non-Inverting Input with Clamp***
+g1	3	110	110	2	0.001
+RInP	3	110	Rideal	1e3
+RX1	40	3	Rideal	0.001
+DInP	40	41	diode
+DInN	42	40	diode
+VinP	111	41	dc	1.46
+VinN	42	112	dc	1.46
+*
+*
+***Vnoise***
+hVn	6	5	Vmeas1	707.10678
+Vmeas1	20	110	DC	0
+Vvn	21	110	dc	0.65
+Dvn	21	20	DVnoisy
+hVn1	6	7	Vmeas2	707.10678
+Vmeas2	22	110	dc	0
+Vvn1	23	110	dc	0.65
+Dvn1	23	22	DVnoisy
+*
+*
+***Inoise***
+FnIN	9	110	Vmeas3	0.7071068
+Vmeas3	51	110	dc	0
+VnIN	50	110	dc	0.65
+DnIN	50	51	DINnoisy
+FnIN1	110	9	Vmeas4	0.7071068
+Vmeas4	53	110	dc	0
+VnIN1	52	110	dc	0.65
+DnIN1	52	53	DINnoisy
+*
+FnIP	2	110	Vmeas5	0.7071068
+Vmeas5	31	110	dc	0
+VnIP	30	110	dc	0.65
+DnIP	30	31	DIPnoisy
+FnIP1	110	2	Vmeas6	0.7071068
+Vmeas6	33	110	dc	0
+VnIP1	32	110	dc	0.65
+DnIP1	32	33	DIPnoisy
+*
+*
+***CMRR***
+RcmrrP	3	10	Rideal	1e12
+RcmrrN	10	9	Rideal	1e12
+g10	11	110	10	110	-1e-10
+Lcmrr	11	12	1e-12
+Rcmrr	12	110	Rideal	1e3
+e4	5	3	11	110	1
+*
+*
+***Power Down***
+VPD	111	80	dc	2
+VPD1	81	0	dc	2.2
+RPD	111	106	Rideal	0.2e6
+ePD	80	113	82	0	1
+RDP1	82	0	Rideal	1e3
+CPD	82	0	1e-10
+S5	81	82	83	113	Switch
+CDP1	83	0	1e-12
+RPD2	106	83	1e6
+*
+*
+***Feedback Pin***
+RF	105	104	Rideal	0.001
+*
+*
+***VFB Stage***
+g200	200	110	7	9	1
+R200	200	110	Rideal	250
+DzSlewP	201	200	DzSlewP
+DzSlewN	201	110	DzSlewN
+*
+*
+***Dominant Pole at 613 Hz***
+g210	210	110	200	110	10.9069e-6
+R210	210	110	Rideal	0.26e6
+C210	210	110	1e-012
+*
+*
+***Output Voltage Clamp-1***
+RX2	60	210	Rideal	0.001
+DzVoutP	61	60	DzVoutP
+DzVoutN	60	62	DzVoutN
+DVoutP	61	63	diode
+DVoutN	64	62	diode
+VoutP	65	63	dc	6.567
+VoutN	64	66	dc	6.567
+e60	65	110	111	110	1.209
+e61	66	110	112	110	1.209
+*
+*
+***Pole at 810MHz***
+g220	220	110	210	110	0.001
+R220	220	110	Rideal	1000
+C220	220	110	0.1965e-12
+*
+***Pole at 12200MHz***
+g230	230	110	220	110	0.001
+R230	230	110	Rideal	1000
+C230	230	110	0.013e-12
+*
+***Buffer***
+g240	240	110	230	110	0.001
+R240	240	110	Rideal	1000
+*
+***Buffer***
+g245	245	110	240	110	0.001
+R245	245	110	Rideal	1000
+*
+***Buffer***
+g250	250	110	245	110	0.001
+R250	250	110	Rideal	1000
+*
+***Buffer***
+g255	255	110	250	110	0.001
+R255	255	110	Rideal	1000
+*
+***Buffer***
+g260	260	110	255	110	0.001
+R260	260	110	Rideal	1000
+*
+***Buffer***
+g265	265	110	260	110	0.001
+R265	265	110	Rideal	1000
+*
+***Buffer***
+g270	270	110	265	110	0.001
+R270	270	110	Rideal	1000
+*
+***Buffer***
+e280	280	110	270	110	1
+R280	280	285	Rideal	10
+*
+***Peak: f=3100MHz, Zeta=1.6, Gain=2.6dB***
+e290	290	110	285	110	1
+R290	290	292	Rideal	10
+L290	290	291	0.16e-9
+C290	291	292	16.429e-12
+R291	292	110	Rideal	28.656
+e295	295	110	292	110	1.349
+*
+*
+***Output Stage***
+g300	300	110	295	110	0.001
+R300	300	110	Rideal	1000
+e301	301	110	300	110	1
+Rout	302	303	Rideal	 19
+Lout	303	310	 3.6e-9
+Cout	310	110	 1.25e-12
+*
+*
+***Output Current Limit***
+H1	301	304	Vsense1	100
+Vsense1	301	302	dc	0
+VIoutP	305	304	dc	11.836
+VIoutN	304	306	dc	11.836
+DIoutP	307	305	diode
+DIoutN	306	307	diode
+Rx3	307	300	Rideal	0.001
+*
+*
+***Output Clamp-2***
+VoutP1	111	73	dc	1.685
+VoutN1	74	112	dc	1.685
+DVoutP1	75	73	diode
+DVoutN1	74	75	diode
+RX4	75	310	Rideal	0.001
+*
+*
+***Supply Currents***
+FIoVcc	314	110	Vmeas8	1
+Vmeas8	310	311	dc	0
+R314	110	314	Rideal	1e9
+DzOVcc	110	314	diode
+DOVcc	102	314	diode
+RX5	311	312	Rideal	0.001
+FIoVee	315	110	Vmeas9	1
+Vmeas9	312	313	dc	0
+R315	315	110	Rideal	1e9
+DzOVee	315	110	diode
+DOVee	315	103	diode
+*
+*
+***Output Switch***
+S4	104	313	113	106	Switch
+*
+*
+*** Common Models ***
+.model	diode	d(bv=100)
+.model	Switch	vswitch(Von=2.205,Voff=2.195,ron=0.001,roff=1e6)
+.model	DzVoutP	D(BV=4.3)
+.model	DzVoutN	D(BV=4.3)
+.model	DzSlewP	D(BV=257.194)
+.model	DzSlewN	D(BV=257.194)
+.model	DVnoisy	D(IS=5.51e-16 KF=1.09e-14)
+.model	DINnoisy	D(IS=7.97e-17 KF=2.45e-15)
+.model	DIPnoisy	D(IS=7.97e-17 KF=2.45e-15)
+.model	Rideal	res(T_ABS=-273)
+*
+.ends
+*
+*
+* Copyright (c) 1998-2021 Analog Devices, Inc.  All rights reserved.
+*
+.subckt ADA4860 1 2 3 4 5 6
+Cinp INp 0 {Cinp} Rpar={Rinp} Noiseless
+Ibp INp 0 {Ibp}
+Ibn N003 0 {Ibn}
+Berr 0 Err I=(V(Binp,Binn)/{Rinn})*V(GO) Rpar=1
+Ro N007 N003 {Rinn} Noiseless
+G1 0 N004 Zol5 0 10
+R1 N004 0 100m Noiseless
+A1 6 4 0 0 0 _PD 0 0 SCHMITT Vt={PDVt} Vh=10m Trise={PDTon*2} Tfall={PDToff*2} Vlow=0 Vhigh=1
+A2 0 N003 0 0 0 0 0 0 OTA G=0 In={Inn} Ink={Inkn}
+A3 0 INp 0 0 0 0 0 0 OTA G=0 In={Inp} Ink={Inkp}
+G3 0 Zol2 Vclamp 0 1m
+C1 Zol2 0 {Cfp2} Rpar=1k Noiseless
+G4 0 Zol3 Zol2 0 1m
+C2 Zol3 0 {Cfp2} Rpar=1k Noiseless
+Cinn N003 0 {Cinn}
+Binp 0 Binp I=Uplim(Dnlim(V(INp)+{Vos}, V(Vcm_min), 0.3), V(Vcm_max), 0.3) Rpar=1
+Binn 0 Binn I=Uplim(Dnlim(V(2), V(Vcm_min), 0.3), V(Vcm_max), 0.3) Rpar=1
+R2 Zol1 0 {Zol} Noiseless
+R3 N003 2 1µ Noiseless
+R4 INp 1 1µ Noiseless
+Bpd 6 0 I={Ipd_off}+V(_PD)* {Ipd_on-Ipd_off}
+Bq 3 4 I={Iq_off}+V(_PD)* {Iq_on-Iq_off}+V(Imon)
+G7 0 Vs 3 4 1m
+R9 Vs 0 1k Noiseless
+A7 VminGD 0 _PD 0 VmaxGD 0 GO 0 AND Tau=1n
+A5 Vs 0 0 0 0 0 VminGD 0 SCHMITT Vt={Vsmin-50m} Vh=10m Tau=1n
+A6 Vs 0 0 0 0 VmaxGD 0 0 SCHMITT Vt={Vsmax-50m} Vh=10m Tau=1n
+R_Iout N004 N002 1µ
+Bimon 0 Imon I=1m*I(R_Iout) Rpar=1k Cpar=1p
+Bhi 0 Hi I=1m*(V(3)-Table(V(Imon), 4m, 0.9, 20m, 1.9, 27m, 3, 85m, 5)) Rpar=1k
+Blo 0 Lo I=1m*(V(4)+Table(-V(Imon), 4m, 0.9, 20m, 1.9, 27m, 3, 85m, 5)) Rpar=1k
+A4 0 Err 0 0 0 0 Zol1 0 OTA G=1 Cout={Cfp1} Asym Isrc={Isrc} Isink={Isink} En={En} Enk={Enk} Vhigh=1e308 Vlow=-1e308
+BVclamp 0 Vclamp I=1m*Uplim(Dnlim(V(ZOL1), V(Lo), 0.3), V(Hi), 0.3) Rpar=1k
+D2 N002 5 Iscp
+D1 5 N002 Iscn
+G11 0 Zol4 Zol3 0 1m
+C8 Zol4 0 {Cfp2} Rpar=1k Noiseless
+G12 0 Zol5 Zol4 0 1m
+C9 Zol5 0 {Cfp2} Rpar=1k Noiseless
+Bbuf 0 N007 I=(V(INp) +{Vos})*V(GO)
+R11 N007 0 1
+BVcm_min 0 Vcm_min I=V(4)+{Vcm_min} Rpar=1
+BVcm_max 0 Vcm_max I=V(3)+{Vcm_max} Rpar=1
+.param Rinp=12Meg Cinp=1.5p
+.param Rinn=90 Cinn=680f
+.param Zol=700k fp1=260k fp2=3.2G fp3=1T
+.param SRp=980 SRn=-790
+.param En=4n Enk=450
+.param Inp=1.5p Inkp=7k
+.param Inn=7.7p Inkn=1.75k
+.param Vcm_min=1.2 Vcm_max=-1.3
+.param Vos=-3.5m
+.param Ibp=-1u Ibn=1.5u
+.param PDVt=0.6 PDTon=200n PDToff=3.5u
+.param Ipd_on=130u Ipd_off=-250n
+.param Iq_on=6m Iq_off=250u
+.param Vsmin=5 Vsmax=12
+.param Iscp=85m Iscn=-85m
+.param Cfp1 = {1 / (2 * pi * fp1 * Zol)}
+.param Cfp2 = {1 / (2 * pi * fp2 * 1k)}
+.param Cfp3 = {1 / (2 * pi * fp3 * 1k)}
+.param Isrc = {Cfp1 * SRp * 1e6}
+.param Isink= {Cfp1 * SRn * 1e6}
+.model Iscp D(Ron=1m Roff=1G Ilimit={Iscp} Epsilon=50m)
+.model Iscn D(Ron=1m Roff=1G Ilimit={-Iscn} Epsilon=50m)
+.ends ADA4860
+
+*
+*
+.subckt ADA4530-1 1 2 3 4 5 6
+B1 0 N004 I=10u*dnlim(uplim(V(1),V(3)-1.4,.1), V(4)-.2, .1)+1n*V(1)
+B2 N004 0 I=10u*dnlim(uplim(V(2),V(3)-1.39,.1), V(4)-.21, .1)+1n*V(2)
+C10 N004 0 1f Rpar=100K noiseless
+D9 N008 0 DLIM
+C13 3 4 10p
+A1 0 2 0 0 0 0 0 0 OTA g=0 in=.07f
+G1 0 N016 5 Mid 100m
+C8 N008 N016 38p
+C6 2 4 4p Rser=100k noiseless
+A4 N004 0 0 0 0 0 N007 0 OTA g=1m linear enk=330 en=13.8n*(1+freq/5Meg) Rout=1k Cout=15p Vlow=-1e308 Vhigh=1e308
+C7 3 2 4p Rser=100k noiseless
+A7 0 N006 0 0 0 0 N008 0 OTA g=500u linear Cout=10f Vhigh=1e308 Vlow=-1e308
+D3 3 4 DBURN
+G5 0 Mid 3 0 .5m
+G6 0 Mid 4 0 .5m
+R4 Mid 0 1K noiseless
+M1 5 N014 4 4 NI temp=27 M=10
+C2 3 5 1p Rpar=1G Rser=10k noiseless
+M2 5 N009 3 3 PI temp=27 M=10
+A2 3 N009 4 4 4 4 N014 4 OTA g=1u linear ref=1.4 vlow=0 vhigh=3.4
+C3 3 N009 1f Rpar=1Meg Rser=500k noiseless
+A3 0 N010 3 3 3 3 N009 3 OTA g=20u linear ref=-37.7515m vlow=-3.5 vhigh=2.5
+C11 N014 4 1p Rpar=1Meg Rser=10Meg noiseless
+D4 5 4 DoutMin
+D5 3 5 DoutMin
+S1 N008 0 4 3 SNLG
+C4 3 1 4p Rser=100k noiseless
+C5 1 4 4p Rser=100k noiseless
+C12 N008 0 2p
+C19 N009 5 1.5p Rser=75k noiseless
+M3 3 N011 6 6 NG temp=27
+M4 4 N011 6 6 PG temp=27
+C17 3 6 500f
+C21 6 4 500f
+C22 N011 Mid 28.937f Rpar=2Meg noiseless
+G3 Mid N011 1 Mid 1µ
+S2 N011 Mid N011 3 Suplim
+A5 1 0 0 0 0 0 0 0 OTA g=0 in=.07f
+D6 2 6 DIN
+D7 6 1 DIN
+C23 2 6 200f
+C25 6 1 200f
+C14 N016 0 3n Rser=20 Rpar=10 noiseless
+C9 5 4 1p Rpar=1G Rser=10k noiseless
+A6 0 N005 0 0 0 0 N006 0 OTA g=1m linear Rout=1k Cout=15p vlow=-105.5m vhigh=105.5m
+C15 N005 0 15p Rpar=1k noiseless
+A9 0 N008 0 0 0 0 N010 0 OTA g=20m iout=1m Rout=1k Cout=40p vlow=-1e308 vhigh=1e308
+G2 0 N005 N007 0 1m
+C1 5 N014 1.5p Rser=1Meg noiseless
+.model DBURN D(Ron=100 Roff=1G vfwd=600m epsilon=500m ilimit=703.57u noiseless)
+.model DoutMin D(Ron=100 Roff=100 ilimit=20u noiseless)
+.model SNLG SW(level=2 Ron=2Meg Roff=50Meg vt=-3 vh=-1.5 noiseless)
+.param CL=10p
+.model PI VDMOS(kp=280u vto=-500m mtriode=2.3  ksubthres=100m pchan noiseless)
+.model NI VDMOS(kp=700u vto=500m mtriode=1.6  ksubthres=100m noiseless)
+.model DLIM D(Ron=1k Roff=2G Vfwd=1.8 Vrev=1.8 epsilon=100m revepsilon=100m noiseless)
+.model PG VDMOS(kp=1.72m vto=300m mtriode=2 ksubthres=100m pchan noiseless)
+.model NG VDMOS(kp=1.72m vto=-300m ksubthres=100m noiseless)
+.model Suplim SW(Ron=1 Roff=2Meg vt=-1.39 vh=-100m noiseless)
+.model DIN D(Ron=1k Roff=30T vfwd=600m epsilon=300m vrev=600m revepsilon=300m noiseless)
+.ends ADA4530-1
+*
+*
+*
+.subckt ADA4530 1 2 3 4 5 6
+B1 0 N004 I=10u*dnlim(uplim(V(1),V(3)-1.4,.1), V(4)-.2, .1)+1n*V(1)
+B2 N004 0 I=10u*dnlim(uplim(V(2),V(3)-1.39,.1), V(4)-.21, .1)+1n*V(2)
+C10 N004 0 1f Rpar=100K noiseless
+D9 N008 0 DLIM
+C13 3 4 10p
+A1 0 2 0 0 0 0 0 0 OTA g=0 in=.07f
+G1 0 N016 5 Mid 100m
+C8 N008 N016 38p
+C6 2 4 4p Rser=100k noiseless
+A4 N004 0 0 0 0 0 N007 0 OTA g=1m linear enk=330 en=13.8n*(1+freq/5Meg) Rout=1k Cout=15p Vlow=-1e308 Vhigh=1e308
+C7 3 2 4p Rser=100k noiseless
+A7 0 N006 0 0 0 0 N008 0 OTA g=500u linear Cout=10f Vhigh=1e308 Vlow=-1e308
+D3 3 4 DBURN
+G5 0 Mid 3 0 .5m
+G6 0 Mid 4 0 .5m
+R4 Mid 0 1K noiseless
+M1 5 N014 4 4 NI temp=27 M=10
+C2 3 5 1p Rpar=1G Rser=10k noiseless
+M2 5 N009 3 3 PI temp=27 M=10
+A2 3 N009 4 4 4 4 N014 4 OTA g=1u linear ref=1.4 vlow=0 vhigh=3.4
+C3 3 N009 1f Rpar=1Meg Rser=500k noiseless
+A3 0 N010 3 3 3 3 N009 3 OTA g=20u linear ref=-37.7515m vlow=-3.5 vhigh=2.5
+C11 N014 4 1p Rpar=1Meg Rser=10Meg noiseless
+D4 5 4 DoutMin
+D5 3 5 DoutMin
+S1 N008 0 4 3 SNLG
+C4 3 1 4p Rser=100k noiseless
+C5 1 4 4p Rser=100k noiseless
+C12 N008 0 2p
+C19 N009 5 1.5p Rser=75k noiseless
+M3 3 N011 6 6 NG temp=27
+M4 4 N011 6 6 PG temp=27
+C17 3 6 500f
+C21 6 4 500f
+C22 N011 Mid 28.937f Rpar=2Meg noiseless
+G3 Mid N011 1 Mid 1µ
+S2 N011 Mid N011 3 Suplim
+A5 1 0 0 0 0 0 0 0 OTA g=0 in=.07f
+D6 2 6 DIN
+D7 6 1 DIN
+C23 2 6 200f
+C25 6 1 200f
+C14 N016 0 3n Rser=20 Rpar=10 noiseless
+C9 5 4 1p Rpar=1G Rser=10k noiseless
+A6 0 N005 0 0 0 0 N006 0 OTA g=1m linear Rout=1k Cout=15p vlow=-105.5m vhigh=105.5m
+C15 N005 0 15p Rpar=1k noiseless
+A9 0 N008 0 0 0 0 N010 0 OTA g=20m iout=1m Rout=1k Cout=40p vlow=-1e308 vhigh=1e308
+G2 0 N005 N007 0 1m
+C1 5 N014 1.5p Rser=1Meg noiseless
+.model DBURN D(Ron=100 Roff=1G vfwd=600m epsilon=500m ilimit=703.57u noiseless)
+.model DoutMin D(Ron=100 Roff=100 ilimit=20u noiseless)
+.model SNLG SW(level=2 Ron=2Meg Roff=50Meg vt=-3 vh=-1.5 noiseless)
+.param CL=10p
+.model PI VDMOS(kp=280u vto=-500m mtriode=2.3  ksubthres=100m pchan noiseless)
+.model NI VDMOS(kp=700u vto=500m mtriode=1.6  ksubthres=100m noiseless)
+.model DLIM D(Ron=1k Roff=2G Vfwd=1.8 Vrev=1.8 epsilon=100m revepsilon=100m noiseless)
+.model PG VDMOS(kp=1.72m vto=300m mtriode=2 ksubthres=100m pchan noiseless)
+.model NG VDMOS(kp=1.72m vto=-300m ksubthres=100m noiseless)
+.model Suplim SW(Ron=1 Roff=2Meg vt=-1.39 vh=-100m noiseless)
+.model DIN D(Ron=1k Roff=30T vfwd=600m epsilon=300m vrev=600m revepsilon=300m noiseless)
+.ends ADA4530
+*

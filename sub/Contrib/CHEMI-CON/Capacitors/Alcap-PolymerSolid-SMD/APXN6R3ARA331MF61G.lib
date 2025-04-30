@@ -1,0 +1,22 @@
+*$
+*//-----------------------------------------------------------------------// 
+*//   Part No.    : APXN6R3ARA331MF61G
+*//   Date        : 2023/03/07
+*//   Temperature : 20deg.C
+*//   Model       : RC-ladder 7 Elements Model
+*//   Copyright (C) 2023 Nippon Chemi-Con Corporation.
+*//   All Rights Reserved.
+*//-----------------------------------------------------------------------// 
+
+.SUBCKT APXN6R3ARA331MF61G_20deg-C 1 2
+
+C1 4 2 2.68e-04
+C2 5 2 2.45e-05
+C3 6 2 1.05e-05
+R1 3 4 1.86e-02
+R2 4 5 3.39e-01
+R3 5 6 6.27e+00
+L1 1 3 2.60e-09
+
+.ENDS
+*$

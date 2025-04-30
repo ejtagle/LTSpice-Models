@@ -1,0 +1,13 @@
+* Copyright © Linear Technology Corp. 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005.  All rights reserved.
+*
+.subckt 2ndOrderLowpass 1 2
+G1 0 N002 1 0 {2/R1}
+R2 N002 0 {R1/2}
+R4 2 0 .1
+L1 N002 N004 {L1} Rser={R1/2}
+C2 N004 0 {C1}
+G4 0 2 N004 0 {10*H}
+.param R1=1k
+.param L1 = R1*Q/(2*pi*f0)
+.param C1 = 1/(L1*(2*pi*f0)**2)
+.ends 2ndOrderLowpass

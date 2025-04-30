@@ -1,0 +1,48 @@
+*$
+*//-----------------------------------------------------------------------//
+*//   Part No.    : EGPD350ELL302ML25H
+*//   Date        : 2018/02/16
+*//   Update 	  : 2018/06/15 Added SPICE model (-40deg.C/135deg.C)
+*//		  : 2018/11/08 Corrected the SUBCKT
+*//   Temperature : 20deg.C/-40deg.C/135deg.C
+*//   Model       : RC-ladder 7 Elements Model
+*//   Copyright (C) 2018 Nippon Chemi-Con Corporation.
+*//   All Rights Reserved.
+*//-----------------------------------------------------------------------//
+
+.SUBCKT EGPD350ELL302ML25H_20deg-C 1 2
+
+C1 4 2 2.16e-03
+C2 5 2 4.87e-04
+C3 6 2 8.91e-05
+R1 3 4 2.27e-02
+R2 4 5 4.41e-02
+R3 5 6 1.42e+00
+L1 1 3 7.50e-09
+
+.ENDS
+
+.SUBCKT EGPD350ELL302ML25H_-40deg-C 1 2
+
+C1 4 2 1.90e-06
+C2 5 2 5.26e-04
+C3 6 2 1.96e-03
+R1 3 4 1.23e-01
+R2 4 5 9.86e-02
+R3 5 6 8.93e-02
+L1 1 3 7.50e-09
+
+.ENDS
+
+.SUBCKT EGPD350ELL302ML25H_135deg-C 1 2
+
+C1 4 2 2.25e-03
+C2 5 2 6.88e-04
+C3 6 2 1.19e-04
+R1 3 4 1.24e-02
+R2 4 5 6.47e-02
+R3 5 6 8.40e+00
+L1 1 3 7.50e-09
+
+.ENDS
+*$

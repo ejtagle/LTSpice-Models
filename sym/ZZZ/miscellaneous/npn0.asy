@@ -1,0 +1,26 @@
+Version 4
+SymbolType CELL
+LINE Normal 20 67 27 62
+LINE Normal 32 78 20 67
+LINE Normal 27 62 32 78
+LINE Normal 16 55 23 65
+LINE Normal 32 78 32 96
+LINE Normal -16 48 12 48
+LINE Normal 32 26 16 40
+LINE Normal 32 0 32 26
+RECTANGLE Normal 16 72 12 24
+CIRCLE Normal 54 78 -1 19
+WINDOW 0 56 32 Left 0
+WINDOW 3 56 68 Left 0
+SYMATTR Value NPN
+SYMATTR Prefix QN
+SYMATTR Description Bipolar NPN transistor
+PIN 32 0 NONE 0
+PINATTR PinName C
+PINATTR SpiceOrder 1
+PIN -16 48 NONE 0
+PINATTR PinName B
+PINATTR SpiceOrder 2
+PIN 32 96 NONE 0
+PINATTR PinName E
+PINATTR SpiceOrder 3

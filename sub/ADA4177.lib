@@ -1,0 +1,428 @@
+* Copyright (c) 1998-2021 Analog Devices, Inc.  All rights reserved.
+*
+.subckt ADA4177 1 2 3 4 5
+R3 Aol1 COM 1Meg Temp=-273.15
+R4 Clamp COM 1Meg Temp=-273.15
+C1 Clamp COM {Cfp1a}
+B1 COM Clamp I=Uplim(Dnlim({Aol2/1Meg}* V(Aol1,COM), {Isink}-V(OL,COM)* 0.2, 10m), {Isrc}+V(OL,COM)*0.2, 10m)
+A1 Inn2 Inp2 COM COM COM COM Aol1 COM OTA G=100u Iout=1m Vhigh=1k Vlow=-1k
+G2 0 VCC_Int 3 0 1
+G3 0 Vee_Int 4 0 1
+R6 VCC_Int 0 1 Temp=-273.15
+R7 Vee_Int 0 1 Temp=-273.15
+R8 N060 VCC_Int 1Meg Temp=-273.15
+R9 N060 Vee_Int 1Meg Temp=-273.15
+C2 N060 0 1
+E1 COM 0 N060 0 1
+R10 COM 0 1Meg Temp=-273.15
+B2 COM N027 I=Uplim(Dnlim({G5_Zo}* V(ZoF,COM), {Izon}, 25m), {Izop}, 25m)
+Cinp COM Inp1 {Ccm}
+Cinn Inn1 COM {Ccm}
+Cdiff Inp1 Inn1 {Cdiff}
+Rinn Inn1 COM {Rcm} Temp=-273.15
+Rinp COM Inp1 {Rcm} Temp=-273.15
+Ibp Inp1 COM {Ib}
+Ibn Inn1 COM {Ib-Ios}
+R26 N024 N023 1Meg Temp=-273.15
+B3 N023 N024 I=1u*{Vos+Drift* (Temp-27)}
+G6 N030 N031 N051 N050 1µ
+R28 N031 N030 1Meg Temp=-273.15
+C8 N044 N045 {C1a_PSRp}
+G8 COM N045 VCC_Int COM {G1_PSRp}
+R29 N045 COM 1 Temp=-273.15
+R30 N044 N045 {R1a_PSRp} Temp=-273.15
+R31 N044 COM {R2a_PSRp} Temp=-273.15
+C9 N042 N043 {C1b_PSRp}
+R32 N042 COM {R2b_PSRp} Temp=-273.15
+R33 N042 N043 {R1b_PSRp} Temp=-273.15
+G9 COM N043 N044 COM 1
+R34 N043 COM 1 Temp=-273.15
+G10 COM N051 N042 COM {G2_PSRp}
+R35 N051 COM 1 Temp=-273.15
+C10 N039 N038 {C1a_PSRn}
+G11 COM N038 VEE_Int COM {G1_PSRn}
+R36 N038 COM 1 Temp=-273.15
+R37 N039 N038 {R1a_PSRn} Temp=-273.15
+R38 N039 COM {R2a_PSRn} Temp=-273.15
+G12 N021 N022 N009 COM 1µ
+R39 N022 N021 1Meg Temp=-273.15
+Vimon N020 5 0
+BIq 3 4 I={Iq_on} +I(VImon)
+G1 COM N023 Inp1 COM 1k
+G14 COM Inn2 Inn1 COM 1k
+R5 COM N023 1m Temp=-273.15
+R43 COM Inn2 1m Temp=-273.15
+C12 Inn2 COM 1p
+C13 N023 COM 1p
+DIP N048 Inp2 DI
+DIN Inp2 N049 DI
+C14 VCC_Int 0 1n
+C15 Vee_Int 0 1n
+DOP N046 N019 DO
+DON N019 N047 DO
+S2 Cap2R Cap2L OL COM OL
+F1 COM OLp VGP 1m
+A4 OLp OLn COM OLVIp OLVIn COM OL COM OR Ref=100u Vh=50u Trise=10n
+R44 OLp COM 1k
+F2 COM OLn VGN 1m
+R45 OLn COM 1k
+C16 OLp COM 10p
+C17 OLn COM 10p
+DOI N019 N020 LIM
+COI N020 N019 1p
+G15 COM Vsatp Vsatpi COM 1
+R48 Vsatp COM 1
+C21 Vsatp COM 1n
+G16 COM Vsatn Vsatni COM 1
+R49 Vsatn COM 1
+C22 Vsatn COM 1n
+S3 3 N023 N023 3 ESDI
+S4 3 Inn2 Inn2 3 ESDI
+S5 N023 4 4 N023 ESDI
+S6 Inn2 4 4 Inn2 ESDI
+C24 N019 Vsatp 2p
+C25 N019 Vsatn 2p
+S7 3 5 5 3 ESDO
+S8 5 4 4 5 ESDO
+R16 N035 COM 1Meg Temp=-273.15
+C5 N035 COM {Cfp2}
+G5 COM N035 N034 COM 1µ
+R18 N036 COM 1Meg Temp=-273.15
+C6 N036 COM {Cfp3}
+G17 COM N036 N035 COM 1µ
+R19 N037 COM 1Meg Temp=-273.15
+C20 N037 COM {Cfp3}
+G23 COM N037 N036 COM 1µ
+G25 COM N025 Clamp COM 1
+R21 N025 COM 1 Temp=-273.15
+R22 N025 N026 {R1a_Aol} Temp=-273.15
+R23 N026 COM {R2a_Aol} Temp=-273.15
+G26 COM N034 N026 COM {G1_Aol}
+C31 N026 N025 {C1a_Aol}
+R50 N034 COM 1 Temp=-273.15
+B4 COM N061 I=1m*(V(3,COM)+{Vcm_max}) Rpar=1k Cpar=1n
+G13 COM CMp N061 COM 1
+R40 CMp COM 1
+B5 COM N062 I=1m*(V(4,COM)+{Vcm_min}) Rpar=1k Cpar=1n
+G30 COM CMn N062 COM 1
+R41 CMn COM 1
+R42 Vsatpi 3 1k
+C11 Vsatpi 3 1n
+B8 Vsatpi 3 I=1m*Max(Ap+((Bp*I(Vimon)**Cp)/(Dp**Cp+I(Vimon)**Cp)),40u)
+R14 Vsatni 4 1k
+C18 Vsatni 4 1n
+B9 4 Vsatni I=1m*Max(An+((Bn*-I(Vimon)**Cn)/(Dn**Cn-I(Vimon)**Cn)),40u)
+VIP N048 CMp 0
+VIN CMn N049 0
+F3 COM OLVIp VIP 1
+R46 OLVIp COM 1k
+F4 COM OLVIn VIN 1
+R51 OLVIn COM 1k
+C34 OLVIp COM 10p
+C35 OLVIn COM 10p
+G4 COM Cap2L N037 N019 {G1_Zo}
+R11 Cap2L COM 1 Temp=-273.15
+R12 Cap2L Cap2R {R1a_Zo} Temp=-273.15
+R13 Cap2R COM {R2a_Zo} Temp=-273.15
+G18 COM N010 Cap2R COM {G2_Zo}
+C3 Cap2R Cap2L {C1a_Zo}
+R17 N010 COM 1 Temp=-273.15
+Rx N019 N027 {Rx_Zo} Temp=-273.15
+Rdummy N019 COM {Rdummy_Zo} Temp=-273.15
+R52 N010 N011 {R2b_Zo} Temp=-273.15
+R55 N011 N032 {R1b_Zo} Temp=-273.15
+C23 COM N032 {C1b_Zo}
+Gb1 COM N012 N011 COM 1
+R56 N012 COM 1 Temp=-273.15
+R57 N014 N015 {R1c_Zo} Temp=-273.15
+R58 N015 COM {R2c_Zo} Temp=-273.15
+G19 COM N016 N015 COM {G3_Zo}
+C27 N015 N014 {C1c_Zo}
+R59 N016 COM 1 Temp=-273.15
+R60 N016 N017 {R1d_Zo} Temp=-273.15
+R61 N017 COM {R2d_Zo} Temp=-273.15
+G20 COM N018 N017 COM {G4_Zo}
+C28 N017 N016 {C1d_Zo}
+R62 N018 COM 1 Temp=-273.15
+R63 N018 ZoF {R1e_Zo} Temp=-273.15
+R64 ZoF COM {R2e_Zo} Temp=-273.15
+C29 ZoF N018 {C1e_Zo}
+R65 N027 COM 1 Temp=-273.15
+R66 N012 N013 {R2f_Zo} Temp=-273.15
+R72 N013 N033 {R1f_Zo} Temp=-273.15
+C36 COM N033 {C1f_Zo}
+Gb2 COM N014 N013 COM 1
+R75 N014 COM 1 Temp=-273.15
+C7 N041 N040 {C1b_PSRn}
+R53 N041 COM {R2b_PSRn} Temp=-273.15
+R54 N041 N040 {R1b_PSRn} Temp=-273.15
+R67 N040 COM 1 Temp=-273.15
+G21 COM N040 N039 COM 1
+G22 COM N050 N041 COM {G2_PSRn}
+R68 N050 COM 1 Temp=-273.15
+B6 COM N052 I=1m*({Zo_max}* {Iscp}+V(3,COM)) Rpar=1k Cpar=1n
+G27 COM GRp N052 COM 1
+R69 GRp COM 1
+G28 COM GRn N053 COM 1
+R70 GRn COM 1
+B7 COM N053 I=1m*({Zo_max}* {Iscn}+V(4,COM)) Rpar=1k Cpar=1n
+VGP N046 Vsatp 0
+VGN Vsatn N047 0
+DGP GRp Clamp DG
+DGN Clamp GRn DG
+R1 Inp1 1 {Rser} Temp=-273.15
+R2 Inn1 2 {Rser} Temp=-273.15
+Rdiff Inp1 Inn1 {Rdiff} Temp=-273.15
+C4 N002 N001 {C1a_CMR}
+G7 COM N001 Inp1 COM {G1_CMR}
+R15 N001 COM 1 Temp=-273.15
+R24 N002 N001 {R1a_CMR} Temp=-273.15
+R25 N002 COM {R2a_CMR} Temp=-273.15
+G29 COM N003 N002 COM 1
+R27 N003 COM 1 Temp=-273.15
+C19 N004 N003 {C1b_CMR}
+R47 N004 N003 {R1b_CMR} Temp=-273.15
+R71 N004 COM {R2b_CMR} Temp=-273.15
+G31 COM N005 N004 COM {G2_CMR}
+R73 N005 COM 1 Temp=-273.15
+C26 N006 N005 {C1c_CMR}
+R74 N006 N005 {R1c_CMR} Temp=-273.15
+R76 N006 COM {R2c_CMR} Temp=-273.15
+G32 COM N007 N006 COM {G3_CMR}
+R77 N007 COM 1 Temp=-273.15
+C32 N008 N007 {C1d_CMR}
+R78 N008 N007 {R1d_CMR} Temp=-273.15
+R79 N008 COM {R2d_CMR} Temp=-273.15
+G33 COM N009 N008 COM {G4_CMR}
+R80 N009 COM 1 Temp=-273.15
+R81 N063 COM 0.94
+R82 N054 COM 1 Temp=-273.15
+R83 N054 N055 {R2b_I_n} Temp=-273.15
+R84 N055 N064 {R1b_I_n} Temp=-273.15
+C33 COM N064 {C1b_I_n}
+Gb3 COM N056 N055 COM 1
+R85 N056 COM 1 Temp=-273.15
+R86 N056 N057 {R2b_I_n} Temp=-273.15
+R87 N057 N065 {R1b_I_n} Temp=-273.15
+C37 COM N065 {C1b_I_n}
+Gb4 COM N058 N057 COM 1
+R88 N059 COM 1 Temp=-273.15
+G34 COM N054 N063 COM 1
+V_I_n N058 N059 0
+F_I_nn Inn1 COM V_I_n 1
+F_I_np Inp1 COM V_I_n 1
+A3 COM COM COM COM COM COM N070 COM OTA G=10u Iout=1m Vhigh=1k Vlow=-1k En={En} Enk={Enk}
+R96 N070 COM 100k Temp=-273.15
+R97 N070 N071 {R1a_E_n} Temp=-273.15
+R98 N071 COM {R2a_E_n} Temp=-273.15
+G37 COM N072 N071 COM {G1_E_n}
+C40 N071 N070 {C1a_E_n}
+R99 N072 COM 1 Temp=-273.15
+R100 N072 N073 {R1a_E_n} Temp=-273.15
+R101 N073 COM {R2a_E_n} Temp=-273.15
+G38 N021 N024 N080 COM 1µ
+C41 N073 N072 {C1a_E_n}
+R102 N024 N021 1Meg Temp=-273.15
+G24 COM N030 N022 COM 1k
+R20 COM N030 1m Temp=-273.15
+G35 COM Inp2 N031 COM 1k
+R89 COM Inp2 1m Temp=-273.15
+C30 N075 N074 {CHP}
+R91 N075 COM 100k Temp=-273.15
+G36 COM N074 N073 COM {G1_E_n}
+R92 N074 COM 1 Temp=-273.15
+R90 N076 COM 100k Temp=-273.15
+R93 N077 COM 100k Temp=-273.15
+R94 N078 COM 100k Temp=-273.15
+R95 N079 COM 100k Temp=-273.15
+C38 N076 N075 {CHP}
+C39 N077 N076 {CHP}
+C42 N078 N077 {CHP}
+C43 N079 N078 {CHP}
+R103 N080 COM 100k Temp=-273.15
+C44 N080 N079 {CHP}
+.param En=8.25n Enk=11
+.param Inp=0.2p Inkp=74
+.param Inn=0.2p Inkn=74
+.param Vos=0.313u Drift=1u
+.param Ib=-0.3n Ios=0.1n
+.param Vcm_min=1.5 Vcm_max=-1.5
+.param Vsmin=5 Vsmax=36
+.param Iscp=44m Iscn=-59m
+.param Iq_on=500u Iq_off=1u
+.param IZop={2*Rx_Zo*Iscp} IZon={2*Rx_Zo*Iscn}
+.model DI D(Vfwd=1k Vrev=0 Revepsilon=0.1 Noiseless)
+.model DO D(Vfwd=1k Vrev=0 Revepsilon=0.1 Noiseless)
+.model LIM D(Vfwd=1n Vrev=1n Ron=1m Roff=1m Ilimit={Iscp} Revilimit={-Iscn} Epsilon=1u Noiseless)
+.model DG D(Vfwd=1k Vrev=0 Revepsilon=0.5 Noiseless)
+.model ESDI SW(Ron=50 Roff=1T Vt=0.5 Vh=-0.1 Vser=0.1 Noiseless)
+.model ESDO SW(Ron=50 Roff=1G Vt=0.5 Vh=-0.1 Vser=0.6 Ilimit=4m Lser=1n Noiseless)
+.model OL SW(Ron=10m Roff=1G Vt=500m Vh=-100m Noiseless)
+.param Rser=10m
+.param Rcm=130G Ccm=8p
+.param Rdiff=4Meg Cdiff=1p
+.param gain_PSRp = {pow(10, (-Rej_dc_PSRp/20))}
+.param C1a_PSRp = {1 / (2 * pi * R1a_PSRp * fz1_PSRp)}
+.param R2a_PSRp = {R1a_PSRp/ ((2 * pi * fp1_PSRp * C1a_PSRp
++* R1a_PSRp) - 1)}
+.param actual1_PSRp = {R2a_PSRp / (R1a_PSRp + R2a_PSRp)}
+.param G1_PSRp = {gain_PSRp/actual1_PSRp}
+.param Rej_dc_PSRp=145
+.param R1a_PSRp=100Meg
+.param fz1_PSRp=0.37
+.param fp1_PSRp=1.7Meg
+.param C1b_PSRp = {1 / (2 * pi * R1b_PSRp * fz2_PSRp)}
+.param R2b_PSRp = {R1b_PSRp/ ((2 * pi * fp2_PSRp * C1b_PSRp
++* R1b_PSRp) - 1)}
+.param actual2_PSRp = {R2b_PSRp / (R1b_PSRp + R2b_PSRp)}
+.param G2_PSRp = {1/actual2_PSRp}
+.param R1b_PSRp=1Meg
+.param fz2_PSRp=475k
+.param fp2_PSRp=1.7Meg
+.param gain_PSRn = {pow(10, (-Rej_dc_PSRn/20))}
+.param C1a_PSRn = {1 / (2 * pi * R1a_PSRn * fz1_PSRn)}
+.param R2a_PSRn = {R1a_PSRn/ ((2 * pi * fp1_PSRn * C1a_PSRn
++* R1a_PSRn) - 1)}
+.param actual1_PSRn = {R2a_PSRn / (R1a_PSRn + R2a_PSRn)}
+.param G1_PSRn = {gain_PSRn/actual1_PSRn}
+.param Rej_dc_PSRn=145
+.param R1a_PSRn=100Meg
+.param fz1_PSRn=4
+.param fp1_PSRn=3Meg
+.param Aol_v= {pwr(10, (Aol/20))}
+.param Aol_adj = {(Aol_v/RL_dc)*(Zo_dc + RL_dc)}
+.param Aol_adj_dB={20*log10(Aol_adj)+1}
+.param Aol2 = {pwr(10, (Aol_adj_dB - 40)/20)}
+.param Cfp1={1 / (2 * pi * fp1 * 1Meg)}
+.param Cfp2={1 / (2 * pi * fp2 * 1Meg)}
+.param Cfp3={1 / (2 * pi * fp3 * 1Meg)}
+.param A=8.85e-1 B=5.56e-2 C=1.06 D=2.99m
+.param ratio = {Zo_dc/RL_dc}
+.param Cfp1a = {Cfp1*((A+B*ratio)/(1+C*ratio+D*ratio**2))}
+.param Isrc = {Cfp1a * SRp * 1Meg} Isink = {Cfp1a * SRn * 1Meg}
+.param R1a_Aol=1Meg
+.param fz1_Aol=1.5Meg
+.param fp1_Aol=10G
+.param C1a_Aol = {1 / (2 * pi * R1a_Aol * fz1_Aol)}
+.param R2a_Aol = {R1a_Aol/ ((2 * pi * fp1_Aol * C1a_Aol
++* R1a_Aol) - 1)}
+.param actual1_Aol = {R2a_Aol / (R1a_Aol + R2a_Aol)}
+.param G1_Aol={1/actual1_Aol}
+.param beta_Zo=1.125
+.param Rx_Zo = {100 * Zo_max}
+.param Rdummy_Zo = {10 * Zo_max}
+.param G1_Zo={Rx_Zo/(Zo_dc*beta_Zo)}
+.param Zo_dc=722.2
+.param Zo_max={Zo_dc}
+.param R1a_Zo=1Meg
+.param fz1_Zo=4.5
+.param fp1_Zo=14.5
+.param C1a_Zo = {1 / (2 * pi * R1a_Zo * fz1_Zo)}
+.param R2a_Zo = {R1a_Zo/ ((2 * pi * fp1_Zo * C1a_Zo
++* R1a_Zo) - 1)}
+.param actual1_Zo = {R2a_Zo / (R1a_Zo + R2a_Zo)}
+.param G2_Zo = {1/actual1_Zo}
+.param R1b_Zo=1Meg
+.param fp2_Zo=50k
+.param fz2_Zo=70k
+.param C1b_Zo = {1 / (fz2_Zo * R1b_Zo * 2 * pi)}
+.param R2b_Zo = {(1 / (fp2_Zo * C1b_Zo * 2 * pi))
++- R1b_Zo}
+.param R1c_Zo=1Meg
+.param fz3_Zo=470k
+.param fp3_Zo=560k
+.param C1c_Zo = {1 / (2 * pi * R1c_Zo * fz3_Zo)}
+.param R2c_Zo = {R1c_Zo/ ((2 * pi * fp3_Zo * C1c_Zo
++* R1c_Zo) - 1)}
+.param actual3_Zo = {R2c_Zo / (R1c_Zo + R2c_Zo)}
+.param G3_Zo = {1/actual3_Zo}
+.param R1d_Zo=1Meg
+.param fz4_Zo=1.98Meg
+.param fp4_Zo=3.5Meg
+.param C1d_Zo = {1 / (2 * pi * R1d_Zo * fz4_Zo)}
+.param R2d_Zo = {R1d_Zo/ ((2 * pi * fp4_Zo * C1d_Zo
++* R1d_Zo) - 1)}
+.param actual4_Zo = {R2d_Zo / (R1d_Zo + R2d_Zo)}
+.param G4_Zo = {1/actual4_Zo}
+.param R1e_Zo=1Meg
+.param fz5_Zo=34.5Meg
+.param fp5_Zo=1G
+.param C1e_Zo = {1 / (2 * pi * R1e_Zo * fz5_Zo)}
+.param R2e_Zo = {R1e_Zo/ ((2 * pi * fp5_Zo * C1e_Zo
++* R1e_Zo) - 1)}
+.param actual5_Zo = {R2e_Zo / (R1e_Zo + R2e_Zo)}
+.param G5_Zo = {1/actual5_Zo}
+.param R1f_Zo=1Meg
+.param fp6_Zo=140k
+.param fz6_Zo=160k
+.param C1f_Zo = {1 / (fz6_Zo * R1f_Zo * 2 * pi)}
+.param R2f_Zo = {(1 / (fp6_Zo * C1f_Zo * 2 * pi))
++- R1f_Zo}
+.param Aol=114 RL_dc=2k
+.param SRp=1.76 SRn=-1.76
+.param fp1=4.05 fp2=1.5Meg fp3=13.6Meg
+.param C1b_PSRn = {1 / (2 * pi * R1b_PSRn * fz2_PSRn)}
+.param R2b_PSRn = {R1b_PSRn/ ((2 * pi * fp2_PSRn * C1b_PSRn
++* R1b_PSRn) - 1)}
+.param actual2_PSRn = {R2b_PSRn/ (R1b_PSRn + R2b_PSRn)}
+.param G2_PSRn = {1/actual2_PSRn}
+.param R1b_PSRn=1Meg
+.param fz2_PSRn=130k
+.param fp2_PSRn=3Meg
+.param Ap=0.15 Bp=818 Cp=5.62 Dp=9e-2
+.param An=0.15 Bn=69.5 Cn=6.32 Dn=7.27e-2
+.param gain_CMR = {pow(10, (-Rej_dc_CMR/20))}
+.param C1a_CMR = {1 / (2 * pi * R1a_CMR * fz1_CMR)}
+.param R2a_CMR = {R1a_CMR/ ((2 * pi * fp1_CMR * C1a_CMR
++* R1a_CMR) - 1)}
+.param actual1_CMR = {R2a_CMR / (R1a_CMR + R2a_CMR)}
+.param G1_CMR = {gain_CMR/actual1_CMR}
+.param Rej_dc_CMR=130
+.param R1a_CMR=1Meg
+.param fz1_CMR=500
+.param fp1_CMR=11.5k
+.param R1b_CMR=1Meg
+.param fz2_CMR=30k
+.param fp2_CMR=185k
+.param C1b_CMR = {1 / (2 * pi * R1b_CMR * fz2_CMR)}
+.param R2b_CMR = {R1b_CMR/ ((2 * pi * fp2_CMR * C1b_CMR
++* R1b_CMR) - 1)}
+.param actual2_CMR = {R2b_CMR / (R1b_CMR + R2b_CMR)}
+.param G2_CMR = {1/actual2_CMR}
+.param R1c_CMR=1Meg
+.param fz3_CMR=350k
+.param fp3_CMR=2.5Meg
+.param R1d_CMR=1Meg
+.param fz4_CMR=7Meg
+.param fp4_CMR=25Meg
+.param C1c_CMR = {1 / (2 * pi * R1c_CMR * fz3_CMR)}
+.param R2c_CMR = {R1c_CMR/ ((2 * pi * fp3_CMR * C1c_CMR
++* R1c_CMR) - 1)}
+.param actual3_CMR = {R2c_CMR / (R1c_CMR + R2c_CMR)}
+.param G3_CMR = {1/actual3_CMR}
+.param C1d_CMR = {1 / (2 * pi * R1d_CMR * fz4_CMR)}
+.param R2d_CMR = {R1d_CMR/ ((2 * pi * fp4_CMR * C1d_CMR
++* R1d_CMR) - 1)}
+.param actual4_CMR = {R2d_CMR / (R1d_CMR + R2d_CMR)}
+.param G4_CMR = {1/actual4_CMR}
+.param R1b_I_n=1Meg
+.param fp1_I_n=0.1
+.param fz1_I_n=2.5
+.param C1b_I_n = {1 / (fz1_I_n * R1b_I_n * 2 * pi)}
+.param R2b_I_n = {(1 / (fp1_I_n * C1b_I_n * 2 * pi))
++- R1b_I_n}
+.param R1a_E_n=1Meg
+.param fz1_E_n=700k
+.param fp1_E_n=1.05Meg
+.param C1a_E_n = {1 / (2 * pi * R1a_E_n * fz1_E_n)}
+.param R2a_E_n = {R1a_E_n/ ((2 * pi * fp1_E_n * C1a_E_n
++* R1a_E_n) - 1)}
+.param actual1_E_n = {R2a_E_n / (R1a_E_n + R2a_E_n)}
+.param G1_E_n = {1/actual1_E_n}
+.param R1b_E_n=1Meg
+.param fp2_E_n=90G
+.param fz2_E_n=100G
+.param C1b_E_n = {1 / (fz2_E_n * R1b_E_n * 2 * pi)}
+.param R2b_E_n={(1 / (fp2_E_n * C1b_E_n * 2 * pi)) - R1b_I_n}
+.param CHP=4.75u
+.ends ADA4177

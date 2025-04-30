@@ -1,0 +1,22 @@
+*$
+*//-----------------------------------------------------------------------// 
+*//   Part No.    : HHXE500ARA221MJH0G
+*//   Date        : 2023/03/07
+*//   Temperature : 20deg.C
+*//   Model       : RC-ladder 7 Elements Model
+*//   Copyright (C) 2023 Nippon Chemi-Con Corporation.
+*//   All Rights Reserved.
+*//-----------------------------------------------------------------------// 
+
+.SUBCKT HHXE500ARA221MJH0G_20deg-C 1 2
+
+C1 4 2 1.58e-04
+C2 5 2 2.84e-05
+C3 6 2 1.35e-05
+R1 3 4 1.01e-02
+R2 4 5 9.23e-02
+R3 5 6 2.62e+00
+L1 1 3 5.00e-09
+
+.ENDS
+*$

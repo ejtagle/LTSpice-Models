@@ -1,0 +1,209 @@
+**************************************************
+* Manufacturer:       Wurth Elektronik
+* Kinds:     Signal LEDs
+* Matchcode:          WL-SBRW 
+* Library Type:       LTspice
+* Version:        rev20a       
+* Date and Time   :       2020-03-14
+* Team:           eiSos EDA Service  
+* Contact:        libraries@we-online.com
+**************************************************
+*********
+.subckt 1205_156125RB73000 1 2 3 4 
+D1 3 2 red
+.MODEL red D
++ (IS=753.41E-15
++ N=3.1516
++ RS=5.7925
++ IKF=480.73
++ CJO=1.0000E-12
++ M=.3333
++ VJ=.75
++ BV=5
++ IBV=100.00E-6)
+D2 4 1 blue
+.MODEL blue D
++ (IS=269.92E-15
++ N=5
++ RS=12.502
++ IKF=3.5020
++ CJO=1.0000E-12
++ M=.3333
++ VJ=.75
++ BV=5
++ IBV=100.00E-6)
+.ends
+*********
+.subckt 1205_156125RG73000 1 2 3 4 
+D1 3 2 red
+.MODEL red D
++ (IS=753.41E-15
++ N=3.1516
++ RS=5.7925
++ IKF=480.73
++ CJO=1.0000E-12
++ M=.3333
++ VJ=.75
++ BV=5
++ IBV=100.00E-6)
+D2 4 1 green
+.MODEL green D
++ (IS=269.92E-15
++ N=5
++ RS=12.502
++ IKF=3.5020
++ CJO=1.0000E-12
++ M=.3333
++ VJ=.75
++ BV=5
++ IBV=100.00E-6)
+.ends
+*********
+.subckt 1205_156125RV73000 1 2 3 4 
+D1 3 2 red
+.MODEL red D
++ (IS=753.41E-15
++ N=3.1516
++ RS=5.7925
++ IKF=480.73
++ CJO=1.0000E-12
++ M=.3333
++ VJ=.75
++ BV=5
++ IBV=100.00E-6)
+D1 4 1 bgreen
+.MODEL bgreen D
++ (IS=10.010E-21
++ N=1.8557
++ RS=1.0000E-6
++ IKF=2.4347E-3
++ CJO=1.0000E-12
++ M=.3333
++ VJ=.75
++ BV=5
++ IBV=100.00E-6)
+.ends
+*********
+.subckt 1205_156125YV73000 1 2 3 4 
+D1 3 2 yellow
+.MODEL yellow D
++ (IS=753.41E-15
++ N=3.1516
++ RS=5.7925
++ IKF=480.73
++ CJO=1.0000E-12
++ M=.3333
++ VJ=.75
++ BV=5
++ IBV=100.00E-6)
+D2 4 1 bgreen
+.MODEL bgreen D
++ (IS=10.010E-21
++ N=1.8557
++ RS=1.0000E-6
++ IKF=2.4347E-3
++ CJO=1.0000E-12
++ M=.3333
++ VJ=.75
++ BV=5
++ IBV=100.00E-6)
+.ends
+*********
+.subckt 1205_156125RG73000P 1 2 3 4 
+D1 3 2 red
+.MODEL red D
++ (IS=753.41E-15
++ N=3.1516
++ RS=5.7925
++ IKF=480.73
++ CJO=1.0000E-12
++ M=.3333
++ VJ=.75
++ BV=5
++ IBV=100.00E-6)
+D2 4 1 green
+.MODEL green D
++ (IS=269.92E-15
++ N=5
++ RS=12.502
++ IKF=3.5020
++ CJO=1.0000E-12
++ M=.3333
++ VJ=.75
++ BV=5
++ IBV=100.00E-6)
+.ends
+*********
+.subckt 1205_156125RV73000P 1 2 3 4 
+D1 3 2 red
+.MODEL red D
++ (IS=753.41E-15
++ N=3.1516
++ RS=5.7925
++ IKF=480.73
++ CJO=1.0000E-12
++ M=.3333
++ VJ=.75
++ BV=5
++ IBV=100.00E-6)
+D1 4 1 bgreen
+.MODEL bgreen D
++ (IS=10.010E-21
++ N=1.8557
++ RS=1.0000E-6
++ IKF=2.4347E-3
++ CJO=1.0000E-12
++ M=.3333
++ VJ=.75
++ BV=5
++ IBV=100.00E-6)
+.ends
+*********
+.subckt 1205_156125YV73000P 1 2 3 4 
+D1 3 2 yellow
+.MODEL yellow D
++ (IS=753.41E-15
++ N=3.1516
++ RS=5.7925
++ IKF=480.73
++ CJO=1.0000E-12
++ M=.3333
++ VJ=.75
++ BV=5
++ IBV=100.00E-6)
+D2 4 1 bgreen
+.MODEL bgreen D
++ (IS=10.010E-21
++ N=1.8557
++ RS=1.0000E-6
++ IKF=2.4347E-3
++ CJO=1.0000E-12
++ M=.3333
++ VJ=.75
++ BV=5
++ IBV=100.00E-6)
+.ends
+*********
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

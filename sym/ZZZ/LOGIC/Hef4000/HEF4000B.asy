@@ -1,0 +1,35 @@
+Version 4
+SymbolType CELL
+LINE Normal 32 64 48 64
+LINE Normal 32 56 32 64
+LINE Normal 48 64 32 56
+LINE Normal -32 32 -48 32
+LINE Normal -32 64 -48 64
+LINE Normal 64 64 48 64
+LINE Normal 33 16 -31 16
+LINE Normal 32 111 32 16
+LINE Normal -32 111 32 111
+LINE Normal -32 16 -32 111
+LINE Normal -32 96 -48 96
+TEXT -4 51 Left 0 1
+WINDOW 0 -26 -1 Left 0
+WINDOW 3 -32 127 Left 0
+SYMATTR Value HEF4000B
+SYMATTR Prefix X
+SYMATTR SpiceModel VDD VSS
+SYMATTR Description 3-input NOR gate
+SYMATTR SpiceLine M=1
+SYMATTR ModelFile HEF4000.lib
+SYMATTR SpiceLine2 speed=1
+PIN -48 32 NONE 0
+PINATTR PinName A
+PINATTR SpiceOrder 1
+PIN -48 64 NONE 0
+PINATTR PinName B
+PINATTR SpiceOrder 2
+PIN 64 64 NONE 0
+PINATTR PinName Y
+PINATTR SpiceOrder 4
+PIN -48 96 NONE 8
+PINATTR PinName C
+PINATTR SpiceOrder 3

@@ -1,0 +1,59 @@
+**************** Power Discrete MOSFET Electrical Circuit Model *****************
+** Product Name: FDA70N20
+** 200V N-Channel MOSFET and TO-3P
+** Model Type: BSIM3V3
+**-------------------------------------------------------------------------------
+.SUBCKT FDA70N20 2 1 3    
+*Nom Temp=25 deg C
+Dbody 7 5    DbodyMOD
+Dbreak 5 11  DbreakMOD
+Ebreak 11 7 17 7 200
+Lgate 1 9    6.43e-9
+Ldrain 2 5   1.45e-9
+Lsource 3 7  2.94e-9
+RLgate 1 9   64.3
+RLdrain 2 5  14.5
+RLsource 3 7 29.4
+Rgate 9 6    15
+It 7 17      1
+Rbreak 17 7  RbreakMOD 1
+.MODEL RbreakMOD RES (TC1=1.22e-3 TC2=-2.4e-6)
+.MODEL DbodyMOD D (IS=6.05e-12 N=1     RS=5.22e-3 TRS1=2.8e-3 TRS2=1e-6 
++ CJO=5.02e-9      M=0.31      VJ=0.47 TT=1.75e-7 XTI=3       EG=1.12)
+.MODEL DbreakMOD D (RS=100e-3 TRS1=1e-3 TRS2=1.0e-6)
+Rdrain 5 16 RdrainMOD 0.026
+.MODEL RdrainMOD RES (TC1=8.8e-3 TC2=3.5e-5)
+M_BSIM3 16 6 7 7 Bsim3 W=16.45 L=2.0e-6 NRS=1
+.MODEL  Bsim3 NMOS (LEVEL=7 VERSION=3.1 MOBMOD=3 CAPMOD=2 PARAMCHK=1 NQSMOD=0
++ TOX=1100e-10   XJ=1.4e-6    NCH=1.83e17
++ U0=700         VSAT=1.0e5   DROUT=1.0
++ DELTA=0.10     PSCBE2=0     RSH=5.09e-6
++ VTH0=4.95      VOFF=-0.1    NFACTOR=1.1
++ LINT=1.02e-7    DLC=7.6e-7   FC=0.5
++ CGSO=1.05e-15  CGSL=1.0e-15 CGDO=1.0e-15
++ CGDL=3.15e-10   CJ=0         CF=0   
++ CKAPPA=0.00014 KT1=-1.68    KT2=0
++ UA1=1e-9       NJ=10)
+.ENDS FDA70N20
+
+*************** Power Discrete MOSFET Thermal Model ********************
+** Package: TO-3P
+**----------------------------------------------------------------------
+.SUBCKT FDA70N20_THERMAL TH TL
+CTHERM1 TH 6 8.44e-4
+CTHERM2 6 5  1.08e-3
+CTHERM3 5 4  1.34e-2
+CTHERM4 4 3  3.22e-2
+CTHERM5 3 2  3.92e-1
+CTHERM6 2 TL 4.82e-1
+RTHERM1 TH 6 1.80e-4
+RTHERM2 6 5  2.20e-3
+RTHERM3 5 4  8.00e-3
+RTHERM4 4 3  4.70e-2
+RTHERM5 3 2  8.39e-2
+RTHERM6 2 TL 1.59e-1
+.ENDS FDA70N20_THERMAL
+**---------------------------------------------------------------------
+** Creation: Oct.-01-2008   Rev.:0.0
+** Fairchild Semiconductor
+

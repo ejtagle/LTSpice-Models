@@ -1,0 +1,452 @@
+* Copyright (c) 1998-2024 Analog Devices, Inc.  All rights reserved.
+*
+.subckt ADA4620 1 2 3 4 5
+Cfp1 AolZ Vmid 6.258E-12
+GFP1 Vmid AolZ VALUE = {LIMIT(V(IVRpG,IVRmX)*(G1-118E-6*V(Lo-Hi)),ILO1+186.46E-6*V(Hi_SLEW)-36.5E-6*V(30V_Slew),IHI1-186.46E-6*V(Hi_SLEW)+36.5E-6*V(30V_Slew))}
+R14 N009 Vmid RQT 1.3E9
+CcmP1 Vmid INPx 7p
+CcmM1 INNx Vmid 7p
+Cdiff1 INPx INNx 5p
+R15 INPx 1 50
+R16 INNx 2 50
+R17 INPx Vmid RQT 1e13
+R18 Vmid INNx RQT 1e13
+R19 INNx INPx 10.24E12
+C7 fp2 Vmid 1.768E-13
+R20 fp2 Vmid RQT 1.5E4
+G8 Vmid fp3 fp2 Vmid 6.666667E-05
+C8 fp3 Vmid 2.75E-14
+R21 fp3 Vmid RQT 1.5E4
+G9 Vmid fp4 fp3 Vmid 6.666667E-05
+C9 fp4 Vmid 2.75E-14
+R22 fp4 Vmid RQT 1.5E4
+G10 Vmid AolX fp4 Vmid 6.666667E-05
+C10 AolX Vmid 2.75E-14
+R23 AolX Vmid RQT 1.5E4
+G11 N002 Vmid N001 Vmid {gm2}
+V_RHPzero N002 Vmid 0
+C11 N002 N001 {CRHPzero}
+H1 N003 Vmid V_RHPzero -1
+R24 N003 Vmid RQT 1k
+E2 N001 Vmid AolX Vmid {1/gm2}
+R25 N001 Vmid RQT 100k
+Gaol_out1 Vmid Aol_Clmp N004 Vmid 1
+Caol_out Aol_Clmp Vmid 1E-15
+Raol_out Aol_Clmp Vmid RQT 1 Noiseless
+Raol_clmp Vmid N004 RQT 1k Noiseless
+Gaol_clmp Vmid N004 N003 Vmid 1m
+G4 0 N067 N076 0 1.328506E-07
+C4 N068 N067 3.183099E-08
+G6 0 INPx N075 0 1
+G7 0 N075 N074 0 6.66667E-5
+C5 N075 0 7.073553E-13
+G12 0 N069 N068 0 2.599071E+00
+C6 N070 N069 5.894628E-09
+G13 0 N071 N070 0 3.334111E-01
+C12 N072 N071 1.326291E-10
+G14 0 N073 N072 0 6.382300E+01
+C13 N074 N073 6.366198E-11
+R8 N071 0 RQT 10
+R9 N073 0 RQT 10
+R10 N075 0 RQT 1.5E4
+R11 N074 0 RQT 1.569449E+02
+R13 N074 N073 RQT 1E5
+R26 N072 0 RQT 4.284714E+04
+R27 N072 N071 RQT 1E5
+R28 N070 N069 RQT 1E5
+R29 N068 N067 RQT 1E5
+R30 N070 0 RQT 4.001887E+03
+R31 N068 0 RQT 8.332333E+04
+R32 N067 0 RQT 10
+R33 N069 0 RQT 10
+R34 N076 0 R_25C 60
+G15 0 N077 N086 0 1.328506E-07
+C14 N078 N077 3.183099E-08
+G16 0 INNx N085 0 1
+G17 0 N085 N084 0 6.66667E-5
+C15 N085 0 7.073553E-13
+G18 0 N079 N078 0 2.599071E+00
+C16 N080 N079 5.894628E-09
+G19 0 N081 N080 0 3.334111E-01
+C17 N082 N081 1.326291E-10
+G20 0 N083 N082 0 6.382300E+01
+C18 N084 N083 6.366198E-11
+R35 N081 0 RQT 10
+R36 N083 0 RQT 10
+R37 N085 0 RQT 1.5E4
+R38 N084 0 RQT 1.569449E+02
+R39 N084 N083 RQT 1E5
+R40 N082 0 RQT 4.284714E+04
+R41 N082 N081 RQT 1E5
+R42 N080 N079 RQT 1E5
+R43 N078 N077 RQT 1E5
+R44 N080 0 RQT 4.001887E+03
+R45 N078 0 RQT 8.332333E+04
+R46 N077 0 RQT 10
+R47 N079 0 RQT 10
+R48 N086 0 R_25C 60
+Givrm1 Vmid IVRmX VALUE = {uplim(dnlim(V(INNx,Vmid),V(VEE,Vmid)-0.1,1u),V(VCC,Vmid),1u)}
+Givrp1 Vmid IVRpX VALUE = {uplim(dnlim(V(INPx,Vmid),V(VEE,Vmid)-0.1,1u),V(VCC,Vmid),1u)}
+Rivrp1 IVRpX Vmid RQT 1 Noiseless
+Rivrm1 Vmid IVRmX RQT 1 Noiseless
+Givrpx1 Vmid N005 IVRpX Vmid 1
+Civrpx1 N005 Vmid 1E-15
+Rivrpx2 N005 Vmid RQT 1 Noiseless
+Givrpx4 N007 IVRpG Vnoise Vmid 1m
+Rivrpx5 N007 IVRpG RQT 1k Noiseless
+Rivrpx6 N005 vosx3 RQT 1k Noiseless
+Bvos1 N005 vosx3 I=1m*(28.03u+V(Lo-Hi)*1.97m)
+BIbiasP INPx Vmid I=0.8p-V(Lo-Hi)*0.68p
+BIbiasN INNx Vmid I=0.8p-V(Lo-Hi)*0.68p
+Givrpx2 N006 N007 PSVp_Vos PSVm_Vos 1m
+Rivrpx3 N006 N007 RQT 1k Noiseless
+G27 3 Vmid VALUE={LIMIT(V(Vimon,Vmid)+ILO_vimon-V(Lo-Hi)*0.2E-3,ILO_vimon-V(Lo-Hi)*0.2E-3,IHI_vimon)}
+G28 4 Vmid VALUE={LIMIT(V(Vimon,Vmid)-ILO_vimon+V(Lo-Hi)*0.2E-3,-IHI_vimon,-ILO_vimon+V(Lo-Hi)*0.2E-3)}
+Givrpx3 vosx3 N006 CMV Vmid 1m
+Rivrpx7 vosx3 N006 RQT 1k Noiseless
+CfzfpNoise1 N058 N057 1.989437E-13
+Gzfz3 Vmid N057 VnoiseP Vmid 1.000901E+00
+Rz7 Vmid N057 RQT 10 Noiseless
+Rz8 N058 N057 RQT 1.000E+05 Noiseless
+Rz9 Vmid N058 RQT 1.110111E+04 Noiseless
+Cpsvp6 N061 Vmid 10E-12
+Gpsvp6 Vmid N061 N058 Vmid 1
+Rpsvp8 N061 Vmid RQT 1 Noiseless
+CpsvP7 Vmid VnoiseHI 12.25e-12
+Rpsvp9 VnoiseHI N061 RQT 1E3 Noiseless
+S4 Vnoise VnoiseLO Lo-Hi Vmid GBSWLO
+S5 Vnoise VnoiseHI Lo-Hi Vmid GBSW1
+Rvcm_mon VCM_MON 0 RQT 1 Noiseless
+Cvcm_mon VCM_MON 0 1p
+GxP2 0 VCM_MON VALUE = {V(VCC)-4.4}
+Rvcm_mon1 Lo-Hi 0 RQT 1 Noiseless
+Cvcm_mon1 Lo-Hi 0 0.2µ
+Rvcm_mon3 I_SLEW 0 RQT 1 Noiseless
+Cvcm_mon3 I_SLEW 0 0.55µ
+GxP4 0 I_SLEW VALUE = {uplim(dnlim(V(IVRpX,VCM_MON),0,1m),1,1m)}
+Rvcm_mon4 Hi_SLEW 0 RQT 1 Noiseless
+Cvcm_mon4 Hi_SLEW 0 1p
+GxP5 0 Hi_SLEW VALUE = {LIMIT(V(I_SLEW,VTH_P)*1E5,1m,1)}
+Rvcm_mon5 VTH_P 0 RQT 1 Noiseless
+Cvcm_mon5 VTH_P 0 1p
+GxP6 0 VTH_P VALUE = {VTH_P}
+GxP3 0 Lo-Hi VALUE = {uplim(dnlim(V(IVRpX,VCM_MON),1m,1u),1,1u)}
+R70 IVRpG Vmid RQT 10E9
+RpZo1 Zo_Out Aol_Clmp RQT 5E7
+C1 N016 N015 4.547284E-08
+G1 Vmid N015 Aol_Clmp Zo_Out 4.324915E+03
+G2 Vmid N030 N016 Vmid 1.111E-4
+C2 N035 Vmid 7.958E-12
+G3 Vmid N031 N030 Vmid 4.789E-4
+R1 Vmid N015 RQT 1
+R2 N016 N015 RQT 1E5
+R3 Vmid N016 RQT 2.092102E+03
+R4 N035 N030 RQT 1E3
+R5 Vmid N030 RQT 9E3
+R6 Vmid Vo_Zo RQT 1E3
+Rx1 N029 Zo_Out RQT {Rx_Zo}
+Rdummy1 Vmid Zo_Out RQT 1.4E3
+G5 Vmid Vo_Zo N031 Vmid 1E-3
+C3 N036 Vmid 7.579E-13
+R7 N036 N031 RQT 1E3
+R12 Vmid N031 RQT 2.088E3
+B1 Vmid N029 I=Uplim(Dnlim(V(Vo_Zo,Vmid), {Izn}, 25m),{Izp}, 25m)
+R71 N029 Vmid RQT 1
+G31 Vmid N023 ORp Vmid 1k
+G32 Vmid N025 ORn Vmid 1k
+DGP1 N023 N024 DG
+R72 N023 Vmid 1m
+R73 N025 Vmid 1m
+I3 N033 ORn {1m*ORn}
+R74 ORn N033 1k
+I4 N032 ORp {1m*ORp}
+R75 ORp N032 1k
+C29 ORp N032 1p
+C30 ORn N033 1p
+DGN1 N024 N025 DG
+G33 Vmid N032 Zo_Out Vmid 1k
+R76 N032 Vmid 1m
+G34 Vmid N033 Zo_Out Vmid 1k
+R77 N033 Vmid 1m
+C31 N024 N023 10f
+C32 N025 N024 10f
+Rgr AolZ N024 1m
+B2 0 Igr I=1m*abs(I(Rgr)) Rpar=1k Cpar=10p
+A1 Igr 0 0 0 0 0 N012 0 SCHMITT Vt=50u Vh=50u Trise=10n
+C33 N012 0 1p Rpar=1G
+S1 N016 N015 N012 Vmid OL
+C28 5 Vmid 1E-15
+Raol_out1 Vmid 5 RQT 10Meg Noiseless
+S7 3 PSR_Outp PSR_Outp 3 ESDO
+S8 PSR_Outp 4 4 PSR_Outp ESDO
+DOP1 Vsatp Zo_Out DO
+DON1 Zo_Out Vsatn DO
+G35 Vmid Vsatp Satp Vmid 1k
+R69 Vsatp Vmid 1m
+G36 Vmid Vsatn Satn Vmid 1k
+R78 Vsatn Vmid 1m
+C34 Zo_Out Vsatp 1p
+C35 Zo_Out Vsatn 1p
+C36 Vsatp Vmid 1n
+C37 Vsatn Vmid 1n
+R79 Satn Vmid 1k
+C38 Satn Vmid 1n
+R80 Satp Vmid 1k
+C39 Satp Vmid 1n
+D1 Satp N044 DO
+D2 N045 Satn DO
+R81 N044 Vmid 1m
+B5 Vmid N044 I=1k*{Iscp}
+R82 N045 Vmid 1m
+B6 Vmid N045 I=1k*{Iscn}
+C40 Zo_Out Vmid 1f
+B7 Satp1 VCC I=1m*dnlim(Mp1*(V(Vimon,Vmid))+OSp1,OSp1,25m)
+R83 Satp1 VCC 1k
+C41 Satp1 VCC 1n
+R84 Satp2 VCC 1k
+C42 Satp2 VCC 1n
+R85 Satp3 VCC 1k
+C43 Satp3 VCC 1n
+R86 Satp4 VCC 1k
+C44 Satp4 VCC 1n
+R87 Satp5 VCC 1k
+C45 Satp5 VCC 1n
+R88 Satp6 VCC 1k
+C46 Satp6 VCC 1n
+B8 Satp2 VCC I=1m*dnlim(Mp2*(V(Vimon,Vmid))+OSp2,OSp1,25m)
+B9 Satp3 VCC I=1m*dnlim(Mp3*(V(Vimon,Vmid))+OSp3,OSp1,25m)
+B10 Satp4 VCC I=1m*dnlim(Mp4*(V(Vimon,Vmid))+OSp4,OSp1,25m)
+B11 Satp5 VCC I=1m*dnlim(Mp5*(V(Vimon,Vmid))+OSp5,OSp1,25m)
+B12 Satp6 VCC I=1m*dnlim(Mp6*(V(Vimon,Vmid))+OSp6,OSp1,25m)
+B13 VEE Satn1 I=1m*dnlim(Mn1*(-V(Vimon,Vmid))+OSn1,OSn1,25m)
+R89 Satn1 VEE 1k
+C47 Satn1 VEE 1n
+R90 Satn2 VEE 1k
+C48 Satn2 VEE 1n
+R91 Satn3 VEE 1k
+C49 Satn3 VEE 1n
+B14 VEE Satn2 I=1m*dnlim(Mn2*(-V(Vimon,Vmid))+OSn2,OSn1,25m)
+B15 VEE Satn3 I=1m*dnlim(Mn3*(-V(Vimon,Vmid))+OSn3,OSn1,25m)
+R92 Satn4 VEE 1k
+C50 Satn4 VEE 1n
+R93 Satn5 VEE 1k
+C51 Satn5 VEE 1n
+B16 VEE Satn4 I=1m*dnlim(Mn4*(-V(Vimon,Vmid))+OSn4,OSn1,25m)
+B17 VEE Satn5 I=1m*dnlim(Mn5*(-V(Vimon,Vmid))+OSn5,OSn1,25m)
+R94 Satp7 VCC 1k
+C52 Satp7 VCC 1n
+B18 Satp7 VCC I=1m*dnlim(Mp7*(V(Vimon,Vmid))+OSp7,OSp1,25m)
+R95 Satp8 VCC 1k
+C53 Satp8 VCC 1n
+B19 Satp8 VCC I=1m*dnlim(Mp8*(V(Vimon,Vmid))+OSp8,OSp1,25m)
+R96 Satp9 VCC 1k
+C54 Satp9 VCC 1n
+B20 Satp9 VCC I=1m*dnlim(Mp9*(V(Vimon,Vmid))+OSp9,OSp1,25m)
+R97 Satn6 VEE 1k
+C55 Satn6 VEE 1n
+B21 VEE Satn6 I=1m*dnlim(Mn6*(-V(Vimon,Vmid))+OSn6,OSn1,25m)
+S9 3 IVRpX IVRpX 3 ESDI
+S10 3 IVRmX IVRmX 3 ESDI
+S11 IVRpX 4 4 IVRpX ESDI
+S12 IVRmX 4 4 IVRmX ESDI
+G37 Vmid fp2 AolZ Vmid 6.666667E-05
+R98 PSR_Outp Zo_Out 1m
+G38 0 VCC N063 0 1k
+G39 0 VEE N066 0 1k
+R99 VCC 0 1m Noiseless
+R100 VEE 0 1m Noiseless
+R101 N060 VCC 1Meg Noiseless
+R102 N060 VEE 1Meg Noiseless
+C27 N060 0 1
+E1 Vmid 0 N060 0 1
+R103 Vmid 0 1Meg Noiseless
+C56 VCC 0 1n
+C57 VEE 0 1n
+R104 N063 3 1µ
+R105 N066 4 1µ
+Rs_Out 5 PSR_Outp 1m
+C58 N045 Vmid 10n
+C59 N044 Vmid 10n
+R106 Vimon Vmid 1k
+C60 Vimon Vmid 10n
+B22 Vmid Vimon I=1m*I(Rs_Out)
+Cpsvp1 N037 PSVp1 2.210485E-11
+Gpsvp1 Vmid N037 VCC Vmid 1.298594E-01
+Cpsvp2 PSVp_Vos Vmid 10E-12
+Cpsvm1 PSVm_Vos Vmid 10E-12
+Cpsvm2 N046 PSVm1 3.060672E-11
+Gpsvm1 Vmid N046 VEE Vmid 9.394610E-01
+Gpsvp2 Vmid PSVp_Vos VALUE = {LIMIT(V(PSVp,Vmid)*GPSV,ILO_psv,IHI_psv)}
+Gpsvm2 Vmid PSVm_Vos VALUE = {LIMIT(V(PSVm,Vmid)*GPSV,ILO_psv,IHI_psv)}
+Rpsvm1 N046 Vmid RQT 10 Noiseless
+Rpsvp1 N037 Vmid RQT 10 Noiseless
+Rpsvm2 PSVm1 N046 RQT 1E9 Noiseless
+Rpsvp2 PSVp1 N037 RQT 1E9 Noiseless
+Rpsvm3 PSVm1 Vmid RQT 3E1 Noiseless
+Rpsvp3 PSVp1 Vmid RQT 1.369388E+02 Noiseless
+Rpsvm4 PSVm_Vos Vmid RQT 1 Noiseless
+Rpsvp4 PSVp_Vos Vmid RQT 1 Noiseless
+Cpsvp3 N039 Vmid 10E-12
+Gpsvp3 Vmid N039 PSVp_Vos Vmid 1
+Cpsvm3 N052 Vmid 10E-12
+Gpsvm3 Vmid N052 PSVm_Vos Vmid 1
+Rpsvp5 N039 Vmid RQT 1 Noiseless
+Rpsvm5 N052 Vmid RQT 1 Noiseless
+Rpsrr1 Vmid N041 RQT 1 Noiseless
+Gpsrr1 Vmid N041 N040 N053 1
+Cpsrr1 N041 Vmid 1E-15
+Epsrr1 PSR_Outp Zo_Out N041 Vmid 1
+Cpsvp4 N042 Vmid 1.575761E-12
+Gpsvp4 Vmid N038 PSVp1 Vmid 1.625000E-03
+Rpsvp6 N038 Vmid RQT 6.153846E+02 Noiseless
+Cpsvm4 N056 Vmid 1.768388E-13
+Gpsvm4 Vmid PSVm PSVm1 Vmid 1.347518E-4
+Rpsvm6 PSVm Vmid RQT 5.923077E3 Noiseless
+Rpsvmg1 PSVm N056 RQT 1E3 Noiseless
+Rpsvpg1 N038 N042 RQT 1E3 Noiseless
+Cpsvp5 N043 Vmid 1.989437E-13
+Gpsvp5 Vmid PSVp N038 Vmid 1.594203E-4
+Rpsvp7 PSVp Vmid RQT 6.272727E3 Noiseless
+Rpsvpg2 PSVp N043 RQT 1E3 Noiseless
+CpsvP8 N040 N039 6.91978013E-10
+Rpsvp10 N040 Vmid RQT 1E3 Noiseless
+Cpsvm5 N053 N052 6.91978013E-10
+Rpsvm7 N053 Vmid RQT 1E3 Noiseless
+B4 Vmid Satp I=1m*Min(V(Satp1,Vmid),Min(V(Satp2,Vmid), Min(V(Satp3,Vmid),Min(V(Satp4,Vmid), Min(V(Satp5,Vmid),Min(V(Satp6,Vmid),Min(V(Satp7,Vmid),Min(V(Satp8,Vmid),V(Satp9,Vmid)))))))))
+B3 Vmid Satn I=1m*Max(V(Satn1,Vmid),Max(V(Satn2,Vmid), Max(V(Satn3,Vmid),Max(V(Satn4,Vmid), Max(V(Satn5,Vmid),V(Satn6,Vmid))))))
+Czfz1 N048 N047 5.134E-13
+Gzfz1 Vmid N047 VnoiseP Vmid 5.809E-01
+Rz1 Vmid N047 RQT 10 Noiseless
+Rz2 N048 N047 RQT 1.000E+05 Noiseless
+Rz3 Vmid N048 RQT 2.080E+04 Noiseless
+GFP2 Vmid VnoiseLO N054 Vmid 6.666667E-05
+Cfp2 VnoiseLO Vmid 2.122E-13
+Rfp1 VnoiseLO Vmid RQT 1.5E4 Noiseless
+GFP3 Vmid N054 N050 Vmid 6.666667E-05
+Cfp3 N054 Vmid 3.032E-12
+Rfp2 N054 Vmid RQT 1.5E4 Noiseless
+Czfz2 N050 N049 4.301E-13
+Gzfz2 Vmid N049 N048 Vmid 5.145E-01
+Rz4 Vmid N049 RQT 10 Noiseless
+Rz5 N050 N049 RQT 1.000E+05 Noiseless
+Rz6 Vmid N050 RQT 2.413E+04 Noiseless
+Fn1 Vmid N055 Vmeas1 707.1067812
+Rn1 N055 Vmid RQT 1 Noiseless
+Fn2 VnoiseP N051 Vmeas2 707.1067812
+Rn2 N051 VnoiseP RQT 1 Noiseless
+Cn1 VnoiseP N051 1E-15
+Cn2 N055 Vmid 1E-15
+Vnp1 Vn1 Vmid 0.65
+Dn1 Vn1 Vdn1 Diode_Vn
+Vmeas1 Vdn1 Vmid 0
+Vnn1 Vn2 Vmid 0.65
+Dn2 Vn2 Vdn2 Diode_Vn
+Vmeas2 Vdn2 Vmid 0
+Fn3 Vmid N064 Vmeas3 707.1067812
+Rn3 N064 Vmid RQT 1 Noiseless
+Fn4 VnoiseP N059 Vmeas4 707.1067812
+Rn4 N059 VnoiseP RQT 1 Noiseless
+Cn3 VnoiseP N059 1E-15
+Cn4 N064 Vmid 1E-15
+Vnp2 Vn3 Vmid 0.65
+Dn3 Vn3 Vdn3 Diode_VnHI
+Vmeas3 Vdn3 Vmid 0
+Vnn2 Vn4 Vmid 0.65
+Dn4 Vn4 Vdn4 Diode_VnHI
+Vmeas4 Vdn4 Vmid 0
+S6 N064 N059 Lo-Hi Vmid GBSW1
+S13 N055 N051 Lo-Hi Vmid GBSWLO
+R66 Vnoise Vmid RQT 10E9
+C19 N026 N027 7.472063E-10
+G21 Vmid N026 N028 Vmid 1.671148E-07
+G22 Vmid N011 IVRpX Vmid 1
+G23 Vmid N034 IVRmX Vmid 1
+C20 Vmid N011 10p
+C21 Vmid N034 10p
+C22 N021 N022 6.366198E-11
+G24 Vmid N021 N027 Vmid 5.624121E+02
+G25 Vmid CMV N014 Vmid 1
+R49 CMV Vmid RQT 1 Noiseless
+C23 CMV Vmid 1E-15
+C24 N019 N020 3.536777E-12
+G26 Vmid N019 N022 Vmid 2.038736E+00
+R50 N011 Vmid RQT 1 Noiseless
+R51 N034 Vmid RQT 1 Noiseless
+R52 N028 N034 RQT 100k Noiseless
+R53 N011 N028 RQT 100k Noiseless
+R54 N026 N027 RQT 1E5 Noiseless
+R55 N027 Vmid RQT 1.190942E+04 Noiseless
+R56 N026 Vmid RQT 10 Noiseless
+R57 N021 N022 RQT 1E5 Noiseless
+R58 N021 Vmid RQT 10 Noiseless
+R59 N022 Vmid RQT 1.778550E+01 Noiseless
+R60 N019 Vmid RQT 10 Noiseless
+R61 N020 N019 RQT 1E4 Noiseless
+R62 N020 Vmid RQT 5.163158E+02 Noiseless
+C25 N017 N018 2.652582E-12
+G29 Vmid N017 N020 Vmid 1.502103E+01
+R67 N017 Vmid RQT 1 Noiseless
+R68 N018 N017 RQT 1E4 Noiseless
+R107 N018 Vmid RQT 7.132857E+02 Noiseless
+C26 N013 N014 1.591549E-12
+G30 Vmid N013 N018 Vmid 1.000901E+01
+R108 N013 Vmid RQT 1 Noiseless
+R109 N014 N013 RQT 1E4 Noiseless
+R110 N014 Vmid RQT 1.110111E+03 Noiseless
+Rvcm_mon2 I_SLEWBoost 0 RQT 1 Noiseless
+Cvcm_mon2 I_SLEWBoost 0 0.55µ
+GxP1 0 I_SLEWBoost VALUE = {uplim(dnlim(V(IVRpX,Hi_Tran),0,1m),1,1m)}
+Rvcm_mon6 30V_Slew 0 RQT 1 Noiseless
+Cvcm_mon6 30V_Slew 0 1p
+GxP7 0 30V_Slew VALUE = {LIMIT(V(I_SLEWBoost,VTH_P)*1E5,1m,1)}
+Rvcm_mon7 Hi_Tran 0 RQT 1 Noiseless
+Cvcm_mon7 Hi_Tran 0 1p
+GxP8 0 Hi_Tran VALUE = {Hi_Tran}
+S2 N009 AolZ Lo-Hi Vmid GBSWFP1
+.param G1=6.09882E-04
+.param IHI1=2.19E-4
+.param ILO1=-2.19E-4
+.model RQT RES (T_ABS=-273.15)
+.model R_25C RES(T_ABS=25)
+.param frhpz=3.3E8
+.param CRHPzero={gm2/(2*3.14159*frhpz)}
+.param gm2=10m
+.model Diode_Vn D(KF=3.383396E-18 IS=9.4923E-16)
+.param IHI_vimon = 200E-3
+.param ILO_vimon=1.3E-3
+.model GBSW1 SW (Ron=10E-3 Roff=1E15 Von=5m Voff=1m)
+.model GBSWLO SW (Ron=1E15 Roff=10E-3 Von=5m Voff=1m)
+.param VTH_P=1n
+.model GBSWFP1 SW (Ron=272E6 Roff=1u Von=5m Voff=1m)
+.model TGSW1 SW (Ron=10E-3 Roff=1E10 Von=0.9 Voff=0.1)
+.param Iscp=80.316298m Iscn=-50.875m Izp={Iscp*Rx_Zo} Izn={Iscn*Rx_Zo}
+.param Rx_Zo=1.4E4
+.model DG D(Vfwd={-2*ORn} Vrev=0 Revepsilon=0.5 Ron=1m Noiseless)
+.model DO D(Vfwd=1k Vrev=0 Revepsilon=0.1 Ron=1m Noiseless)
+.model ESDO SW(Ron=50 Roff=1G Vt=0.5 Vh=-0.1 Vser=0.6
++Ilimit=4m Lser=1n Noiseless)
+.model ZO SW(Ron=10m Roff=100Meg Vt=500m Vh=-100m Noiseless)
+.param Vcmmin=-0.1 Vcmmax=36 Vsmin=4.5 Vsmax=40 ORp={Izp+Vsmax} ORn={Izn-Vsmax}
+.model OL SW(Ron=10m Roff=1G Vt=500m Vh=-100m Noiseless)
+.param Mp1=10.705m OSp1=15.5m
+.param Mp2=18.08 OSp2=-42.26m
+.param Mp3=40.74 OSp3=-386.2m
+.param Mp4=88.809 OSp4=-1.648
+.param Mp5=156.3 Osp5=-4.2015
+.param Mp6=227.72 OSp6=-7.7068
+.param Mp7=380.04 OSp7=-16.993
+.param Mp8=725.89 Osp8=-41.73
+.param MP9=1884.3 Osp9=-131.34
+.param Mn1=0.009358 OSn1=15.5m
+.param Mn2=21.23 OSn2=-114.7m
+.param Mn3=112.1 OSn3=-2.403
+.param Mn4=341.7 OSn4=-9.789
+.param Mn5=1450.8 OSn5=-58.073
+.param Mn6=3259.9 Osn6=-145.85
+.model ESDI SW(Ron=50 Roff=1T Vt=700m Vh=-350m Vser=0.1 Noiseless)
+.param GPSV = 1
+.param IHI_psv = 1
+.param ILO_psv = -1
+.model Diode_VnHI D(KF=1.42582E-17 IS=1.51464E-14)
+.param Hi_Tran=13.6
+.ends ADA4620

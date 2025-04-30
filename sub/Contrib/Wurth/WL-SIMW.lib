@@ -1,0 +1,58 @@
+**************************************************
+* Manufacturer:       Wurth Elektronik
+* Kinds:     Infrared High Power LED
+* Matchcode:          WL-SIMW SMD Infrared Ceramic Waterclear
+* Library Type:       Pspice
+* Version:        rev18a       
+* Date and Time   :       2018-8-4
+* Team:           eiSos EDA Service  
+* Contact:        libraries@we-online.com
+**************************************************
+.subckt  3535_15435385A9050  1  2
+D1 1 2 led
+.MODEL led D
++ IS=8.8933E-16
++ N=1.6402
++ RS=5.112
++ IKF=1.882
++ CJO=0.000000000000049398
++ M=0.1001
++ VJ=9.99
+.ends
+******
+.subckt  3535_15435385AA350  1  2
+D1 1 2 led
+.MODEL led D
++ IS=8.8933E-16
++ N=1.6402
++ RS=5.112
++ IKF=1.882
++ CJO=0.000000000000049398
++ M=0.1001
++ VJ=9.99
+.ends
+******
+.subckt  3535_15435394A9050  1  2
+D1 1 2 led
+.MODEL led D
++ IS=562.60E-21
++ N=1.1877
++ RS=.56121
++ IKF=32.047E-3
++ CJO=43.241E-15
++ M=.1
++ VJ=9.9900
+.ends
+******
+.subckt  3535_15435394AA350  1  2
+D1 1 2 led
+.MODEL led D
++ IS=562.60E-21
++ N=1.1877
++ RS=.56121
++ IKF=32.047E-3
++ CJO=43.241E-15
++ M=.1
++ VJ=9.9900
+.ends
+******

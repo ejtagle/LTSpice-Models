@@ -1,0 +1,25 @@
+.subckt IKW25N120H3 C G E
+E1 N001 0 C E 1
+E2 N002 0 G E table=(5 0,7 96.2m,9 0.465,11 1.026,13 1.693,15 2.456,17 3.53,20 5.45)
+E3 U1 0 N003 0 31.189
+D1 N003 N002 Ideal
+R1 N001 N003 100k
+R2 N003 N004 100k
+D2 0 N003 Ideal
+V1 0 N004 0.87
+R3 U1 U2 R=10k
+E4 UCgc 0 C G table=(0 8,76m 7,0.15 6,0.23 5,0.38 4,0.76 3,2.35 2,13.26 1,16.93 0.9,22.57 0.8,25 0.75,30 0.7)
+R4 UCgc 0 1meg
+B1 C G I=V(UCgc)*ddt(V(C,G))*100p IC=0 ;Tripdt=0.1n Tripdv=1m
+C1 G E 1335p
+E5 UCce 0 C E table=(0 5,76m 6,0.15 7,0.23 7,0.38 6.5,0.76 5.5,2.35 4.5,13.26 2.4,16.93 2.2,22.57 2,25 1.8,30 1.7)
+R5 UCce 0 1meg
+B2 U3 0 V=V(UCce)*ddt(V(C,E))*10p IC=0 ;Tripdt=1n Tripdv=1m
+R7 U3 U4 R=10k
+B3 C E I=V(U2)+V(U4)
+C2 U2 0 7p
+C3 U4 0 5p
+.model Ideal D(Ron=0 Roff=1g Vfwd=0)
+* R=if(V(G,E)>5,10k,10k)
+* R=IF(V(G,E)>5&ddt(V(C,E))>=0,10k,10k)
+.ends IKW25N120H3

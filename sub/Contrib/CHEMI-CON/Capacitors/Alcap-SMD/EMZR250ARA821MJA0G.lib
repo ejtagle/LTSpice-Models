@@ -1,0 +1,48 @@
+*$
+*//-----------------------------------------------------------------------//
+*//   Part No.    : EMZR250ARA821MJA0G
+*//   Date        : 2018/02/08
+*//   Update 	  : 2018/06/15 Added SPICE model (-55deg.C/105deg.C)
+*//		  : 2018/11/08 Corrected the SUBCKT
+*//   Temperature : 20deg.C/-55deg.C/105deg.C
+*//   Model       : RC-ladder 7 Elements Model
+*//   Copyright (C) 2018 Nippon Chemi-Con Corporation.
+*//   All Rights Reserved.
+*//-----------------------------------------------------------------------//
+
+.SUBCKT EMZR250ARA821MJA0G_20deg-C 1 2
+
+C1 4 2 2.11e-04
+C2 5 2 4.48e-04
+C3 6 2 9.81e-05
+R1 3 4 4.68e-02
+R2 4 5 1.88e-02
+R3 5 6 4.41e-01
+L1 1 3 4.50e-09
+
+.ENDS
+
+.SUBCKT EMZR250ARA821MJA0G_-55deg-C 1 2
+
+C1 4 2 4.16e-06
+C2 5 2 1.08e-04
+C3 6 2 5.48e-04
+R1 3 4 4.60e-01
+R2 4 5 9.36e-02
+R3 5 6 2.87e-01
+L1 1 3 4.50e-09
+
+.ENDS
+
+.SUBCKT EMZR250ARA821MJA0G_105deg-C 1 2
+
+C1 4 2 3.21e-04
+C2 5 2 4.52e-04
+C3 6 2 5.95e-05
+R1 3 4 2.56e-02
+R2 4 5 9.21e-03
+R3 5 6 5.00e-01
+L1 1 3 4.50e-09
+
+.ENDS
+*$

@@ -1,0 +1,109 @@
+* Copyright (c) 1998-2021 Analog Devices, Inc.  All rights reserved.
+*
+.subckt ADA4097-1 1 2 3 4 5 6
+B1 0 N006 I=10u*dnlim(uplim(V(1),V(4)+69.3,.1), V(4)-.15, .1)+1n*V(1)-10.72254n
+B2 N006 0 I=10u*dnlim(uplim(V(2),V(4)+69.3,.1), V(4)-.16, .1)+1n*V(2)
+C10 N006 0 50f Rpar=100K noiseless
+M1 N019 NG 4 4 NI temp=27
+C2 3 5 1p Rpar=1g noiseless
+D5 NG 4 DLIMN1
+M2 P001 N007 N004 N004 PI temp=27
+A3 N014 N016 4 4 4 4 N007 4 OTA g=2u ref=-.305 linear vlow=-1e308 vhigh=1e308
+C11 5 4 1p Rpar=1g noiseless
+D6 NG 4 DLIMN2
+C16 N016 5 52p
+A5 N012 0 N014 N014 N014 N014 N016 N014 OTA g=40u isource=5.05u Vlow=-1e308 Vhigh=1e308
+G1 4 NG N016 N014 140n
+D9 N016 N014 DLIM
+C7 2 0 3p Rser=1k Rpar=100G noiseless
+C13 3 4 10p
+C1 N009 0 280f
+G2 0 N014 4 0 .5m
+G4 0 N014 3 0 .5m
+C18 N014 0 200p Rpar=1K noiseless
+C6 1 0 3p Rser=1k Rpar=100G noiseless
+D3 3 N004 DSBD
+C5 3 N004 100f Rpar=10Meg noiseless
+D4 N004 N007 DLIMP
+D2 N009 0 DLIM0
+D1 4 5 DESD
+D8 4 1 DESD
+D10 4 2 DESD
+A2 N015 0 0 0 0 0 0 0 OTA g=0 in=0.5p ink=15
+D11 5 N019 DNR
+C15 N019 4 100f Rpar=10Meg noiseless
+D7 N007 3 DLIMPR
+A6 4 3 M M M M N005 M OTA g=2u iout=1u ref=-2.5 Rout=1Meg Cout=100f vlow=-1e308 vhigh=1e308
+S4 N021 4 N005 0 SBiasN
+D13 3 N013 DBiasDrop
+C14 N021 4 100f
+S2 N004 N007 0 N005 SHUT
+S3 NG 4 0 N005 SHUT
+D16 2 1 D10Meg
+C17 N010 0 2250f noiseless Rser=2.7Meg Rpar=1Meg
+G3 0 N010 N009 0 1µ
+D17 0 N009 DNLIN
+G5 0 N011 N010 0 1µ
+S5 N014 N016 4 5 SGK
+C3 3 N007 .9p Rser=700k noiseless
+C12 NG 4 .9p Rser=700k noiseless
+D14 2 N013 DBiasOTT
+D15 1 N021 DBiasOTT
+S1 0 N008 3 2 SNOI
+A7 N008 0 0 0 0 0 0 0 OTA g=0 in=17.25p ink=5
+A1 2 1 0 0 0 0 0 0 OTA g=0 in=0f ink=15
+GNOI_I 1 2 N015 0 1µ
+S6 0 N015 3 2 SNOI
+A4 0 N006 0 0 0 0 N009 0 OTA g=1u linear en=53n*(1+freq/160e3) enk=0.98 Vhigh=1e308 Vlow=-1e308
+GNOI_V N006 0 N008 0 10n
+S9 3 4 N017 0 SP
+S10 3 N007 N017 0 SHUT2
+S11 NG 4 N017 0 SHUT2
+S7 5 0 N017 0 SHUT2
+S8 P001 5 0 N017 SHUT3
+S13 N018 4 0 N017 SHUT3
+G6 0 M 3 0 500µ
+R1 M 0 1k noiseless
+G7 0 M 4 0 500µ
+R2 N024 0 58 noiseless
+C4 N025 N024 10n Rpar=47.9K noiseless
+R3 N025 0 1 noiseless
+G8 0 N025 1 0 5.25m
+G9 0 N025 2 0 5.25m
+G10 0 N025 0 3 5.25m
+G11 0 N025 0 4 5.25m
+G12 0 N006 0 N024 1µ
+D12 3 N018 DP
+S12 N013 N021 0 N017 SHUT3
+C20 N012 0 330f Rpar=1Meg noiseless
+G13 0 N012 N011 0 1µ
+C19 N011 0 125.26f noiseless Rser=2.667Meg Rpar=1Meg
+D18 4 6 DSHUT1
+C8 6 0 100f
+A8 6 4 0 0 0 0 N017 0 SCHMITT Vt=1.5 Vh=1m Trise=1u Tfall=20u
+I1 0 2 125p
+.model DP D(Ron=1k Roff=1G Vfwd=2.5 epsilon=100m ilimit=6.5u noiseless)
+.model SP SW(Ron=100 Roff=1G vt=.5 vh=10m ilimit=15u noiseless)
+.model DESD D(Ron=1k Roff=1G vfwd=700m epsilon=100m noiseless)
+.model SNOI SW(Ron=1 Roff=1Meg vt=1.2 vh=-100m noiseless)
+.model NI VDMOS(Vto=361.95m Kp=69.6m Mtriode=.9 lambda=.01)
+.model PI VDMOS(Vto=-361.95m Kp=174m lambda=.01 pchan is=0)
+.model DLIM0 D(Ron=10 Roff=10Meg Vfwd=1 epsilon=100m Vrev=1 epsilon=100m noiseless)
+.model DNLIN D(Roff=1.8Meg Ron=800k vfwd=0 epsilon=10m noiseless)
+.model DLIM D(Ron=100 Roff=4.755Meg Vfwd=700m Vrev=100m epsilon=10m revepsilon=10 noiseless)
+.model SHUT SW(level=2 Ron=10k Roff=100G vt=-.5 vh=-.2 noiseless)
+.model DSHUT1 D(Ron=1000 Roff=0.823E6 Vfwd=1 epsilon=100m Vrev=1 epsilon=100m ilimit=100n revilimit=0.1n noiseless)
+.model DSBD D( Ron=15 Roff=100Meg  Vfwd=-70m epsilon=50m  Vrev=100 revepsilon=10m noiseless)
+.model DNR D(Ron=1 Roff=100Meg Vfwd=-16m epsilon=300m noiseless)
+.model DLIMN1 D(Ron=200k Roff=415Meg Vfwd=1.378 Vrev=-330m epsilon=.1 noiseless)
+.model DLIMN2 D(Ron=5Meg Roff=1G Vfwd=-20m epsilon=50m ilimit=44n noiseless)
+.model DLIMP D(Ron=100k Roff=100Meg Vfwd=0.805 epsilon=10m noiseless)
+.model DLIMPR D(Ron=5Meg Roff=1G Vfwd=100m epsilon=10m noiseless)
+.model SGK SW(level=2 Ron=65k Roff=100G  vt=-260m vh=150m oneway epsilon=10m noiseless)
+.model SBiasN SW(level=2 Ron=5k Roff=1g vt=.5 vh=-.2 ilimit=0.2u noiseless)
+.model DBiasDrop D(Ron=1k Roff=1G vfwd=0.31 epsilon=200m noiseless)
+.model DBiasOTT D(Ron=500 Roff=1G vfwd=700m epsilon=200m noiseless)
+.model D10Meg D(Ron=10Meg Roff=10Meg vfwd=0 vrev=0 ilimit=10n revilimit=10n noiseless)
+.model SHUT3 SW(Ron=10 Roff=10G vt=-0.5 vh=100m noiseless)
+.model SHUT2 SW(Ron=10 Roff=10G vt=0.5 vh=100m noiseless)
+.ends ADA4097-1

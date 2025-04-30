@@ -1,0 +1,439 @@
+**************************************************
+* Manufacturer:       Wurth Elektronik
+* Kinds:    Visible Chip LED
+* Matchcode:          WL-SMSW SMT Mono-color Side view PLCC LED Watercle
+* Library Type:       Pspice
+* Version:        rev18a       
+* Date and Time   :       2018-8-4
+* Team:           eiSos EDA Service  
+* Contact:        libraries@we-online.com
+**************************************************
+.subckt  1204_155124BS73200  1  2
+D1 1 2 led
+.MODEL led D
++ IS=867.86E-15
++ N=4.5815
++ RS=10.315
++ IKF=2.2977
++ CJO=0.0000000001075
++ M=0.1
++ VJ=9.99
+.ends
+******
+.subckt  1204_155124GS73200  1  2
+D1 1 2 led
+.MODEL led D
++ IS=8.0842E-12
++ N=4.9950
++ RS=17.926
++ IKF=999
++ CJO=4.6733E-9
++ M=.1001
++ VJ=9.9900
+.ends
+******
+.subckt  1204_155124VS73200  1  2
+D1 1 2 led
+.MODEL led D
++ IS=2.7215E-9
++ N=4.9950
++ RS=1.0000E-6
++ IKF=999
++ CJO=4.6733E-9
++ M=.1001
++ VJ=9.9900
+.ends
+******
+.subckt  1204_155124YS73200  1  2
+D1 1 2 led
+.MODEL led D
++ IS=3.0978E-9
++ N=4.9950
++ RS=3.0912E-3
++ IKF=999
++ CJO=3.9474E-9
++ M=.1001
++ VJ=9.9900
+.ends
+******
+.subckt 1204_155124BS73200A 1 2
+D1 1 2 smsw
+.MODEL smsw D
++ IS=1.7319E-15
++ N=3.6778
++ RS=5.8388
++ IKF=1.4153E-3
++ CJO=1.0000E-12
++ M=.3333
++ VJ=.75
++ BV=5
++ IBV=100.00E-6
+.ends
+*******
+.subckt 1204_155124GS73200A 1 2
+D1 1 2 smsw
+.MODEL smsw D
++ IS=10.000E-21
++ N=2.7276
++ RS=6.5920
++ IKF=9.5973E-3
++ CJO=1.0000E-12
++ M=.3333
++ VJ=.75
++ BV=5
++ IBV=100.00E-6
+.ends
+********
+.subckt 1204_155124RS73200A 1 2
+D1 1 2 smsw
+.MODEL smsw D
++ IS=4.3656E-15
++ N=2.4991
++ RS=1.2502
++ IKF=359.10
++ CJO=1.0000E-12
++ M=.3333
++ VJ=.75
++ BV=5
++ IBV=100.00E-6
+.ends
+********
+.subckt 1204_155124VS73200A 1 2
+D1 1 2 smsw
+.MODEL smsw D
++ IS=10.000E-21
++ N=1.8147
++ RS=1.1392
++ IKF=2.2362
++ CJO=1.0000E-12
++ M=.3333
++ VJ=.75
++ BV=5
++ IBV=100.00E-6
+.ends
+********
+.subckt 1204_155124YS73200A 1 2
+D1 1 2 smsw
+.MODEL smsw D
++ IS=10.000E-21
++ N=1.8051
++ RS=.53722
++ IKF=10.399
++ CJO=1.0000E-12
++ M=.3333
++ VJ=.75
++ BV=5
++ IBV=100.00E-6
+.ends
+********
+.subckt 3014_155301BS73100 1 2
+D1 1 2 smsw
+.MODEL smsw D
++ IS=10.000E-21
++ N=2.4466
++ RS=1.9921
++ IKF=31.051E-3
++ CJO=1.0000E-12
++ M=.3333
++ VJ=.75
++ BV=5
++ TT=5.0000E-9
+.ends
+********
+.subckt 3014_155301GS73100 1 2
+D1 1 2 smsw
+.MODEL smsw D
++ IS=330.17E-21
++ N=2.6943
++ RS=2.3544
++ IKF=278.04
++ CJO=1.0000E-12
++ M=.3333
++ VJ=.75
++ BV=5
++ TT=5.0000E-9
+.ends
+********
+.subckt 3014_155301RS73100 1 2
+D1 1 2 smsw
+.MODEL smsw D
++ IS=10.000E-21
++ N=2.4466
++ RS=1.9921
++ IKF=31.051E-3
++ CJO=1.0000E-12
++ M=.3333
++ VJ=.75
++ BV=5
++ TT=5.0000E-9
+.ends
+********
+.subckt 3014_155301VS73100 1 2
+D1 1 2 smsw
+.MODEL smsw D
++ IS=10.000E-21
++ N=2.4466
++ RS=1.9921
++ IKF=31.051E-3
++ CJO=1.0000E-12
++ M=.3333
++ VJ=.75
++ BV=5
++ TT=5.0000E-9
+.ends
+********
+.subckt 3014_155301YS73100 1 2
+D1 1 2 smsw
+.MODEL smsw D
++ IS=10.000E-21
++ N=2.4466
++ RS=1.9921
++ IKF=31.051E-3
++ CJO=1.0000E-12
++ M=.3333
++ VJ=.75
++ BV=5
++ TT=5.0000E-9
+.ends
+********
+.subckt 0603_155060AS73200 1 2
+D1 1 2 smsw
+.MODEL smsw D
++ IS=330.17E-21
++ N=2.6943
++ RS=2.3544
++ IKF=278.04
++ CJO=1.0000E-12
++ M=.3333
++ VJ=.75
++ BV=5
++ TT=5.0000E-9
+.ends
+********
+.subckt 0603_155060BS73200 1 2
+D1 1 2 smsw
+.MODEL smsw D
++ IS=10.000E-21
++ N=2.4466
++ RS=1.9921
++ IKF=31.051E-3
++ CJO=1.0000E-12
++ M=.3333
++ VJ=.75
++ BV=5
++ TT=5.0000E-9
+.ends
+********
+.subckt 0603_155060GS73200 1 2
+D1 1 2 smsw
+.MODEL smsw D
++ IS=10.000E-21
++ N=2.4466
++ RS=1.9921
++ IKF=31.051E-3
++ CJO=1.0000E-12
++ M=.3333
++ VJ=.75
++ BV=5
++ TT=5.0000E-9
+.ends
+********
+.subckt 0603_155060RS73200 1 2
+D1 1 2 smsw
+.MODEL smsw D
++ IS=10.000E-21
++ N=2.4466
++ RS=1.9921
++ IKF=31.051E-3
++ CJO=1.0000E-12
++ M=.3333
++ VJ=.75
++ BV=5
++ TT=5.0000E-9
+.ends
+********
+.subckt 0603_155060SS73200 1 2
+D1 1 2 smsw
+.MODEL smsw D
++ IS=10.000E-21
++ N=2.4466
++ RS=1.9921
++ IKF=31.051E-3
++ CJO=1.0000E-12
++ M=.3333
++ VJ=.75
++ BV=5
++ TT=5.0000E-9
+.ends
+********
+.subckt 0603_155060VS73200 1 2
+D1 1 2 smsw
+.MODEL smsw D
++ IS=330.17E-21
++ N=2.6943
++ RS=2.3544
++ IKF=278.04
++ CJO=1.0000E-12
++ M=.3333
++ VJ=.75
++ BV=5
++ TT=5.0000E-9
+.ends
+********
+.subckt 0603_155060YS73200 1 2
+D1 1 2 smsw
+.MODEL smsw D
++ IS=330.17E-21
++ N=2.6943
++ RS=2.3544
++ IKF=278.04
++ CJO=1.0000E-12
++ M=.3333
++ VJ=.75
++ BV=5
++ TT=5.0000E-9
+.ends
+********
+.subckt 0603_155060AS75300 1 2
+D1 1 2 smsw
+.MODEL smsw D
++ IS=10.000E-21
++ N=2.4466
++ RS=1.9923
++ IKF=31.085E-3
++ CJO=1.0000E-12
++ M=.3333
++ VJ=.75
++ BV=5
++ TT=5.0000E-9
+.ends
+********
+.subckt 0603_155060BS75300 1 2
+D1 1 2 smsw
+.MODEL smsw D
++ IS=330.16E-21
++ N=2.6943
++ RS=2.3536
++ IKF=37.337
++ CJO=1.0000E-12
++ M=.3333
++ VJ=.75
++ BV=5
++ TT=5.0000E-9
+.ends
+********
+.subckt 0603_155060GS75300 1 2
+D1 1 2 smsw
+.MODEL smsw D
++ IS=330.16E-21
++ N=2.6943
++ RS=2.3536
++ IKF=37.337
++ CJO=1.0000E-12
++ M=.3333
++ VJ=.75
++ BV=5
++ TT=5.0000E-9
+.ends
+********
+.subckt 0603_155060SS75300 1 2
+D1 1 2 smsw
+.MODEL smsw D
++ IS=10.000E-21
++ N=2.4466
++ RS=1.9921
++ IKF=31.051E-3
++ CJO=1.0000E-12
++ M=.3333
++ VJ=.75
++ BV=5
++ TT=5.0000E-9
+.ends
+********
+.subckt 0603_155060RS75300 1 2
+D1 1 2 smsw
+.MODEL smsw D
++ IS=330.16E-21
++ N=2.6943
++ RS=2.3536
++ IKF=37.337
++ CJO=1.0000E-12
++ M=.3333
++ VJ=.75
++ BV=5
++ TT=5.0000E-9
+.ends
+********
+.subckt 0603_155060YS75300 1 2
+D1 1 2 smsw
+.MODEL smsw D
++ IS=10.000E-21
++ N=2.4466
++ RS=1.9921
++ IKF=31.051E-3
++ CJO=1.0000E-12
++ M=.3333
++ VJ=.75
++ BV=5
++ TT=5.0000E-9
+.ends
+********
+.subckt 0603_155060VS75300 1 2
+D1 1 2 smsw
+.MODEL smsw D
++ IS=330.16E-21
++ N=2.6943
++ RS=2.3536
++ IKF=37.337
++ CJO=1.0000E-12
++ M=.3333
++ VJ=.75
++ BV=5
++ TT=5.0000E-9
+.ends
+********
+.subckt 1204_155124RS73200 1 2
+D1 2 1 smsw
+.MODEL smsw D
++ IS=10.000E-21
++ N=1.6578
++ RS=1.0000E-6
++ IKF=223.21E-6
++ CJO=1.0000E-12
++ M=.3333
++ VJ=.75
++ BV=5
++ TT=5.0000E-9
+.ends
+********
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

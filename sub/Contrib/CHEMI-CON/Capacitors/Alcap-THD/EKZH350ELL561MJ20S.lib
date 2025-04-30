@@ -1,0 +1,46 @@
+*$
+*//-----------------------------------------------------------------------//
+*//   Part        : EKZH350ELL561MJ20S
+*//   Date        : 2022/08/23
+*//   Temperature : 20deg.C/-40deg.C/105deg.C
+*//   Model       : RC-ladder 7 Elements Model
+*//   Copyright (C) 2022 Nippon Chemi-Con Corporation.
+*//   All Rights Reserved.
+*//-----------------------------------------------------------------------//
+
+.SUBCKT EKZH350ELL561MJ20S_20deg-C 1 2
+
+C1 4 2 5.08e-04
+C2 5 2 6.43e-05
+C3 6 2 2.27e-05
+R1 3 4 1.64e-02
+R2 4 5 3.25e-01
+R3 5 6 1.75e+01
+L1 1 3 7.00e-09
+
+.ENDS
+
+.SUBCKT EKZH350ELL561MJ20S_-40deg-C 1 2
+
+C1 4 2 1.03e-06
+C2 5 2 6.59e-05
+C3 6 2 4.38e-04
+R1 3 4 3.72e-01
+R2 4 5 1.41e-01
+R3 5 6 1.59e-01
+L1 1 3 7.00e-09
+
+.ENDS
+
+.SUBCKT EKZH350ELL561MJ20S_105deg-C 1 2
+
+C1 4 2 5.41e-04
+C2 5 2 6.39e-05
+C3 6 2 2.86e-05
+R1 3 4 8.93e-03
+R2 4 5 1.07e-01
+R3 5 6 1.43e+01
+L1 1 3 7.00e-09
+
+.ENDS
+*$

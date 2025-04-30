@@ -1,0 +1,92 @@
+**************************************************
+* Manufacturer:       Wurth Elektronik
+* Kinds:     Signal LEDs
+* Matchcode:          WL-SMCD SMT Mono-Color Chip LED Diffused
+* Library Type:       LTspice
+* Version:        rev19a       
+* Date and Time   :       2019-03-14
+* Team:           eiSos EDA Service  
+* Contact:        libraries@we-online.com
+**************************************************
+.subckt 0603_150060SS55040 1 2
+D1 1 2 smcd
+.MODEL smcd D
++ IS=14.813E-12
++ N=3.6097
++ RS=2.1532
++ CJO=1.0000E-12
++ M=.3333
++ VJ=.75
++ BV=5
++ IBV=100.00E-6
+.ends
+*****************************
+.subckt 0603_150060RS55040 1 2
+D1 1 2 smcd
+.MODEL smcd D
++ IS=127.76E-18
++ N=2.2515
++ RS=.94712
++ CJO=1.0000E-12
++ M=.3333
++ VJ=.75
++ BV=5
++ IBV=100.00E-6
+.ends
+*****************************
+.subckt 0603_150060YS55040 1 2
+D1 1 2 smcd
+.MODEL smcd D
++ IS=10.000E-21
++ N=1.8115
++ RS=.66325
++ IKF=39.932
++ CJO=1.0000E-12
++ M=.3333
++ VJ=.75
++ BV=5
++ IBV=100.00E-6
+.ends
+*****************************
+.subckt 0603_150060VS55040 1 2
+D1 1 2 smcd
+.MODEL smcd D
++ IS=128.02E-21
++ N=1.9603
++ RS=.15606
++ IKF=12.357E-3
++ CJO=1.0000E-12
++ M=.3333
++ VJ=.75
++ BV=5
++ IBV=100.00E-6
+.ends
+*****************************
+.subckt 0603_150060GS55040 1 2
+D1 1 2 smcd
+.MODEL smcd D
++ IS=1.0731E-12
++ N=4.9950
++ RS=8.2952
++ IKF=999
++ CJO=1.0000E-12
++ M=.3333
++ VJ=.75
++ BV=5
++ IBV=100.00E-6
+.ends
+*****************************
+.subckt 0603_150060BS55040 1 2
+D1 1 2 smcd
+.MODEL smcd D
++ IS=1.7492E-12
++ N=4.9950
++ RS=6.2777
++ IKF=999
++ CJO=1.0000E-12
++ M=.3333
++ VJ=.75
++ BV=5
++ IBV=100.00E-6
+.ends
+*****************************

@@ -1,0 +1,21 @@
+*$
+*//-----------------------------------------------------------------------//
+*//   Part No.    : APSG160E271MF08S
+*//   Date        : 2020/12/24
+*//   Temperature : 20deg.C
+*//   Model       : RC-ladder 7 Elements Model
+*//   Copyright (C) 2020 Nippon Chemi-Con Corporation.
+*//   All Rights Reserved.
+*//-----------------------------------------------------------------------//
+
+.SUBCKT APSG160ELL271MF08S_20deg-C 1 2
+
+C1 4 2 1.60e-04
+C2 5 2 9.41e-05
+C3 6 2 2.17e-05
+R1 3 4 8.27e-03
+R2 4 5 3.04e-02
+R3 5 6 9.88e-01
+L1 1 3 2.10e-09
+
+.ENDS

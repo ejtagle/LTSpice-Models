@@ -1,0 +1,91 @@
+* Copyright (c) 1998-2021 Analog Devices, Inc.  All rights reserved.
+*
+.subckt LTC6228 1 2 3 4 5 6
+B1 0 N004 I=10u*dnlim(uplim(V(1),V(4)-1.1,.1), V(5)-.2, .1)+1n*V(1) + 3.5456p
+B2 N004 0 I=10u*dnlim(uplim(V(2),V(4)-1.09,.1), V(5)-.21, .1)+1n*V(2)
+C10 N004 0 .1f Rpar=100K noiseless
+C16 XC N009 20p
+C7 4 1 750f Rser=1k noiseless
+C4 2 1 3.5p Rser=1k noiseless
+C13 4 5 10p
+D1 3 4 DESD
+D2 5 3 DESD
+C20 XC 0 1p
+D3 XC 0 DANTISAT
+G4 0 N007 N006 0 1m
+S5 4 5 _SHDN 0 SPOW
+D4 4 5 DPOWSD
+M3 3 PG 4 4 PI temp=27
+M4 3 NG 5 5 NI temp=27
+D9 4 PG DLIMP
+D10 NG 5 DLIMN
+B7 5 NG I=(.5+.5*tanh((V(_SHDN)-500m)/100m))*dnlim(550n+1.2u*(V(XC)+270m),550n,100n)
+B8 PG 4 I=(.5+.5*tanh((V(_SHDN)-500m)/100m))*dnlim(522n-1.2u*(V(XC)-270m),522n,100n)
+C19 4 3 100f
+C22 3 5 100f
+C8 N008 0 80f Rpar=1k noiseless
+C11 N006 0 3.7p Rser=538 Rpar=1k noiseless
+G7 0 N008 N007 0 1m
+R6 4 Mid 15.5k noiseless
+D6 5 6 DESD
+S1 6 4 4 6 SWSHT
+G1 6 5 6 4 1µ vto=-1.5 dir=1
+A2 4 6 0 0 0 0 _BCANCL 0 SCHMITT vt=500m vh=10m trise=100n
+C2 4 6 1p
+A3 4 6 0 0 0 _SHDN 0 0 SCHMITT vt=2.5 vh=10m trise=1.2u
+D7 6 4 DESD
+C6 5 6 100f
+D5 2 4 DESD
+D8 5 2 DESD
+D11 1 4 DESD
+D12 5 1 DESD
+D13 2 1 DIN
+S6 4 N010 _BCANCL 0 SWBIAS1
+C23 4 N010 1p rpar=2Meg noiseless
+S10 4 N010 N005 0 SWBIAS2
+D20 N010 2 DBIAS
+D18 N010 1 DBIAS
+C27 N005 0 1p rpar=1k noiseless
+I4 0 N005 1m
+S11 0 N005 _BCANCL 0 SWBIAS3
+G8 0 N005 5 N010 1m
+C21 N007 0 80f Rpar=1k noiseless
+A5 _SHDN 0 0 0 0 0 _SHDN_D 0 BUF trise=100n
+R4 Mid 5 15.5k noiseless
+C1 1 5 750f Rser=1k noiseless
+C3 4 2 750f Rser=1k noiseless
+C5 2 5 750f Rser=1k noiseless
+R5 N009 0 1 noiseless
+G3 0 N009 3 Mid 1
+C15 X4 0 80f Rpar=1k noiseless
+G9 0 X4 N008 0 1m
+C17 4 PG .82f Rser=1.75Meg noiseless
+C12 NG 5 .82f Rser=1.75Meg noiseless
+B3 0 XC I=dnlim(uplim(10.2m*tanh(11.275*V(X4)),10.2m*dnlim(V(SLWFAC),.2,.1),2m),-10.2m*dnlim(V(SLWFAC),.2,.1),2m)
+G2 0 SLWFAC 4 5 150µ
+C18 SLWFAC 0 100p Rpar=1k
+I1 SLWFAC 0 50µ
+S2 N013 0 _BCANCL 0 SWN
+G5 0 2 N013 0 1n
+S3 N015 0 _BCANCL 0 SWN
+G6 0 1 N015 0 1n
+A8 N015 0 0 0 0 0 0 0 OTA g=0 in=2.8n*((1+.3/freq)*(1+300k/freq))**.4
+A1 N013 0 0 0 0 0 0 0 OTA g=0 in=2.8n*((1+.3/freq)*(1+300k/freq))**.4
+A6 N004 0 _SHDN_D 0 0 0 N006 0 OTA g=1m linear en=.88n enk=5.5k vlow=-400m vhigh=400m
+.model DANTISAT D(Ron=100 Roff=623k vfwd=300m epsilon=100m vrev=300m revepsilon=100m noiseless)
+.model SWSHT SW(Ron=600k Roff=1G vt=900m vh=-600m noiseless)
+.model SPOW SW(Ron=100 Roff=10G vt=.5 vh=-.3 ilimit=2.9m noiseless)
+.model DPOWSD D(Ron=1K Roff=1G vfwd=600m epsilon=500m ilimit=128u noiseless)
+.model DESD D(Ron=100 Roff=1g Vfwd=700m epsilon=500m noiseless)
+.model SWN SW(Ron=1Meg Roff=2Meg vt=.5 vh=-200m noiseless)
+.param vs=10
+.model DLIMN D(Ron=1k Roff=1Meg Vfwd=2  epsilon=100m  noiseless)
+.model DLIMP D(Ron=1k Roff=1Meg Vfwd=2  epsilon=100m noiseless)
+.model PI VDMOS(Vto=-300m kp=80m  mtriode=.8  ksubthres=10m  lambda=5e-5 pchan noiseless)
+.model NI VDMOS(Vto=300m kp=90m mtriode=1.2  ksubthres=10m  lambda=5e-5 noiseless)
+.model DIN D(Ron=100 Roff=1G vfwd=700m epsilon=500m vrev=700m revepsilon=500m noiseless)
+.model SWBIAS1 SW(level=2 ron=100 roff=1G vt=.5 vh=-200m ilimit=30u noiseless)
+.model SWBIAS2 SW(level=2 ron=100 roff=1G vt=.4 vh=-50m ilimit=32u noiseless)
+.model SWBIAS3 SW(ron=1 Roff=1G vt=500m  vh=-200m noiseless)
+.model  DBIAS D(Ron=500 Roff=1G vfwd=100m epsilon=100m noiseless)
+.ends LTC6228

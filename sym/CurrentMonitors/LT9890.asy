@@ -1,0 +1,22 @@
+Version 4
+SymbolType CELL
+RECTANGLE Normal -176 -144 176 144
+TEXT 0 0 Center 2 LT
+WINDOW 0 0 -64 Center 2
+WINDOW 3 0 64 Center 2
+SYMATTR Value LT9890
+SYMATTR Prefix X
+SYMATTR Description 150A Current Monitor for Intel Psys Applications
+SYMATTR ModelFile LT9890.sub
+PIN 176 -96 RIGHT 8
+PINATTR PinName IM
+PINATTR SpiceOrder 1
+PIN -80 144 BOTTOM 8
+PINATTR PinName IOUT
+PINATTR SpiceOrder 4
+PIN -176 -96 LEFT 8
+PINATTR PinName IP
+PINATTR SpiceOrder 5
+PIN 80 144 BOTTOM 8
+PINATTR PinName GND
+PINATTR SpiceOrder 2

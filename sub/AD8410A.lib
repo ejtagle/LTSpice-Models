@@ -1,0 +1,139 @@
+* Copyright (c) 1998-2023 Analog Devices, Inc.  All rights reserved.
+*
+.subckt AD8410A 1 2 3 4 5 6 7
+R_INN_OUT OUTx INNx 600E3
+RCM_INN N010 N009 30000.505
+RCM_INP INPx VSL_OUTP 30000.0
+R1 2 OUTx 1E12
+R_INP_REF INPx REFMID 569988.7
+R_REF1 6 REFMID 60E3
+R_REF2 3 REFMID 60E3
+R2 VSL_INN 2 1
+R3 1 2 562E3
+R4 2 7 562E3
+D1 N029 N027 D
+V4 N029 2 1.5
+D2 7 N027 D
+D3 N004 N006 D
+D4 1 N006 D
+V5 N004 2 1.5
+G1 2 VSL_INN 1 2 1
+G2 2 VSL_INP 7 2 1
+R5 VSL_INP 2 1
+R6 VZ 2 100E9
+G3 2 VZ VY VO 0.3
+C1 VZ 2 0.91E-9
+G4 2 VO VZ 2 7m
+R7 VO 2 5
+C2 VO 2 20n
+D5 N020 VZ D
+D6 VZ N021 D
+V6 2 N020 150
+V7 2 N021 -150
+LCM_INN N010 INNx 0.033E-3
+D9 N018 N017 DN
+D10 N014 7 D
+D11 N016 N015 DN
+D12 7 N019 D
+D13 N014 1 D
+D14 1 N019 D
+V10 N019 2 79.3
+V11 2 N014 19.3
+D15 N022 7 Ddiff
+D16 N023 1 Ddiff
+D17 N022 1 D
+D18 N023 7 D
+D19 N026 N028 D
+D20 N026 7 D
+V12 N028 2 -5
+R8 N026 2 40E3
+D21 N005 N003 D
+D22 N005 1 D
+V13 N003 2 -5
+R9 2 N005 40E3
+Isupply1 5 2 7.8E-3
+Vos1 N009 N008 0E-6
+H1 N011 OUTx Vn1 707.1067812
+Vn1 N015 2 0
+Vn2 N016 2 0.65
+Vn3 N017 2 0
+Vn4 N018 2 0.65
+H2 N011 VX Vn3 707.1067812
+C3 VY 2 1E-9
+C4 VSL_OUTP 2 1E-15
+R10 VSL_OUTP 2 10E9
+R11 VY 2 1E9
+BSL1 2 VSL_OUTP I=limit((1*V(VSL_INP, VSL_OUTP)), 0.4, -0.4)
+BSL2 2 VY I=limit((1*V(VX, VY)), 0.0085, -0.0086)
+G5 2 OUTx INPx INNx 100
+EVSx VSx 2 5 2 1
+Rout VVO 4 0.2
+BIbiasP N027 2 I=IF(V(3,0)<=0&V(6,0)<=0, 0e-6, 110e-6)
+BIbiasN N006 2 I=IF(V(3,0)<=0&V(6,0)<=0, 0e-6, 110e-6)
+C5 N032 N031 {C1a_PSRR}
+G6 2 N031 VSx 2 {G1_PSRR}
+R12 N031 2 1 Noiseless
+R13 N032 N031 {R1a_PSRR} Noiseless
+R14 N032 2 {R2a_PSRR} Noiseless
+C6 N034 N033 {C1b_PSRR}
+R15 N034 2 {R2b_PSRR} Noiseless
+R16 N034 N033 {R1b_PSRR} Noiseless
+G7 2 N033 N032 2 1
+R17 N033 2 1 Noiseless
+G8 2 PSRR N034 2 {G2_PSRR}
+R18 PSRR 2 1 Noiseless
+G9 VSL_INN N008 PSRR 2 1k
+R19 N008 VSL_INN 1m
+B1 Satp VSx I=1m*Dnlim(Ap + Bp*V(Vimon,2) +Cp*V(Vimon,2)**2,Ap,1m)
+R20 Satp VSx 1k
+C7 Satp VSx 1n
+B2 2 Satn I=1m*Dnlim(Mn*(-V(Vimon,2)) +OSn,OSn,1m)
+R21 Satn 2 1k
+C8 Satn 2 1n
+B3 2 Vimon I=1m*I(Rout) Rpar=1k Cpar=1n
+G10 2 Vsatp Satp 2 1k
+R22 Vsatp 2 1m
+G11 2 Vsatn Satn 2 1k
+R23 Vsatn 2 1m
+C9 Vsatp 2 1n
+C10 Vsatn 2 1n
+DOP Vsatp VO DO
+DON VO Vsatn DO
+C11 VO Vsatp 1f
+C12 VO Vsatn 1f
+Eout1 VVO 0 VO 0 1
+DCL1 VSL_INP NCL5 D
+VCL1 NCLU NCL5 1.5
+DCL2 NCL6 VSL_INP D
+VCL2 NCL6 NCLL 1.5
+DCL3 NCL1 VSL_INN D
+VCL3 NCL1 NCLL 1.5
+DCL4 VSL_INN NCL2 D
+VCL4 NCLU NCL2 1.5
+VCL5 NCLU 0 70.8
+VCL6 NCLL 0 -2.8
+.model D D(IS=1E-14)
+.model DN D(IS=5.45E-12 KF=5.34E-16)
+.model Ddiff D(IS=1e-14 BV=19.3 )
+.param gain_PSRR = {pow(10, (-Rej_dc_PSRR/20))}
+.param C1a_PSRR = {1 / (2 * pi * R1a_PSRR * fz1_PSRR)}
+.param R2a_PSRR = {R1a_PSRR/ ((2 * pi * fp1_PSRR * C1a_PSRR
++* R1a_PSRR) - 1)}
+.param actual1_PSRR = {R2a_PSRR / (R1a_PSRR + R2a_PSRR)}
+.param G1_PSRR = {gain_PSRR/actual1_PSRR}
+.param Rej_dc_PSRR=120
+.param R1a_PSRR=100k
+.param fz1_PSRR=1.9k
+.param fp1_PSRR=25Meg
+.param C1b_PSRR = {1 / (2 * pi * R1b_PSRR * fz2_PSRR)}
+.param R2b_PSRR = {R1b_PSRR/ ((2 * pi * fp2_PSRR * C1b_PSRR
++* R1b_PSRR) - 1)}
+.param actual2_PSRR = {R2b_PSRR / (R1b_PSRR + R2b_PSRR)}
+.param G2_PSRR = {1/actual2_PSRR}
+.param R1b_PSRR=100k
+.param fz2_PSRR=310k
+.param fp2_PSRR={fp1_PSRR}
+.model DO D(Vfwd=1k Vrev=0 Revepsilon=0.1 Ron=1m Noiseless)
+.param Ap=6m Bp=16.44 Cp=70.63
+.param Mn=8.16 OSn=17.3m
+.ends AD8410A

@@ -1,0 +1,57 @@
+Version 4
+SymbolType CELL
+LINE Normal 16 -16 -16 -16
+LINE Normal 0 16 16 -16
+LINE Normal -16 -16 0 16
+LINE Normal 16 16 -16 16
+LINE Normal 0 -16 0 -48
+LINE Normal 0 48 0 16
+LINE Normal 0 -48 -48 -48
+LINE Normal 0 48 -48 48
+LINE Normal 44 -11 51 -7
+LINE Normal 51 -7 44 -3
+LINE Normal 35 -7 51 -7
+LINE Normal 39 -4 35 -7
+LINE Normal 26 -4 39 -4
+LINE Normal 26 -4 26 -4
+LINE Normal 44 3 51 7
+LINE Normal 51 7 44 11
+LINE Normal 35 7 51 7
+LINE Normal 39 10 35 7
+LINE Normal 26 10 39 10
+LINE Normal 26 10 26 10
+LINE Normal 64 32 64 -32
+LINE Normal 96 -16 64 -32
+LINE Normal 96 16 96 -16
+LINE Normal 64 32 96 16
+LINE Normal 80 -48 112 -48
+LINE Normal 80 -24 80 -48
+LINE Normal 80 48 112 48
+LINE Normal 80 48 80 24
+LINE Normal 96 0 112 0
+LINE Normal 85 -15 75 -15
+LINE Normal 80 -10 80 -20
+LINE Normal 85 19 75 19
+RECTANGLE Normal 112 64 -48 -64
+WINDOW 123 -2 -77 Left 2
+WINDOW 0 -2 -99 Left 2
+SYMATTR Value2 TLP350
+SYMATTR Prefix X
+SYMATTR Value TLP350
+SYMATTR Description Isolated MOSFET and IGBT Driver
+SYMATTR ModelFile TLP350H-BJT-NEW-MDL.txt
+PIN -48 -48 NONE 8
+PINATTR PinName VDA
+PINATTR SpiceOrder 1
+PIN -48 48 NONE 8
+PINATTR PinName VDK
+PINATTR SpiceOrder 2
+PIN 112 -48 NONE 8
+PINATTR PinName VCC
+PINATTR SpiceOrder 3
+PIN 112 0 NONE 8
+PINATTR PinName VO
+PINATTR SpiceOrder 4
+PIN 112 48 NONE 8
+PINATTR PinName VEE
+PINATTR SpiceOrder 5

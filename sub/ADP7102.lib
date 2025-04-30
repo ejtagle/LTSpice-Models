@@ -1,0 +1,519 @@
+* Copyright © Analog Devices, Inc. 2019.  All rights reserved.
+*
+.subckt ADP1761 1 2 3 4 5 6 7 8 9 10
+A1 2 7 7 7 7 7 N014 7 SCHMITT Vt=.97 Vh=40m
+C1 2 7 10p
+C2 10 7 3p Rpar={Radj}
+C3 1 7 3p noiseless
+C4 3 7 3p
+C5 4 7 3p
+C6 5 7 3p
+C7 6 7 3p
+C8 8 7 3p
+A2 3 7 7 7 7 7 N016 7 SCHMITT Vt=.6025 Vh=22.5m Trise=105u Tfall=1u
+A3 7 N014 7 N016 7 7 EN 7 AND Tau=1u Ref=.1
+D1 8 N008 10µA
+A4 N008 7 7 7 7 7 N020 7 BUF Trise=.6m Tfall=10u
+D2 N018 8 X
+D3 N018 N020 X
+M1 2 EN 1 1 VREG temp=27
+S1 10 2 EN 7 50µA
+G1 7 N010 N015 7 3m
+C11 N010 7 10p Rpar=1K noiseless
+A5 7 N014 7 N016 7 7 N008 7 AND Tau=1u Ref=.95
+M2 2 N010 9 9 REF temp=27
+C9 9 7 10p
+D4 9 7 100µA
+M3 N009 N006 2 2 P temp=27
+A6 N007 N005 2 2 2 2 N006 2 OTA G=240u Vhigh=0 en=1.5n+200/(75+freq)**4 Iout=10u Ref=-0.95m Vlow=-1.26
+S2 2 N006 7 N008 EN
+B1 7 N026 I=1m*V(4,7)/V(9,7) Rpar=1K Cpar=10p
+A7 N026 7 7 7 7 7 N025 7 SCHMITT Vt=.9375 Vh=12.5m
+A8 N008 7 7 7 7 7 N023 7 BUF Trise=.8m Tfall=10u
+A9 7 N014 7 N024 7 7 N022 7 AND Tau=1u Ref=.95
+S3 7 6 N022 7 PG
+A10 7 N023 7 N025 7 N024 7 7 AND Vt=.95
+D5 N015 10 X
+D6 N015 N018 X
+D7 7 4 S
+M5 N006 N006 P001 P001 P m=.212m temp=27
+R2 P001 2 1Meg noiseless
+M6 N004 N006 2 2 P m=1.28m temp=27
+R4 N004 N009 20
+C14 N002 N004 50p
+R5 5 N002 35K noiseless
+G2 7 N005 N002 9 10µ
+C15 N005 7 10p noiseless Rser=100k Rpar=100k
+B2 4 7 I=V(EN,7)*V(Id) NoJacob
+B3 0 ID I=table(-Id(M3), 0, 4.5m, 10m, 4.9m, 100m, 5.5m,1,7.5m) Rpar=1 Cpar=10n NoJacob
+C16 2 N007 3f
+R6 7 N007 1Meg noiseless
+D8 N009 4 10mV
+.model P VDMOS(Kp=45 Vto=-1 Ksubthres=50m Is=0 lambda=.3 mtriode=5 pchan noiseless)
+.model 10µA D(Ron=10 Roff=100 RevIlimit=10u epsilon=10m Vrev=0 noiseless)
+.model X D(Ron=1K Roff=1T epsilon=10m noiseless)
+.model Vreg VDMOS(Kp=1 Vto=0 Ksubthres=10m noiseless)
+.model REF VDMOS(Kp=1 Vto=-11.5m Ksubthres=10m noiseless)
+.model 50µA SW(Ron=100 Roff=1T Ilimit=50u level=2 Vt=.5 Vh=-.1 noiseless)
+.model 100µA D(Ron=200 epsilon=50m Ilimit=100u noiseless)
+.model EN SW(Ron=10 Roff=1T Vt=-.5 Vh=-.4 noiseless)
+.model PG SW(Ron=100 Roff=1G Vt=.5 Vh=-.4 noiseless)
+.model S D(Ron=.2 epsilon=.2)
+.model 10mV D(Ron=1m Roff=1K Vfwd=9m epsilon=10m)
+.ends ADP1761
+*
+.subckt ADP1762 1 2 3 4 5 6 7 8 9 10
+A1 2 7 7 7 7 7 N014 7 SCHMITT Vt=.97 Vh=40m
+C1 2 7 10p
+C2 10 7 3p Rpar={Radj}
+C3 1 7 3p noiseless
+C4 3 7 3p
+C5 4 7 3p
+C6 5 7 3p
+C7 6 7 3p
+C8 8 7 3p
+A2 3 7 7 7 7 7 N016 7 SCHMITT Vt=.6025 Vh=22.5m Trise=105u Tfall=1u
+A3 7 N014 7 N016 7 7 EN 7 AND Tau=1u Ref=.1
+D1 8 N008 10µA
+A4 N008 7 7 7 7 7 N020 7 BUF Trise=.6m Tfall=10u
+D2 N018 8 X
+D3 N018 N020 X
+M1 2 EN 1 1 VREG temp=27
+S1 10 2 EN 7 50µA
+G1 7 N010 N015 7 3m
+C11 N010 7 10p Rpar=1K noiseless
+A5 7 N014 7 N016 7 7 N008 7 AND Tau=1u Ref=.95
+M2 2 N010 9 9 REF temp=27
+C9 9 7 10p
+D4 9 7 100µA
+M3 N009 N006 2 2 P temp=27
+A6 N007 N005 2 2 2 2 N006 2 OTA G=240u Vhigh=0 en=1.5n+200/(75+freq)**4 Iout=20u Ref=-1.5m Vlow=-1.26
+S2 2 N006 7 N008 EN
+B1 7 N026 I=1m*V(4,7)/V(9,7) Rpar=1K Cpar=10p
+A7 N026 7 7 7 7 7 N025 7 SCHMITT Vt=.9375 Vh=12.5m
+A8 N008 7 7 7 7 7 N023 7 BUF Trise=.8m Tfall=10u
+A9 7 N014 7 N024 7 7 N022 7 AND Tau=1u Ref=.95
+S3 7 6 N022 7 PG
+A10 7 N023 7 N025 7 N024 7 7 AND Vt=.95
+D5 N015 10 X
+D6 N015 N018 X
+D7 7 4 S
+M5 N006 N006 P001 P001 P m=.212m temp=27
+R2 P001 2 1Meg noiseless
+M6 N004 N006 2 2 P m=1.28m temp=27
+R4 N004 N009 17
+C14 N002 N004 50p
+R5 5 N002 35K noiseless
+G2 7 N005 N002 9 10µ
+C15 N005 7 10p noiseless Rser=100k Rpar=100k
+B2 4 7 I=V(EN,7)*V(Id) NoJacob
+B3 0 ID I=table(-Id(M3), 0, 4.5m, 10m, 4.9m, 100m, 5.5m,2, 9.4m) Rpar=1 Cpar=10n NoJacob
+C16 2 N007 3f
+R6 7 N007 1Meg noiseless
+D8 N009 4 10mV m=2
+.model P VDMOS(Kp=70 Vto=-1 Ksubthres=.1 Is=0 lambda=.3 mtriode=3 pchan noiseless)
+.model 10µA D(Ron=10 Roff=100 RevIlimit=10u epsilon=10m Vrev=0 noiseless)
+.model X D(Ron=1K Roff=1T epsilon=10m noiseless)
+.model Vreg VDMOS(Kp=1 Vto=0 Ksubthres=10m noiseless)
+.model REF VDMOS(Kp=1 Vto=-11.5m Ksubthres=10m noiseless)
+.model 50µA SW(Ron=100 Roff=1T Ilimit=50u level=2 Vt=.5 Vh=-.1 noiseless)
+.model 100µA D(Ron=200 epsilon=50m Ilimit=100u noiseless)
+.model EN SW(Ron=10 Roff=1T Vt=-.5 Vh=-.4 noiseless)
+.model PG SW(Ron=100 Roff=1G Vt=.5 Vh=-.4 noiseless)
+.model S D(Ron=.2 epsilon=.2)
+.model 10mV D(Ron=1m Roff=1K Vfwd=9m epsilon=10m)
+.ends ADP1762
+*
+.subckt ADP1763 1 2 3 4 5 6 7 8 9 10
+A1 2 7 7 7 7 7 N014 7 SCHMITT Vt=.97 Vh=40m
+C1 2 7 10p
+C2 10 7 3p Rpar={Radj}
+C3 1 7 3p noiseless
+C4 3 7 3p
+C5 4 7 3p
+C6 5 7 3p
+C7 6 7 3p
+C8 8 7 3p
+A2 3 7 7 7 7 7 N016 7 SCHMITT Vt=.6025 Vh=22.5m Trise=105u Tfall=1u
+A3 7 N014 7 N016 7 7 EN 7 AND Tau=1u Ref=.1
+D1 8 N008 10µA
+A4 N008 7 7 7 7 7 N020 7 BUF Trise=.6m Tfall=10u
+D2 N018 8 X
+D3 N018 N020 X
+M1 2 EN 1 1 VREG temp=27
+S1 10 2 EN 7 50µA
+G1 7 N010 N015 7 3m
+C11 N010 7 10p Rpar=1K noiseless
+A5 7 N014 7 N016 7 7 N008 7 AND Tau=1u Ref=.95
+M2 2 N010 9 9 REF temp=27
+C9 9 7 10p
+D4 9 7 100µA
+M3 N009 N006 2 2 P temp=27
+A6 N007 N005 2 2 2 2 N006 2 OTA G=240u Vhigh=0 en=1.5n+200/(75+freq)**4 Iout=100u Ref=-1.6m Vlow=-1.26
+S2 2 N006 7 N008 EN
+B1 7 N026 I=1m*V(4,7)/V(9,7) Rpar=1K Cpar=10p
+A7 N026 7 7 7 7 7 N025 7 SCHMITT Vt=.9375 Vh=12.5m
+A8 N008 7 7 7 7 7 N023 7 BUF Trise=.8m Tfall=10u
+A9 7 N014 7 N024 7 7 N022 7 AND Tau=1u Ref=.95
+S3 7 6 N022 7 PG
+A10 7 N023 7 N025 7 N024 7 7 AND Vt=.95
+D5 N015 10 X
+D6 N015 N018 X
+D7 7 4 S
+M5 N006 N006 P001 P001 P m=.212m temp=27
+R2 P001 2 1Meg noiseless
+M6 N004 N006 2 2 P m=1.28m temp=27
+R4 N004 N009 23
+C14 N002 N004 50p
+R5 5 N002 35K noiseless
+G2 7 N005 N002 9 10µ
+C15 N005 7 10p noiseless Rser=100k Rpar=100k
+B2 4 7 I=V(EN,7)*V(Id) NoJacob
+B3 0 ID I=table(-Id(M3), 0, 4.5m, 10m, 4.9m, 100m, 5.5m,3,12m) Rpar=1 Cpar=10n NoJacob
+C16 2 N007 3f
+R6 7 N007 1Meg noiseless
+D8 N009 4 10mV m=3
+.model P VDMOS(Kp=95 Vto=-1 Ksubthres=.1 Is=0 lambda=.3 mtriode=2.2 Rd=1m  pchan noiseless)
+.model 10µA D(Ron=10 Roff=100 RevIlimit=10u epsilon=10m Vrev=0 noiseless)
+.model X D(Ron=1K Roff=1T epsilon=10m noiseless)
+.model Vreg VDMOS(Kp=1 Vto=0 Ksubthres=10m noiseless)
+.model REF VDMOS(Kp=1 Vto=-11.5m Ksubthres=10m noiseless)
+.model 50µA SW(Ron=100 Roff=1T Ilimit=50u level=2 Vt=.5 Vh=-.1 noiseless)
+.model 100µA D(Ron=200 epsilon=50m Ilimit=100u noiseless)
+.model EN SW(Ron=10 Roff=1T Vt=-.5 Vh=-.4 noiseless)
+.model PG SW(Ron=100 Roff=1G Vt=.5 Vh=-.4 noiseless)
+.model S D(Ron=.2 epsilon=.2)
+.model 10mV D(Ron=1m Roff=1K Vfwd=9m epsilon=10m)
+.ends ADP1763
+*
+.subckt ADP1764 1 2 3 4 5 6 7 8 9 10
+A1 2 7 7 7 7 7 N013 7 SCHMITT Vt=.965 Vh=35m
+C1 2 7 10p
+C2 10 7 3p Rpar={Radj}
+C3 1 7 3p noiseless
+C4 3 7 3p
+C5 4 7 3p
+C6 5 7 3p
+C7 6 7 3p
+C8 8 7 3p
+A2 3 7 7 7 7 7 N015 7 SCHMITT Vt=.625 Vh=25m Trise=105u Tfall=1u
+A3 7 N013 7 N015 7 7 EN 7 AND Tau=1u Ref=.1
+D1 8 N008 10µA
+A4 N008 7 7 7 7 7 N019 7 BUF Trise=.6m Tfall=10u
+D2 N017 8 X
+D3 N017 N019 X
+M1 2 EN 1 1 VREG temp=27
+S1 10 2 EN 7 50µA
+G1 7 N010 N014 7 2.99m
+C11 N010 7 10p Rpar=1K noiseless
+A5 7 N013 7 N015 7 7 N008 7 AND Tau=1u Ref=.95
+M2 2 N010 9 9 REF temp=27
+C9 9 7 10p
+D4 9 7 100µA
+M3 N009 N006 2 2 P temp=27
+A6 N007 N005 2 2 2 2 N006 2 OTA G=240u Vhigh=0 en=1n+6u/(.1+freq**.9) Iout=100u Ref=-1.3m Vlow=-1.26
+S2 2 N006 7 N008 EN
+B1 7 N025 I=1m*V(4,7)/V(9,7) Rpar=1K Cpar=10p
+A7 N025 7 7 7 7 7 N024 7 SCHMITT Vt=.9375 Vh=12.5m
+A8 N008 7 7 7 7 7 N022 7 BUF Trise=.8m Tfall=10u
+A9 7 N013 7 N023 7 7 N021 7 AND Tau=1u Ref=.95
+S3 7 6 N021 7 PG
+A10 7 N022 7 N024 7 N023 7 7 AND Vt=.95
+D5 N014 10 X
+D6 N014 N017 X
+D7 7 4 S
+M5 N006 N006 P002 P002 P m=.212m temp=27
+R2 P002 2 1Meg noiseless
+M6 N004 N006 2 2 P m=1.28m temp=27
+R4 N004 N009 15.5
+C14 N002 N004 100p Rser=1
+R5 5 N002 40K noiseless
+G2 7 N005 N002 9 10µ
+C15 N005 7 20p noiseless Rser=100k Rpar=100k
+B2 4 7 I=V(EN,7)*V(Id) NoJacob
+B3 0 ID I=table(-Id(M3),100m,5.5m,4,11m) Rpar=1 Cpar=10n NoJacob
+C16 2 N007 3f
+R6 7 N007 4Meg noiseless
+D8 N009 4 25mV m=4
+.model P VDMOS(Kp=152 Vto=-1 Ksubthres=50m Is=0 lambda=1 mtriode=9 pchan noiseless)
+.model 10µA D(Ron=10 Roff=100 RevIlimit=10u epsilon=10m Vrev=0)
+.model X D(Ron=1K Roff=1T epsilon=10m noiseless)
+.model Vreg VDMOS(Kp=1 Vto=0 Ksubthres=10m noiseless)
+.model REF VDMOS(Kp=1 Vto=-11.5m Ksubthres=10m noiseless)
+.model 50µA SW(Ron=100 Roff=1T Ilimit=50u level=2 Vt=.5 Vh=-.1 noiseless)
+.model 100µA D(Ron=200 epsilon=50m Ilimit=100u noiseless)
+.model EN SW(Ron=10 Roff=1T Vt=-.5 Vh=-.4 noiseless)
+.model PG SW(Ron=100 Roff=1G Vt=.5 Vh=-.4)
+.model S D(Ron=10 Roff=1G epsilon=1)
+.model 25mV D(Ron=1m Roff=1K Vfwd=25m epsilon=10m)
+.ends ADP1764
+*
+.subckt ADP1765 1 2 3 4 5 6 7 8 9 10
+A1 2 7 7 7 7 7 N014 7 SCHMITT Vt=1.015 Vh=85m
+C1 2 7 10p
+C2 10 7 3p Rpar={Radj}
+C3 1 7 3p noiseless
+C4 3 7 3p
+C5 4 7 3p
+C6 5 7 3p
+C7 6 7 3p
+C8 8 7 3p
+A2 3 7 7 7 7 7 N016 7 SCHMITT Vt=.625 Vh=25m Trise=105u Tfall=1u
+A3 7 N014 7 N016 7 7 EN 7 AND Tau=1u Ref=.1
+D1 8 N008 10µA
+A4 N008 7 7 7 7 7 N020 7 BUF Trise=.6m Tfall=10u
+D2 N018 8 X
+D3 N018 N020 X
+M1 2 EN 1 1 VREG temp=27
+S1 10 2 EN 7 50µA
+G1 7 N010 N015 7 2.99m
+C11 N010 7 10p Rpar=1K noiseless
+A5 7 N014 7 N016 7 7 N008 7 AND Tau=1u Ref=.95
+M2 2 N010 9 9 REF temp=27
+C9 9 7 10p
+D4 9 7 100µA
+M3 N009 N006 2 2 P temp=27
+A6 N007 N005 2 2 2 2 N006 2 OTA G=120u Vhigh=0 en=1n+6u/(.1+freq**.9) Iout=100u Ref=-2.5m Vlow=-1.26
+S2 2 N006 7 N008 EN
+B1 7 N026 I=1m*V(4,7)/V(9,7) Rpar=1K Cpar=10p
+A7 N026 7 7 7 7 7 N025 7 SCHMITT Vt=.9375 Vh=12.5m
+A8 N008 7 7 7 7 7 N023 7 BUF Trise=.8m Tfall=10u
+A9 7 N014 7 N024 7 7 N022 7 AND Tau=1u Ref=.95
+S3 7 6 N022 7 PG
+A10 7 N023 7 N025 7 N024 7 7 AND Vt=.95
+D5 N015 10 X
+D6 N015 N018 X
+D7 7 4 S
+M5 N006 N006 P001 P001 P m=.212m temp=27
+R2 P001 2 1Meg noiseless
+M6 N004 N006 2 2 P m=1.28m temp=27
+R4 N004 N009 15.5
+C14 N002 N004 100p
+R5 5 N002 40K noiseless
+G2 7 N005 N002 9 10µ
+C15 N005 7 20p noiseless Rser=100k Rpar=100k
+B2 4 7 I=V(EN,7)*V(Id) NoJacob
+B3 0 ID I=table(-Id(M3),100m,5.5m,5,12m) Rpar=1 Cpar=10n NoJacob
+C16 2 N007 3f
+R6 7 N007 4Meg noiseless
+D8 N009 4 25mV m=5
+.model P VDMOS(Kp=186 Vto=-1 Ksubthres=50m Is=0 lambda=.3 mtriode=6 pchan noiseless)
+.model 10µA D(Ron=10 Roff=100 RevIlimit=10u epsilon=10m Vrev=0 )
+.model X D(Ron=1K Roff=1T epsilon=10m noiseless)
+.model Vreg VDMOS(Kp=1 Vto=0 Ksubthres=10m noiseless)
+.model REF VDMOS(Kp=1 Vto=-11.5m Ksubthres=10m noiseless)
+.model 50µA SW(Ron=100 Roff=1T Ilimit=50u level=2 Vt=.5 Vh=-.1)
+.model 100µA D(Ron=200 epsilon=50m Ilimit=100u noiseless)
+.model EN SW(Ron=10 Roff=1T Vt=-.5 Vh=-.4)
+.model PG SW(Ron=100 Roff=1G Vt=.5 Vh=-.4)
+.model S D(Ron=.2 epsilon=.2)
+.model 25mV D(Ron=1m Roff=1K Vfwd=25m epsilon=10m)
+.ends ADP1765
+*
+.subckt ADP7102 1 2 3 4 5 6
+M1 P N005 1 1 P temp=27
+A3 3 6 6 6 6 6 N009 6 SCHMITT Vt=1.175 Vh=45m Trise=160u Tfall=10u
+C3 3 6 3p Rpar=10Meg
+C4 1 6 10p
+A4 6 N008 6 N009 6 6 EN 6 AND Tau=1u
+D2 N011 N012 1µA
+A7 6 N011 N015 N015 N015 N015 6 N015 VARISTOR table(0 0 1.22 {Vref})
+R6 N012 N015 100K
+G1 6 N007 N002 N014 10µ
+C7 N007 6 6p noiseless Rser=100k Rpar=100k
+C8 2 6 1p Rpar=100Meg
+C5 N011 6 474p
+A2 1 6 6 6 6 6 N008 6 SCHMITT Vt=2.575 Vh=.125
+S4 6 N011 6 EN S
+G3 1 6 1 6 table(5,18u,20,40u)
+C11 5 6 10p
+D3 N010 N005 X
+C9 N010 1 100p Rpar=1K
+D5 P 5 15mV
+G2 N010 1 P 5 table(15.12m,1.196m, 16.79mm,1.2m,17.83m, 1.216m)
+M3 6 N005 1 1 P2
+B3 5 6 I=V(EN,6)*table(V(P,5) ,15.2m,400u,15.7m,450u, 17.44m,650u,18.43m,700u)
+M2 N001 N005 1 1 P m=20m temp=27
+R5 N001 5 10
+C2 N002 N001 25p
+R7 2 N002 25K noiseless
+R4 N014 N015 500K noiseless
+C12 N014 6 250p
+M4 N005 N005 P001 P001 P m=7.143m temp=27
+R8 P001 1 500K noiseless
+A5 N006 N007 1 1 1 1 N005 1 OTA G=600u linear Iout=60u en=3u/freq**.44 Ref=-1.5m Rout=1Meg Vhigh=0 Vlow=-1.22
+S1 1 N005 6 EN S
+C10 1 N006 10f
+R2 6 N006 500K noiseless
+B1 6 N012 I=1m*min(V(1,6),min({Vref+2.1},9.5)) Rpar=1k Cpar=3p
+D4 6 5 S
+S2 6 4 N019 6 PG
+A1 N018 6 6 6 6 N019 6 6 SCHMITT Vt=.9215 Vh=13.5m Trise=50n
+C13 4 6 2p Rpar=1G
+B2 6 N018 I=IF(V(P,5)>19.2m,0,1m*V(2,6)/Vref) Rpar=1K Cpar=10p NoJacob
+S3 N005 5 5 1 Rev
+B4 1 6 I=table(V(1,5),-55m,.3u, 0, 0)
+.model P VDMOS(mtriode=.6 Kp=15 Ksubthres=10m Lambda=.3 Vto=-1 Is=0 pchan)
+.model P2 VDMOS( mtriode=.35 Kp=11 Ksubthres=10m Vto=-1.21 Is=0 pchan)
+.model S SW(Ron=1 Roff=1G Vt=-.5 Vh=-.4)
+.model S D(Ron=10 Roff=1G epsilon=1)
+.model 1µA D(Ron=400 Roff=400 RevIlimit=1u Vrev=0)
+.model 15mV D(Ron=1m Roff=1K Vfwd=15m epsilon=20m)
+.model X D(Ron=1K Roff=1T epsilon=10m)
+.model PG SW(Ron=100 Roff=1G Vt=.75 Vh=-.23)
+.model Rev SW(Ron=1 Roff=1T Vt=50m vh=-5m noiseless)
+.ends ADP7102
+*
+.subckt ADP7104 1 2 3 4 5 6
+M1 P N005 1 1 P temp=27
+A3 3 6 6 6 6 6 N009 6 SCHMITT Vt=1.175 Vh=45m Trise=160u Tfall=10u
+C3 3 6 3p Rpar=10Meg
+C4 1 6 10p
+A4 6 N008 6 N009 6 6 EN 6 AND Tau=1u
+D2 N011 N012 1µA
+A7 6 N011 N015 N015 N015 N015 6 N015 VARISTOR table(0 0 1.22 {Vref})
+R6 N012 N015 100K
+G1 6 N007 N002 N014 10µ
+C7 N007 6 6p noiseless Rser=100k Rpar=100k
+C8 2 6 1p Rpar=100Meg
+C5 N011 6 758p
+A2 1 6 6 6 6 6 N008 6 SCHMITT Vt=2.575 Vh=.125
+S4 6 N011 6 EN S
+G3 1 6 1 6 table(5,18u,20,40u)
+C11 5 6 10p
+D3 N010 N005 X
+C9 N010 1 100p Rpar=1K
+D5 P 5 15mV m=2.5
+G2 N010 1 P 5 table(15.12m,1.196m,15.41mm, 1.198m, 16.79mm,1.2m,17.83m, 1.216m)
+M3 6 N005 1 1 P2
+M2 N001 N005 1 1 P m=20m temp=27
+R5 N001 P 10
+C2 N002 N001 25p
+R7 2 N002 25K noiseless
+R4 N014 N015 500K noiseless
+C12 N014 6 250p
+M4 N005 N005 P001 P001 P m=7.143m temp=27
+R8 P001 1 500K noiseless
+A5 N006 N007 1 1 1 1 N005 1 OTA G=600u Iout=60u en=3u/freq**.44 Ref=-1.5m Rout=1Meg Vhigh=0 Vlow=-1.22
+S1 1 N005 6 EN S
+C10 1 N006 10f
+R2 6 N006 500K noiseless
+B1 6 N012 I=1m*min(V(1,6),min({Vref+2.1},9.5)) Rpar=1k Cpar=3p
+D4 6 5 S
+S2 6 4 N019 6 PG
+A1 N018 6 6 6 6 N019 6 6 SCHMITT Vt=.9215 Vh=13.5m Trise=50n
+C13 4 6 2p Rpar=1G
+B2 6 N018 I=IF(V(P,5)>18.6m,0,1m*V(2,6)/{Vref}) Rpar=1K Cpar=10p NoJacob
+S3 N005 5 5 1 Rev
+B4 1 6 I=table(V(1,5),-55m,.3u, 0, 0)
+B3 1 6 I=V(EN,6)*table(V(P,5) ,15.1m,400u, 15.4m,450u,17.19m,700u,17.83,800u)
+.model P VDMOS(mtriode=.35 Kp=25 Ksubthres=10m Lambda=.3 Vto=-1 Is=0 Rd=30m pchan)
+.model P2 VDMOS( mtriode=.35 Kp=11 Ksubthres=10m Vto=-1.21 Is=0 pchan)
+.model S SW(Ron=1 Roff=1G Vt=-.5 Vh=-.4)
+.model S D(Ron=10 Roff=1G epsilon=1)
+.model 1µA D(Ron=400 Roff=400 RevIlimit=1u Vrev=0)
+.model 15mV D(Ron=1m Roff=1K Vfwd=15m epsilon=20m)
+.model X D(Ron=1K Roff=1T epsilon=10m)
+.model PG SW(Ron=100 Roff=1G Vt=.75 Vh=-.23)
+.model Rev SW(Ron=1 Roff=1T Vt=50m vh=-5m noiseless)
+.ends ADP7104
+*
+.subckt ADP7105 1 2 3 4 5 6 7
+M1 P N005 1 1 P temp=27
+A3 3 6 6 6 6 6 N009 6 SCHMITT Vt=1.175 Vh=45m Trise=160u Tfall=10u
+C3 3 6 3p Rpar=20Meg
+C4 1 6 10p
+A4 6 N008 6 N009 6 6 EN 6 AND Tau=1u
+D2 4 N012 1µA
+A7 6 4 N015 N015 N015 N015 6 N015 VARISTOR table(0 0 1.22 {Vref})
+R6 N012 N015 100K
+G1 6 N007 N002 N014 10µ
+C7 N007 6 6p noiseless Rser=100k Rpar=100k
+C8 2 6 1p Rpar=100Meg
+A2 1 6 6 6 6 6 N008 6 SCHMITT Vt=2.575 Vh=.125
+S4 6 4 6 EN S
+G3 1 6 1 6 table(5,18u,20,40u)
+C11 5 6 10p
+D3 N010 N005 X
+C9 N010 1 100p Rpar=1K
+D5 P 5 15mV m=2.5
+G2 N010 1 P 5 table(15.12m,1.196m,15.41mm, 1.198m, 16.79mm,1.2m,17.83m, 1.216m)
+M3 6 N005 1 1 P2
+B3 5 6 I=V(EN,6)*table(V(P,5) ,15.1m,400u, 15.4m,450u,17.19m,700u,17.83,800u)
+M2 N001 N005 1 1 P m=20m temp=27
+R5 N001 P 10
+C2 N002 N001 25p
+R7 2 N002 25K noiseless
+R4 N014 N015 500K noiseless
+C12 N014 6 250p
+M4 N005 N005 P001 P001 P m=7.143m temp=27
+R8 P001 1 500K noiseless
+A5 N006 N007 1 1 1 1 N005 1 OTA G=600u Iout=60u en=3u/freq**.44 Ref=-1.5m Rout=1Meg Vhigh=0 Vlow=-1.22
+S1 1 N005 6 EN S
+C10 1 N006 10f
+R2 6 N006 500K noiseless
+B1 6 N012 I=1m*min(V(1,6),min({Vref+2.1},5.5)) Rpar=1k Cpar=3p
+D4 6 5 S
+S2 6 7 N019 6 PG
+A1 N018 6 6 6 6 N019 6 6 SCHMITT Vt=.9215 Vh=13.5m Trise=50n
+C13 7 6 2p Rpar=1G
+B2 6 N018 I=IF(V(P,5)>18.6m,0,1m*V(2,6)/Vref) Rpar=1K Cpar=10p NoJacob
+S3 N005 5 5 1 Rev
+B4 1 6 I=table(V(1,5),-55m,.3u, 0, 0)
+C6 4 6 10p
+.model P VDMOS(mtriode=.35 Kp=25 Ksubthres=10m Lambda=.3 Vto=-1 Is=0 Rd=30m pchan)
+.model P2 VDMOS( mtriode=.35 Kp=11 Ksubthres=10m Vto=-1.21 Is=0 pchan)
+.model S SW(Ron=1 Roff=1G Vt=-.5 Vh=-.4)
+.model S D(Ron=10 Roff=1G epsilon=1)
+.model 1µA D(Ron=400 Roff=400 RevIlimit=1u Vrev=0)
+.model 15mV D(Ron=1m Roff=1K Vfwd=15m epsilon=20m)
+.model X D(Ron=1K Roff=1T epsilon=10m)
+.model PG SW(Ron=100 Roff=1G Vt=.75 Vh=-.23)
+.model Rev SW(Ron=1 Roff=1T Vt=50m vh=-5m noiseless)
+.ends ADP7105
+*
+.subckt ADP7118 1 2 3 4 5 6
+M1 P N005 1 1 P temp=27
+A3 3 6 6 6 6 6 N009 6 SCHMITT Vt=1.17 Vh=50m Trise=160u Tfall=10u
+C3 3 6 3p Rpar=20Meg
+C4 1 6 10p
+A4 6 N008 6 N009 6 6 EN 6 AND Tau=1u
+D2 4 N012 1µA
+A7 6 4 N014 N014 N014 N014 6 N014 VARISTOR table(0 0 .6 {Vref})
+R6 N012 N014 100K
+G1 6 N007 N002 N013 10µ
+C7 N007 6 6p noiseless Rser=100k Rpar=100k Cpar=1p
+C8 2 6 1f noiseless Rpar=120Meg
+C5 4 6 10p
+A2 1 6 6 6 6 6 N008 6 SCHMITT Vt=2.315 Vh=.115
+S4 6 4 6 EN S
+G3 1 6 1 6 table(5,1.8u,20,3u)
+C11 5 6 10p
+D3 N010 N005 X
+C9 N010 1 100p Rpar=1K
+D5 P 5 20mV
+G2 N010 1 P 5 table(20.5m,1.19m,20.7m, 1.20m, 21.3m,1.206m, 22.5m,1.209m, 22.8m, 1.21m)
+M3 6 N005 1 1 P2
+B3 5 6 I=V(EN,6)*table(V(P,5) ,20.1m,50u,20.6m,80u,22.9m,160u)
+M2 N001 N005 1 1 P m=20m temp=27
+R5 N001 P 10
+C2 N002 N001 25p
+R7 2 N002 25K noiseless
+R4 N013 N014 500K noiseless
+C12 N013 6 250p
+M4 N005 N005 P001 P001 P m=7.143m temp=27
+R8 P001 1 500K noiseless
+A5 N006 N007 1 1 1 1 N005 1 OTA G=200u Iout=20u en=1.5n+2.2u/freq**.44 Ref=-18.2m Rout=300k Cout=1p Vhigh=0 Vlow=-1.22
+S1 1 N005 6 EN S
+C10 1 N006 1f
+R2 6 N006 500K noiseless
+B1 6 N012 I=1m*min(V(1,6),min({Vref+2.1},5.5)) Rpar=1k Cpar=3p
+D4 6 5 S
+.model P VDMOS(mtriode=.65 Kp=10 Ksubthres=10m Lambda=.08 Vto=-1 Is=0 pchan)
+.model P2 VDMOS( Kp=1.5 Ksubthres=10m Vto=-1.19 Is=0 pchan)
+.model S SW(Ron=1 Roff=1G Vt=-.5 Vh=-.4)
+.model S D(Ron=10 Roff=1G epsilon=1)
+.model 1µA D(Ron=400 Roff=400 RevIlimit=1.15u Vrev=0)
+.model 20mV D(Ron=1m Roff=1K Vfwd=20m epsilon=20m)
+.model X D(Ron=1K Roff=1T epsilon=10m)
+.ends ADP7118

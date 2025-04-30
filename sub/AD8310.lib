@@ -1,0 +1,106 @@
+* Copyright (c) 1998-2020 Analog Devices, Inc.  All rights reserved.
+*
+.subckt AD8310 1 2 3 4 5 6 7 8
+R1 8 CM_IN 500
+R2 1 CM_IN 500
+C1 8 1 1.4p
+E13 N022 2 GC6_out 2 1
+R5 GC1_out N016 1k
+C2 GC1_out 2 0.18p
+R6 GC2_out N017 1k
+C3 GC2_out 2 0.08p
+R7 GC3_out N018 1k
+C4 GC3_out 2 0.08p
+R8 GC4_out N019 1k
+C5 GC4_out 2 0.108p
+R9 GC5_out N020 1k
+C6 GC5_out 2 0.085p
+R10 GC6_out N021 1k
+C7 GC6_out 2 0.085p
+R25 DET_out 2 3.075k
+R26 6 N001 3k
+R27 N014 2 1k
+R28 N006 N014 3k
+E10 AMP1 2 6 N014 1000
+C22 6 2 2.1p
+I§G20 DET_out 2 45µ
+R4 1 N028 1e8
+R3 8 N028 1e8
+B_GC1 N016 2 V={I_GC1*T_GC1}*tanh((V(GC1_in)-V(OFFS))/{denom})
+B_GC2 N017 2 V={I_GC2*T_GC2}*tanh((V(GC1_out)-V(2))/{denom})
+B_GC3 N018 2 V={I_GC3*T_GC3}*tanh((V(GC2_out)-V(2))/{denom})
+B_GC4 N019 2 V={I_GC4*T_GC4}*tanh((V(GC3_out)-V(2))/{denom})
+B_GC5 N020 2 V={I_GC5*T_GC5}*tanh((V(GC4_out)-V(2))/{denom})
+B_GC6 N021 2 V={I_GC6*T_GC6}*tanh((V(GC5_out)-V(2))/{denom})
+B_D2 2 N008 I={I_D2}*(COSH((V(GC1_out)-V(2))/{denom})-1)/(COSH((V(GC1_out)-V(2))/{denom})+1)
+C8 N008 2 0.6p
+R11 DET_out N008 2k
+B_D3 2 N009 I={I_D3}*(COSH((V(GC2_out)-V(2))/{denom})-1)/(COSH((V(GC2_out)-V(2))/{denom})+1)
+C9 N009 2 0.6p
+R12 DET_out N009 2k
+B_D4 2 N010 I={I_D4}*(COSH((V(GC3_out)-V(2))/{denom})-1)/(COSH((V(GC3_out)-V(2))/{denom})+1)
+C10 N010 2 0.6p
+R13 DET_out N010 2k
+B_D5 2 N011 I={I_D5}*(COSH((V(GC4_out)-V(2))/{denom})-1)/(COSH((V(GC4_out)-V(2))/{denom})+1)
+C11 N011 2 0.6p
+R14 DET_out N011 2k
+B_D6 2 N012 I={I_D6}*(COSH((V(GC5_out)-V(2))/{denom})-1)/(COSH((V(GC5_out)-V(2))/{denom})+1)
+C12 N012 2 0.6p
+R15 DET_out N012 2k
+B_D7 2 N013 I={I_D7}*(COSH((V(GC6_out)-V(2))/{denom})-1)/(COSH((V(GC6_out)-V(2))/{denom})+1)
+C13 N013 2 0.6p
+R16 DET_out N013 2k
+B_D1a 2 N007 I={I_D1a}*(COSH(1.2*(V(GC1_in)-V(2))/{denom})-1)/(COSH(1.2*(V(GC1_in)-V(2))/{denom})+1)
+C14 N007 2 0.8p
+R17 DET_out N007 400
+R18 GC1_in 2 1e8
+B_EN GC1_in 2 V={Ain}*(V(8)-V(1))*(V(7)-V(2)>2.3)
+B1 5 2 I=(8m-0.05u)*(V(7)-V(2)>2.3)*(V(5)-V(2)>2.6)*(V(5)-V(2)<=7.5)+0.05u
+B_GC7 OFFS 2 V=15m*tanh((V(INT_FLT)-V(2))/15m)
+B2 N001 2 V=(V(DET_out)<=V(REF_p66))*(V(DET_out)-V(REF_p66))+V(REF_p66)-V(2)
+B3 N006 2 V=(V(AMP2)<=V(REF_4p75))*(V(AMP2)-V(REF_4p75))+V(REF_4p75)-V(2)
+B4 AMP2 2 V=(V(AMP1)>=V(REF_p4))*(V(AMP1)-V(REF_p4))+V(REF_p4)-V(2)
+R19 AMP1 2 100k
+R20 AMP2 2 100k
+B_D1b 2 N007 I={I_D1b}*(COSH(0.25*(V(GC1_in)-V(2))/{denom})-1)/(COSH(0.25*(V(GC1_in)-V(2))/{denom})+1)
+B_D1c 2 N007 I={I_D1c}*(COSH(45m*(V(GC1_in)-V(2))/{denom})-1)/(COSH(45m*(V(GC1_in)-V(2))/{denom})+1)
+R30 7 2 85.7k
+XU1 N006 N004 VCC_INT 2 N004 level.2 Avol=1Meg GBW=25Meg Slew=100Meg ilimit=5m rail=0 Vos=0 phimargin=45 en=0 enk=0 in=0 ink=0 Rin=500Meg
+R33 4 N004 0.05
+R31 INT_FLT N022 7.1e7
+R32 2 OFFS 1e8
+C18 INT_FLT 2 33p
+S1 5 VCC_INT CTRL 2 vcc_switch
+B_OFLT1 CTRL 2 V=(V(7)-V(2)>2.3)*(V(5)-V(2)>2.6)*(V(5)-V(2)<=7.5)
+R24 VCC_INT 2 1e8
+B_0p4 REF_p4 2 V=0.4*(V(CTRL)>0.5)
+B_0p66 REF_p66 2 V=0.66*(V(CTRL)>0.5)
+B_4p75 REF_4p75 2 V=4.75*(V(CTRL)>0.5)
+V1 CM_IN 2 3.2578
+V5 3 INT_FLT 1.75
+.param I_GC1=998.692u
+.param I_GC2=904.1875u
+.param I_GC3=903.975u
+.param I_GC4=801.8u
+.param I_GC5=896.75u
+.param I_GC6=977.5u
+.param T_GC1=TEMP+287.775
+.param T_GC2=TEMP+287.334488
+.param T_GC3=TEMP+287.7372
+.param T_GC4=TEMP+301.1642
+.param T_GC5=TEMP+301.1642
+.param T_GC6=TEMP+273.2804
+.param I_D1a=7.132n*TEMP + 27.5784u
+.param I_D1b=4.7n*TEMP + 26.8338u
+.param I_D1c=9.564n*TEMP + 31.8017u
+.param I_D2  =7.76n*TEMP + 29.8147u
+.param I_D3  =.9885n*TEMP + 29.70868u
+.param I_D4  =.9885n*TEMP + 29.70868u
+.param I_D5  =3.954n*TEMP + 29.6286u
+.param I_D6  =7.908n*TEMP + 29.5219u
+.param I_D7  =37.46n*TEMP + 57.0747u
+.param denom=172.5u*(TEMP+274.15)
+.param Ain=1.58
+.model vcc_switch SW(Ron=1m, Roff=1e9, Vt=0.5)
+.lib UniversalOpamps2.sub
+.ends AD8310

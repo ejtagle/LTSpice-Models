@@ -1,0 +1,18 @@
+Version 4
+SymbolType BLOCK
+LINE Normal 32 -24 32 -64
+LINE Normal 32 97 32 57
+RECTANGLE Normal -88 -24 110 57
+WINDOW 0 -59 -47 Bottom 2
+WINDOW 3 4 -13 Top 2
+WINDOW 39 9 22 Top 2
+SYMATTR Value IEC61000_4_2
+SYMATTR SpiceLine Level=4 TD=10m
+SYMATTR Prefix X
+SYMATTR ModelFile source.lib
+PIN 32 -64 TOP 8
+PINATTR PinName ESD+
+PINATTR SpiceOrder 1
+PIN 32 96 BOTTOM 8
+PINATTR PinName ESD-
+PINATTR SpiceOrder 2

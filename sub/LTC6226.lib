@@ -1,0 +1,129 @@
+* Copyright (c) 1998-2023 Analog Devices, Inc.  All rights reserved.
+*
+.subckt LTC6226 1 2 3 4 5 6
+C7 4 1 500f Rser=100 Noiseless
+C4 Inn Inp 3p Rser=100 Noiseless
+C13 4 5 10p
+C8 3 N002 7p
+C21 N004 MID {C1_P1} Rpar={1/alpha_P1} Noiseless
+G11 MID N005 N004 MID {alpha_P2}
+C16 N005 MID {C1_P2} Rpar={1/alpha_P2} Noiseless
+C1 4 Inn 500f Rser=100 Noiseless
+C3 1 5 500f Rser=100 Noiseless
+C5 Inn 5 500f Rser=100 Noiseless
+D3 4 PG DLIMP
+D9 NG 5 DLIMN
+C17 NG 5 100f Rser=500 Noiseless
+C24 4 3 1p Rpar=200k Noiseless
+Q1 3 NG 5 0 NPN1 temp=27
+Q2 3 PG 4 0 PNP1 temp=27
+C20 3 PG 3.4p Rser=250 Noiseless
+C11 N013 PG 3.6p
+C9 X1 NG 3.6p
+C12 4 PG 100f Rser=22 Noiseless
+C15 X1 N014 1p
+R12 N014 MID 2k Noiseless
+B7 N014 MID I=20m*dnlim(uplim(V(X1,MID),300m,100m)-150m,0,10m)* V(_SHDN_D,MID)
+C19 N006 MID {C1_PZ1} Rpar={R2_PZ1} Rser={R1_PZ1} Noiseless
+G10 MID N006 N005 MID {alpha_PZ1}
+C25 X1 MID 1p Rser=10 Noiseless
+R13 X1 N013 10 Noiseless
+B9 N013 X1 I=uplim(100m*dnlim(1m-V(X1,MID),0,10m),3m,1m)* V(_SHDN_D,MID)
+B10 MID N014 I=40m*dnlim(-150m+uplim(-V(X1,MID),300m,100m),0,10m)* V(_SHDN_D,MID)
+D15 Inn Inp DIN
+C14 3 NG 3.4p Rser=250 Noiseless
+A4 MID Inn MID MID MID MID MID MID OTA g=0 in=1p ink=200k
+A7 MID Inp MID MID MID MID MID MID OTA g=0 in=1p ink=200k
+A6 N007 MID _SHDN_D MID MID MID N004 MID OTA g={alpha_P1} linear en=1n enk=3.5k vlow=-1e308 vhigh=1e308
+R4 N002 X1 1k Noiseless
+G14 MID 4 N002 X1 500µ
+G13 MID 5 N002 X1 500µ
+D19 X1 MID DSI N=.36 temp =27
+C18 3 5 1p Rpar=200k Noiseless
+B4 PG 4 I=(vminp/2e3-500u*(V(X1,MID)-voffp))* V(_SHDN_D,MID)
+B6 PG 4 I=1m*(.5+.5*tanh((715m-V(4,PG))/1m))* V(_SHDN_D,MID)
+B13 4 PG I=1m*dnlim(V(X1,MID)-200m,0,20m)* V(_SHDN_D,MID)
+B3 5 NG I=(vminn/2e3+500u*(V(X1,MID)+voffn))* V(_SHDN_D,MID)
+B8 5 NG I=1m*(.5+.5*tanh((715m-V(NG,5))/1m))* V(_SHDN_D,MID)
+B14 5 NG I=1m*dnlim(V(X1,MID)-200m,0,20m)* V(_SHDN_D,MID)
+D1 4 Inn DBIAS1
+D2 4 Inn DBIAS2
+D5 4 Inp DBIAS1
+D6 4 Inp DBIAS2
+D7 Inn Inp DBIASD
+R1 N012 5 1µ Noiseless
+R2 N015 4 1µ Noiseless
+G3 0 Vcc_Int N015 0 1
+G4 0 Vee_Int N012 0 1
+R3 Vcc_Int 0 1 Noiseless
+R5 Vee_Int 0 1 Noiseless
+R6 N011 Vcc_Int 1Meg Noiseless
+R7 N011 Vee_Int 1Meg Noiseless
+C27 MID 0 1n
+E1 MID 0 N011 0 1
+R8 MID 0 1Meg Noiseless
+C28 N011 0 1
+C29 Vee_Int 0 1n
+C30 Vcc_Int 0 1n
+C6 6 MID 1p Rpar=1G
+A2 6 4 MID MID MID MID _SHDN MID SCHMITT vt=-2.175 vh=575m trise=4.126u tfall=1500n
+A3 _SHDN MID MID MID MID MID _SHDN_D MID BUF trise=100n
+C10 _SHDN MID 1p Rpar=1G
+C22 _SHDN_D MID 1p Rpar=1G
+D4 4 6 DPULLUP
+G1 6 5 6 4 2µ vto=-1.25 dir=1
+D11 N004 MID DLIM2
+D12 X1 MID DLIM1
+B11 PG 4 I=1m*dnlim(-200m-V(X1,Mid),0,20m)* V(_SHDN_D,MID)
+B5 NG 5 I=1m*dnlim(-200m-V(X1,Mid),0,20m)* V(_SHDN_D,MID)
+D13 CMp N007 DVCM
+D14 N007 CMn DVCM
+I1 4 CMp {1k*Vcm_max}
+R9 4 CMp 1m
+C2 4 CMp 1n
+I2 5 CMn {1k*Vcm_min}
+R10 5 CMn 1m
+C23 5 CMn 1n
+R11 MID N007 1k Noiseless
+C26 N007 MID 1f
+G2 MID N007 Inp inn 1m
+R14 Inn 2 {Rin}
+R15 Inp 1 {Rin}
+C31 4 PG {Cpg}
+C32 NG 5 {Cng}
+D8 3 4 DESD
+D10 5 3 DESD
+A1 MID N006 _SHDN_D MID MID MID X1 MID OTA g=26m iout=2.8m vlow=-1e308 vhigh=1e308
+.param alpha_P1=1.0e-3 pole_P1=4e8
++ C1_P1 = alpha_P1/(2*pi*pole_P1)
+.param alpha_P2=1.0e-3 pole_P2=4e8
++  C1_P2 = alpha_P2/(2*pi*pole_P2)
+.param vminp = 400m
+.param voffp = 360m
+.param vminn=400m
+.param voffn = 360m
+.param alpha_PZ1=1.0e-3 pole_PZ1=2e7 zero_PZ1=7e7
++ R2_PZ1=1.0/alpha_PZ1 R1_PZ1=1.0/(alpha_PZ1*(zero_PZ1/pole_PZ1 - 1.0))
++C1_PZ1=1.0/(2.0*pi*zero_PZ1*R1_PZ1)
+.model DVCM D(Vfwd=1k Vrev=0 Revepsilon=0.1 Ron=1m Noiseless)
+.model DESD D(Ron=100 Roff=1g Vfwd=700m epsilon=500m Noiseless)
+.model DPULLUP D(Ron=580k Roff=100Meg vfwd=1.2 epsilon=500m Noiseless)
+.model DBIAS1 D(Ron=6Meg Roff=1G vfwd=100m epsilon=100m Noiseless)
+.model DBIAS2 D(Ron=1k Roff=1G vfwd=100m epsilon=100m ilimit=8u Noiseless)
+.model DBIASD D(Ron=4.7k Roff=4.7k vrev=0 ilimit=9u revilimit=9u epsilon=500m Noiseless)
+.model DIN D(Ron=100 Roff=1G vfwd=700m epsilon=500m vrev=700m revepsilon=500m Noiseless)
+.model DVARSLW1 D(Ron=1k Roff=10k vfwd=900m epsilon=200m Noiseless)
+.model DVARSLW2 D(Ron=10 Roff=1k vfwd=1.34 epsilon=200m vrev=100m revepsilon=100m Noiseless)
+.model DSI D(IS=1e-15 Rs=150k Noiseless)
+.model DLIM1 D(Ron=10 Roff=14Meg vfwd=465m  epsilon=30m vrev=465m revepsilon=30m Noiseless)
+.model DLIM2 D(Ron=10 Roff=100Meg vfwd=100m epsilon=30m vrev=100m revepsilon=30m Noiseless)
+.model DLIMN D(Ron=10 Roff=2k Vfwd=880m  epsilon=10m Noiseless)
+.model DLIMP D(Ron=10 Roff=2k Vfwd=880m  epsilon=10m Noiseless)
+.model SWoff2 SW(Ron=10 Roff=14Meg vt=-500m vh=-100m Noiseless)
+.model SWoff SW(Ron=10 Roff=7Meg vt=-500m vh=-100m Noiseless)
+.model NPN1 NPN(IS=1e-16 BF=500 BR=1.2 Quasimod=1 RCO=25 VO=10 VAF=500 Noiseless)
+.model PNP1 PNP(IS=1e-16 BF=500 BR=1.5 RC=16 VAF=500 Noiseless)
+.param Vcm_min=-100m Vcm_max=-1.2
+.param Rin=10m
+.param Cpg=10f Cng=10f
+.ends LTC6226

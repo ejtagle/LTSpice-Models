@@ -1,0 +1,45 @@
+.subckt TNY280 BP EN D S
+A2 N016 S S S N024 S N020 S AND Vhigh=5.8 Trise=75n
+A3 N025 N019 S S S N024 S S SRFLOP Vhigh=5.8 Trise=100n
+A4 N015 S S S N017 N025 S S AND Vhigh=5.8 Trise=50n
+A6 N002 S S N007 N023 S N019 S AND Vhigh=5.8 Trise=50n
+A7 N002 S S S N002 S N023 S OR Vhigh=5.8 Trise=50n
+I1 S N011 PULSE(379u 403u 0 0.5m 0.5m 0 1m)
+C1 N011 S 1n
+R4 N011 N012 10
+C2 N012 S 10p
+A9 N012 S S S S N014 N007 S SCHMITT Vhigh=5.8 Trise=50n Vt=1.6 Vh=1.4
+D1 N013 N014 Ideal
+R2 N011 N013 100
+A10 N012 S S S S N015 S S SCHMITT Vhigh=5.8 Trise=50n Vt=1.745 Vh=0.245
+I2 D N001 350µ load
+D2 S N001 5_85V
+D3 N001 BP Ideal
+D4 S BP 6_3V
+A11 BP S S S S S N016 S SCHMITT Vhigh=5.8 Trise=50n Vt=5.3 Vh=0.5
+G1 N018 S N020 S table=(0.5 0,5.3 2550m)
+C3 D S 3.5p
+D5 S N018 700V
+R3 D N018 4.5
+A1 D N005 S S S N017 S S SCHMITT Vhigh=5.8 Trise=50n Vt=0 Vh=1m
+H1 N022 S value={if(I(R1)<-125u,2.3,if(I(R1)>25u,1,1.216-I(R1)*8667))}
+R1 N021 N022 1k
+I3 N021 EN 250µ load
+D6 EN N021 Ideal
+H3 N002 S value={if(I(R1)<-240u,0,5.8)}
+H2 N026 S value={if(I(R1)>50u,0,5.8)}
+A5 N002 S S S S N008 S S BUF Vhigh=5.8 Trise=50n
+A8 N002 S S S N007 S N003 S AND Vhigh=3.375 Trise=50n
+A12 N008 S S S N007 N009 S S AND Vhigh=5.8 Trise=50n
+D7 N003 N004 Ideal
+D8 N010 N009 Ideal
+R5 N004 N005 1k
+R6 N010 N005 7k
+V3 N006 0 2
+D9 N006 N005 Ideal
+C5 N005 0 3n
+.model Ideal D(Ron=0 Roff=1g Vfwd=0)
+.model 5_85V D(Ron=10 Roff=1g Vfwd=0 Vrev=5.85)
+.model 6_3V D(Ron=10 Roff=1g Vfwd=0 Vrev=6.3)
+.model 700V D(Ron=0 Roff=1g Vfwd=0 Vrev=700)
+.ends TNY280

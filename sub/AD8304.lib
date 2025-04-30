@@ -1,0 +1,230 @@
+* Copyright (c) 1998-2024 Analog Devices, Inc.  All rights reserved.
+*
+.subckt AD8304 1 2 3 4 5 6 7 8 9 10 11 12
+G1 5 G1 N005 5 3.33m
+R5 G1 5 1k Noiseless
+DOP1 Vsatp 6 DO
+G3 5 Vsatp Satp 5 1k
+R8 Vsatp 5 1m
+G4 5 Vsatn Satn 5 1k
+R9 Vsatn 5 1m
+C1 6 Vsatp 1f
+C3 Vsatp 5 1n
+C5 Vsatn 5 1n
+R10 Satp 9 1k
+C6 Satp 9 1n
+R11 Satn 11 1k
+C7 Satn 11 1n
+I1 Satp 9 {Sat}
+I2 11 Satn {Sat}
+Iref 5 4 2
+R6 4 5 1 Noiseless
+R3 4 N003 40k Noiseless
+R12 N003 5 13.334k Noiseless
+R14 N002 1 1m
+B3 N002 1 I=1k*({Vsuma}*Pwr({Vsumb},I(Rs))*Pwr(I(Rs),{Vsumc}))
+B1 5 3 I=1k*(Dnlim({Vpda}+{Vpdb}*I(Rs),1m,1m))
+R15 5 3 1m
+R16 N005 OPA1 1k Noiseless
+I3 N005 OPA1 354µ
+C8 5 3 100p
+C16 N046 5 1e-18
+R30 N048 5 1Meg Noiseless
+G10 5 N048 N047 5 1µ
+C17 N048 5 {Cfp2}
+G11 5 N046 INPT 1 100µ
+G12 5 OPA1 N048 5 1
+R33 OPA1 5 1 Noiseless
+G13 5 N047 N046 5 {Avo2/ 1Meg}
+C18 N047 5 {Cfp1}
+R42 N049 5 100k Noiseless
+R43 VNp 5 100k Noiseless
+A2 5 5 5 5 5 5 N049 5 OTA G=10u Iout=1m Vhigh=1k Vlow=-1k En=V(fA)/(freq**V(M))
+A3 5 N049 5 5 5 5 VNp 5 OTA G=10u Iout=1m Vhigh=1k Vlow=-1k En=V(BB)
+R44 N050 VNn 10k Noiseless
+C19 N050 5 1f
+L1 N054 N055 Flux=x*V(Lboost)
+R45 N055 5 R=V(RG)
+R46 N050 5 1 Noiseless
+R47 N051 5 1Meg Noiseless
+G14 5 N051 N050 5 2µ
+R48 E_n 5 1Meg Noiseless
+G15 5 E_n N051 5 1µ
+B2 0 BB I=1m*Table(I(Rs), 1n, 18u, 10n, 1.82u, 100n, 450n, 1u, 80n, 10u, 85n, 100u, 120n) Rpar=1k Cpar=1n
+B4 0 fC I=1m*Table(I(Rs), 10n, 1m, 100n, 50, 1u, 325, 10u, 550) Rpar=1k Cpar=1n
+B5 0 M I=1m*Table(I(Rs), 100n, 0.5, 1u, 0.7, 10u, 0.58) Rpar=1k Cpar=1n
+B6 0 G20 I=1m*Table(I(Rs), 1n, 2, 10n, 20, 100n, 50, 1u, 25, 10u, 3, 100u, 1) Rpar=1k Cpar=1n
+B7 0 C27 I=1m*Table(I(Rs), 1n, 1.5p, 10n, 250f, 100n, 85f, 1u, 30f, 10u, 1f, 100u, 20f) Rpar=1k Cpar=1n
+B9 0 fA I=1m*V(BB)*(V(fC)**V(M)) Rpar=1k Cpar=1n
+C20 N051 5 Q=x*V(C27)
+C21 E_n 5 Q=x*V(C28)
+B10 5 N050 I=V(VNp,VNn)*V(G20)
+B11 0 RG I=1m*Table(I(Rs), 1n, 2.5k, 10n, 417, 100n, 204, 1u, 101, 10u, 1.67k, 100u, -10k) Rpar=1k Cpar=1n
+B12 0 Cboost I=1m*Table(I(Rs), 1n, 33.2n, 10n, 21.5n, 100n, 7.8n, 1u, 4.13n, 10u, 378p, 100u, 0.612f) Rpar=1k Cpar=1n
+C22 N054 VNn Q=x*V(Cboost)
+B13 0 Lboost I=1m*Table(I(Rs), 1n, 47.7m, 10n, 3.44m, 100n, 902u, 1u, 200u, 10u, 385u, 100u, 10.3) Rpar=1k Cpar=1n
+G16 N006 6 E_n 5 1Meg
+R51 6 N006 1µ
+B8 0 C28 I=1m*Table(I(Rs), 1n, 450f, 10n, 250f, 100n, 85f, 1u, 30f, 10u, 1f) Rpar=1k Cpar=1n
+Biq 9 N018 I=IF(V(EN,5)>0.5, {Iq_on},{Iq_off})
+C26 EN 5 10p Rpar=1G
+A7 12 5 5 5 5 EN 5 5 SCHMITT Vt=1.5 Vh=0.5 Trise=10n
+C27 12 5 1p Rpar=1G
+S1 5 N006 EN 5 ENZ
+R7 N046 5 1Meg Noiseless
+R13 5 N018 1µ
+R17 N047 5 1Meg Noiseless
+DOP2 N021 8 DO
+DON2 8 N022 DO
+G8 5 N021 N023 5 1k
+R4 N021 5 1m
+G17 5 N022 N024 5 1k
+R20 N022 5 1m
+C13 8 N021 1f
+C23 8 N022 1f
+C24 N021 5 1n
+C25 N022 5 1n
+R21 N023 9 1k
+C29 N023 9 1n
+I4 N023 9 {Sat_buf}
+R23 N024 11 1k
+C30 N024 11 1n
+I5 11 N024 {Sat_buf}
+B15 5 N006 I=Uplim(Dnlim({1/5k}* V(G1,5), -1, 5m), 1, 5m)
+D1 6 N011 DOX
+DON1 6 Vsatn DOS
+G18 5 N057 N056 5 1k
+G19 5 N058 N059 5 1k
+D3 N057 N047 DO
+D4 N047 N058 DO
+R24 N057 5 1m
+R31 N058 5 1m
+B14 OPA1 N056 I=1m*{OR} Rpar=1k Cpar=10p
+B16 OPA1 N059 I=1m*{-OR} Rpar=1k Cpar=10p
+C2 N057 5 1n
+C31 N058 5 1n
+I6 11 N011 2.5
+C32 N011 11 1p Rpar=1m
+C33 6 Vsatn 1f
+Q1 INPT OPA1 N018 0 N
+Q2 1 OPA1 N018 0 N
+Rs 2 INPT 1µ
+G2 5 N002 N003 5 1k
+R32 N002 5 1m
+C28 N005 5 50p
+B17 0 AC I=1m*Smallsig() Rpar=1k Cpar=1n
+SW4 N014 INPT AC 0 AC
+C9 N014 N016 100n
+R34 N016 N018 10k Noiseless
+I7 5 2 25p
+Cinp2 5 N036 {Ccm}
+Cinn2 N043 5 {Ccm}
+R35 N043 10 {Rser} Noiseless
+R36 N036 7 {Rser} Noiseless
+Cdiff2 N036 N043 {Cdiff}
+C34 N037 5 {Cfp1_buf}
+A4 N043 N036 5 5 5 5 Avo1 5 OTA G=100u Iout=1m Vhigh=1k Vlow=-1k
+Rcmp2 5 N036 {Rcm} Noiseless
+Rcmn2 5 N043 {Rcm} Noiseless
+Rdiff2 N043 N036 {Rdiff} Noiseless
+G20 5 N037 Avo1 5 {Avo2_buf/1Meg}
+C35 Avo1 5 1f
+R39 N028 N027 {R2x_Avo} Noiseless
+R40 N027 N031 {R1x_Avo} Noiseless
+Rx1 N038 N031 {Rx_Avo} Noiseless
+Cx1 N038 5 {Cx_Avo}
+G21 5 N028 N038 N027 1Meg
+R41 5 N028 1 Noiseless
+R49 N031 5 1 Noiseless
+G22 5 N031 N037 5 1
+Rx2 8 N042 {Rx_Zo} Noiseless
+Rdummy1 8 5 {Rdummy_Zo} Noiseless
+G23 5 N033 N041 8 {G1_Zo}
+R50 N033 5 1 Noiseless
+R52 N033 N034 {R1a_Zo} Noiseless
+R53 N034 5 {R2a_Zo} Noiseless
+G24 5 N035 N034 5 {G2_Zo}
+C36 N034 N033 {C1a_Zo}
+R55 N035 ZoF {R1d_Zo} Noiseless
+R56 ZoF 5 {R2d_Zo} Noiseless
+C37 ZoF N035 {C1d_Zo}
+R57 N035 5 1 Noiseless
+L2 N040 N041 {Lo}
+C38 N044 N045 {Co}
+G25 5 N040 N030 5 1k
+R58 N040 5 1m
+R59 N045 5 {Ro}
+R60 N041 N044 1m
+R61 N030 N029 {R2x_Avo} Noiseless
+R62 N029 N032 {R1x_Avo} Noiseless
+Rx3 N039 N032 {Rx_Avo} Noiseless
+Cx2 N039 5 {Cx_Avo}
+G26 5 N030 N039 N029 1Meg
+R63 5 N030 1 Noiseless
+R64 N032 5 1 Noiseless
+G27 5 N032 N028 5 1
+G5 5 N042 ZoF 5 {G4_Zo}
+S2 5 Avo1 EN 5 ENA
+S3 5 N037 EN 5 ENA
+S4 5 N042 EN 5 ENZ2
+.param Iq_on=4.5m Iq_off=60u
+.model DOX D(Vfwd=1k Vrev=0 Revepsilon=1u Ron=1m Noiseless)
+.model DO D(Vfwd=1k Vrev=0 Revepsilon=0.1 Ron=1m Noiseless)
+.model DOS D(Vfwd=1k Vrev=0 Revepsilon=5 Ron=10 Noiseless)
+.model AC SW(Ron=1m Roff=1G Vt=500m Vh=-100m Noiseless)
+.model ENA SW(Ron=1Meg Roff=1u Vt=500m Vh=-100m Noiseless)
+.model ENZ SW(Ron=5k Roff=1u Vt=500m Vh=-100m Noiseless)
+.model ENZ2 SW(Ron=1 Roff=1u Vt=500m Vh=-100m Noiseless)
+.model N NPN()
+.param Vpda=635m Vpdb=200
+.param Vsuma=4m Vsumb=1.32e31 Vsumc=42.3m
+.param Avo=120
+.param Avo2_dB={Avo-40}
+.param Avo2 = {pwr(10, (Avo2_dB)/20)}
+.param fp1=10 fp2=100Meg
+.param Cfp1={1 / (2 * pi * fp1 * 1Meg)}
+.param Cfp2={1 / (2 * pi * fp2 * 1Meg)}
+.param Sat_buf=200u
+.param OR=10
+.param Sat=105u
+.param Avo_buf=112.5
+.param SRp_buf=20 SRn_buf=210
+.param fp1_buf=22
+.param Rser=1m
+.param Ccm=1f Rcm=1T
+.param Cdiff=1f Rdiff=1T
+.param Avo2_dB_buf = {Avo_buf-40+1}
+.param Avo2_buf = {pwr(10, (Avo2_dB_buf)/20)}
+.param Cfp1_buf={1 / (2 * pi * fp1_buf * 1Meg)}
+.param Isrc_buf = {Cfp1_buf * SRp_buf * 1Meg}
++Isink_buf = {Cfp1_buf * SRn_buf * 1Meg}
+.param Rx_Avo=1k
+.param R2x_Avo=10k
+.param fzx_Avo=250Meg
+.param fpx_Avo=5G
+.param Cx_Avo={1/(2*pi*Rx_Avo*fpx_Avo)}
+.param R1x_Avo={(fzx_Avo*R2x_Avo)/fpx_Avo}
+.param beta_Zo=1.12
+.param Rx_Zo = {100 * Zo_max}
+.param Rdummy_Zo = {10 * Zo_max}
+.param G1_Zo={Rx_Zo/(Zo_dc*beta_Zo)}
+.param Zo_dc=30.5k
+.param Zo_max={Zo_dc}
+.param R1a_Zo=10k
+.param fz1_Zo=62
+.param fp1_Zo=31k
+.param C1a_Zo = {1 / (2 * pi * R1a_Zo * fz1_Zo)}
+.param R2a_Zo = {R1a_Zo/ ((2 * pi * fp1_Zo * C1a_Zo
++* R1a_Zo) - 1)}
+.param actual1_Zo = {R2a_Zo / (R1a_Zo + R2a_Zo)}
+.param G2_Zo = {1/actual1_Zo}
+.param R1d_Zo=10k
+.param fz4_Zo=1Meg
+.param fp4_Zo=100G
+.param C1d_Zo = {1 / (2 * pi * R1d_Zo * fz4_Zo)}
+.param R2d_Zo = {R1d_Zo/ ((2 * pi * fp4_Zo * C1d_Zo
++* R1d_Zo) - 1)}
+.param actual4_Zo = {R2d_Zo / (R1d_Zo + R2d_Zo)}
+.param G4_Zo = {1/actual4_Zo}
+.param Lo=700p Co=800p Ro=0.9
+.ends AD8304

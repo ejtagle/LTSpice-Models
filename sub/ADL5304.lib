@@ -1,0 +1,151 @@
+* Copyright (c) 1998-2022 Analog Devices, Inc.  All rights reserved.
+*
+.subckt ADL5304 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24
+Q1 AINn 7 24 0 2N2369i
+Q2 BINn 7 8 0 2N2369i
+R1 16 18 5k Noiseless
+I1 10 5 {100n+Drift_100n* (Temp-27)}
+F1 1 22 VInum 1.1
+G1 10 N017 23 9 1.343µ
+R17 N017 10 1k Noiseless
+G2 10 18 N017 10 1
+R12 N020 12 1µ
+VInum N011 AINn 0
+R20 20 10 1m Noiseless
+C3 20 10 1µ
+I2 10 20 {1k*(1.5+Drift_1P5V* (Temp-27))}
+R21 13 10 1m Noiseless
+C8 13 10 1µ
+I3 10 13 {1k*(2+Drift_2V* (Temp-27))}
+I4 21 10 {Iq_pos}
+I5 11 N020 {Iq_neg}
+R24 N011 3 1m Noiseless
+I8 3 N011 {1k*(Vos_Inum+Drift_Inum* (Temp-27))}
+R25 BINn 4 1m Noiseless
+I9 4 BINn {1k*(1n+Drift_Inum* (Temp-27))}
+R22 CINp 19 1m
+I6 19 CINp {1k*Voso}
+I7 10 19 {Ibo}
+R26 17 10 {Rout} Noiseless
+DOP Vsatp 17 DO
+DON 17 Vsatn DO
+G4 10 Vsatp Satp 10 1k
+R28 Vsatp 10 1m
+G5 10 Vsatn Satn 10 1k
+R29 Vsatn 10 1m
+C11 17 Vsatp 1f
+C12 17 Vsatn 1f
+C13 Vsatp 10 1n
+C14 Vsatn 10 1n
+R30 Satp 21 1k
+C15 Satp 21 1n
+R31 Satn 11 1k
+C16 Satn 11 1n
+I11 Satp 21 216µ
+I12 11 Satn 216µ
+B1 10 17 I=Limit((1/{Rout})* V(BUF,10), -1, 2.5)
+C5 10 19 1p Rpar={Rinps} Noiseless
+C7 Avo1_num 10 1e-18
+R23 N033 10 1Meg Noiseless
+G3 10 N033 N032 10 1µ
+C10 N033 10 {Cfp2_num}
+R32 Avo1_num 10 1Meg Noiseless
+R33 N032 10 1Meg Noiseless
+G6 10 Avo1_num 2 AINn 100µ
+G7 10 24 N033 10 1
+R34 24 10 1 Noiseless
+G8 10 N032 Avo1_num 10 {Avo2_num/ 1Meg}
+C18 Avo1_den 10 1e-18
+R35 N036 10 1Meg Noiseless
+G9 10 N036 N035 10 1µ
+R36 Avo1_den 10 1Meg Noiseless
+R37 N035 10 1Meg Noiseless
+G10 10 Avo1_den 6 BINn 100µ
+G11 10 8 N036 10 1
+R38 8 10 1 Noiseless
+G12 10 N035 Avo1_den 10 {Avo2_den/ 1Meg}
+C21 Avo1C 10 1e-18
+R39 N034 10 1Meg Noiseless
+G13 10 N034 ClampC 10 1µ
+R40 Avo1C 10 1Meg Noiseless
+R41 ClampC 10 1Meg Noiseless
+G14 10 Avo1C N031 18 100µ
+G16 10 ClampC Avo1C 10 {Avo2_out/ 1Meg}
+R53 BUF 10 1 Noiseless
+G15 10 BUF N034 10 1
+G17 CINp N031 E_n 10 1Meg
+R54 N031 CINp 1µ
+R2 16 15 5k Noiseless
+R3 18 14 7.5k Noiseless
+R59 N037 10 100k Noiseless
+R60 VNp 10 100k Noiseless
+A3 10 10 10 10 10 10 N037 10 OTA G=10u Iout=1m Vhigh=1k Vlow=-1k En=V(fA)/(freq**V(M))
+A4 10 N037 10 10 10 10 VNp 10 OTA G=10u Iout=1m Vhigh=1k Vlow=-1k En=V(BB)
+R57 N038 VNn 10k Noiseless
+C25 N038 10 1f
+L1 N042 N043 Flux=x*V(Lboost)
+R58 N043 10 R=V(RG)
+R61 N038 10 1 Noiseless
+R62 N039 10 2Meg Noiseless
+G19 10 N039 N038 10 1µ
+R63 E_n 10 1Meg Noiseless
+G21 10 E_n N039 10 1µ
+B2 0 BB I=1m*Table(I(VInum), 100p, 10u, 1n, 680n, 10n, 130n, 100n, 43n, 1u, 30n) Rpar=1k Cpar=1n
+B4 0 fC I=1m*Table(I(VInum), 1n, 1m, 10n, 350, 100n, 2k, 1u, 7.5k) Rpar=1k Cpar=1n
+B5 0 M I=1m*Table(I(VInum), 1n, 0.5, 10n, 0.57, 100n, 0.63, 1u, 0.58) Rpar=1k Cpar=1n
+B6 0 G20 I=1m*Table(I(VInum), 100p, 1, 1n, 5.1, 10n, 20, 100n, 20, 1u, 3) Rpar=1k Cpar=1n
+B10 0 C27 I=1m*Table(I(VInum), 100p, 1.5p, 1n, 200f, 10n, 40f, 100n, 1f) Rpar=1k Cpar=1n
+B11 0 C28 I=1m*Table(I(VInum), 10n, 25f, 100n, 1f) Rpar=1k Cpar=1n
+B3 0 fA I=1m*V(BB)*(V(fC)**V(M)) Rpar=1k Cpar=1n
+R52 N040 10 1µ
+C27 N039 N040 Q=x*V(C27)
+R55 N041 10 1µ
+C28 E_n N041 Q=x*V(C28)
+B12 10 N038 I=V(VNp,VNn)*V(G20)
+B7 0 RG I=1m*Table(I(VInum), 1u, 101, 10u, -10k) Rpar=1k Cpar=1n
+B8 0 Cboost I=1m*Table(I(VInum), 100p, 4.9n, 1n, 2.65n, 10n, 1.03n, 100n, 278p, 1u, 61.2p, 10u, 0.612f) Rpar=1k Cpar=1n
+C23 N042 VNn Q=x*V(Cboost)
+B9 0 Lboost I=1m*Table(I(VInum), 100p, 122m, 1n, 2.65m, 10n, 838u, 100n, 337u, 1u, 103u, 10u, 10.3) Rpar=1k Cpar=1n
+C24 N032 10 {Cfp1_num}
+C26 N035 10 {Cfp1_den}
+C22 N036 10 {Cfp2_den}
+C29 ClampC 10 {Cfp1_out}
+C30 N034 10 {Cfp2_out}
+C6 14 10 1f
+C17 15 10 1f
+C19 16 10 1f
+I10 2 10 1f
+I13 6 10 1f
+I14 9 N020 1f
+I15 23 10 1f
+.param Iscp_1P5V=5m Iscn_1P5V=-10m
+.param Iscp_2V=20m Iscn_2V=-1u
+.param Vos_Inum=0.6m Drift_Inum=0.01m
+.param Drift_1P5V=30u Drift_2V=31u
+.param Drift_100n=-70p
+.param Iq_pos=13.5m Iq_neg=-7.3m
+.param Voso=0.1m Ibo=-1.3u
+.param Rinps=12Meg Rout=2
+.model DO D(Vfwd=1k Vrev=0 Revepsilon=0.1 Ron=1m Noiseless)
+.model 2N2369i NPN(Is=600f Xti=3 Eg=1.11  Vaf=100 Bf=78.32  Ne=1.389  Ise=91.95f  Ikf=0.3498  Xtb=1.5 Br=360u
++Nc=20 Isc=0 Ikr=0  Rc=0.6  Cjc=1e-18 Mjc=86.19m Vjc=0.75 Fc=0.5 Cje=4.5p Mje=0.2418  Vje=0.75  Tr=1.073u Tf=227.6p
++Itf=0.3 Vtf=4 Xtf=4 Rb=10 Vceo=15 Icrating=200m  mfg=NXP Noiseless)
+.param Avo_num=120
+.param Avo2_dB_num={Avo_num-40}
+.param Avo2_num = {pwr(10, (Avo2_dB_num)/20)}
+.param Avo_out=120
+.param Avo2_dB_out={Avo_out-40}
+.param Avo2_out = {pwr(10, (Avo2_dB_out)/20)}
+.param fp1_num=50m fp2_num=1G
+.param Cfp1_num={1 / (2 * pi * fp1_num * 1Meg)}
+.param Cfp2_num={1 / (2 * pi * fp2_num * 1Meg)}
+.param fp1_out=3.5 fp2_out=20Meg
+.param Cfp1_out={1 / (2 * pi * fp1_out * 1Meg)}
+.param Cfp2_out={1 / (2 * pi * fp2_out * 1Meg)}
+.param Avo_den=120
+.param Avo2_dB_den={Avo_den-40}
+.param Avo2_den = {pwr(10, (Avo2_dB_den)/20)}
+.param fp1_den=3m fp2_den={fp2_num}
+.param Cfp1_den={1 / (2 * pi * fp1_den * 1Meg)}
+.param Cfp2_den={1 / (2 * pi * fp2_den * 1Meg)}
+.ends ADL5304

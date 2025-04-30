@@ -1,0 +1,1760 @@
+**********************************************************************
+* These models from Duncan Monroe, Marshall Leach, Ayumi Nakabashi,
+* Kevin Kennedy and uTgui
+* Norman Koren Enhanced Triode model and Pentode Models
+**********************************************************************
+.SUBCKT TRIODENH A G K
++PARAMS: LIP=1 LIF=3.7E-3 RAF=18E-3 RAS=1 CDO=0 RAP=4E-3
++ ERP=1.5
++ MU0=17.3 MUR=19E-3 EMC=9.6E-6 GCO=0 GCF=213E-6
++ CGA=3.9p CGK=2.4p CAK=0.7p 
+
+************************************************************************
+*
+* Anode/grid model
+*
+* Models reduction in mu at large negative grid voltages
+* Models change in Ra with negative grid voltages
+* Models limit in Ia with high +Vg and low Va
+*
+* PARAMETERS
+*
+*       LIP Conduction limit exponent
+*       LIF Conduction limit factor
+*       CDO Conduction offset
+*       RAF Anode resistance factor for neg grid voltages
+*       RAP Anode resistance factor for positive grid voltages
+*       ERP Emission power
+*       MU0 Mu between grid and anode at Vg=0
+*       MUR Mu reduction factor for large negative grid voltages
+*       EMC Emission coefficient
+*       GCO Grid current offset in volts
+*       GCF Grid current scale factor
+*
+************************************************************************
+
+Elim  LI 0  VALUE {PWR(LIMIT{V(A,K),0,1E6},{LIP})*{LIF}}
+Egg   GG 0  VALUE {V(G,K)-{CDO}}
+Erpf  RP 0  VALUE {1-PWR(LIMIT{-V(GG)*{RAF},0,0.999},{RAS})+LIMIT{V(GG),0,1E6}*{RAP}}
+Egr   GR 0  VALUE {LIMIT{V(GG),0,1E6}+LIMIT{(V(GG))*(1+V(GG)*{MUR}),-1E6,0}}
+Eem   EM 0  VALUE {LIMIT{V(A,K)+V(GR)*{MU0},0,1E6}}
+Eep   EP 0  VALUE {PWR(V(EM),ERP)*{EMC}*V(RP)}
+Eel   EL 0  VALUE {LIMIT{V(EP),0,V(LI)}}
+Eld   LD 0  VALUE {LIMIT{V(EP)-V(LI),0,1E6}}
+Ga    A  K  VALUE {V(EL)}
+
+************************************************************************
+*
+* Grid current model
+*
+* Models grid current, along with rise in grid current at low Va
+*
+************************************************************************
+Egf   GF 0  VALUE {PWR(LIMIT{V(G,K)-{GCO},0,1E6},1.5)*{GCF}}
+Gg1    G  K  VALUE {(V(GF)+V(LD))}
+* gf
+*
+* Capacitances and anti-float resistors
+*
+CM1     G       K       {CGK}
+CM2     A       G       {CGA}
+CM3     A       K       {CAK}
+RF1     A       0       1000MEG
+RF2     G       0       1000MEG
+RF3     K       0       1000MEG
+
+.ENDS
+**********************************************************************
+* Triode Koren model
+******************************************************************************
+.SUBCKT TRIODE 1 2 3 ; A G C
+E1  7 0 VALUE={V(1,3)/KP*LOG(1+EXP(KP*(1/MU+(V(2,3)+VCT)/SQRT(KVB+V(1,3)*V(1,3)))))}
+RE1 7 0 1G
+G1  1 3 VALUE={(PWR(V(7,0),EX)+PWRS(V(7,0),EX))/KG1}
+RCP 1 3 1G    ; TO AVOID FLOATING NODES IN MU-FOLLOWER
+C1  2 3 {CCG}  ; CATHODE-GRID
+C2  2 1 {CPG1}  ; GRID-PLATE
+C3  1 3 {CCP}  ; CATHODE-PLATE
+D3  5 3 DX     ; FOR GRID CURRENT
+R1  2 5 {RGI}  ; FOR GRID CURRENT
+.ENDS	TRIODE
+******************************************************************************
+** The models have been superceded. Retained for compatibility. Update any cards to use the
+** newer models. 
+** Pentode 1-3 Koren models + Barton screen current model
+** Pentode 4 new Barton Beam tetrode model
+******************************************************************************
+.SUBCKT PENTODE1 1 2 3 4 ; A G2 G1 C
+RE1  7 0  1MEG    ; DUMMY SO NODE 7 HAS 2 CONNECTIONS
+E1   7 0  VALUE={V(2,4)/KP * LOG(1+EXP(( 1/MU + V(3,4)/V(2,4) )*KP))}	; E1 BREAKS UP LONG EQUATION FOR G1.
+E2   10 0 VALUE={(PWR(V(7),EX)+PWRS(V(7),EX))/KG1 * ATAN(V(1,4)/KVB)}
+G1   1 4  VALUE={V(10)}
+R100 10 0  1G    ; DUMMY SO NODE 10 HAS 2 CONNECTIONS
+E3   8 0  VALUE={uramp(Up*V(1,4) + Us*V(2,4) + Ug*V(3,4))}
+G2   2 4  VALUE ={uramp(pwr(V(8),es)*(I0 +(1-I0)*2/3.14159*atan(s * V(1,4)/V(2,4) ))/1000) - V(10)}
+R80  8 0  1MEG    ; DUMMY SO NODE 8 HAS 2 CONNECTIONS
+RCP  1 4  1G      ; FOR CONVERGENCE	A  - C
+C1   3 4  {CCG}   ; CATHODE-GRID 1	C  - G1
+C2   1 3  {CPG1}  ; GRID 1-PLATE	G1 - A
+C3   1 4  {CCP}   ; CATHODE-PLATE	A  - C
+R1   3 5  {RGI}   ; FOR GRID CURRENT	G1 - 5
+D3   5 4  DX      ; FOR GRID CURRENT	5  - C
+.ENDS PENTODE1
+
+.SUBCKT PENTODE2 1 2 3 4 ; A G2 G1 C
+RE1  7 0  1MEG    ; DUMMY SO NODE 7 HAS 2 CONNECTIONS
+E1   7 0  VALUE={V(2,4)/KP*LOG(1+EXP((1/MU+V(3,4)/V(2,4))*KP))}	; E1 BREAKS UP LONG EQUATION FOR G1.
+G1   1 4  VALUE={pi/2*(PWR(V(7),EX)+PWRS(V(7),EX))/KG1*(1-exp(-2*V(1,4)/(pi*KVB)))}
+E2   0 8  VALUE={uramp(Up*V(1,4) + Us*V(2,4) + Ug*V(3,4))}
+G2   4 2  VALUE ={pwr(V(8),es)*(I0 +(1-I0)*2/3.14159*atan(s * V(1,4)/V(2,4))/1000 - I(g1)}
+RCP  1 4  1G      ; FOR CONVERGENCE	A  - C
+C1   3 4  {CCG}   ; CATHODE-GRID 1	C  - G1
+C2   1 3  {CPG1}  ; GRID 1-PLATE	G1 - A
+C3   1 4  {CCP}   ; CATHODE-PLATE	A  - C
+R1   3 5  {RGI}   ; FOR GRID CURRENT	G1 - 5
+D3   5 4  DX      ; FOR GRID CURRENT	5  - C
+.ENDS PENTODE2
+
+.SUBCKT PENTODE3 1 2 3 4 ; A G2 G1 C
+RE1  7 0  1MEG    ; DUMMY SO NODE 7 HAS 2 CONNECTIONS
+E1   7 0  VALUE={V(2,4)/KP*LOG(1+EXP((1/MU+V(3,4)/V(2,4))*KP))}	; E1 BREAKS UP LONG EQUATION FOR G1.
+G1   1 4  VALUE={pi/2*(PWR(V(7),EX)+PWRS(V(7),EX))/KG1*tanh(2*V(1,4)/(pi*KVB))}
+E2   0 8  VALUE={uramp(Up*V(1,4) + Us*V(2,4) + Ug*V(3,4))}
+G2   4 2  VALUE ={pwr(V(8),es)*(I0 +(1-I0)*2/3.14159*atan(s * V(1,4)/V(2,4))/1000 - I(g1)}
+RCP  1 4  1G      ; FOR CONVERGENCE	A  - C
+C1   3 4  {CCG}   ; CATHODE-GRID 1	C  - G1
+C2   1 3  {CPG1}  ; GRID 1-PLATE	G1 - A
+C3   1 4  {CCP}   ; CATHODE-PLATE	A  - C
+R1   3 5  {RGI}   ; FOR GRID CURRENT	G1 - 5
+D3   5 4  DX      ; FOR GRID CURRENT	5  - C
+.ENDS PENTODE3
+
+.SUBCKT PENTODE4 1 2 3 4 ; A G2 G1 C
+RE1  7 0  1MEG    ; DUMMY SO NODE 7 HAS 2 CONNECTIONS
+E1   7 0  VALUE={V(2,4)/KP*LOG(1+EXP((1/MU+V(3,4)/V(2,4))*KP))}	; E1 BREAKS UP LONG EQUATION FOR G1.
+G1   1 4  VALUE={(PWR(V(7),EX)+PWRS(V(7),EX))/KG1*(1+cos(pi*(pwr(tanh(V(1,4)/(pi*KVB),2))-1 )))}
+E2   0 8  VALUE={uramp(Up*V(1,4) + Us*V(2,4) + Ug*V(3,4))}
+G2   4 2  VALUE ={pwr(V(8),es)*(I0 +(1-I0)*2/3.14159*atan(s * V(1,4)/V(2,4))/1000 - I(g1)}
+RCP  1 4  1G      ; FOR CONVERGENCE	A  - C
+C1   3 4  {CCG}   ; CATHODE-GRID 1	C  - G1
+C2   1 3  {CPG1}  ; GRID 1-PLATE	G1 - A
+C3   1 4  {CCP}   ; CATHODE-PLATE	A  - C
+R1   3 5  {RGI}   ; FOR GRID CURRENT	G1 - 5
+D3   5 4  DX      ; FOR GRID CURRENT	5  - C
+.ENDS PENTODE4
+.MODEL DX D(IS=1N RS=1 CJO=10PF TT=1N) ; diode used by the Triode, Pentode Beam Tetrode models
+
+************************************************************************************************
+** Rev (a) Models with (gp)
+** Pentode 1-3 Koren models + Barton screen current model + (gp) plate conductance
+** Pentode 4 new Barton Beam tetrode model  + (gp) plate conductance
+******************************************************************************
+.SUBCKT PENTODE1a 1 2 3 4 ; A G2 G1 C
+RE1  7 0  1MEG    ; DUMMY SO NODE 7 HAS 2 CONNECTIONS
+E1   7 0  VALUE={V(2,4)/KP * LOG(1+EXP(( 1/MU + V(3,4)/V(2,4) )*KP))}	; E1 BREAKS UP LONG EQUATION FOR G1.
+E2   10 0 VALUE={(PWR(V(7),EX)+PWRS(V(7),EX))/KG1 * ATAN(V(1,4)/KVB)}
+G1   1 4  VALUE={(1+GP*V(1,4))*V(10)}
+R100 10 0  1G    ; DUMMY SO NODE 10 HAS 2 CONNECTIONS
+E3   8 0  VALUE={uramp(Up*V(1,4) + Us*V(2,4) + Ug*V(3,4))}
+G2   2 4  VALUE ={pwr(V(8),es)*(I0 +(1-I0)*2/3.14159*atan(s * V(1,4)/V(2,4)))/1000 - i(g1)}
+R80  8 0  1MEG    ; DUMMY SO NODE 8 HAS 2 CONNECTIONS
+RCP  1 4  1G      ; FOR CONVERGENCE	A  - C
+C1   3 4  {CCG}   ; CATHODE-GRID 1	C  - G1
+C2   1 3  {CPG1}  ; GRID 1-PLATE	G1 - A
+C3   1 4  {CCP}   ; CATHODE-PLATE	A  - C
+R1   3 5  {RGI}   ; FOR GRID CURRENT	G1 - 5
+D3   5 4  DX      ; FOR GRID CURRENT	5  - C
+.ENDS PENTODE1a
+
+.SUBCKT PENTODE2a 1 2 3 4 ; A G2 G1 C
+RE1  7 0  1MEG    ; DUMMY SO NODE 7 HAS 2 CONNECTIONS
+E1   7 0  VALUE={V(2,4)/KP*LOG(1+EXP((1/MU+V(3,4)/V(2,4))*KP))}	; E1 BREAKS UP LONG EQUATION FOR G1.
+G1   1 4  VALUE={pi/2*(1+GP*V(1,4))*(PWR(V(7),EX)+PWRS(V(7),EX))/KG1*(1-exp(-2*V(1,4)/(pi*KVB)))}
+E2   0 8  VALUE={uramp(Up*V(1,4) + Us*V(2,4) + Ug*V(3,4))}
+G2   4 2  VALUE ={pwr(V(8),es)*(I0 +(1-I0)*2/3.14159*atan(s * V(1,4)/V(2,4)))/1000 - I(g1)}
+RCP  1 4  1G      ; FOR CONVERGENCE	A  - C
+C1   3 4  {CCG}   ; CATHODE-GRID 1	C  - G1
+C2   1 3  {CPG1}  ; GRID 1-PLATE	G1 - A
+C3   1 4  {CCP}   ; CATHODE-PLATE	A  - C
+R1   3 5  {RGI}   ; FOR GRID CURRENT	G1 - 5
+D3   5 4  DX      ; FOR GRID CURRENT	5  - C
+.ENDS PENTODE2a
+
+.SUBCKT PENTODE3a 1 2 3 4 ; A G2 G1 C
+RE1  7 0  1MEG    ; DUMMY SO NODE 7 HAS 2 CONNECTIONS
+E1   7 0  VALUE={V(2,4)/KP*LOG(1+EXP((1/MU+V(3,4)/V(2,4))*KP))}	; E1 BREAKS UP LONG EQUATION FOR G1.
+G1   1 4  VALUE={pi/2*(1+GP*V(1,4))*(PWR(V(7),EX)+PWRS(V(7),EX))/KG1*tanh(2*V(1,4)/(pi*KVB))}
+E2   0 8  VALUE={uramp(Up*V(1,4) + Us*V(2,4) + Ug*V(3,4))}
+G2   4 2  VALUE ={pwr(V(8),es)*(I0 +(1-I0)*2/3.14159*atan(s * V(1,4)/V(2,4)))/1000 - I(g1)}
+RCP  1 4  1G      ; FOR CONVERGENCE	A  - C
+C1   3 4  {CCG}   ; CATHODE-GRID 1	C  - G1
+C2   1 3  {CPG1}  ; GRID 1-PLATE	G1 - A
+C3   1 4  {CCP}   ; CATHODE-PLATE	A  - C
+R1   3 5  {RGI}   ; FOR GRID CURRENT	G1 - 5
+D3   5 4  DX      ; FOR GRID CURRENT	5  - C
+.ENDS PENTODE3a
+
+.SUBCKT PENTODE4a 1 2 3 4 ; A G2 G1 C
+RE1  7 0  1MEG    ; DUMMY SO NODE 7 HAS 2 CONNECTIONS
+E1   7 0  VALUE={V(2,4)/KP*LOG(1+EXP((1/MU+V(3,4)/V(2,4))*KP))}	; E1 BREAKS UP LONG EQUATION FOR G1.
+G1   1 4  VALUE={(1+GP*V(1,4))*(PWR(V(7),EX)+PWRS(V(7),EX))/KG1*(1+cos(pi*(tanh(pwr(V(1,4)/KVB,2))-1 )))/2}
+E2   0 8  VALUE={uramp(Up*V(1,4) + Us*V(2,4) + Ug*V(3,4))}
+G2   2 4  VALUE ={pwr(V(8),es)*(I0 +(1-I0)*2/3.14159*atan(s * V(1,4)/V(2,4)))/1000 - I(G1)}
+RCP  1 4  1G      ; FOR CONVERGENCE	A  - C
+C1   3 4  {CCG}   ; CATHODE-GRID 1	C  - G1
+C2   1 3  {CPG1}  ; GRID 1-PLATE	G1 - A
+C3   1 4  {CCP}   ; CATHODE-PLATE	A  - C
+R1   3 5  {RGI}   ; FOR GRID CURRENT	G1 - 5
+D3   5 4  DX      ; FOR GRID CURRENT	5  - C
+.ENDS PENTODE4a
+.MODEL DX D(IS=1N RS=1 CJO=10PF TT=1N) ; diode used by the Triode, Pentode Beam Tetrode models
+*********************************************************************
+
+
+
+**********************************************************************
+* GENERIC: 3CX300
+* MODEL:   3CX300
+**********************************************************************
+.SUBCKT 3CX300 A G K
+XV1 A G K TRIODENH
++PARAMS: LIP= 1.5 LIF= 10 RAF= 0.00536 RAS= 1 CDO= 0 
++ RAP= 0.005 ERP= 1.25 
++ MU0= 8.321 MUR= 0.0012 EMC= 0.000533 
++ GCO= 0 GCF= 0.0001 
++ CGA=1.00E-11 CGK=2.50E-11 CAK=1.00E-12
+.ENDS
+
+**********************************************************************
+* GENERIC: SV6AS7
+* MODEL:   SV6AS7
+**********************************************************************
+.SUBCKT SV6AS7 A G K
+XV1 A G K TRIODENH
++PARAMS: LIP= 1 LIF= 0.01 RAF= 0.0058 RAS= 0.7 CDO= 0 
++ RAP= 0.035 ERP= 1.5 
++ MU0= 2.05 MUR= 0.0017 EMC= 0.0005 
++ GCO= 0 GCF= 0 
++ CGA=1.10E-11 CGK=8.00E-12 CAK=3.00E-12
+.ENDS
+
+**********************************************************************
+* GENERIC: 6BM8 / ECL82
+* MODEL:   6BM8
+* NOTES:   No grid current model
+**********************************************************************
+.SUBCKT 6BM8 A G K
+XV1 A G K TRIODENH
++PARAMS: LIP= 1.5 LIF= 10 RAF= 0.030667 RAS= 5 CDO=-0.5 
++ RAP= 0.587 ERP= 1.5 
++ MU0= 50 MUR= 0.035 EMC= 0.00000256 
++ GCO= 0 GCF= 0 
++ CGA=4.00E-12 CGK=2.70E-12 CAK=4.00E-12
+.ENDS
+
+**********************************************************************
+* GENERIC: 6DJ8 / ECC88
+* MODEL:   6DJ8
+* NOTES:   No grid current model
+**********************************************************************
+.SUBCKT 6DJ8 A G K
+XV1 A G K TRIODENH
++PARAMS: LIP= 1.5 LIF= 10 RAF= 0.09 RAS= 0.2 CDO= 0 
++ RAP= 0 ERP= 1.35 
++ MU0= 33 MUR= 0.02 EMC= 0.0000795 
++ GCO=-0.2 GCF= 0 
++ CGA=1.40E-12 CGK=3.30E-12 CAK=1.80E-12
+.ENDS
+
+**********************************************************************
+* GENERIC: 6N1P
+* MODEL:   6N1P
+* NOTES:   No grid current model
+**********************************************************************
+.SUBCKT 6N1P A G K
+XV1 A G K TRIODENH
++PARAMS: LIP= 1.5 LIF= 10 RAF= 0.01 RAS= 1 CDO= 0 
++ RAP= 0 ERP= 1.6 
++ MU0= 37.5 MUR= 0.01 EMC= 0.000005 
++ GCO= 0 GCF= 0 
++ CGA=1.60E-12 CGK=3.20E-12 CAK=1.50E-12
+.ENDS
+
+**********************************************************************
+* GENERIC: 12AT7 / ECC81
+* MODEL:   12AT7
+**********************************************************************
+.SUBCKT 12AT7 A G K
+XV1 A G K TRIODENH
++PARAMS: LIP= 1 LIF= 0.0037 RAF= 0.09869 RAS= 1 CDO=-0.5 
++ RAP= 0.1 ERP= 1.4 
++ MU0= 45.093 MUR= 0.012937 EMC= 0.00000863 
++ GCO=-0.5 GCF= 0.00012 
++ CGA=1.60E-12 CGK=2.30E-12 CAK=4.00E-13
+.ENDS
+
+**********************************************************************
+* GENERIC: 12AU7 / ECC82
+* MODEL:   12AU7
+
+**********************************************************************
+.SUBCKT 12AU7 A G K
+XV1 A G K TRIODENH
++PARAMS: LIP= 1 LIF= 0.0037 RAF= 0.0041813 RAS= 16.48 CDO= 0 
++ RAP= 0.032 ERP= 1.35 
++ MU0= 14.036 MUR= 0.006488 EMC= 0.0000236 
++ GCO= 0 GCF= 0.00012 
++ CGA=1.60E-12 CGK=1.80E-12 CAK=4.50E-13
+.ENDS
+
+**********************************************************************
+* GENERIC: 12AX7 / ECC83
+* MODEL:   12AX7
+**********************************************************************
+.SUBCKT 12AX7 A G K
+XV1 A G K TRIODENH
++PARAMS: LIP= 1.5 LIF= 0.000016 RAF= 0.076498 RAS= 1 CDO=-0.53056 
++ RAP= 0.18 ERP= 1.5 
++ MU0= 87.302 MUR=-0.013621 EMC= 0.00000111 
++ GCO=-0.2 GCF= 0.00001 
++ CGA=3.90E-12 CGK=2.40E-12 CAK=7.00E-13
+.ENDS
+
+**********************************************************************
+* GENERIC: 76
+* MODEL:   76
+* NOTES:   No grid current model
+**********************************************************************
+.SUBCKT 76 A G K
+XV1 A G K TRIODENH
++PARAMS: LIP= 1 LIF= 10 RAF= 0.015 RAS= 1.8 CDO= 0 
++ RAP= 0 ERP= 1.6 
++ MU0= 12.8 MUR= 0.001 EMC= 0.000008 
++ GCO= 0 GCF= 0 
++ CGA=2.80E-12 CGK=3.50E-12 CAK=2.50E-12
+.ENDS
+
+
+**********************************************************************
+* GENERIC: SV572-3
+* MODEL:   SV5723
+**********************************************************************
+.SUBCKT SV5723 A G K
+XV1 A G K TRIODENH
++PARAMS: LIP= 1 LIF= 0.0018 RAF= 0.0012 RAS= 0.5 CDO= 0 
++ RAP= 0 ERP= 1.4 
++ MU0= 3.79928 MUR= 0.0002 EMC= 0.0000425 
++ GCO= 0 GCF= 0.0000349 
++ CGA=4.00E-12 CGK=4.00E-12 CAK=1.00E-12
+.ENDS
+
+**********************************************************************
+* GENERIC: SV572-10
+* MODEL:   SV57210
+* NOTES:   This model is not accurate for Vg >= +60V
+**********************************************************************
+.SUBCKT SV57210 A G K
+XV1 A G K TRIODENH
++PARAMS: LIP= 1.4 LIF= 0.0008 RAF= 0.001 RAS= 1 CDO= 0 
++ RAP=-0.00117 ERP= 1.38 
++ MU0= 10 MUR= 0.0001 EMC= 0.0000272 
++ GCO=-0.2 GCF= 0.0003 
++ CGA=5.00E-12 CGK=6.40E-12 CAK=1.00E-12
+.ENDS
+
+**********************************************************************
+* GENERIC: 5751
+* MODEL:   5751
+**********************************************************************
+.SUBCKT 5751 A G K
+XV1 A G K TRIODENH
++PARAMS: LIP= 1.5 LIF= 0.000016 RAF= 0.075772 RAS= 1 CDO=-0.53056 
++ RAP= 0.131285 ERP= 1.5 
++ MU0= 62.94685 MUR=-0.0111 EMC= 0.00000142 
++ GCO=-0.2 GCF= 0.00001 
++ CGA=1.40E-12 CGK=1.40E-12 CAK=4.50E-13
+.ENDS
+
+**********************************************************************
+* GENERIC: 12BH7A                                9/96, Rev. 1.0  (fp)
+* MODEL: 12BH7A
+* AUTHOR: Marshall Leach
+* NOTE: No grid current model
+**********************************************************************
+* This model is valid for the following tubes:
+* 12BH7A;
+* at the following conditions:
+*  Plate voltage  : 0..600V
+*  Grid voltage   : 0..-35V
+*  Cathode current: 0..50mA
+*
+*
+* Connections: Plate
+*              | Grid
+*              | | Cathode
+*              | | |
+.SUBCKT 12BH7A A G K
+E1  2  0  VALUE={V(A,K)+16.64*V(G,K)}
+R1  2  0  1.0K
+Gp  A  K  VALUE={22.34E-6*(PWR(V(2),1.5)+PWRS(V(2),1.5))/2}
+Cgk G  K  3.2P
+Cgp G  A  2.6P
+Cpk A  K  0.5P
+.ENDS
+
+**********************************************************************
+* This model is valid for the following tubes:
+* GL211, VT4C;
+* at the following conditions:
+*  Plate voltage  :  0..2200V (grid negative),
+*                   100..700V (grid positive) (1)
+*  Grid voltage   : +50..-180V (2)
+*  Cathode current: 0..200mA
+*
+* (1) Plate current decrease and grid current increase at low plate
+*     voltage are not modeled.
+* (2) Since no data was available, grid current modeling is only 
+*     approximate. Adjust Gg if required.
+*
+*
+* Connections: Plate
+*              | Grid
+*              | | Cathode
+*              | | |
+.SUBCKT GL211  A G K
+E1  2  0  VALUE={V(A,K)+12.11*V(G,K)}
+R1  2  0  1.0K
+Gp  A  K  VALUE={9.39E-6*(PWR(V(2),1.5)+PWRS(V(2),1.5))/2}
+Gg  G  K  VALUE={358E-6*(PWR(V(G,K),1.5)+PWRS(V(G,K),1.5))/2}
+Cgk G  K  6.0P
+Cga G  A  14.5P
+Cak A  K  5.5P
+.ENDS 
+
+********************************************************************** 
+* GENERIC: 845                               11/2005
+* MODEL: 845RCA                      
+* AUTHOR: Kevin Kennedy
+* INCLUDES GRID CURRENT MODEL
+**********************************************************************
+* This model is an approximation of 845 behavior based on 211GL model
+* by Marshall Leach?
+* Connections:  Plate
+*               | Grid
+*               | | Cathode
+*               | | |
+.SUBCKT 845RCA  A G K
+E1  2  0  VALUE={V(A,K)+5.355*V(G,K)}
+R1  2  0  1.0K
+Gp  A  K  VALUE={9.39E-6*(PWR(V(2),1.5)+PWRS(V(2),1.5))/2}
+D3  3  K DX     ; sleezy grid current model
+R2  G  3 {1.0K}  ; sleezy grid current model
+Cgk G  K  6.0P
+Cga G  A  13.5P
+Cak A  K  6.5P
+Rak A  K  1G
+Rgk G  K  1G
+.MODEL DX D(IS=1N RS=1)
+.ENDS
+
+************************************************************************
+* Andrei's tube models library 
+* 
+* Copyright (C) 2001 Andrei Frolov <andrei@phys.ualberta.ca>
+* Distributed under the terms of GNU Public License.
+* 
+* Based on the models and ideas of many people; see in particular
+*   - Norman Koren pages <http://www.normankoren.com/Audio/>
+*   - Duncan Munro pages <http://www.duncanamps.com>
+*   - Spice models survey by Stefano Perugini
+*       <http://digilander.iol.it/paeng/spice_models.htm>
+*   - Vacuum tube parameter identification by Mithat F. Konar
+*       <http://www.birotechnology.com/articles/VTspice.html>
+* 
+
+******************* Vacuum Diode Models ********************************
+
+* 3DG4  -  DH full-wave power rectifier (350mA)
+* Data from GE 3DG4 datasheet - traced on 10-11-01 by AF
+.subckt 3DG4  A K
+* Child-Langmuir law: mean fit error 3.52662 mA
+*   Bp  A K  I=(2.698962402m)*uramp(V(A,K))**1.5
+* Child-Langmuir law with contact potential: mean fit error 2.22284 mA
+    Bp  A K  I=(2.733421052m)*uramp(V(A,K)+(-0.3709046687))**1.5
+* Perugini model: mean fit error 2.21657 mA
+*   Bp  A K  I=((2.604459133m)+(-0.0005396471359m)*V(A,K))*uramp(V(A,K)+(-0.2400294538))**(1.514047938)
+.ends 3DG4
+
+
+* 5AR4  -  IDH full-wave power rectifier (250mA)
+* Data from GE 5AR4 datasheet - traced on 10-11-01 by AF
+.subckt 5AR4  A K
+* Child-Langmuir law: mean fit error 3.57654 mA
+*   Bp  A K  I=(3.241174316m)*uramp(V(A,K))**1.5
+* Child-Langmuir law with contact potential: mean fit error 3.48688 mA
+    Bp  A K  I=(3.257047182m)*uramp(V(A,K)+(-0.1046690061))**1.5
+* Perugini model: mean fit error 0.685736 mA
+*   Bp  A K  I=((1.801056955m)+(-0.009848868441m)*V(A,K))*uramp(V(A,K)+(0.5667044198))**(1.718422381)
+.ends 5AR4
+
+
+* GZ34  -  IDH full-wave power rectifier (250mA)
+* Data from Philips GZ34 datasheet - traced on 10-11-01 by AF
+.subckt GZ34  A K
+* Child-Langmuir law: mean fit error 5.32372 mA
+*   Bp  A K  I=(3.968200684m)*uramp(V(A,K))**1.5
+* Child-Langmuir law with contact potential: mean fit error 4.64243 mA
+    Bp  A K  I=(4.050621191m)*uramp(V(A,K)+(-0.3522660485))**1.5
+* Perugini model: mean fit error 1.81874 mA
+*   Bp  A K  I=((1.770910894m)+(-0.002635208504m)*V(A,K))*uramp(V(A,K)+(1.90184266))**(1.721344738)
+.ends GZ34
+
+
+* 5AU4  -  DH full-wave power rectifier (325mA)
+* Data from GE 5AU4 datasheet - traced on 10-11-01 by AF
+.subckt 5AU4  A K
+* Child-Langmuir law: mean fit error 2.91988 mA
+*   Bp  A K  I=(0.9904121399m)*uramp(V(A,K))**1.5
+* Child-Langmuir law with contact potential: mean fit error 2.03865 mA
+    Bp  A K  I=(1.001318345m)*uramp(V(A,K)+(-0.5914399553))**1.5
+* Perugini model: mean fit error 1.39243 mA
+*   Bp  A K  I=((1.243495938m)+(0.001247697537m)*V(A,K))*uramp(V(A,K)+(-0.8353102945))**(1.43333432)
+.ends 5AU4
+
+
+* 5V3  -  DH full-wave power rectifier (350mA)
+* Data from GE 5V3 datasheet - traced on 08-09-01 by AF
+.subckt 5V3  A K
+* Child-Langmuir law: mean fit error 4.98363 mA
+*   Bp  A K  I=(1.085098267m)*uramp(V(A,K))**1.5
+* Child-Langmuir law with contact potential: mean fit error 4.57773 mA
+    Bp  A K  I=(1.093537823m)*uramp(V(A,K)+(-0.4353512857))**1.5
+* Perugini model: mean fit error 2.33562 mA
+*   Bp  A K  I=((0.9707914136m)+(-0.0009299376857m)*V(A,K))*uramp(V(A,K)+(-1.077144669))**(1.549894427)
+.ends 5V3
+
+
+* 5U4  -  DH full-wave power rectifier (275mA)
+* Data from GE 5U4GB datasheet - traced on 08-09-01 by AF
+.subckt 5U4  A K
+* Child-Langmuir law: mean fit error 2.37547 mA
+*   Bp  A K  I=(0.7784729004m)*uramp(V(A,K))**1.5
+* Child-Langmuir law with contact potential: mean fit error 0.949764 mA
+    Bp  A K  I=(0.787802982m)*uramp(V(A,K)+(-0.6644060839))**1.5
+* Perugini model: mean fit error 0.844211 mA
+*   Bp  A K  I=((0.6623814366m)+(-0.0002767670064m)*V(A,K))*uramp(V(A,K)+(-0.07623613033))**(1.545073678)
+.ends 5U4
+
+
+* 5V4  -  IDH full-wave power rectifier (175mA)
+* Data from GE 5V4GA datasheet - traced on 09-09-01 by AF
+.subckt 5V4  A K
+* Child-Langmuir law: mean fit error 1.39637 mA
+*   Bp  A K  I=(1.393901825m)*uramp(V(A,K))**1.5
+* Child-Langmuir law with contact potential: mean fit error 1.20084 mA
+    Bp  A K  I=(1.404180087m)*uramp(V(A,K)+(-0.1877759095))**1.5
+* Perugini model: mean fit error 0.948085 mA
+*   Bp  A K  I=((1.324187528m)+(0.0007522446486m)*V(A,K))*uramp(V(A,K)+(0.1960102559))**(1.505493163)
+.ends 5V4
+
+
+* 5Y3  -  DH full-wave power rectifier (125mA)
+* Data from GE 5Y3GT datasheet - traced on 09-09-01 by AF
+.subckt 5Y3  A K
+* Child-Langmuir law: mean fit error 1.15597 mA
+*   Bp  A K  I=(0.3533050537m)*uramp(V(A,K))**1.5
+* Child-Langmuir law with contact potential: mean fit error 0.958542 mA
+    Bp  A K  I=(0.3560945008m)*uramp(V(A,K)+(-0.4420163009))**1.5
+* Perugini model: mean fit error 0.656689 mA
+*   Bp  A K  I=((0.3169037014m)+(5.675621737e-05m)*V(A,K))*uramp(V(A,K)+(0.6363978284))**(1.51803242)
+.ends 5Y3
+
+
+* 274B  -  DH full-wave power rectifier (225mA)
+* Data from WE 274B datasheet - traced on 30-09-01 by AF
+.subckt 274B  A K
+* Child-Langmuir law: mean fit error 1.17132 mA
+*   Bp  A K  I=(0.3503318812m)*uramp(V(A,K))**1.5
+* Child-Langmuir law with contact potential: mean fit error 0.983373 mA
+    Bp  A K  I=(0.3458749385m)*uramp(V(A,K)+(0.539276053))**1.5
+* Perugini model: mean fit error 0.393065 mA
+*   Bp  A K  I=((0.368828156m)+(-0.0003153165025m)*V(A,K))*uramp(V(A,K)+(-0.6317505224))**(1.505633947)
+.ends 274B
+
+
+* 6X5  -  IDH full-wave power rectifier (70mA)
+* Data from GE 6X5GT datasheet - traced on 09-09-01 by AF
+.subckt 6X5  A K
+* Child-Langmuir law: mean fit error 0.829063 mA
+*   Bp  A K  I=(0.6876983643m)*uramp(V(A,K))**1.5
+* Child-Langmuir law with contact potential: mean fit error 0.666578 mA
+    Bp  A K  I=(0.6965588691m)*uramp(V(A,K)+(-0.2713646197))**1.5
+* Perugini model: mean fit error 0.350721 mA
+*   Bp  A K  I=((0.3658726552m)+(-0.0008687929442m)*V(A,K))*uramp(V(A,K)+(1.384235957))**(1.683868589)
+.ends 6X5
+
+
+* 6X4  -  IDH full-wave miniature power rectifier (70mA) (this is essentially 6X5 in 7-pin base)
+* Data from GE 6X4 datasheet - traced on 09-09-01 by AF
+.subckt 6X4  A K
+* Child-Langmuir law: mean fit error 1.10646 mA
+*   Bp  A K  I=(0.6787719727m)*uramp(V(A,K))**1.5
+* Child-Langmuir law with contact potential: mean fit error 0.603786 mA
+    Bp  A K  I=(0.6955865558m)*uramp(V(A,K)+(-0.5138012527))**1.5
+* Perugini model: mean fit error 0.372965 mA
+*   Bp  A K  I=((0.4819803969m)+(-0.001701085314m)*V(A,K))*uramp(V(A,K)+(-0.06370839623))**(1.636154216)
+.ends 6X4
+
+
+* 6CA4  -  IDH full-wave miniature power rectifier (150mA)
+* Data from GE 6CA4 datasheet - traced on 13-03-02 by AF
+.subckt 6CA4  A K
+* Child-Langmuir law: mean fit error 0.585402 mA
+*   Bp  A K  I=(1.672480011m)*uramp(V(A,K))**1.5
+* Child-Langmuir law with contact potential: mean fit error 0.352346 mA
+    Bp  A K  I=(1.68085724m)*uramp(V(A,K)+(-0.1132675647))**1.5
+* Perugini model: mean fit error 0.349954 mA
+*   Bp  A K  I=((1.673471733m)+(-0.0001489801373m)*V(A,K))*uramp(V(A,K)+(-0.1167055168))**(1.502190772)
+.ends 6CA4
+
+
+* EZ81  -  IDH full-wave power rectifier (150mA)
+* Data from Philips EZ81 datasheet - traced on 10-11-01 by AF
+.subckt EZ81  A K
+* Child-Langmuir law: mean fit error 3.98557 mA
+*   Bp  A K  I=(1.703564453m)*uramp(V(A,K))**1.5
+* Child-Langmuir law with contact potential: mean fit error 3.06551 mA
+    Bp  A K  I=(1.616914135m)*uramp(V(A,K)+(0.8508860213))**1.5
+* Perugini model: mean fit error 1.36344 mA
+*   Bp  A K  I=((3.069306816m)+(0.1206292787m)*V(A,K))*uramp(V(A,K)+(1.116202179))**(1.087711051)
+.ends EZ81
+
+
+* EZ80  -  IDH full-wave power rectifier (90mA)
+* Data from Philips EZ80 datasheet - traced on 10-11-01 by AF
+.subckt EZ80  A K
+* Child-Langmuir law: mean fit error 1.07583 mA
+*   Bp  A K  I=(0.7265075684m)*uramp(V(A,K))**1.5
+* Child-Langmuir law with contact potential: mean fit error 0.805197 mA
+    Bp  A K  I=(0.7527537983m)*uramp(V(A,K)+(-0.553916594))**1.5
+* Perugini model: mean fit error 0.279904 mA
+*   Bp  A K  I=((0.08550573077m)+(-0.000848630625m)*V(A,K))*uramp(V(A,K)+(3.586198141))**(2.164324675)
+.ends EZ80
+
+
+
+******************* Vacuum Triode Models *******************************
+
+* 26  -  DH power amplifier low-mu Bp  A K  I=(m)*uramp(()*V(G,K)+V(A,K))**1.5 (filament: AC/DC 1.5V 1.05A)
+* From RCA 26 datasheet - traced on 28-11-01 by AF
+.subckt 26  A G K
+    Cgp G A  8.1p
+    Ci  G K  2.8p
+    Co  A K  2.5p
+* Child-Langmuir law: mean fit error 0.195637 mA
+*   Bp  A K  I=(0.01096792961m)*uramp((8.01146955)*V(G,K)+V(A,K))**1.5
+* Child-Langmuir law with contact potential: mean fit error 0.155271 mA
+*   Bp  A K  I=(0.01015450934m)*uramp((8.112832325)*V(G,K)+V(A,K)+(4.432553413))**1.5
+* Rydel model (4 parameters): mean fit error 0.122908 mA
+*   Bp  A K  I=((0.0107842298m)+(8.627435956e-05m)*V(G,K))*uramp((7.7878004)*V(G,K)+V(A,K)+(1.816064405))**1.5
+* Rydel model (5 parameters): mean fit error 0.122157 mA
+*   Bp  A K  I=((0.0107444659m)+(8.597805975e-05m)*V(G,K))*uramp((7.753423216)*V(G,K)+V(A,K)+(1.047159959))**1.5 * V(A,K)/(V(A,K)+(-1.566406691))
+* Koren model (4 parameters): mean fit error 0.0980838 mA
+*   Bp  A K  I=(0.01598648998m)*uramp(V(A,K)*ln(1.0+exp((11.34306022)+(11.34306022)*(8.229713305)*V(G,K)/V(A,K)))/(11.34306022))**(1.418284253)
+* Koren model (5 parameters): mean fit error 0.0894751 mA
+    Bp  A K  I=(0.01409182929m)*uramp(V(A,K)*ln(1.0+exp((10.7417044)+(10.7417044)*(8.264015369)*V(G,K)/sqrt((0.4130891165k)+V(A,K)**2)))/(10.7417044))**(1.446260172)
+* Modified Koren model (6 parameters): mean fit error 0.0939752 mA
+*   Bp  A K  I=(0.01544284649m)*uramp(V(A,K)*ln(1.0+(0.1798504701)+exp((11.67230465)+(11.67230465)*((8.151623032)+(-4.01015157m)*V(G,K))*V(G,K)/V(A,K)))/(11.67230465))**(1.425533218)
+* Modified Koren model (8 parameters): mean fit error 0.0913151 mA
+*   Bp  A K  I=(0.01460921873m)*uramp(V(A,K)*ln(1.0+(0.04739664922)+exp((10.67436405)+(10.67436405)*((8.270072402)+(-2.475361714m)*V(G,K))*V(G,K)/sqrt((1.135104222)**2+(V(A,K)-(-2.016161089))**2)))/(10.67436405))**(1.437995601)
+.ends 26
+
+
+* 30  -  DH low-mu Bp  A K  I=(m)*uramp(()*V(G,K)+V(A,K))**1.5 for battery powered amplifiers (filament: DC 2.0V 60mA)
+* From RCA 30 datasheet - traced on 17-11-01 by AF
+.subckt 30  A G K
+    Cgp G A  6.0p
+    Ci  G K  3.0p
+    Co  A K  2.1p
+* Child-Langmuir law: mean fit error 0.156788 mA
+*   Bp  A K  I=(0.00833043584m)*uramp((9.419983191)*V(G,K)+V(A,K))**1.5
+* Child-Langmuir law with contact potential: mean fit error 0.125115 mA
+*   Bp  A K  I=(0.008920617735m)*uramp((9.325266529)*V(G,K)+V(A,K)+(-4.347367289))**1.5
+* Rydel model (4 parameters): mean fit error 0.0998485 mA
+*   Bp  A K  I=((0.009329224392m)+(5.518063362e-05m)*V(G,K))*uramp((9.09982614)*V(G,K)+V(A,K)+(-6.302386745))**1.5
+* Rydel model (5 parameters): mean fit error 0.0998516 mA
+*   Bp  A K  I=((0.009341127626m)+(5.580307852e-05m)*V(G,K))*uramp((9.102118777)*V(G,K)+V(A,K)+(-6.209886474))**1.5 * V(A,K)/(V(A,K)+(0.2979850758))* Koren model (4 parameters): mean fit error 0.0821472 mA
+*   Bp  A K  I=(0.004809335611m)*uramp(V(A,K)*ln(1.0+exp((22.93020855)+(22.93020855)*(9.354375304)*V(G,K)/V(A,K)))/(22.93020855))**(1.62140495)
+* Koren model (5 parameters): mean fit error 0.0811884 mA
+*   Bp  A K  I=(0.005023043043m)*uramp(V(A,K)*ln(1.0+exp((23.24749852)+(23.24749852)*(9.349305398)*V(G,K)/sqrt((-0.1823630153k)+V(A,K)**2)))/(23.24749852))**(1.612295919)
+* Modified Koren model (6 parameters): mean fit error 0.0817216 mA
+*   Bp  A K  I=(0.004815300289m)*uramp(V(A,K)*ln(1.0+(1.273000886)+exp((33.75729989)+(33.75729989)*((9.3590051)+(0.5224315236m)*V(G,K))*V(G,K)/V(A,K)))/(33.75729989))**(1.621097037)
+* Modified Koren model (8 parameters): mean fit error 0.079354 mA
+    Bp  A K  I=(0.005172475599m)*uramp(V(A,K)*ln(1.0+(1.407577311)+exp((33.16170736)+(33.16170736)*((9.156903373)+(-3.598975834m)*V(G,K))*V(G,K)/sqrt((-2.710729473)**2+(V(A,K)-(3.305398267))**2)))/(33.16170736))**(1.605637741)
+.ends 30
+
+
+* 31  -  DH low-mu Bp  A K  I=(m)*uramp(()*V(G,K)+V(A,K))**1.5 for battery powered amplifiers (filament: DC 2.0V 130mA)
+* From RCA 31 datasheet - traced on 02-03-02 by AF
+.subckt 31  A G K
+    Cgp G A  5.7p
+    Ci  G K  3.5p
+    Co  A K  2.7p
+* Child-Langmuir law: mean fit error 0.320425 mA
+*   Bp  A K  I=(0.02205745359m)*uramp((3.713620315)*V(G,K)+V(A,K))**1.5
+* Child-Langmuir law with contact potential: mean fit error 0.3198 mA
+*   Bp  A K  I=(0.02193490101m)*uramp((3.718582542)*V(G,K)+V(A,K)+(0.3621299162))**1.5
+* Rydel model (4 parameters): mean fit error 0.258413 mA
+*   Bp  A K  I=((0.02297244575m)+(7.669016122e-05m)*V(G,K))*uramp((3.596397776)*V(G,K)+V(A,K)+(-1.535154948))**1.5
+* Rydel model (5 parameters): mean fit error 0.256474 mA
+*   Bp  A K  I=((0.02274375564m)+(7.178317248e-05m)*V(G,K))*uramp((3.58331856)*V(G,K)+V(A,K)+(-2.357893147))**1.5 * V(A,K)/(V(A,K)+(-2.351272025))
+* Koren model (4 parameters): mean fit error 0.178643 mA
+*   Bp  A K  I=(0.02248634239m)*uramp(V(A,K)*ln(1.0+exp((13.67121599)+(13.67121599)*(3.761581167)*V(G,K)/V(A,K)))/(13.67121599))**(1.498272615)
+* Koren model (5 parameters): mean fit error 0.177843 mA
+*   Bp  A K  I=(0.02183544564m)*uramp(V(A,K)*ln(1.0+exp((13.52584644)+(13.52584644)*(3.763053996)*V(G,K)/sqrt((0.07874039478k)+V(A,K)**2)))/(13.52584644))**(1.504601359)
+* Modified Koren model (6 parameters): mean fit error 0.177049 mA
+*   Bp  A K  I=(0.02197468413m)*uramp(V(A,K)*ln(1.0+(0.06249632572)+exp((13.3922719)+(13.3922719)*((3.740380532)+(-0.536083805m)*V(G,K))*V(G,K)/V(A,K)))/(13.3922719))**(1.502977886)
+* Modified Koren model (8 parameters): mean fit error 0.176862 mA
+    Bp  A K  I=(0.02191693259m)*uramp(V(A,K)*ln(1.0+(0.06082243839)+exp((13.18432356)+(13.18432356)*((3.722797448)+(-0.7716990319m)*V(G,K))*V(G,K)/sqrt((1.379436212)**2+(V(A,K)-(0.4628633254))**2)))/(13.18432356))**(1.503531954)
+.ends 31
+
+
+* 45  -  DH power amplifier low-mu Bp  A K  I=(m)*uramp(()*V(G,K)+V(A,K))**1.5 (filament: AC/DC 2.5V 1.5A)
+* From RCA 45 datasheet - traced on 14-09-01 by AF
+.subckt 45  A G K
+    Cgp G A  7p
+    Ci  G K  4p
+    Co  A K  3p
+* Child-Langmuir law: mean fit error 2.06376 mA
+*   Bp  A K  I=(0.0488684518m)*uramp((3.509343532)*V(G,K)+V(A,K))**1.5
+* Child-Langmuir law with contact potential: mean fit error 2.06117 mA
+*   Bp  A K  I=(0.04835502239m)*uramp((3.513909733)*V(G,K)+V(A,K)+(0.7892063672))**1.5
+* Rydel model (4 parameters): mean fit error 1.40809 mA
+*   Bp  A K  I=((0.05376826871m)+(0.0001916648848m)*V(G,K))*uramp((3.320205349)*V(G,K)+V(A,K)+(-4.961600649))**1.5
+* Rydel model (5 parameters): mean fit error 0.949805 mA
+*   Bp  A K  I=((0.05269056657m)+(0.000195164089m)*V(G,K))*uramp((3.212693778)*V(G,K)+V(A,K)+(-13.64600283))**1.5 * V(A,K)/(V(A,K)+(-17.85306702))
+* Koren model (4 parameters): mean fit error 0.765307 mA
+*   Bp  A K  I=(0.04304037475m)*uramp(V(A,K)*ln(1.0+exp((9.74958336)+(9.74958336)*(3.636165291)*V(G,K)/V(A,K)))/(9.74958336))**(1.536396574)
+* Koren model (5 parameters): mean fit error 0.752094 mA
+*   Bp  A K  I=(0.04764715494m)*uramp(V(A,K)*ln(1.0+exp((10.09894666)+(10.09894666)*(3.626004154)*V(G,K)/sqrt((-0.5254637603k)+V(A,K)**2)))/(10.09894666))**(1.5153646)
+* Modified Koren model (6 parameters): mean fit error 0.541812 mA
+*   Bp  A K  I=(0.04473683053m)*uramp(V(A,K)*ln(1.0+(-0.3996793934)+exp((5.957718469)+(5.957718469)*((3.736828867)+(0.2964601452m)*V(G,K))*V(G,K)/V(A,K)))/(5.957718469))**(1.530637425)
+* Modified Koren model (8 parameters): mean fit error 0.533436 mA
+    Bp  A K  I=(0.04693120729m)*uramp(V(A,K)*ln(1.0+(-0.3590534681)+exp((6.201064327)+(6.201064327)*((3.63174052)+(-0.2678404875m)*V(G,K))*V(G,K)/sqrt((-25.01388489)**2+(V(A,K)-(6.51046429))**2)))/(6.201064327))**(1.520587283)
+.ends 45
+
+
+* 50  -  DH power amplifier low-mu Bp  A K  I=(m)*uramp(()*V(G,K)+V(A,K))**1.5 (filament: AC/DC 7.5V 1.25A)
+* From RCA 50 datasheet - traced on 01-12-01 by AF
+.subckt 50  A G K
+    Cgp G A  7p
+    Ci  G K  4p
+    Co  A K  3p
+* Modified Koren model (8 parameters): mean fit error 0.424834 mA
+    Bp  A K  I=(0.02985357747m)*uramp(V(A,K)*ln(1.0+(-0.2997477035)+exp((4.332451325)+(4.332451325)*((3.982495368)+(-1.303809951m)*V(G,K))*V(G,K)/sqrt((-24.3339024)**2+(V(A,K)-(-12.06527109))**2)))/(4.332451325))**(1.503124389)
+.ends 50
+
+* 71a LTSpice model
+* Traced by Kevin Kennedy 4.14.07
+*.subckt 71a  A G K
+*    Bp  A K  I=(0.01920353249m)*uramp(V(A,K)*ln(1.0+(-0.5900909656)+exp((4.378369184)+(4.378369184)*((3.075663641)+(-0.4532604061m)*V(G,K))*V(G,K)/sqrt((-1.305099924e-006)**2+(V(A,K)-(4.436434761))**2)))/(4.378369184))**(1.723372081)
+*CGK  G K  3.2p
+*CGA  G A  7.5p
+*CAK  A K  2.9p
+*.ends 71a
+
+
+* 2A3  -  DH power amplifier low-mu 
+* Bp  A K  I=(m)*uramp(()*V(G,K)+V(A,K))**1.5 (filament: AC/DC 2.5V 2.5A)
+* From Sophia 2A3 curves - traced on 10-09-01 by AF
+.subckt 2A3  A G K
+    Cgp G A  16.5p
+    Ci  G K  7.5p
+    Co  A K  5.5p
+* Modified Koren model (8 parameters): mean fit error 0.713565 mA
+    Bp  A K  I=(0.05983183065m)*uramp(V(A,K)*ln(1.0+(0.1790338397)+exp((10.1638631)+(10.1638631)*((4.378046502)+(-0.8135260573m)*V(G,K))*V(G,K)/sqrt((22.08384793)**2+(V(A,K)-(5.999781127))**2)))/(10.1638631))**(1.624471999)
+.ends 2A3
+
+* 300B  -  DH power amplifier low-mu Bp  A K  I=(m)*uramp(()*V(G,K)+V(A,K))**1.5 (filament: AC/DC 5.0V 1.2A)
+* From Sophia 300B curves - traced on 10-09-01 by AF
+.subckt 300B  A G K
+    Cgp G A  15p
+    Ci  G K  9p
+    Co  A K  6p
+* Modified Koren model (8 parameters): mean fit error 1.41064 mA
+    Bp  A K  I=(0.05143122698m)*uramp(V(A,K)*ln(1.0+(0.01954381618)+exp((11.46252247)+(11.46252247)*((4.054938798)+(-0.3208929613m)*V(G,K))*V(G,K)/sqrt((-6.363874217)**2+(V(A,K)-(6.490912392))**2)))/(11.46252247))**(1.647386773)
+.ends 300B
+
+
+* 27  -  IDH low-mu Bp  A K  I=(m)*uramp(()*V(G,K)+V(A,K))**1.5 (filament: AC/DC 2.5V 1.75A)
+* From RCA 27 datasheet - traced on 18-11-01 by AF
+.subckt 27  A G K
+    Cgp G A  3.3p
+    Ci  G K  3.1p
+    Co  A K  2.3p
+* Modified Koren model (8 parameters): mean fit error 0.133025 mA
+    Bp  A K  I=(0.02768047288m)*uramp(V(A,K)*ln(1.0+(-0.1070210796)+exp((6.447302987)+(6.447302987)*((10.07483215)+(3.068480332m)*V(G,K))*V(G,K)/sqrt((1.788334266)**2+(V(A,K)-(-4.26940053))**2)))/(6.447302987))**(1.291347569)
+.ends 27
+
+
+* 37  -  IDH low-mu Bp  A K  I=(m)*uramp(()*V(G,K)+V(A,K))**1.5 (filament: AC/DC 6.3V 0.3A)
+* From RCA 37 datasheet - traced on 01-12-01 by AF
+.subckt 37  A G K
+    Cgp G A  2.0p
+    Ci  G K  3.5p
+    Co  A K  2.9p
+* Modified Koren model (8 parameters): mean fit error 0.103545 mA
+    Bp  A K  I=(0.01528313045m)*uramp(V(A,K)*ln(1.0+(-0.2301803988)+exp((4.272016705)+(4.272016705)*((10.03467655)+(-16.65231144m)*V(G,K))*V(G,K)/sqrt((1.145261203)**2+(V(A,K)-(-0.7789250343))**2)))/(4.272016705))**(1.419927855)
+.ends 37
+
+
+* 56  -  IDH medium-mu Bp  A K  I=(m)*uramp(()*V(G,K)+V(A,K))**1.5 (filament: AC/DC 2.5V 1.0A)
+* From RCA 56 datasheet - traced on 14-09-01 by AF
+.subckt 56  A G K
+    Cgp G A  3.2p
+    Ci  G K  3.2p
+    Co  A K  2.2p
+* Modified Koren model (8 parameters): mean fit error 0.116965 mA
+    Bp  A K  I=(0.03264440142m)*uramp(V(A,K)*ln(1.0+(-0.2318911854)+exp((2.972583084)+(2.972583084)*((17.91653026)+(-23.34529906m)*V(G,K))*V(G,K)/sqrt((-46.76877211)**2+(V(A,K)-(5.01736035))**2)))/(2.972583084))**(1.294432857)
+.ends 56
+
+
+* 6BL7  -  IDH medium-mu high-transconductance twin Bp  A K  I=(m)*uramp(()*V(G,K)+V(A,K))**1.5
+* From GE 6BL7GTA datasheet - traced on 20-01-04 by AF
+.subckt 6BL7  A G K
+    Cgp G A  6.0p
+    Ci  G K  4.2p
+    Co  A K  0.9p
+* Modified Koren model (8 parameters): mean fit error 1.06607 mA
+    Bp  A K  I=(0.03856973132m)*uramp(V(A,K)*ln(1.0+(-0.1992938724)+exp((3.801759293)+(3.801759293)*((18.28508246)+(-19.66343793m)*V(G,K))*V(G,K)/sqrt((-3.226832552)**2+(V(A,K)-(-8.297153353))**2)))/(3.801759293))**(1.474813799)
+.ends 6BL7
+
+
+* 6BX7  -  IDH medium-mu high-transconductance twin Bp  A K  I=(m)*uramp(()*V(G,K)+V(A,K))**1.5
+* From GE 6BX7GT datasheet - traced on 19-01-04 by AF
+.subckt 6BX7  A G K
+    Cgp G A  4.2p
+    Ci  G K  4.4p
+    Co  A K  1.1p
+* Modified Koren model (8 parameters): mean fit error 0.573819 mA
+    Bp  A K  I=(0.1001852541m)*uramp(V(A,K)*ln(1.0+(-0.1116255831)+exp((3.282351583)+(3.282351583)*((12.22538987)+(-24.13446294m)*V(G,K))*V(G,K)/sqrt((0.04128697397)**2+(V(A,K)-(-6.806029609))**2)))/(3.282351583))**(1.44441018)
+.ends 6BX7
+
+
+* 6DN7  -  IDH medium-mu dissimilar twin Bp  A K  I=(m)*uramp(()*V(G,K)+V(A,K))**1.5
+* From Sophia-traced 6DN7 curves - traced on 04-10-01 by AF
+.subckt 6DN7-1  A G K
+    Cgp G A  4.0p
+    Ci  G K  2.2p
+    Co  A K  0.7p
+* Modified Koren model (8 parameters): mean fit error 0.101344 mA
+    Bp  A K  I=(0.02750475409m)*uramp(V(A,K)*ln(1.0+(-0.2220541487)+exp((6.476133744)+(6.476133744)*((20.79769842)+(-57.47555304m)*V(G,K))*V(G,K)/sqrt((48.78025652)**2+(V(A,K)-(14.11317325))**2)))/(6.476133744))**(1.291448834)
+.ends 6DN7-1
+
+.subckt 6DN7-2  A G K
+    Cgp G A  5.5p
+    Ci  G K  4.6p
+    Co  A K  1.0p
+* Modified Koren model (8 parameters): mean fit error 0.218544 mA
+    Bp  A K  I=(0.4296657076m)*uramp(V(A,K)*ln(1.0+(-0.04427954871)+exp((5.572446012)+(5.572446012)*((19.67951777)+(9.426242747m)*V(G,K))*V(G,K)/sqrt((27.29499534)**2+(V(A,K)-(1.761721512))**2)))/(5.572446012))**(1.154878347)
+.ends 6DN7-2
+
+
+* 6SL7  -  IDH high-mu twin Bp  A K  I=(m)*uramp(()*V(G,K)+V(A,K))**1.5
+* From GE 6SL7GT datasheet - traced on 20-01-04 by AF
+.subckt 6SL7  A G K
+    Cgp G A  1.5p
+    Ci  G K  1.5p
+    Co  A K  2.0p
+* Modified Koren model (8 parameters): mean fit error 0.117865 mA
+    Bp  A K  I=(0.01380466354m)*uramp(V(A,K)*ln(1.0+(51.81670704)+exp((95.37196964)+(95.37196964)*((73.05738211)+(28.8846982m)*V(G,K))*V(G,K)/sqrt((-102.5665671)**2+(V(A,K)-(13.51097452))**2)))/(95.37196964))**(1.102291568)
+.ends 6SL7
+
+
+* 6SN7  -  IDH medium-mu twin Bp  A K  I=(m)*uramp(()*V(G,K)+V(A,K))**1.5
+* From GE 6SN7GTB datasheet - traced on 14-09-01 by AF
+.subckt 6SN7  A G K
+    Cgp G A  4.0p
+    Ci  G K  2.6p
+    Co  A K  0.7p
+* Modified Koren model (8 parameters): mean fit error 0.0848958 mA
+    Bp  A K  I=(0.02101361337m)*uramp(V(A,K)*ln(1.0+(-0.07065996889)+exp((4.906641927)+(4.906641927)*((21.00937615)+(-88.11984935m)*V(G,K))*V(G,K)/sqrt((26.83919821)**2+(V(A,K)-(5.377562838))**2)))/(4.906641927))**(1.370968473)
+.ends 6SN7
+
+
+* 6AS7  -  IDH series regulator low-mu twin Bp  A K  I=(m)*uramp(()*V(G,K)+V(A,K))**1.5
+* From GE 6AS7GA datasheet - traced on 10-09-01 by AF
+.subckt 6AS7  A G K
+    Cgp G A  7.5p
+    Ci  G K  6.5p
+    Co  A K  2.2p
+* Modified Koren model (8 parameters): mean fit error 1.96771 mA
+    Bp  A K  I=(0.6967207168m)*uramp(V(A,K)*ln(1.0+(-0.059653607)+exp((1.371974518)+(1.371974518)*((3.917503045)+(-1.187485898m)*V(G,K))*V(G,K)/sqrt((27.63478597)**2+(V(A,K)-(5.280479233))**2)))/(1.371974518))**(1.40468415)
+.ends 6AS7
+
+
+* 6080  -  IDH series regulator low-mu twin Bp  A K  I=(m)*uramp(()*V(G,K)+V(A,K))**1.5
+* From Philips 6080 datasheet - traced on 04-03-02 by AF
+.subckt 6080  A G K
+    Cgp G A  8.6p
+    Ci  G K  5.5p
+    Co  A K  2.5p
+* Modified Koren model (8 parameters): mean fit error 1.72968 mA
+    Bp  A K  I=(1.013415356m)*uramp(V(A,K)*ln(1.0+(-0.1045434407)+exp((2.33820774)+(2.33820774)*((3.093245565)+(0.7741425401m)*V(G,K))*V(G,K)/sqrt((31.33315623)**2+(V(A,K)-(2.56937953))**2)))/(2.33820774))**(1.343720741)
+.ends 6080
+
+
+* 6528  -  IDH series regulator medium-mu twin Bp  A K  I=(m)*uramp(()*V(G,K)+V(A,K))**1.5
+* From Tung-Sol 6528 datasheet - traced on 16-02-02 by AF
+.subckt 6528  A G K
+    Cgp G A  23.8p
+    Ci  G K  17.8p
+    Co  A K  2.9p
+* Modified Koren model (8 parameters): mean fit error 2.95928 mA
+    Bp  A K  I=(0.07700487m)*uramp(V(A,K)*ln(1.0+(-0.04391691508)+exp((0.7037640055)+(0.7037640055)*((24.75373624)+(-98.12452432m)*V(G,K))*V(G,K)/sqrt((-55.26509284)**2+(V(A,K)-(16.71401283))**2)))/(0.7037640055))**(1.70779373)
+.ends 6528
+
+
+* PCC88  -  IDH miniature medium-mu twin Bp  A K  I=(m)*uramp(()*V(G,K)+V(A,K))**1.5
+* From Philips PCC88 datasheet - traced on 24-09-01 by AF
+.subckt PCC88  A G K
+    Cgp G A  1.4p
+    Ci  G K  3.3p
+    Co  A K  1.6p
+* Modified Koren model (8 parameters): mean fit error 0.273457 mA
+    Bp  A K  I=(0.1335049812m)*uramp(V(A,K)*ln(1.0+(-0.3367128428)+exp((3.657574105)+(3.657574105)*((35.48852061)+(126.3451973m)*V(G,K))*V(G,K)/sqrt((-39.98678744)**2+(V(A,K)-(7.419251803))**2)))/(3.657574105))**(1.228826256)
+.ends PCC88
+
+
+* 5687  -  IDH miniature medium-mu twin Bp  A K  I=(m)*uramp(()*V(G,K)+V(A,K))**1.5
+* From Tung-Sol 5687WA datasheet - traced on 15-09-01 by AF
+.subckt 5687  A G K
+    Cgp G A  4.0p
+    Ci  G K  4.0p
+    Co  A K  0.6p
+* Modified Koren model (8 parameters): mean fit error 0.422772 mA
+    Bp  A K  I=(0.1062048913m)*uramp(V(A,K)*ln(1.0+(-0.08376672351)+exp((5.320950072)+(5.320950072)*((18.71915642)+(-57.02614917m)*V(G,K))*V(G,K)/sqrt((-13.02807802)**2+(V(A,K)-(-5.161266515))**2)))/(5.320950072))**(1.314629816)
+.ends 5687
+
+* 417A  -  IDH miniature high-transconductance Bp  A K  I=(m)*uramp(()*V(G,K)+V(A,K))**1.5
+* From WE 417A datasheet - traced on 24-03-02 by AF
+.subckt 417A  A G K
+    Cgp G A  1.8p
+    Ci  G K  9.0p
+    Co  A K  0.48p
+* Rydel model (5 parameters): mean fit error 0.715424 mA
+    Bp  A K  I=((0.04397804941m)+(0.0004788562076m)*V(G,K))*uramp((44.70378652)*V(G,K)+V(A,K)+(-16.75625382))**1.5 * V(A,K)/(V(A,K)+(-3.201396831))
+ .ends 417A
+
+* 437A  -  IDH miniature high-transconductance Bp  A K  I=(m)*uramp(()*V(G,K)+V(A,K))**1.5
+* From WE 437A datasheet - traced on 24-03-02 by AF
+.subckt 437A  A G K
+    Cgp G A  3.8p
+    Ci  G K  11.1p
+    Co  A K  1.0p
+* Modified Koren model (8 parameters): mean fit error 2.03357 mA
+    Bp  A K  I=(0.04441361464m)*uramp(V(A,K)*ln(1.0+(-0.08216925584)+exp((6.905076822)+(6.905076822)*((41.36290447)+(-1039.217009m)*V(G,K))*V(G,K)/sqrt((-36.83706712)**2+(V(A,K)-(10.98747878))**2)))/(6.905076822))**(1.639335869)
+.ends 437A
+
+* 6N30P  -  IDH miniature medium-mu twin Bp  A K  I=(m)*uramp(()*V(G,K)+V(A,K))**1.5
+* From Russian 6N30P-DR datasheet - traced on 01-06-03 by AF
+.subckt 6N30P  A G K
+    Cgp G A  6.0p
+    Ci  G K  6.3p
+    Co  A K  2.5p
+* Child-Langmuir law: mean fit error 2.93248 mA
+*   Bp  A K  I=(0.1123489159m)*uramp((13.36198915)*V(G,K)+V(A,K))**1.5
+* Child-Langmuir law with contact potential: mean fit error 1.87276 mA
+*   Bp  A K  I=(0.0847666581m)*uramp((13.85095034)*V(G,K)+V(A,K)+(11.68305953))**1.5
+* Rydel model (4 parameters): mean fit error 1.44731 mA
+*   Bp  A K  I=((0.09848349384m)+(0.003081759558m)*V(G,K))*uramp((12.70183241)*V(G,K)+V(A,K)+(6.557579467))**1.5
+* Rydel model (5 parameters): mean fit error 1.37595 mA
+*   Bp  A K  I=((0.1001846991m)+(0.003558003103m)*V(G,K))*uramp((12.20966604)*V(G,K)+V(A,K)+(2.264302554))**1.5 * V(A,K)/(V(A,K)+(-5.687380257))
+* Koren model (4 parameters): mean fit error 1.21795 mA
+*   Bp  A K  I=(0.4606164529m)*uramp(V(A,K)*ln(1.0+exp((8.001816511)+(8.001816511)*(14.7053196)*V(G,K)/V(A,K)))/(8.001816511))**(1.165166318)
+* Koren model (5 parameters): mean fit error 1.18175 mA
+*   Bp  A K  I=(0.3753493089m)*uramp(V(A,K)*ln(1.0+exp((7.67822196)+(7.67822196)*(14.73390811)*V(G,K)/sqrt((0.2652917492k)+V(A,K)**2)))/(7.67822196))**(1.214591545)
+* Modified Koren model (6 parameters): mean fit error 1.12223 mA
+*   Bp  A K  I=(0.3625633946m)*uramp(V(A,K)*ln(1.0+(-0.01211335454)+exp((6.143364596)+(6.143364596)*((14.35328398)+(-77.5206308m)*V(G,K))*V(G,K)/V(A,K)))/(6.143364596))**(1.223500857)
+* Modified Koren model (8 parameters): mean fit error 1.06688 mA
+    Bp  A K  I=(0.391133693m)*uramp(V(A,K)*ln(1.0+(-0.0187352739)+exp((5.147858602)+(5.147858602)*((12.74287762)+(-184.3951189m)*V(G,K))*V(G,K)/sqrt((23.72646407)**2+(V(A,K)-(13.80558026))**2)))/(5.147858602))**(1.205889167)
+.ends 6N30P
+
+* 6111  -  IDH subminiature medium-mu twin Bp  A K  I=(m)*uramp(()*V(G,K)+V(A,K))**1.5
+* From GE 6111 datasheet - traced on 19-01-04 by AF
+.subckt 6111  A G K
+    Cgp G A  1.5p
+    Ci  G K  1.9p
+    Co  A K  0.32p
+* Modified Koren model (8 parameters): mean fit error 0.208862 mA
+    Bp  A K  I=(0.02000086941m)*uramp(V(A,K)*ln(1.0+(-0.1463304601)+exp((5.003505156)+(5.003505156)*((22.88422754)+(-16.27271637m)*V(G,K))*V(G,K)/sqrt((6.420335745)**2+(V(A,K)-(3.377765038))**2)))/(5.003505156))**(1.495649375)
+.ends 6111
+
+* 6021 submini twin triode mu=35
+.SUBCKT 6021 A G K
+Bp  A K  I=(0.007237439803e-3)*uramp(V(A,K)*ln(1.0+(0.02398363722)+exp((2.884836093)+(2.884836093)*((42.12840035)+(-332.3837771e-3)*V(G,K))*V(G,K)/sqrt((3.013312381e-006)**2+(V(A,K)-(-10.83109222))**2)))/(2.884836093))**(1.626318011)
+CAK  A K  0.28p
+CGK  G K  0.7p
+CGA  G A  1.5p
+.ends 6021
+
+* 5744 LTSpice model
+.subckt 5744  A G K
+    Bp  A K  I=((0.004400033102m)+(0.0005981672849m)*V(G,K))*uramp((53.41879747)*V(G,K)+V(A,K)+(-17.32853498))**1.5 * V(A,K)/(V(A,K)+(-19.03861576))
+CGK  G K  3.4p
+CGA  G A  0.95p
+CAK  A K  3.0p
+.ends 5744
+
+
+** GM70 ************************************************************
+* Created on Sun Nov 13 19:04:11 EST 2011 using tube.model.finder.PaintKIT
+* Kevin Kennedy
+*--------------------------------------------------
+.SUBCKT GM70 1 2 3 ; P G K ;
++ PARAMS: MU=7.644 EX=1.274 KG1=1455.0 KP=135.0 KVB=24.75 VCT=0.2320 
+* Vp_MAX=2000.0 Ip_MAX=0.3 Vg_step=20.0
+*--------------------------------------------------
+E1 7 0 VALUE={V(1,3)/KP*LOG(1+EXP(KP*(1/MU+(VCT+V(2,3))/SQRT(KVB+V(1,3)*V(1,3)))))}
+RE1 7 0 1E9
+G1 1 3 VALUE={(PWR(V(7),EX)+PWRS(V(7),EX))/KG1}
+RCP 1 3 1E9 ; TO AVOID FLOATING NODES
+CCG 2 3 8p ; CATHODE-GRID
+CGP 2 1 12p ; GRID=PLATE
+CCP 1 3 4p ; CATHODE-PLATE
+D3 5 3 DX ; FOR GRID CURRENT
+RGI 2 5  2000 ; FOR GRID CURRENT
+.MODEL DX D(IS=1N RS=1 CJO=10PF TT=1N)
+.ENDS GM70
+
+
+** 6S19P ************************************************************
+* Created on Mon Nov 14 22:57:01 EST 2011 using tube.model.finder.PaintKIT
+* Traced by Kevin Kennedy
+*--------------------------------------------------
+.SUBCKT 6S19P 1 2 3 ; P G K ;
++ PARAMS: CCG=6.5P  CGP=8P CCP=2.5P RGI=2000
++ MU=2.3520 EX=1.526 KG1=2235.0 KP=19.5 KVB=1.875 VCT=0.0280
+* Vp_MAX=380.0 Ip_MAX=0.15 Vg_step=20.0
+*--------------------------------------------------
+E1 7 0 VALUE={V(1,3)/KP*LOG(1+EXP(KP*(1/MU+(VCT+V(2,3))/SQRT(KVB+V(1,3)*V(1,3)))))}
+RE1 7 0 1G
+G1 1 3 VALUE={(PWR(V(7),EX)+PWRS(V(7),EX))/KG1}
+RCP 1 3 1G   ; TO AVOID FLOATING NODES
+C1 2 3 {CCG} ; CATHODE-GRID
+C2 2 1 {CGP} ; GRID=PLATE
+C3 1 3 {CCP} ; CATHODE-PLATE
+D3 5 3 DX ; FOR GRID CURRENT
+R1 2 5 {RGI} ; FOR GRID CURRENT
+.MODEL DX D(IS=1N RS=1 CJO=10PF TT=1N)
+.ENDS 6S19P
+
+.SUBCKT 6S3P-EV 1 2 3 ; P G K (Triode) 21-Sep-2007 by oleg_s;
++ PARAMS: CCG=6.7P CGP=2.4P CCP=1.65P RGI=1000
++ MU=50.05 EX=2.73 KG1=520.29 KP=1378.63
++ KVB=1378.63 VCT=0.00 
+E1 7 0 VALUE={V(1,3)/KP*LN(1+EXP(KP*(1/MU+(V(2,3)+VCT)/SQRT(KVB+V(1,3)*V(1,3)))))}
+RE1 7 0 1G
+G1 1 3 VALUE={(PWR(V(7),EX)+PWRS(V(7),EX))/KG1}
+RCP 1 3 1G ; TO AVOID FLOATING NODES 
+C1 2 3 {CCG} ; CATHODE-GRID;
+C2 2 1 {CGP} ; GRID-PLATE;
+C3 1 3 {CCP} ; CATHODE-PLATE;
+D3 5 3 DX ; FOR GRID CURRENT
+R1 2 5 {RGI} ; FOR GRID CURRENT
+.MODEL DX D(IS=1N RS=1 CJO=10PF TT=1N)
+.ENDS 6S3P-EV
+
+.SUBCKT 6BQ5 1 2 3 4 ; P S G C (Pentode) ; PENTODE SECTION
+ X1 1 2 3 4 PENTODE1 MU=20.57 EX=1.26 KG1=806.1 KP=221.30 KVB=28.2 KG2=200.0 VCT=0.00 RGI=2000 CCG=6.2p CPG1=0.5p CCP=6p
+ +I0=0.637 S=33.79 Up=0.004035 Us=0.092298 Ug=1.813040 es=1.430;
+.ENDS  
+
+*-----------------------------------------------------------------------
+* Filename:             6ca7.inc  V2 12/10/97
+* Simulator:            PSpice
+* Device type:          Power pentode
+* Device model:         6CA7/EL34
+*
+* Author:               Duncan Munro
+* Date:                 2/5/97
+* Copyright:            (C)1997-2000 Duncan Amplification
+*
+*
+* V2 [12/10/97]: Screen current limited to prevent screen current
+*                draw at Vs = 0.
+* 
+* The following parameters are not modelled:
+*
+*   (1) Heater
+*   (2) Grid current is an approximation
+*
+* Please note that this model is provided "as is" and
+* no warranty is provided in respect of its suitability
+* for any application.
+*
+* This model is provided for educational and non-profit use.
+*
+* Email queries to duncan@muffy.demon.co.uk
+*
+* Pins   A  Anode
+*        S  Screen
+*        G  Grid
+*        K  Cathode
+*
+*-----------------------------------------------------------------------
+
+.SUBCKT 6CA7 A S G K
+*
+* Calculate contribution to cathode current
+*
+Eat     at      0       VALUE={0.636*ATAN(V(A,K)/23)}
+Egs     gs      0       VALUE={LIMIT{V(S,K)/9.3+V(G,K)*0.95,0,1E6}}
+Egs2    gs2     0       VALUE={PWRS(V(gs),1.5)}
+Ecath   cc      0       VALUE={V(gs2)*V(at)}
+*
+* Calculate anode current
+*
+Ga      A       K       VALUE={1.86E-3*V(cc)}
+*
+* Calculate screen current
+*
+Escrn   sc      0       VALUE={V(gs2)*(1.1-V(at))}
+Gs      S       K       VALUE={1.518E-3*V(sc)*LIMIT{V(S,K),0,10}/10}
+*
+* Grid current (approximation - does not model low va/vs)
+*
+Gg      G       K       VALUE={PWR(LIMIT{V(G,K)+1,0,1E6},1.5)*50E-6}
+*
+* Capacitances
+*
+Cg1     G       K       15.4p
+Cak     A       K       8.4p
+Cg1a    G       A       1.1p
+
+.ENDS 6CA7
+
+**********************************************************************
+* Filename:             dm6L6.inc  V2 12/10/97
+* Simulator:            PSpice
+* Device type:          Power beam tetrode
+* Device model:         6L6 (and variants)
+*
+* Author:               Duncan Munro
+* Date:                 4/6/97
+* Copyright:            (C)1997-2000 Duncan Amplification
+*
+* V2 [12/10/97]: Screen current limited to prevent screen current
+*                draw at Vs = 0.
+* 
+* The following parameters are not modelled:
+*
+*   (1) Heater
+*   (2) Grid current is an approximation
+*
+* Please note that this model is provided "as is" and
+* no warranty is provided in respect of its suitability
+* for any application.
+*
+* This model is provided for educational and non-profit use.
+*
+* Email queries to postmaster@duncanamps.com
+*
+* Pins   A  Anode
+*        S  Screen
+*        G  Grid
+*        K  Cathode
+*
+*
+**********************************************************************
+.SUBCKT 6L6 A S G K
+*
+* Calculate contribution to cathode current
+*
+Eat     at      0       VALUE={0.636*ATAN(V(A,K)/5)}
+Eme     me      0       VALUE={PWR(LIMIT{V(A,K),0,2000},1.5)/1750}
+Emu     mu      0       VALUE={PWRS(V(G,K),1-(LIMIT{-V(G,K),30,9999}-30)/2000)}
+Egs     gs      0       VALUE={LIMIT{V(A,K)/2.5+V(S,K)*15.15+V(mu)*134,0,1E6}}
+Egs2    gs2     0       VALUE={PWRS(V(gs),1.5)*0.8E-6}
+Ecath   cc      0       VALUE={LIMIT{V(gs2)*V(at),0,V(me)}}
+*
+* Calculate anode current
+*
+Ga      A       K       VALUE={V(cc)}
+*
+* Calculate screen current
+*
+Escrn   sc      0       VALUE={0.76*V(gs2)*(1.1-V(at))}
+Gs1      S       K       VALUE={V(sc)*LIMIT{V(S,K),0,10}/10}
+*
+* Grid current
+*
+Gg      G       K       VALUE={PWR(LIMIT{V(G,K)+1,0,1E6},1.5)*(1.25-V(at))*650E-6}
+*
+* Capacitances
+*
+Cg1     G       K       5.0p
+Cgs     G       S       5.0p
+Cak     A       K       6.5p
+Cg1a    G       A       0.6p
+
+.ENDS 6L6
+*-----------------------------------------------------------------------
+* Filename:             dm6v6.inc  V2 12/10/97
+* Simulator:            PSpice
+* Device type:          Power beam tetrode
+* Device model:         6V6GT
+*
+* Author:               Duncan Munro
+* Date:                 4/5/97
+* Copyright:            (C)1997-2000 Duncan Amplification
+*
+*
+* V2 [12/10/97]: Screen current limited to prevent screen current
+*                draw at Vs = 0.
+* 
+* The following parameters are not modelled:
+*
+*   (1) Heater
+*   (2) Grid current is an approximation
+*
+* Please note that this model is provided "as is" and
+* no warranty is provided in respect of its suitability
+* for any application.
+*
+* This model is provided for educational and non-profit use.
+*
+* Email queries to postmaster@duncanamps.com
+*
+* Pins   A  Anode
+*        S  Screen
+*        G  Grid
+*        K  Cathode
+*
+*-----------------------------------------------------------------------
+
+.SUBCKT 6V6 A S G K
+*
+* Calculate contribution to cathode current
+*
+Eat     at      0       VALUE={0.636*ATAN(V(A,K)/10)}
+Eme     me      0       VALUE={PWR(LIMIT{V(A,K),0,2000},1.5)/1300}
+Egs     gs      0       VALUE={LIMIT{V(A,K)/600+V(S,K)/14+V(G,K)*0.65,0,1E6}}
+Egs2    gs2     0       VALUE={PWRS(V(gs),1.5)*1.45E-3}
+Ecath   cc      0       VALUE={LIMIT{V(gs2)*V(at),0,V(me)}}
+*
+* Calculate anode current
+*
+Ga      A       K       VALUE={V(cc)}
+*
+* Calculate screen current
+*
+Escrn   sc      0       VALUE={0.7*V(gs2)*(1.1-V(at))}
+Gs      S       K       VALUE={V(sc)*LIMIT{V(S,K),0,10}/10}
+*
+* Grid current
+*
+Gg      G       K       VALUE={PWR(LIMIT{V(G,K)+1,0,1E6},1.5)*(1.25-V(at))*650E-6}
+*
+* Capacitances
+*
+Cg1     G       K       7.5p
+Cak     A       K       9p
+Cg1a    G       A       0.7p
+
+.ENDS 6V6
+
+**********************************************************************
+* From Norman Koren, modified by Kevin Kennedy to work with LTspice 2008.12.04
+
+.SUBCKT 6550 1 4 2 3 ;  A S G K (PENTODE)
+*.SUBCKT 6550 1 2 3 4 ; P G1 C G2 (PENTODE)
++ PARAMS: MU=7.9 EX=1.35 KG1=890 KG2=4200 KP=60 KVB=24
++ CCG=14P CPG1=.85P CCP=12P RGI=1K
+RE1 7 0 1MEG ; DUMMY SO NODE 7 HAS 2 CONNECTIONS
+E1 7 0 VALUE= ; E1 BREAKS UP LONG EQUATION FOR G1.
++{V(4,3)/KP*LOG(1+EXP((1/MU+V(2,3)/V(4,3))*KP))}
+G1 1 3 VALUE={(PWR(V(7),EX)+PWRS(V(7),EX))/KG1*ATAN(V(1,3)/KVB)}
+G2 4 3 VALUE={(EXP(EX*(LOG((V(4,3)/MU)+V(2,3)))))/KG2}
+RCP 1 3 1G ; FOR CONVERGENCE
+C1 2 3 {CCG} ; CATHODE-GRID 1
+C2 1 2 {CPG1} ; GRID 1-PLATE
+C3 1 3 {CCP} ; CATHODE-PLATE
+R1 2 5 {RGI} ; FOR GRID CURRENT
+D3 5 3 DX ; FOR GRID CURRENT
+.MODEL DX D(IS=1N RS=1 CJO=10PF TT=1N)
+.ENDS 6550
+
+**********************************************************************
+* Filename:             EF86.inc  17/5/97 (Version 3)
+* Simulator:            PSpice
+* Device type:          Pentode
+* Device model:         EF86
+*
+* Author:               Duncan Munro
+* Date:                 16/5/97
+* Copyright:            (C)1997-2000 Duncan Amplification
+* 
+* The following parameters are not modelled:
+*
+*   (1) Heater
+*   (2) Grid current
+*
+* Please note that this model is provided "as is" and
+* no warranty is provided in respect of its suitability
+* for any application.
+*
+* This model is provided for educational and non-profit use.
+*
+* Email queries to postmaster@duncanamps.com
+*
+* Pins   A  Anode
+*        S  Screen
+*        G  Grid
+*        K  Cathode
+*
+*-----------------------------------------------------------------------
+
+.SUBCKT EF86 A S G K
+
+*
+* Calculate reduction in mu when Vg < -3V
+*
+Emu     mu      0       VALUE={LIMIT{V(G,K),-3,999}+LIMIT{V(G,K)+3,-999,0}*0.714}
+*
+* Calculate contribution to cathode current
+*
+Eat     at      0       VALUE={0.636*ATAN(V(A,K)/15)}
+Egs     gs      0       VALUE={LIMIT{V(S,K)/27.5+V(mu)*1.32+1,0,1E6}}
+Egs2    gs2     0       VALUE={PWRS(V(gs),1.5)}
+Ecath   cc      0       VALUE={V(gs2)*V(at)}
+*
+* Calculate anode current
+*
+Ga      A       K       VALUE={5.83E-4*V(cc)}
+*
+* Calculate screen current
+*
+Escrn   sc      0       VALUE={V(gs2)*(1.1-V(at))}
+Gs      S       K       VALUE={0.5E-3*V(sc)}
+*
+* Capacitances
+*
+Cg1     G       K       3.8p
+Cak     A       K       5.3p
+Cg1a    G       A       0.05p
+
+.ENDS EF86
+*.AC DEC 25 1e+006 1e+008
+*.TRAN 2e-008 1e-006 0 
+*.TEMP 27
+
+
+** C3GP ************************************************************
+* Created on Wed Dec 06 23:13:07 EST 2006 using tube.model.finder.PaintKIP
+* Kevin Kennedy
+
+.SUBCKT C3GP A S G K
++ PARAMS:  
++ MU=40.0159 EX=1.5679 KG1=270.0 KG2=0.9558 KP=60.0 KVB=30.0 ; Vp_MAX=370.0 Ip_MAX=0.05 Vg_step=0.5 EG2=93.0 UL=0.0
+*
+*--------------------------------------------------
+RE1  7 0  1MEG    ; DUMMY SO NODE 7 HAS 2 CONNECTIONS
+E1   7 0  VALUE=  ; E1 BREAKS UP LONG EQUATION FOR G1.
++{V(S,K)/KP*LOG(1+EXP((1/MU+V(G,K)/V(S,K))*KP))}
+G1   A K  VALUE={(PWR(V(7),EX)+PWRS(V(7),EX))/KG1*ATAN(V(A,K)/KVB)}
+G2   S K  VALUE={(EXP(EX*(LOG((V(S,K)/MU)+V(G,K)))))/KG2}
+RCP  A K  1G      ; FOR CONVERGENCE
+C1   G K  5.5P    ; CATHODE TO GRID 
+C2   A 2  0.012P  ; GRID TO PLATE
+C3   A K  2.008P  ; CATHODE AND SUPPRESSOR TO PLATE
+C4   S G  2.7P    ; SCREEN TO PLATE
+R1   G 5  2E3     ; FOR GRID CURRENT
+D3   5 K  DX      ; FOR GRID CURRENT
+.MODEL DX D(IS=1N RS=1 CJO=10PF TT=1N)
+.ENDS C3GP
+
+
+** D3AP ************************************************************
+* Created on Wed Dec 06 23:13:07 EST 2006 using tube.model.finder.PaintKIP
+* Kevin Kennedy
+
+*--------------------------------------------------
+.SUBCKT D3AP A S G K
++ PARAMS:  
++ MU=77.0799 EX=2.94 KG1=1220.0 KG2=56.25 KP=141.6 KVB=6.0 ; Vp_MAX=375.0 Ip_MAX=0.1 Vg_step=0.25 EG2=225.0 UL=0.0
+*
+*--------------------------------------------------
+RE1  7 0  1MEG    ; DUMMY SO NODE 7 HAS 2 CONNECTIONS
+E1   7 0  VALUE=  ; E1 BREAKS UP LONG EQUATION FOR G1.
++{V(S,K)/KP*LOG(1+EXP((1/MU+V(G,K)/V(S,K))*KP))}
+G1   A K  VALUE={(PWR(V(7),EX)+PWRS(V(7),EX))/KG1*ATAN(V(A,K)/KVB)}
+G2   S K  VALUE={(EXP(EX*(LOG((V(S,K)/MU)+V(G,K)))))/KG2}
+RCP  A K  1G      ; FOR CONVERGENCE
+C1   G K  5.5P    ; CATHODE TO GRID 
+C2   A 2  0.012P  ; GRID TO PLATE
+C3   A K  2.008P  ; CATHODE AND SUPPRESSOR TO PLATE
+C4   S G  2.7P    ; SCREEN TO PLATE
+R1   G 5  2E3     ; FOR GRID CURRENT
+D3   5 K  DX      ; FOR GRID CURRENT
+.MODEL DX D(IS=1N RS=1 CJO=10PF TT=1N)
+.ENDS D3AP
+
+
+*
+* Generic triode model: EC86
+* Copyright 2003--2008 by Ayumi Nakabayashi, All rights reserved.
+* Version 3.10, Generated on Sat Mar  8 22:42:35 2008
+*            Plate
+*            | Grid
+*            | | Cathode
+*            | | |
+.SUBCKT EC86 A G K
+BGG   GG   0 V=V(G,K)+0.22760069
+BM1   M1   0 V=(0.0026112468*(URAMP(V(A,K))+1e-10))**-0.29355976
+BM2   M2   0 V=(0.83632563*(URAMP(V(GG)+URAMP(V(A,K))/62.680543)+1e-10))**1.7935598
+BP    P    0 V=0.0095464624*(URAMP(V(GG)+URAMP(V(A,K))/74.947533)+1e-10)**1.5
+BIK   IK   0 V=U(V(GG))*V(P)+(1-U(V(GG)))*0.0059140675*V(M1)*V(M2)
+BIG   IG   0 V=0.0047732312*URAMP(V(G,K))**1.5*(URAMP(V(G,K))/(URAMP(V(A,K))+URAMP(V(G,K)))*1.2+0.4)
+BIAK  A    K I=URAMP(V(IK,IG)-URAMP(V(IK,IG)-(0.00496493*URAMP(V(A,K))**1.5)))+1e-10*V(A,K)
+BIGK  G    K I=V(IG)
+* CAPS
+CGA   G    A 2.2p
+CGK   G    K 3.5p
+CAK   A    K 0.2p
+.ENDS
+
+* Generic triode model: 9002
+* Copyright 2003--2008 by Ayumi Nakabayashi, All rights reserved.
+* Version 3.10, Generated on Sat Mar  8 22:42:28 2008
+*            Plate
+*            | Grid
+*            | | Cathode
+*            | | |
+.SUBCKT 9002 A G K
+BGG   GG   0 V=V(G,K)+0.90658712
+BM1   M1   0 V=(0.01433184*(URAMP(V(A,K))+1e-10))**-0.61356953
+BM2   M2   0 V=(0.70969986*(URAMP(V(GG)+URAMP(V(A,K))/20.255608)+1e-10))**2.1135695
+BP    P    0 V=0.00098929697*(URAMP(V(GG)+URAMP(V(A,K))/28.541091)+1e-10)**1.5
+BIK   IK   0 V=U(V(GG))*V(P)+(1-U(V(GG)))*0.00057163937*V(M1)*V(M2)
+BIG   IG   0 V=0.00049464849*URAMP(V(G,K))**1.5*(URAMP(V(G,K))/(URAMP(V(A,K))+URAMP(V(G,K)))*1.2+0.4)
+BIAK  A    K I=URAMP(V(IK,IG)-URAMP(V(IK,IG)-(0.00054709459*URAMP(V(A,K))**1.5)))+1e-10*V(A,K)
+BIGK  G    K I=V(IG)
+* CAPS
+CGA   G    A 1.4p
+CGK   G    K 1.2p
+CAK   A    K 1.1p
+.ENDS
+
+* Generic triode model: 6N3P
+* Copyright 2003--2008 by Ayumi Nakabayashi, All rights reserved.
+* Version 3.10, Generated on Thu Jun 11 18:27:43 2009
+*            Plate
+*            | Grid
+*            | | Cathode
+*            | | |
+.SUBCKT 6N3P A G K
+.PARAM X1=-0.069189567 X2=0.019068965 X3=-1.2621392
+.PARAM X4=0.54305736 X5=23.962635 X6=2.7621392
+.PARAM X7=0.0034531579 X8=44.125422 X9=0.0027770019
+.PARAM Y1=0.001726579 Y2=0.0018446282
+BK IK 0 V=U(V(G,K)+X1)*X7*URAMP(V(G,K)+X1+URAMP(V(A,K))/X8)**1.5+(1-U(V(G,K)+X1))*X9*(X2*URAMP(V(A,K)))**X3*(X4*URAMP(V(G,K)+X1+URAMP(V(A,K))/X5))**X6
+BA A K I=URAMP((Y2*URAMP(V(A,K))**1.5)-URAMP((Y2*URAMP(V(A,K))**1.5)-V(IK)+Y1*URAMP(V(G,K))**1.5*(URAMP(V(G,K))/(URAMP(V(A,K))+URAMP(V(G,K)))*1.2+.4)))+1E-10*V(A,K)
+BG G K I=Y1*URAMP(V(G,K))**1.5*(URAMP(V(G,K))/(URAMP(V(A,K))+URAMP(V(G,K)))*1.2+.4)
+* CAPS
+CGA G A 1.6p
+CGK G K 2.8p
+CAK A K 1.4p
+.ENDS
+
+.subckt 3A5 1 2 3 ; uses vacuum diode grid current model
++ params: mu=16.13 ex=1.526 kg1=3270 kp=126 kvb=2 rgi=3000
++ ccg=0.9p cgp=3.2p ccp=1.0p
+e1 7 0 value=
++{v(1,3)/kp*log(1+exp(kp*(1/mu+v(2,3)/sqrt(kvb+v(1,3)*v(1,3)))))}
+re1 7 0 1g
+g1 1 3 value= {(pwr(v(7),ex)+pwrs(v(7),ex))/kg1}
+rcp 1 3 1g
+c1 2 3 {ccg}
+c2 1 2 {cgp}
+c3 1 3 {ccp}
+r1 2 5 {rgi}
+d3 5 3 dx
+.model dx d(is=60u rs=1 cjo=1pf N=180)
+.ends
+
+* n* library format: LTSpice
+* Traced by Kevin Kennedy 2013-11-02
+* Curve traced and modeled in uTGui v1-6
+.SUBCKT D3A-TRI 1 2 3 ; P G C (Triode) ; TRIODE SECTION
+ X1 1 2 3 TRIODE MU=69.59 EX=1.52 KG1=76.6 KP=957.28 KVB=341.2 VCT=0.00 RGI=2000 CCG=0p CPG1=0p CCP=0p ;
+.ENDS  D3A-TRI
+
+* n* library format: LTSpice
+* Traced by Kevin Kennedy 2013-11-02
+* Curve traced and modeled in uTGui v1-6
+.SUBCKT D3A-PEN 1 2 3 4 ; P S G C (Pentode) ; PENTODE SECTION
+ X1 1 2 3 4 PENTODE1 MU=50.37 EX=1.25 KG1=133.9 KP=73.47 KVB=57.3  GP=-0.003012 VCT=0.00 RGI=2000 CCG=0p CPG1=0p CCP=0p 
+ +I0=1.132 S=6.89 Up=-0.002334 Us=0.025985 Ug=0.452812 es=2.910;
+.ENDS  D3A-PEN
+
+* n* library format: LTSpice
+* Traced by Kevin Kennedy 2013-11-02
+* Curve traced and modeled in uTGui v1-6
+.SUBCKT 6J52P-TRI 1 2 3 ; P G C (Triode) ; TRIODE SECTION
+ X1 1 2 3 TRIODE MU=90.13 EX=1.43 KG1=59.4 KP=498.88 KVB=92.2 VCT=0.00 RGI=2000 CCG=0p CPG1=0p CCP=0p ;
+.ENDS  6J52P-TRI
+
+.SUBCKT 6J52P-PEN A S G K 
+*-----------------------------------------------------------------------
+*
+* Pins   A  Anode
+*        S  Screen
+*        G  Grid
+*        K  Cathode
+*
+.PARAM  VA0=100
+.PARAM  VS0=150
+.PARAM  VG0=-1
+.PARAM  IA0=43m
+.PARAM  IS0=5m
+.PARAM  MU=72
+.PARAM  STEPEN=1.5
+.PARAM  KSA=0.1
+.PARAM  NORM=PWR((VS0/MU+VG0),STEPEN)
+.PARAM  PEREGIB=1000
+.PARAM  NORM2=(2*PWR(VA0,2)+VA0)/(2*PWR(VA0,2)+VA0+PEREGIB)
+Bgs	gs2 0	V=PWR((URAMP(V(S,K)/MU+V(G,K))),STEPEN)/(NORM)
+Bn	n   0   V=V(A,K)/(V(gs2)+1u)
+Bat	WIN 0	V=(2*PWR(V(n),2)+V(n))/(2*PWR(V(n),2)+V(n)+PEREGIB)/(NORM2)
+Banode	cc  0	V=V(gs2)*V(WIN)
+*
+* Calculate anode current
+*
+Ba	A   K	I=(IA0+IS0)*V(cc)*(1-KSA)
+*
+* Calculate screen current
+*
+Bscrn	sc  0	V=V(gs2)*(1-V(WIN))
+Bs	S   K	I=(IA0+IS0)*V(sc)*(1-KSA)+KSA*((IA0+IS0)*V(cc))
+*
+* Grid current (approximation - does not model low va/vs)
+*
+Bg	G   K	I=PWR((URAMP(V(G,K)),1.5))*50E-6+V(G,K)/30Meg
+*
+* Capacitances
+*
+Cg1	G	K	13.5p
+Cak	A	S1	1.8p
+Cg1a	G	A	0.045p
+R1	S1 	K 	0.01
+Cs1	S1 	G	1p
+Cgs	G	S	3p
+
+.ENDS
+
+* Generic triode model: 6H30
+* Copyright 2003--2008 by Ayumi Nakabayashi, All rights reserved.
+* Version 3.10, Generated on Tue Aug 10 23:01:40 2010
+*            Plate
+*            | Grid
+*            | | Cathode
+*            | | |
+.SUBCKT 6H30 A G K
+.PARAM X1=1 X2=0.0016665882 X3=-0.038461562
+.PARAM X4=0.97499998 X5=15.000715 X6=1.5384616
+.PARAM X7=0.0038313265 X8=15.385349 X9=0.003327778
+.PARAM Y1=0.0019156633 Y2=0.0022952053
+BK IK 0 V=U(V(G,K)+X1)*X7*URAMP(V(G,K)+X1+URAMP(V(A,K))/X8)**1.5+(1-U(V(G,K)+X1))*X9*(X2*URAMP(V(A,K)))**X3*(X4*URAMP(V(G,K)+X1+URAMP(V(A,K))/X5))**X6
+BA A K I=URAMP((Y2*URAMP(V(A,K))**1.5)-URAMP((Y2*URAMP(V(A,K))**1.5)-V(IK)+Y1*URAMP(V(G,K))**1.5*(URAMP(V(G,K))/(URAMP(V(A,K))+URAMP(V(G,K)))*1.2+.4)))+1E-10*V(A,K)
+BG G K I=Y1*URAMP(V(G,K))**1.5*(URAMP(V(G,K))/(URAMP(V(A,K))+URAMP(V(G,K)))*1.2+.4)
+* CAPS
+CGA G A 5p
+CGK G K 6.3p
+CAK A K 2.4p
+.ENDS
+
+* Generic triode model: C3GT
+* Copyright 2003--2008 by Ayumi Nakabayashi, All rights reserved
+* Version 3.10, Generated on Tue Jun 23 00:43:12 2009
+*            Plate
+*            | Grid
+*            | | Cathode
+*            | | |
+.SUBCKT C3GT A G K
+.PARAM X1=-0.16053394 X2=0.0043084008 X3=-0.28973288
+.PARAM X4=0.8381139 X5=37.574522 X6=1.7897329
+.PARAM X7=0.0098836949 X8=44.832238 X9=0.0061379447
+.PARAM Y1=0.0049418474 Y2=0.005274374
+BK IK 0 V=U(V(G,K)+X1)*X7*URAMP(V(G,K)+X1+URAMP(V(A,K))/X8)**1.5+(1-U(V(G,K)+X1))*X9*(X2*URAMP(V(A,K)))**X3*(X4*URAMP(V(G,K)+X1+URAMP(V(A,K))/X5))**X6
+BA A K I=URAMP((Y2*URAMP(V(A,K))**1.5)-URAMP((Y2*URAMP(V(A,K))**1.5)-V(IK)+Y1*URAMP(V(G,K))**1.5*(URAMP(V(G,K))/(URAMP(V(A,K))+URAMP(V(G,K)))*1.2+.4)))+1E-10*V(A,K)
+BG G K I=Y1*URAMP(V(G,K))**1.5*(URAMP(V(G,K))/(URAMP(V(A,K))+URAMP(V(G,K)))*1.2+.4)
+* CAPS
+CGA G A 3.3p
+CGK G K 4.9p
+CAK A K 3.5p
+.ENDS
+
+** Generic triode model: 6688T
+* Copyright 2003--2008 by Ayumi Nakabayashi, All rights reserved.
+* Version 3.10, Generated on Wed Jun 24 22:55:42 2009
+*             Plate
+*             | Grid
+*             | | Cathode
+*             | | |
+.SUBCKT 6688T A G K
+.PARAM X1=-0.59576533 X2=0.0094827837 X3=-0.8531559.
+.PARAM X4=0.63744183 X5=38.233306 X6=2.3531559
+.PARAM X7=0.01902963 X8=59.979286 X9=0.011758543
+.PARAM Y1=0.0095148149 Y2=0.009992698
+BK IK 0 V=U(V(G,K)+X1)*X7*URAMP(V(G,K)+X1+URAMP(V(A,K))/X8)**1.5+(1-U(V(G,K)+X1))*X9*(X2*URAMP(V(A,K)))**X3*(X4*URAMP(V(G,K)+X1+URAMP(V(A,K))/X5))**X6
+BA A K I=URAMP((Y2*URAMP(V(A,K))**1.5)-URAMP((Y2*URAMP(V(A,K))**1.5)-V(IK)+Y1*URAMP(V(G,K))**1.5*(URAMP(V(G,K))/(URAMP(V(A,K))+URAMP(V(G,K)))*1.2+.4)))+1E-10*V(A,K)
+BG G K I=Y1*URAMP(V(G,K))**1.5*(URAMP(V(G,K))/(URAMP(V(A,K))+URAMP(V(G,K)))*1.2+.4)
+* CAPS
+CGA G A 3.43p
+CGK G K 5.1p
+CAK A K 3.5p
+.ENDS
+
+* Generic pentode model: 6688
+* Copyright 2003--2008 by Ayumi Nakabayashi, All rights reserved.
+* Version 3.10, Generated on Wed Jun 24 22:54:24 2009
+*            Plate
+*            | Screen Grid
+*            | | Control Grid
+*            | | | Cathode
+*            | | | |
+.SUBCKT 6688 A S G K
+.PARAM X1=-0.59576533 X2=0.0094827837 X3=-0.8531559
+.PARAM X4=0.63744183 X5=38.233306 X6=2.3531559
+.PARAM X7=0.01902963 X8=59.979286 X9=0.011758543
+.PARAM Y1=0.0095148149 Y2=0.80517343 Y3=0.19482657
+.PARAM Y4=0.009992698 EA=2523.93
+BK IK 0 V=U(V(G,K)+X1)*X7*URAMP(V(G,K)+X1+URAMP(V(S,K))/X8)**1.5+(1-U(V(G,K)+X1))*X9*(X2*URAMP(V(S,K)))**X3*(X4*URAMP(V(G,K)+X1+URAMP(V(S,K))/X5))**X6
+BL IL 0 V=(V(IK)-Y1*URAMP(V(G,K))**1.5*(URAMP(V(G,K))/(URAMP(V(A,K))+URAMP(V(G,K)))*1.2+.4))*(1-.4*(EXP(-URAMP(V(A,K))/URAMP(V(S,K))*15)-EXP(-15)))
+BM IM 0 V=V(IL)*(URAMP(V(A,K))+EA)/(URAMP(V(S,K))+EA)-URAMP(V(IL)*(URAMP(V(A,K))+EA)/(URAMP(V(S,K))+EA)-(Y4*(URAMP(V(A,K))+URAMP(URAMP(V(S,K))-URAMP(V(A,K))))**1.5))
+BA A K I=URAMP(Y4*URAMP(V(A,K))**1.5-URAMP(Y4*URAMP(V(A,K))**1.5-V(IM)+V(IL)*(Y2*(1-URAMP(V(A,K))/(URAMP(V(A,K))+10))**1.5+Y3)))+1E-10*V(A,K)
+BS S K I=URAMP(V(IM)-URAMP(Y4*URAMP(V(A,K))**1.5-URAMP(Y4*URAMP(V(A,K))**1.5-V(IM)+V(IL)*(Y2*(1-URAMP(V(A,K))/(URAMP(V(A,K))+10))**1.5+Y3))))
+BG G K I=Y1*URAMP(V(G,K))**1.5*(URAMP(V(G,K))/(URAMP(V(A,K))+URAMP(V(G,K)))*1.2+.4)
+* CAPS
+CGA G A 0.03p
+CGK G K 5.1p
+CGS G S 3.4p
+CAK A K 3.5p
+.ENDS
+
+* Based on Bartola 6J9P curve trace
+.SUBCKT 6J9PT 1 2 3 ; A G C (Triode) ; TRIODE SECTION
+ X1 1 2 3 TRIODE MU=37.3 EX=1.46 KG1=76 KP=300 KVB=1344 VCT=-1.22 RGI=2000 CCG=0p CPG1=0p CCP=0p ;
+.ENDS  6J52P-TRI
+
+*
+* Generic pentode model: 6J7
+* Copyright 2003--2008 by Ayumi Nakabayashi, All rights reserved.
+* Version 3.10, Generated on Sat Mar  8 22:40:14 2008
+*           Plate
+*           | Screen Grid
+*           | | Control Grid
+*           | | | Cathode
+*           | | | |
+.SUBCKT 6J7 A G2 G1 K
+BGG   GG   0 V=V(G1,K)+0.75953915
+BM1   M1   0 V=(0.0057490544*(URAMP(V(G2,K))+1e-10))**-0.20145614
+BM2   M2   0 V=(0.8815978*(URAMP(V(GG)+URAMP(V(G2,K))/20.595073)))**1.7014561
+BP    P    0 V=0.00080605414*(URAMP(V(GG)+URAMP(V(G2,K))/23.361076))**1.5
+BIK   IK   0 V=U(V(GG))*V(P)+(1-U(V(GG)))*0.00053791349*V(M1)*V(M2)
+BIG   IG   0 V=0.00040302707*URAMP(V(G1,K))**1.5*(URAMP(V(G1,K))/(URAMP(V(A,K))+URAMP(V(G1,K)))*1.2+0.4)
+BIK2  IK2  0 V=V(IK,IG)*(1-0.4*(EXP(-URAMP(V(A,K))/URAMP(V(G2,K))*15)-EXP(-15)))
+BIG2T IG2T 0 V=V(IK2)*(0.82254609*(1-URAMP(V(A,K))/(URAMP(V(A,K))+10))**1.5+0.17745391)
+BIK3  IK3  0 V=V(IK2)*(URAMP(V(A,K))+7400)/(URAMP(V(G2,K))+7400)
+BIK4  IK4  0 V=V(IK3)-URAMP(V(IK3)-(0.00045533328*(URAMP(V(A,K))+URAMP(URAMP(V(G2,K))-URAMP(V(A,K))))**1.5))
+BIP   IP   0 V=URAMP(V(IK4,IG2T)-URAMP(V(IK4,IG2T)-(0.00045533328*URAMP(V(A,K))**1.5)))
+BIAK  A    K I=V(IP)+1e-10*V(A,K)
+BIG2  G2   K I=URAMP(V(IK4,IP))
+BIGK  G1   K I=V(IG)
+* CAPS
+CGA   G1  A  0.005p
+CGK   G1  K  4.2p
+C12   G1  G2 2.8p
+CAK   A   K  12p
+.ENDS
+
+
+**** 6J9P4 ******************************************
+* Created on 11/24/2013 20:06 using paint_kit.jar 2.6 by Kevin Kennedy
+* www.dmitrynizh.com/tubeparams_image.htm
+* Plate Curves image file: 6J9P4.gif
+* Data source link: 
+* MU reduced to 55 from 88 curves now match trace well
+* Model parameters MU and KG2 tweaked to match model to
+* measured device params
+*----------------------------------------------------------------------------------
+.SUBCKT 6J9P4 1 4 2 3 ; P S G K
++ PARAMS: CCG=7.8P  CGP=0.02P CCP=2.7P RGI=2000
++ MU=55 KG1=387 KP=692 KVB=12 EX=1.71 KG2=400 
+* Vp_MAX=250 Ip_MAX=40 Vg_step=0.5 Vg_start=-0.5 Vg_count=5
+* Rp=1600 Vg_ac=23.5 P_max=7.5 Vg_qui=-23.4 Vp_qui=240 UL=0.43 EG2=240
+*----------------------------------------------------------------------------------
+RE1  7 0  1MEG    ; DUMMY SO NODE 7 HAS 2 CONNECTIONS
+E1   7 0  VALUE=  ; E1 BREAKS UP LONG EQUATION FOR G1.
++{V(4,3)/KP*LOG(1+EXP((1/MU+V(2,3)/V(4,3))*KP))}
+G1   1 3  VALUE={(PWR(V(7),EX)+PWRS(V(7),EX))/KG1*ATAN(V(1,3)/KVB)}
+G2   4 3  VALUE={(EXP(EX*(LOG((V(4,3)/MU)+V(2,3)))))/KG2}
+RCP  1 3  1G      ; FOR CONVERGENCE
+C1   2 3  {CCG}    ; CATHODE-GRID 1
+C2   1 2  {CGP}  ; GRID 1-PLATE
+C3   1 3  {CCP}   ; CATHODE-PLATE
+R1   2 5  {RGI}   ; FOR GRID CURRENT
+D3   5 3  DX      ; FOR GRID CURRENT
+.MODEL DX D(IS=1N RS=1 CJO=10PF TT=1N)
+.ENDS
+
+
+**** 6J9P_4 ******************************************
+* Created on 11/25/2013 00:58 using paint_kit.jar 2.6
+* Model Paint Tools: Trace Tube Parameters over Plate Curves, Interactively
+* Plate Curves image file: 6j9p_4.jpg
+* Data source link:
+*----------------------------------------------------------------------------------
+
+.SUBCKT 6J9P5 1 4 2 3 ; P S G K
++ PARAMS: CCG=8.5P CGP=0.03P CCP=3P RGI=2000
++ MU=55.9 KG1=280.9 KP=369.1 KVB=23.1 EX=1.49 KG2=400
+* Vp_MAX=480 Ip_MAX=40 Vg_step=0.5 Vg_start=-0.5 Vg_count=5
+* Rp=1600 Vg_ac=23.5 P_max=7.5 Vg_qui=-23.4 Vp_qui=240 UL=0.469 EG2=139.2
+* X_MIN=73 Y_MIN=50 X_SIZE=365 Y_SIZE=256 FSZ_X=1032 FSZ_Y=742 XYGrid=false
+* showLoadLine=n showIp=y isDHT=n isPP=n isAsymPP=n isUL=n showDissipLimit=n
+* showIg1=y gridLevel2=n isInputSnapped=n
+* XYProjections=n harmonicPlot=y harmonics=y
+*----------------------------------------------------------------------------------
+RE1 7 0 1MEG ; DUMMY SO NODE 7 HAS 2 CONNECTIONS
+E1 7 0 VALUE= ; E1 BREAKS UP LONG EQUATION FOR G1.
++{V(4,3)/KP*LOG(1+EXP((1/MU+V(2,3)/V(4,3))*KP))}
+G1 1 3 VALUE={(PWR(V(7),EX)+PWRS(V(7),EX))/KG1*ATAN(V(1,3)/KVB)}
+G2 4 3 VALUE={(EXP(EX*(LOG((V(4,3)/MU)+V(2,3)))))/KG2}
+RCP 1 3 1G ; FOR CONVERGENCE
+C1 2 3 {CCG} ; CATHODE-GRID 1
+C2 1 2 {CGP} ; GRID 1-PLATE
+C3 1 3 {CCP} ; CATHODE-PLATE
+R1 2 5 {RGI} ; FOR GRID CURRENT
+D3 5 3 DX ; FOR GRID CURRENT
+.MODEL DX D(IS=1N RS=1 CJO=10PF TT=1N)
+.ENDS
+
+.SUBCKT 71a A G K
++PARAMS: MU=3.15 ERP=1.5
++ KK1=6350 KP=26.5 KVB=9 vg0=0.5 va0=6.0
++ CGA=7.4p CGK=3.7p CAK=2.1p RGI=1000
+.func V_6() {KP*( (1/MU)+((V(G,K)-vg0)/sqrt(V(A,K)**2+KVB**2)) )}
+E8 8 0 VALUE={(V(A,K)-va0)/KP*LN(1+EXP(V_6()))}
+Eam am 0 VALUE= {2*Pow(V(8),ERP)/KK1}
+GA A K VALUE={V(am)}
+D3 5 k DX ; FOR GRID CURRENT
+R1 g 5 {RGI} ; FOR GRID CURRENT
+Rak A K 1G
+Rgk G K 1G
+C1 G K {CGK}
+C2 G A {CGA}
+C3 A K {CAK}
+.MODEL DX D(IS=1N RS=1)
+.ENDS

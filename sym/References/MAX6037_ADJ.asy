@@ -1,0 +1,30 @@
+Version 4
+SymbolType CELL
+RECTANGLE Normal -112 -96 112 96
+TEXT 96 64 Right 2 ADJ
+TEXT 96 -64 Right 2 OUT
+TEXT 0 80 Center 2 GND
+TEXT 0 -80 Center 2 IN
+TEXT -96 -64 Left 2 _SHDN
+WINDOW 0 32 -112 Left 2
+WINDOW 3 0 0 Center 2
+SYMATTR Value MAX6037_ADJ
+SYMATTR Prefix X
+SYMATTR SpiceModel MAX6037_ADJ.sub
+SYMATTR Value2 MAX6037_ADJ
+SYMATTR Description Low-Power, Adjustable Reference with Shutdown
+PIN 112 64 NONE 8
+PINATTR PinName 1
+PINATTR SpiceOrder 1
+PIN 0 96 NONE 8
+PINATTR PinName 2
+PINATTR SpiceOrder 2
+PIN -112 -64 NONE 8
+PINATTR PinName 3
+PINATTR SpiceOrder 3
+PIN 0 -96 NONE 8
+PINATTR PinName 4
+PINATTR SpiceOrder 4
+PIN 112 -64 NONE 8
+PINATTR PinName 5
+PINATTR SpiceOrder 5

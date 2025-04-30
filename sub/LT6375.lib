@@ -1,0 +1,115 @@
+* Copyright (c) 1998-2023 Analog Devices, Inc.  All rights reserved.
+*
+.subckt LT6375 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
+A1 INM INP 0 0 0 0 0 0 OTA g=0 in=88f ink=289
+C7 9 INP 2.5p Rser=1k Rpar=100G noiseless
+D8 15 INP DESD
+D10 15 INM DESD
+GNOI INP INM N009 0 1µ
+S9 0 N009 9 INM SNOI
+A6 15 9 0 0 0 0 N014 0 OTA g=2u iout=1u ref=-2.5 Rout=1Meg Cout=100f vlow=-1e308 vhigh=1e308
+S4 N007 15 On 0 SBiasN
+D13 9 N007 DBiasDrop
+D14 INM N007 DBiasOTT
+D15 INP N007 DBiasOTT
+C14 N007 15 100f
+D16 INM INP D1Meg
+C17 8 INM 1.7p
+R1 12 INM 19k
+R2 11 INM 38k
+R3 10 INM 23.75k
+R4 INP 3 19k
+R5 INP 4 38k
+R6 INP 5 23.75k
+A8 N014 0 0 N016 0 0 On 0 AND trise=35u
+B1 0 X0 I=10u*dnlim(uplim(V(INP),V(15)+76.1,.1), V(15)-.15, .1)+1n*V(INP)-10.723162n
+B2 X0 0 I=10u*dnlim(uplim(V(INM),V(15)+76.1,.1), V(15)-.16, .1)+1n*V(INM)
+C1 X0 0 50f Rpar=100K noiseless
+M1 N011 NG 15 15 NI temp=27
+C2 9 8 1p Rpar=1g noiseless
+D1 NG 15 DLIMN1
+M2 8 PG 9 9 PI temp=27
+A3 N008 X4 15 15 15 15 PG 15 OTA g=2u ref=-.305 linear vlow=-1e308 vhigh=1e308
+C5 8 15 1p Rpar=1g noiseless
+D2 NG 15 DLIMN2
+C11 X4 8 .6p
+A5 N004 0 N008 N008 N008 N008 X4 N008 OTA g=25u asym isource=1.5u isink=-2.5u Vlow=-1e308 Vhigh=1e308
+G1 15 NG X4 N008 140n
+D3 X4 N008 DLIM
+C12 9 15 10p
+C13 X1 0 25f
+G2 0 N008 15 0 .5m
+G3 0 N008 9 0 .5m
+C15 N008 0 200p Rpar=1K noiseless
+D5 9 PG DLIMP
+D6 X1 0 DLIM0
+D7 15 8 DESD
+D9 8 N011 DNR
+C18 N011 15 100f Rpar=10Meg noiseless
+D11 PG 9 DLIMPR
+S1 9 PG 0 On SHUT
+S2 NG 15 0 On SHUT
+G4 0 N003 X1 0 1µ
+D17 0 X1 DNLIN
+C20 N004 0 25f noiseless Rpar=1Meg
+G5 0 N004 N003 0 1µ
+S3 N008 X4 15 8 SGK
+C4 9 INM 2.5p Rser=1k Rpar=100G noiseless
+C6 INP 15 2.5p Rser=1k Rpar=100G noiseless
+C8 INM 15 2.5p Rser=1k Rpar=100G noiseless
+C21 15 10 500f
+C29 15 INM 1p Rser=1k noiseless
+C30 15 15 1p Rser=1k noiseless
+C3 9 PG 1p Rser=300k noiseless
+C10 NG 15 1p Rser=700k noiseless
+C22 15 11 500f
+C23 15 12 500f
+C24 15 3 500f
+C25 15 4 500f
+C26 15 5 500f
+C27 15 INP 500f
+R13 N001 INM 95k
+R14 8 N001 95k
+C31 N001 15 3p
+R7 N017 6 95k
+R8 INP N017 95k
+C28 N017 15 2p
+C32 INM INP 2p
+C19 N003 0 54.26f noiseless Rser=2.667Meg Rpar=1Meg
+R10 N006 14 95k
+R11 INM N006 95k
+C33 N006 15 3p
+R12 N013 1 95k
+R15 INP N013 95k
+C34 N013 15 3p
+A2 N009 0 0 0 0 0 0 0 OTA g=0 in=17.25p ink=5
+S5 0 N005 9 INM SNOI
+A9 N005 0 0 0 0 0 0 0 OTA g=0 in=17.25p ink=5
+GNOI_V1 X0 0 N005 0 10n
+D18 9 7 DST
+A10 7 9 0 0 0 0 N016 0 SCHMITT vt=-1.85 vh=0.4 trise=1u
+A7 0 X0 On 0 0 0 X1 0 OTA g=1u linear en=18n enk=3 vlow=-1e308 vhigh=1e308
+B3 9 15 I=(.5+.5*tanh((V(On)-.5)/100m))*(41.5u-.762u*V(9,15))
+R16 9 15 5Meg noiseless
+D4 9 15 DLK
+.model DESD D(Ron=1k Roff=1G vfwd=700m epsilon=100m noiseless)
+.model SNOI SW(Ron=1 Roff=1Meg vt=1.2 vh=-100m noiseless)
+.model DST D(Ron=200 Roff=1G vfwd=100m epsilon=-100m ilimit=10u)
+.model DLK D(Ron=10k Roff=1G vfwd=1 epsilon=500m ilimit=3.4u)
+.model NI VDMOS(Vto=300m kp=60m Mtriode=.9 lambda=.01)
+.model PI VDMOS(Vto=-300m Kp=120m lambda=.01 mtriode=.17 pchan is=0)
+.model DLIM0 D(Ron=10 Roff=10Meg Vfwd=1 epsilon=100m Vrev=1 epsilon=100m noiseless)
+.model DNLIN D(Roff=1.8Meg Ron=800k vfwd=0 epsilon=10m noiseless)
+.model DLIM D(Ron=100 Roff=8Meg Vfwd=900m Vrev=200m epsilon=10m revepsilon=10m noiseless)
+.model SHUT SW(level=2 Ron=10k Roff=100G vt=-.5 vh=-.2 noiseless)
+.model DNR D(Ron=10 Roff=1G Vfwd=2m epsilon=10m noiseless)
+.model DLIMN1 D(Ron=200k Roff=415Meg Vfwd=1.2 Vrev=-330m epsilon=.1  noiseless)
+.model DLIMN2 D(Ron=5Meg Roff=1G Vfwd=-20m epsilon=50m ilimit=44n noiseless)
+.model DLIMP D(Ron=100k Roff=100Meg Vfwd=840m epsilon=10m noiseless)
+.model DLIMPR D(Ron=5Meg Roff=1G Vfwd=100m epsilon=10m noiseless)
+.model SGK SW(level=2 Ron=65k Roff=100G  vt=-260m vh=150m oneway epsilon=10m noiseless)
+.model SBiasN SW(level=2 Ron=10k Roff=1g vt=.5 vh=-.2 ilimit=28u noiseless)
+.model DBiasDrop D(Ron=1k Roff=1G vfwd=2.27 epsilon=500m noiseless)
+.model DBiasOTT D(Ron=500 Roff=1G vfwd=700m epsilon=200m noiseless)
+.model D1Meg D(Ron=1Meg Roff=1Meg vfwd=0 vrev=0 ilimit=10n revilimit=10n noiseless)
+.ends LT6375

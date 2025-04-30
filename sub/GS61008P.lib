@@ -1,0 +1,56 @@
+*Level 1. Optimized for simulation speed
+*$
+*$
+.subckt GS61008P gatein drainin sourcein source_S
+*
+*
+.param rTC=-0.004  gan_res={3.38e-03}		metal_res={2.0e-3}   gtc=3.275 sh_s=0.239   sh_d=0.761
+.param  cur=0.089   x0_0=1.1	  x0_1=1.1  x0_2=1.0  thr=1.8  itc=0.83 atc=180.15
+*
+*
+rd drainin drain { sh_d* (metal_res/2.0*(1-1*rTc*(Temp-25)) + gan_res*PWR((Temp+273)/298,gtc)) }
+rs sourcein source { sh_s * (metal_res/2.0*(1-1*rTc*(Temp-25)) + gan_res*PWR((Temp+273)/298,gtc)) }
+RSS source_S source {0.001}
+rg gatein gate {1.5}
+*
+*
+Rcsdconv drain source {4000Meg}
+Rcgsconv gate source {4000Meg}
+Rcgdconv gate drain {4000Meg}
+*
+*
+bswitch drain2 source2 I = (if(v(drain2,source2)>0,
++   (cur*(-(Temp-25)*itc+atc)*log(1.0+exp(26*(v(gate,source2)-thr)))*
++	v(drain2,source2)/(1 + dnlim(x0_0+x0_1*(v(gate,source2)+x0_2),0.2,5m)*v(drain2,source2))),
+
++   (-cur*(-(Temp-25)*itc+atc)*log(1.0+exp(26*(v(gate,drain2)-thr)))*
++	v(source2, drain2)/(1 + dnlim(x0_0+x0_1*(v(gate,drain2)+x0_2),0.2,5m)*v(source2,drain2)))))
+*
+*
+R_drain2 drain2 drain {(1e-7)}
+R_source2 source2 source {(1e-7)}
+*
+*
+C_GS	 gate source  	{6.04e-10}
+C_GS1 gate source Q = ( - 14.08e-11*(1-1./(1+exp(0.32*(-v(drain, source)+8.0))))
++                       - 1.653e-11*(1-1./(1+exp(0.029*(-v(drain, source)+80.0))))
++    				    - 1.5e-10*(-1+1./(1+exp(0.16*(-v(drain, source)-2.1)))) )*x
+*
+*
+C_GS2 gate source   Q = ( 1.0e-010*log(1+exp(6.1*(x-2.2))))
+*
+*
+C_GD   gate drain  	{0.6e-012}
+C_GD1  gate drain Q = ( 44e-11*log(1+exp(0.32*(x+8)))+
++					 57e-11*log(1+exp(0.029*(x+80))) )
+*
+*
+C_SD	 source drain  	{2.18e-010}
+C_SD1	source drain Q = ( 44e-11*log(1+exp(0.32*(x+8)))+
++						   57e-11*log(1+exp(0.029*(x+80)))+
++						   1.95e-10*log(1+exp(1.19*(x+16)))+
++						   1.69e-9*log(1+exp(0.07*(x+31))) )
+*
+*
+.ends
+*$

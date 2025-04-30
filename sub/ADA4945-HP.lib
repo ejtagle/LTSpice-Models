@@ -1,0 +1,362 @@
+*ADA4945 Macro-model
+*Function:Fully Differential Amplifier
+
+*Revision History:
+*Rev.1.0 Feb 2019-ZF
+*Rev.1.1 Dec 2019-AR modify Output Clamp-2 blocks VoutP1 dc value
+*Rev.1.5 May 2021-CG separate modes, fixed clamp, resolved convergence issues
+*Copyright 2019 by Analog Devices
+
+*Refer to http://www.analog.com/Analog_Root/static/techSupport/designTools/spicemodels/license
+*for License Statement. Use of this model indicates your acceptance
+*of the terms and provisions in the License Staement.
+
+*Tested on LTSPice, MultSIm, SiMetrix(NGSpice), PSpice
+
+*Not modeled: Distortion, PSRR, Overload Recovery,
+*             Shutdown Turn On/Turn Off time
+
+*Parameters modeled include:
+*   Vos, Ibias, Input CM limits and Typ output voltge swing over full supply range,
+*   Vos, Ibias, Ios
+*   Open Loop Gain & Phase, Slew Rate, Output current limits, Voltage & Current Noise,
+*   Capacitive load drive, Quiescent and dynamic supply currents,
+*   Shut Down pin functionality where applicable,
+*   Single supply & offset supply functionality.
+
+*---------------------------------------------------------------------------------------
+*Model Structure:
+*   This model is built using nested subcircuits.
+*   There are two ".Ends Main" statements included in the model fie, both commented out.
+*   First occurence is at the end of the main subcircuit description.
+*   Second occurence is at the end of the model file.
+*   Uncomment one of the two statements to suit your system.
+*---------------------------------------------------------------------------------------
+.Subckt ADA4945-HP FBN VinP VinN FBP VCC VEE VoN VoP PD Vocm Clamp-H Clamp-L DGND
+
+***ADA4945 Top Level Connections***
+R1	FBN	VoN1	Rideal	1
+R2	FBP	VoP1	Rideal	1
+R3	VoN1	N3	Rideal	50e3
+R4	VoP1	N3	Rideal	50e3
+Ryy	Clamp-H	DGND	Rideal	250e3
+Rxx	Clamp-L	DGND	Rideal	250e3
+
+***Output Clamp***
+B1 VoN 0 V=uplim(dnlim(V(Clamp-L),V(VoN1),0.01u),V(Clamp-H),0.01u)
+B2 VoP 0 V=dnlim(uplim(V(Clamp-H),V(VoP1),0.01u),V(Clamp-L),0.01u)
+RclampH Clamp-H1 VCC Rideal 0.05
+RclampL Clamp-L1 VEE Rideal 0.05
+RoutN VoN VoN1 Rideal 1
+RoutP VoP VoP1 Rideal 1
+R5	Clamp-H1	Vocm	Rideal	250e3
+R6	Clamp-L1	Vocm	Rideal	250e3
+
+*** Vos ***
+Iv1 NV1 110 dc 4.5e-7
+Rv1 NV1 110 Res1 1
+gv1 NV3 110 110 NV1 1
+Rv2 NV3 110 Res2 1
+ev1 N1 NV4 NV3 110 1
+vv1 NV4 VinP dc 7.45e-6
+
+*** Ios ***
+Ios1 Nos2 110 dc 1.5e-6
+Ros1 110 Nos2 Res3 1e-8
+gos1 Nos3 110 110 Nos2 1e8
+Ros2 Nos3 110 Res4 1e-6
+gos2 VinN 110 Nos3 0 -1e-8
+
+*** Ibias ***
+IbP1 NbP 110 dc 2.5
+RbP1 NbP 110 Res5 1e-6
+gbP1 VinP 110 NbP 110 1
+
+IbN1 NbN 110 dc 2.5
+RbN1 NbN 110 Res6 0.5985e-6
+gbN1 VinN 110 NbN 110 1
+
+
+*** Input Clamp ***
+EVCM N2B 0 VALUE={LIMIT(v(N2A,0),v(vCC)-1.3,v(vee))}
+RVCM N2B N2 Rideal 1K
+
+*** Input Resistance, capacitance ***
+RinCMP	110	N1	Rideal	1e7
+RinCMN	VinN	110	Rideal	1e7
+CinCMP	110	N1	7.5e-13
+CinCMN	VinN	110	7.5e-13
+
+RinDiff	VinN	N1	Rideal	5e4
+CinDiff	VinN	N1	1.5e-13
+
+R1HP	1HP	  N2	Rideal	1e-6
+R1HN	1HN	  N1	Rideal	1e-6
+RVoNH	VoNH  VoN1	Rideal	1e-6
+R3HP	3HP	  Vocm  Rideal	1e-6
+R3HN	3HN	  N3	Rideal	1e-6
+RVcmH	VcmH  N2A	Rideal	1e-6
+R2HP	2HP	  N2	Rideal	1e-6
+R2HN	2HN	  VInN	Rideal	1e-6
+RVoPH	VoPH  VoP1	Rideal	1e-6
+
+*** Quiescent currents & VRef for digital threshold ***
+Vref1	REF1	DGND	DC	1.2
+Istby	VCC	VEE	DC	0.45e-3
+SSTBY	VCC	N4	PD	REF1	SW-SEL
+RPD	VCC	PD	Rideal	100e6
+DIFP	N5	N4	diode
+IFP	N4	N5	DC	9.05e-3
+ILP	N4	N6	DC	1.05e-3
+DILP	N6	N4	diode
+SFP	N5	VEE	MODE	REF1	SW-SEL
+SLP	N6	VEE	REF1	MODE	SW-SEL
+Vmode Mode 0 DC 5
+
+*** 2 sets of three amps to make 2 diff-amps ***
+X1H	1HP	1HN	VCC	VEE	VoNH	PD Clamp-H1 Clamp-L1 DGND 110 111 112 ADA4945-H-Amp
+X2H	2HP	2HN	VCC	VEE	VoPH	PD Clamp-H1 Clamp-L1 DGND 110 111 112 ADA4945-H-Amp
+X3H	3HP	3HN	VCC	VEE	VcmH	PD 		   DGND 110 111 112 ADA4945-H-Vocm
+
+***Power Supplies***
+Rz1	VCC	1020	Rideal	1e-6
+Rz2	VEE	1030	Rideal	1e-6
+e1x	111	110	1020	110	1
+e2x	110	112	110	1030	1
+e3x	110	0	value={V(1020)/2+V(1030)/2}
+
+***Inoise***
+FnIN	N1	110	Vmeas3	0.7071068
+Vmeas3	51	110	dc	0
+enIN	50	110	Value={limit(V(MODE,REF1)*10,.65,0)}
+DnIN	50	51	DINnoisy
+FnIN1	110	N1	Vmeas4	0.7071068
+Vmeas4	53	110	dc	0
+enIN1	52	110	Value={limit(V(MODE,REF1)*10,.65,0)}
+DnIN1	52	53	DINnoisy
+
+FnINa	VinN	110	Vmeas3a	0.7071068
+Vmeas3a	51a	110	dc	0
+enINa	50a	110	Value={limit(V(MODE,REF1)*10,.65,0)}
+DnINa	50a	51a	DINnoisy
+FnIN1a	110	VinN	Vmeas4a	0.7071068
+Vmeas4a	53a	110	dc	0
+enIN1a	52a	110	Value={limit(V(MODE,REF1)*10,.65,0)}
+DnIN1a	52a	53a	DINnoisy
+
+.model Res1 r(TC1=-0.4, TC2=0.002, TNOM=9)
+.model Res2 r(TC1=0.001, TC2=8e-5, TNOM=75)
+.model Res3 r(TC1=-1, TC2=0.034, TNOM=100)
+.model Res4 r(TC1=0, TC2=1e-3, TNOM=100)
+.model Res5 r(TC1=-0.004, TC2=0, TNOM=25)
+.model Res6 r(TC1=-0.0067, TC2=1e-7, TNOM=125)
+
+.model	DINnoisy D(IS=3.558e-17 KF=4.054e-16)
+.model	Rideal	 res(T_ABS=-273)
+.model	SW-SEL	 vswitch(Von=0.1,Voff=0,ron=1e-6,roff=1e9)
+.model	SW-NOISE vswitch(Von=0.1,Voff=0,ron=10,roff=1e4)
+.model	diode	 d(bv=100)
+.ends	Main
+
+.Subckt ADA4945-H-Amp 100 101 102 103 104 106 ClampH ClampL DGND 110 111 112
+
+***Inputs***
+Rs2	2	100	Rideal	1e-6
+S3	9	101	106	REF	Switch
+
+***Non-Inverting Input with Clamp***
+g1	3	110	110	2	0.001
+RInP	3	110	Rideal	1e3
+
+***Vnoise***
+hVn	6	5	Vmeas1	707.10678
+Vmeas1	20	110	DC	0
+Vvn	21	110	dc	0.65
+Dvn	21	20	DVnoisy
+hVn1	6	7	Vmeas2	707.10678
+Vmeas2	22	110	dc	0
+Vvn1	23	110	dc	0.65
+Dvn1	23	22	DVnoisy
+
+***CMRR***
+Rcmrr 3 5 Rideal 1e-3
+
+***Power Down***
+Vref	REF	DGND	dc	1.2
+
+***Gain Split***
+g200	200	110	7	9	1
+R200	200	110	Rideal	1e4
+
+***Dominant Pole at 180 Hz***
+g210	210	110	Value={limit(V(200,110)*1.186e-3,3.9,-3.9)}
+R210	210	110	Rideal	8.842e4
+C210	210	110	1e-8
+
+***Output Voltage Clamp-1***
+RX2	60	210	Rideal	.05
+DVoutP	60	65	diode
+DVoutN	66	60	diode
+e60	65	110	ClampH	110	1
+e61	66	110	ClampL	110	1
+
+***Pole at 1100MHz***
+g220	220	110	210	110	0.001
+R220	220	110	Rideal	1000
+C220	220	110	0.1447e-12
+
+***Pole at 1200MHz***
+g230	230	110	220	110	0.001
+R230	230	110	Rideal	1000
+C230	230	110	0.1326e-12
+
+***Buffer***
+g240	240	110	230	110	0.001
+R240	240	110	Rideal	1000
+
+Rzz 240 270 Rideal 1e-3
+
+***Notch: f=530MHz, Zeta=1.3, Gain=7.9dB***
+e271	271	110	270	110	1
+R271	271	285	Rideal	10
+R272	285	272	Rideal	6.742
+L271	272	273	1.934e-9
+C271	273	110	46.633e-12
+
+***Buffer***
+e286	286	110	285	110	1
+R286	286	288	Rideal	1e-6
+R287	288	110	Rideal	1e6
+e295	295	110	288	110	1
+
+***Output Stage***
+g300	300	110	295	110	0.001
+R300	300	110	Rideal	1000
+e301	301	110	300	110	1
+Rout	302	303	Rideal	 12
+Lout	303	310	3.2e-9
+Cout	310	110	7.1e-12
+
+***Output Current Limit***
+H1	301	304	Vsense1	100
+Vsense1	301	302	dc	0
+VIoutP	305	304	dc	15.5
+VIoutN	304	306	dc	15.5
+DIoutP	307	305	diode
+DIoutN	306	307	diode
+Rx3	307	300	Rideal	0.001
+
+***Output Clamp-2***
+VoutP1	111	73	dc	0.785
+VoutN1	74	112	dc	0.785
+DVoutP1	75	73	diode
+DVoutN1	74	75	diode
+RX4	75	310	Rideal	.001
+
+***Supply Currents***
+FIoVcc	314	110	Vmeas8	1
+Vmeas8	310	311	dc	0
+R314	110	314	Rideal	1e6
+DzOVcc	110	314	diode
+DOVcc	102	314	diode
+RX5	311	312	Rideal	0.001
+FIoVee	315	110	Vmeas9	1
+Vmeas9	312	313	dc	0
+R315	315	110	Rideal	1e6
+DzOVee	315	110	diode
+DOVee	315	103	diode
+
+***Output Switch***
+S4	104	313	106	REF	Switch
+
+*** Common Models ***
+.model	diode	d(bv=100)
+.model	Switch	vswitch(Von=0.1,Voff=0,ron=1e-6,roff=1e9)
+.model	DVnoisy	D(IS=5.858e-17 KF=2.262e-17)
+.model	DINnoisy	D(IS=3.73e-17 KF=4.67e-16)
+.model	DIPnoisy	D(IS=3.73e-17 KF=4.67e-16)
+.model	Rideal	res(T_ABS=-273)
+
+.ends	Amp-H
+
+.Subckt ADA4945-H-Vocm 100 101 102 103 104 106 DGND 110 111 112
+
+*** Feedback ***
+Rfb 101 104 500K
+
+***Inputs***
+S2	1	100	106	REF	Switch
+Rs3	9	101	Rideal	1e-6
+VOS	2	1	dc	10e-3
+
+***Non-Inverting Input with Clamp***
+g1	3	110	110	2	0.001
+RInP	3	110	Rideal	1e3
+
+***Vnoise***
+hVn	6	5	Vmeas1	707.10678
+Vmeas1	20	110	DC	0
+Vvn	21	110	dc	0.65
+Dvn	21	20	DVnoisy
+hVn1	6	7	Vmeas2	707.10678
+Vmeas2	22	110	dc	0
+Vvn1	23	110	dc	0.65
+Dvn1	23	22	DVnoisy
+
+***CMRR***
+Rcmrr 3 5 Rideal 1e-3
+
+***Power Down***
+VREF	REF	DGND	dc	1.2
+
+***Gain Split***
+g200	200	110	7	9	1
+R200	200	110	Rideal	1
+
+***Dominant Pole at 8 Hz***
+g210	210	110	Value={limit(V(200,110)*5.27e-5,1.3e-5,-1.3e-5)}
+R210	210	110	Rideal	1.989e10
+C210	210	110	1e-12
+
+***Pole at 64MHz***
+g220	220	110	210	110	0.001
+R220	220	110	Rideal	1000
+C220	220	110	2.4868e-12
+
+Rq	220	295	1
+
+***Output Stage***
+g300	300	110	295	110	0.001
+R300	300	110	Rideal	1000
+e301	301	110	300	110	1
+Rout	301	310	Rideal	1
+
+***Supply Currents***
+FIoVcc	314	110	Vmeas8	1
+Vmeas8	310	311	dc	0
+R314	110	314	Rideal	1e6
+DzOVcc	110	314	diode
+DOVcc	102	314	diode
+RX5	311	312	Rideal	0.001
+FIoVee	315	110	Vmeas9	1
+Vmeas9	312	313	dc	0
+R315	315	110	Rideal	1e6
+DzOVee	315	110	diode
+DOVee	315	103	diode
+
+***Output Switch***
+Rs4	104	313	Rideal	1e-6
+
+*** Common Models ***
+.model	diode	d(BV=100)
+.model	Switch	vswitch(Von=0.1,Voff=0.0,ron=1e-6,roff=1e9)
+.model	DzVoutP	D(BV=4.3)
+.model	DzVoutN	D(BV=4.3)
+.model	DVnoisy	D(IS=3.37e-14 KF=5.04e-16)
+.model	DINnoisy	D(IS=3.81e-17 KF=1.54e-16)
+.model	DIPnoisy	D(IS=3.81e-17 KF=1.54e-16)
+.model	Rideal	res(T_ABS=-273)
+
+.ends	Vocm-H
+
+*.ends	Main

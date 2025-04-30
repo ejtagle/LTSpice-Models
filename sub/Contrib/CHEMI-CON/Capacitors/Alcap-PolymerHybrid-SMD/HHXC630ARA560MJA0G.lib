@@ -1,0 +1,22 @@
+*$
+*//-----------------------------------------------------------------------// 
+*//   Part No.    : HHXC630ARA560MJA0G
+*//   Date        : 2023/03/07
+*//   Temperature : 20deg.C
+*//   Model       : RC-ladder 7 Elements Model
+*//   Copyright (C) 2023 Nippon Chemi-Con Corporation.
+*//   All Rights Reserved.
+*//-----------------------------------------------------------------------// 
+
+.SUBCKT HHXC630ARA560MJA0G_20deg-C 1 2
+
+C1 4 2 4.39e-05
+C2 5 2 5.76e-06
+C3 6 2 3.38e-06
+R1 3 4 1.86e-02
+R2 4 5 4.37e-01
+R3 5 6 6.51e+00
+L1 1 3 4.50e-09
+
+.ENDS
+*$

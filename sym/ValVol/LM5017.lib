@@ -1,0 +1,42 @@
+* 20.02.2018
+* LM5017
+* 8-Pin 100-V, 600-mA Constant On-Time Synchronous Buck Regulator
+.subckt LM5017 RTN VIN UVLO RON FB VCC BST SW
+C1 RON RTN 48p ic=0
+A1 N013 N011 RTN RTN RTN idq dq RTN SRFLOP Vhigh=5 Trise=10n
+D1 RON dq dch
+A2 idq RTN RTN RTN RTN RTN N012 RTN BUF Vhigh=5 Trise=10n Td=130n
+A3 N012 RTN RTN RTN N016 RTN N013 RTN AND Vhigh=5 Trise=10n
+S1 SW N007 N010 SW mos
+S2 RTN SW idq RTN dio
+D2 SW N007 dsh
+D3 RTN SW dsh
+A4 FB RTN RTN RTN RTN N016 RTN RTN SCHMITT Vhigh=5 Trise=50n Vt=1.225 Vh=12m
+A5 RON N008 N006 N003 N015 RTN N011 RTN OR Vhigh=5 Trise=10n
+V2 VIN N007 0
+H1 N017 RTN V2 1
+A7 N018 N014 RTN RTN RTN RTN N015 RTN SRFLOP Vhigh=5 Trise=10n
+D4 N014 N015 dch
+C5 N014 RTN 48p ic=0
+B1 RTN N014 I=3m*V(fb)/(V(vin)+10)
+A8 FB RTN RTN RTN RTN RTN N008 RTN SCHMITT Vhigh=5 Trise=50n Vt=1.42 Vh=0.2
+D5 N010 N009 dsw
+R6 BST N010 20k
+D6 VCC BST dsh
+E1 N009 SW dq RTN 1
+A9 UVLO RTN RTN RTN RTN N002 N001 RTN BUF Vhigh=5 Ref=1.225 Trise=10n
+G1 RTN UVLO N001 RTN 4µ
+A6 N017 RTN RTN RTN RTN RTN N018 RTN BUF Vhigh=5 Trise=50n Ref=1.02 Td=130n
+B2 N004 RTN V=if(V(vccon)>2.5,if(V(VIN)<8,V(VIN)-0.5,7.5),0)
+D7 N004 VCC dvcc
+G2 VIN RTN vccon RTN 350µ
+A10 UVLO RTN RTN RTN RTN N003 vccon RTN SCHMITT Vhigh=5 Vlow=0.15 Vt=0.55 Vh=0.11 Trise=50n
+A11 VCC RTN RTN RTN RTN N005 RTN RTN SCHMITT Vhigh=5 Trise=50n Vt=4.35 Vh=0.15m
+A12 N002 N005 RTN RTN RTN RTN N006 RTN OR Vhigh=5 Trise=10n
+.model dch D(Ron=100 Roff=1g Vfwd=0)
+.model mos SW(Ron=1.8 Roff=100k Vt=2.5 Vh=-.5)
+.model dio SW(Ron=1 Roff=100k Vt=2.5 Vh=-.5)
+.model dsh D(Ron=1 Roff=1meg Vfwd=0.6)
+.model dsw D(Ron=1 Roff=1meg Vfwd=0)
+.model dvcc D(Ron=10 Roff=1meg Ilimit=50m Vfwd=0)
+.end LM5017

@@ -1,0 +1,29 @@
+Version 4
+SymbolType CELL
+LINE Normal 80 -192 80 -160
+LINE Normal 0 0 24 -24
+LINE Normal 16 -6 6 -15
+LINE Normal 89 -175 71 -175
+LINE Normal 160 0 136 -24
+LINE Normal 143 -7 153 -16
+LINE Normal 94 -22 80 -16
+LINE Normal 96 -14 94 -22
+LINE Normal 80 -16 96 -14
+CIRCLE Normal 160 -160 0 0
+ARC Normal 143 -16 15 -144 79 -10 80 -149
+TEXT 23 -81 Left 2 Circulator
+WINDOW 0 168 -166 Bottom 2
+SYMATTR SpiceModel CIRCULATOR
+SYMATTR ModelFile CIRCULATOR.sub
+SYMATTR Prefix X
+SYMATTR Value z=50
+SYMATTR Value2 gain=100k
+PIN 80 -192 RIGHT 8
+PINATTR PinName 1
+PINATTR SpiceOrder 1
+PIN 160 0 LEFT 8
+PINATTR PinName 2
+PINATTR SpiceOrder 2
+PIN 0 0 RIGHT 8
+PINATTR PinName 3
+PINATTR SpiceOrder 3

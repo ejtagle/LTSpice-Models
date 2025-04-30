@@ -1,0 +1,42 @@
+.SUBCKT FDD8447L 2 1 3    
+*Nom Temp=25 deg C
+Dbody 7 5 DbodyMOD
+Dbreak 5 11 DbreakMOD
+Lgate 1 9 2.61e-9
+Ldrain 2 5 1.0e-9
+Lsource 3 7 0.7e-9
+RLgate 1 9 26.1
+RLdrain 2 5 10
+RLsource 3 7 7.0
+Rgate 9 6 1.26
+It 7 17 1
+Ebreak 11 7 17 7 43.0
+Rbreak 17 7 RbreakMOD 1
+.MODEL RbreakMOD RES (TC1=8.8e-4 TC2=-1.2e-6)
+.MODEL DbodyMOD D (IS=1.3e-12 n=0.99 RS=3.8m TRS1=0.9e-3 TRS2=2e-6 
++ CJO=0.5e-9 M=0.45 TT=14n XTI=2.7 )
+.MODEL DbreakMOD D (RS=0.1 TRS1=1e-3 TRS2=1e-6)
+Rdrain 5 16 RdrainMOD 6.5m
+.MODEL RdrainMOD RES (TC1=3.2e-3 TC2=5e-6)
+M_BSIM3 16 6 7 7 Bsim3 W=3.76 L=1.03u NRS=1
+.MODEL  Bsim3 NMOS ( LEVEL=7 VERSION=3.1 MOBMOD=3 CAPMOD=2 paramchk=1 NQSMOD=0
+*Process Parameters
++ TOX=455e-10 ;Oxide thickness
++ XJ=0.48u ;Channel depth
++ NCH=1.77e17 ;Channel concentration
+*Channel Current
++ U0=1970 VSAT=2e5 DROUT=1.52
++ DELTA=0.25 PSCBE2=0 RSH=0.68m   
+*Threshold voltage
++ VTH0=2.09
+*Sub-threshold characteristics
++ VOFF=-0.25 NFACTOR=1.0
+*Junction diodes and Capacitance
++ LINT=0.12u DLC=0.12u 
++ CGSO=1p CGSL=0 CGDO=13p CGDL=220p
++ CJ=0 CF=0 CKAPPA=1.5  
+* Temperature parameters
++ KT1=-1.2 KT2=0 UA1=1.6e-8 
++ NJ=10)
+*25 April 2006 Rev.A_RG
+.ENDS

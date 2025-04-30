@@ -1,0 +1,22 @@
+*$
+*//-----------------------------------------------------------------------//
+*//   Part No.    : APXH6R3ARA820MF61G
+*//   Date        : 2020/12/24
+*//   Update      : 2023/09/19 Change MPN case code
+*//   Temperature : 20deg.C
+*//   Model       : RC-ladder 7 Elements Model
+*//   Copyright (C) 2020 Nippon Chemi-Con Corporation.
+*//   All Rights Reserved.
+*//-----------------------------------------------------------------------//
+
+.SUBCKT APXH6R3ARA820MF61G_20deg-C 1 2
+
+C1 4 2 6.37e-05
+C2 5 2 1.44e-05
+C3 6 2 4.33e-06
+R1 3 4 1.70e-02
+R2 4 5 8.43e-02
+R3 5 6 5.25e+00
+L1 1 3 2.80e-09
+
+.ENDS

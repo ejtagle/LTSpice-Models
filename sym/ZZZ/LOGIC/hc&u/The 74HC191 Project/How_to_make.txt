@@ -1,0 +1,62 @@
+How The Model 74HC191 Has Been Developed
+
+Project files:
+
+Files >  Lib > Digital 74HCxxx > The 74HC191 Project
+
+Resources:
+Datasheet from Philips and Texas Instruments
+
+I started with the schematic from the TI-datasheet. This 
+schematic is easier to implement than the schematic from 
+the Philips datasheet. Unfortunately both schematics have bugs.
+So I had to know the details how the circuit should work.
+This schematic is then be used as the lower level schematic
+of an hierarchical design.
+I then drew a block symbol and a top level test schematic.
+I didn't take care about voltage levels in this design phase. 
+It's just to get the correct logic implementation.
+Overall the time required for testing was as long as the design time.
+
+Now I made the final subcircuit version with the real
+voltage levels and timings. It was alo necessary to make 
+a subcircuit symbol.
+The netlist of the lower level hierarchical design (7HC191H)
+can be directly used in the subcircut of the final subcircuit
+version. 
+Finally I added the new 74HC191 subcircuit to the 74HC.lib
+and I also added the new symbol 74HC191.asy to the 74HC.zip file.
+
+
+-----------------------------------------------------
+
+Some hints for working with clocked digital parts, 
+e.g. this 74HC191.
+Take care that none of the contol signals change
+its level at the active(e.g. positive) edge of the 
+clock signal.
+ 
+A general rule for LTspice digital A-devices.
+Never use GND(0) as an input of a digital A-device,
+because this input would be then ignored like an 
+unconnected pin. There is an info in the help-file 
+of LTspice about this behavior in the chapter
+
+LTspice -> Circuit Elements -> A Special Functions
+
+My workaround for a nice looking 0 on a net. 
+I have added a voltage source with 0V. The output
+node of this source has been labeled with the letter O.
+This net can be then used to force inputs of digital 
+A-devices to logical 0. Any net name would fit, 
+except GND or the number 0.
+
+Best regards,
+Helmut
+
+
+
+
+ 
+
+

@@ -1,0 +1,92 @@
+* PSpice Model Editor - Version 10.5.0
+*$
+*FDD3510H Electrical Model(Complementary N-Channel)
+*--------------------------------------------------
+.SUBCKT FDD3510H_NCH 2 1 3    
+*Nom Temp=25 deg C
+Dbody 7 5 DbodyMOD
+Dbreak 5 11 DbreakMOD
+Ebreak 11 7 17 7 88
+Lgate 1 9 4.959e-9
+Ldrain 2 5 0.1e-9
+Lsource 3 7 2.627e-9
+RLgate 1 9 49.59
+RLdrain 2 5 1
+RLsource 3 7 26.27
+Rgate 9 6 1.7
+It 7 17 1
+Rbreak 17 7 RbreakMOD 1
+.MODEL RbreakMOD RES (TC1=9.5e-4 TC2=-1e-6)
+.MODEL DbodyMOD D (IS=6.32e-13 n=1 RS=1.03e-2 TRS1=5.5e-8 TRS2=6.5e-8 
++ CJO=2.85e-10 M=0.38 TT=6.4n XTI=3)
+.MODEL DbreakMOD D (RS=8e-2 TRS1=1e-3 TRS2=0)
+Rdrain 5 16 RdrainMOD 49.8e-3
+.MODEL RdrainMOD RES (TC1=9.2e-3 TC2=2e-6)
+M_BSIM3 16 6 7 7 Bsim3 W=0.8 L=1.59u NRS=1 NRD=0
+.MODEL  Bsim3 NMOS (LEVEL=7 VERSION=3.1 MOBMOD=3 CAPMOD=2 paramchk=1 NQSMOD=0)
+**Process Parameters
++ TOX=600e-10 ;Oxide thickness
++ XJ=0.9u ;Channel depth
++ NCH=1.4e17 ;Channel concentration
+**Channel Current
++ U0=700 VSAT=5e5 DROUT=1.5
++ DELTA=0.1 PSCBE2=0 RSH=4.4m   
+**Threshold voltage
++ VTH0=2.1
+**Sub-threshold characteristics
++ VOFF=-0.1 NFACTOR=1
+**Junction diodes and Capacitance
++ LINT=0.16u DLC=0.16u 
++ CGSO=102e-12 CGSL=0 CGDO=15e-12 CGDL=340e-12
++ CJ=0 CF=0 CKAPPA=1.2
+** Temperature parameters
++ KT1=-1.6 KT2=0 UA1=1.2e-9 
++ NJ=10)
+.ENDS
+*$
+*FDD3510H Electrical Model(Complementary P-Channel)
+*--------------------------------------------------
+.SUBCKT FDD3510H_Pch 2 1 3   
+*Nom Temp=25 deg C
+Dbody 5 7 DbodyMOD
+Dbreak 7 11 DbreakMOD
+Ebreak 5 11 17 7 -88
+Lgate 1 9 4.839e-9
+Ldrain 2 5 0.1e-9 
+Lsource 3 7 2.464e-9
+RLgate 1 9 48.39
+RLdrain 2 5 1
+RLsource 3 7 24.64
+Rgate 9 6 1.6
+It 7 17 1
+Rbreak 17 7 RbreakMOD 1
+.MODEL RbreakMOD RES (TC1=8e-4 TC2=-2e-7)
+.MODEL DbodyMOD D (IS=1.02e-12 n=1 RS=1.43E-2 TRS1=1e-5 TRS2=1e-7
++ CJO=2.25e-10 M=0.4 TT=34n XTI=1 IKF=1)
+.MODEL DbreakMOD D (RS=8e-3 TRS1=1e-3 TRS2=0)
+Rdrain 5 16 RdrainMOD 138e-3
+.MODEL RdrainMOD RES (TC1=3e-3 TC2=4.5e-5)
+M_BSIM3 16 6 7 7 M_MOD W=0.665 L=1.51u NRS=0 NRD=0 
+.MODEL  M_MOD PMOS (LEVEL=7 VERSION=3.1 MOBMOD=3 CAPMOD=2 paramchk=1 NQSMOD=0)
+***Process Parameters
++ TOX=410e-10 ;Oxide thickness
++ XJ=1.595u ;Channel depth 
++ NCH=1.42e17 ;Channel concentration
+***Channel Current
++ U0=220 vsat=1e5 drout=1.5
++ DELTA=0.08 PSCBE2=0 RSH=6.98e-3
+***Threshold voltage
++ VTH0=-1.35
+***Sub-threshold characteristics
++ VOFF=-1.1 NFACTOR=1
+***Junction diodes and Capacitance
++ LINT=0.255u DLC=0.255u 
++ CGSO=198e-12 CGSL=0p CGDO=53e-12 CGDL=485e-12 
++ CJ=0 CF=0p CKAPPA=1
+*** Temperature parameters
++ KT1=-1 KT2=0 UA1=1.6E-10 
++ NJ=10) 
+.ENDS 
+*FDD3510H (Rev.A) 4/11/08
+*ST
+*$

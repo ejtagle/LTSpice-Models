@@ -1,0 +1,21 @@
+*$
+*//-----------------------------------------------------------------------//
+*//   Part No.    : APXE2R5ARA471MF80G
+*//   Date        : 2020/12/24
+*//   Temperature : 20deg.C
+*//   Model       : RC-ladder 7 Elements Model
+*//   Copyright (C) 2020 Nippon Chemi-Con Corporation.
+*//   All Rights Reserved.
+*//-----------------------------------------------------------------------//
+
+.SUBCKT APXE2R5ARA471MF80G_20deg-C 1 2
+
+C1 4 2 3.71e-04
+C2 5 2 6.82e-05
+C3 6 2 3.17e-05
+R1 3 4 9.91e-03
+R2 4 5 6.12e-02
+R3 5 6 9.87e-01
+L1 1 3 2.70e-09
+
+.ENDS

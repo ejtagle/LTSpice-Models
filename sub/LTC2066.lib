@@ -1,0 +1,118 @@
+* Copyright (c) 1998-2024 Analog Devices, Inc.  All rights reserved.
+*
+.subckt LTC2066 1 2 3 4 5 6
+B1 0 N002 I=10u*dnlim(uplim(V(1),V(3)+.2,.1), V(4)-.2, .1)+1n*V(1)
+B2 N002 0 I=10u*dnlim(uplim(V(2),V(3)+.21,.1), V(4)-.21, .1)+1n*V(2)
+C10 N002 0 1f Rpar=100K noiseless
+M1 5 NG 4 4 NI temp=27 M=10
+C2 3 5 10p Rpar=1G noiseless
+D5 NG 4 DLIMNP
+M2 5 PG 3 3 PI temp=27 M=10
+D9 XC 0 DLIM
+C13 3 4 10p
+C1 X1 0 900p Rpar=1k noiseless
+C17 4 6 500f
+S4 PG 3 0 N004 SHUT1
+S2 4 NG 0 N004 SHUT1
+S7 3 4 SS 0 SPOW
+L1 X2 0 3.36m Cpar=61.9p Rser=1.48k Rpar=3.08k noiseless
+A2 6 4 0 0 0 0 N004 0 SCHMITT trise=10u vt=.8 vh=10m
+D2 3 6 DSHUT
+D6 2 3 DESD
+D7 4 2 DESD
+D10 1 3 DESD
+D11 4 1 DESD
+A1 2 1 0 0 0 0 0 0 OTA g=0 in=35f*(1+freq/45k)**2.2/(1+freq/1Meg)**3
+A6 0 XC 4 4 4 4 NG 4 OTA g=80n linear ref=55.12m vlow=0 vhigh=2.5
+S1 XC 0 4 3 SNLG
+G1 0 N009 5 Mid 10m
+R3 N009 0 1k noiseless
+C8 XC N009 15p
+C12 2 1 3.3p Rser=100k noiseless
+C3 NG 4 400f Rser=25Meg noiseless
+D12 4 6 DESD2
+C6 2 4 1.75p Rser=100k noiseless
+D1 6 3 DESD2
+A4 N002 0 0 0 0 0 X1 0 OTA g=1m linear en=85n*(1+freq/4k)**1.5/(((1+uplim(freq,50k,5k)/85k)**6)*(1+freq/110k)**2) Vhigh=1e308 Vlow=-1e308
+C4 1 4 1.75p Rser=100k noiseless
+C5 3 1 1.75p Rser=100k noiseless
+C7 3 2 1.75p Rser=100k noiseless
+G4 3 PG 4 PG 1m vto= 0 dir=1
+G2 NG 4 NG 3 1m vto=0 dir=1
+A5 N004 0 0 0 0 0 SS 0 BUF Rout=10Meg Cout=20p
+A7 0 X3 0 0 0 0 XC 0 OTA g=100u iout=5u Cout=1p Vhigh=1e308 Vlow=-1e308
+S3 0 XC 0 N004 SHUT2
+D3 3 4 DLK
+A8 0 X1 0 0 0 0 X2 0 OTA g=1m iout=31u vlow=-1e308 vhigh=1e308
+B3 0 XC I=uplim(dnlim(1-dnlim(10*(V(XC)+200m),0,100m),0,100m)*dnlim(20u*(V(X1)-100m),0,.1u),10u,1u)
+B4 XC 0 I=uplim(dnlim(1-dnlim(-10*(V(XC)-200m),0,100m),0,100m)*dnlim(20u*(-100m-V(X1)),0,.1u),15u,1u)
+A3 N003 0 3 3 3 3 PG 3 OTA g=10n linear ref=-900m vlow=-3.5 vhigh=0
+G3 0 N003 4 NG 1µ
+C9 N003 0 400f Rser=2Meg Rpar=1Meg noiseless
+C11 5 4 10p Rpar=1G noiseless
+C14 3 PG 50f Rser=60Meg noiseless
+G5 0 Mid 3 0 .5m
+G6 0 Mid 4 0 .5m
+R4 Mid 0 1k noiseless
+D4 3 PG DLIMNP
+G8 3 PG NG 4 1m vto=550m dir=1
+R7 N015 0 1 Noiseless
+R8 N015 N016 {R2b_Aol} Noiseless
+R10 N016 N021 {R1b_Aol} Noiseless
+C15 0 N021 {C1b_Aol}
+Gb1 0 N013 N016 0 1
+R11 X2 N014 {R1a_Aol} Noiseless
+R12 N014 0 {R2a_Aol} Noiseless
+C16 N014 X2 {C1a_Aol}
+G7 0 N015 N014 0 {G1_Aol}
+R6 N013 0 1 Noiseless
+G9 0 N018 N012 0 1m
+R13 N012 N011 {R2x_Avo} Noiseless
+R14 N011 N013 {R1x_Avo} Noiseless
+Rx1 N017 N013 {Rx_Avo} Noiseless
+Cx1 N017 0 {Cx_Avo}
+G10 0 N012 N017 N011 1Meg
+R15 0 N012 1 Noiseless
+R17 N018 0 1k
+C19 N018 0 {Co}
+G11 0 N019 N018 0 1m
+R16 N019 0 1k
+C20 N019 0 {Co}
+G12 0 N020 N019 0 1m
+R18 N020 0 1k
+C21 N020 0 {Co}
+R19 X3 0 1k
+C22 X3 0 {Co}
+G13 0 X3 N020 0 1m
+.model DSHUT D(Ron=85k Roff=1G Vfwd=.1 epsilon=50m ilimit=50n  noiseless)
+.model SPOW SW(level=2 Ron=1k Roff=10G vt=.5 vh=-200m ilimit=5.883u noiseless)
+.model DLK D(Ron=1Meg Roff=1Meg ilimit=35n noiseless)
+.model SHUT1 SW(Ron=100k Roff=100G vt=-.8 vh=-100m noiseless)
+.model SHUT2 SW(Ron=1k Roff=10G vt=-.8 vh=-100m noiseless)
+.model SNLG SW(level=2 Ron=19Meg Roff=455Meg vt=-1 vh=-1.5 noiseless)
+.model SOD SW(level=2 Ron= 600k Roff=20Meg vt=2 vh=-1 noiseless)
+.model PI VDMOS(kp=950u vto=-500m mtriode=1.5  ksubthres=50m pchan noiseless)
+.model NI VDMOS(kp=1.8m vto=500m mtriode=1.5  ksubthres=50m noiseless)
+.model DLIM D(Ron=1k Roff=1g Vfwd=4.2 Vrev=4.2 epsilon=100m revepsilon=100m noiseless)
+.model DESD D(Ron=100 Roff=10T Vfwd=1.4 epsilon=200m noiseless)
+.model DESD2 D(Ron=100 Roff=10T Vfwd=600m epsilon=200m noiseless)
+.model DLIMNP D(Ron=800Meg Roff=100Meg vfwd=500m epsilon=50m noiseless)
+.param R1a_Aol=10k R1b_Aol=10k
+.param fz1_Aol=225k fp1_Aol=1.1Meg
+.param fp2_Aol=9k fz2_Aol=11k
+.param Rx_Avo=1k
+.param R2x_Avo=10k
+.param fzx_Avo=1.2Meg
+.param fpx_Avo=25Meg
+.param Cx_Avo={1/(2*pi*Rx_Avo*fpx_Avo)}
+.param R1x_Avo={(fzx_Avo*R2x_Avo)/fpx_Avo}
+.param Co=18p
+.param C1a_Aol = {1 / (2 * pi * R1a_Aol * fz1_Aol)}
+.param R2a_Aol = {R1a_Aol/ ((2 * pi * fp1_Aol * C1a_Aol
++* R1a_Aol) - 1)}
+.param actual1_Aol = {R2a_Aol / (R1a_Aol + R2a_Aol)}
+.param G1_Aol = {1/actual1_Aol}
+.param C1b_Aol = {1 / (fz2_Aol * R1b_Aol * 2 * pi)}
+.param R2b_Aol = {(1 / (fp2_Aol * C1b_Aol * 2 * pi))
++- R1b_Aol}
+.ends LTC2066

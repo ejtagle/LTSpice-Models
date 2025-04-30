@@ -1,0 +1,25 @@
+* Copyright (c) 1998-2021 Analog Devices, Inc.  All rights reserved.
+*
+.subckt level2 1 2 3 4 5
+S1 5 3 X 5 Q
+S2 4 5 5 X Q
+A1 2 1 0 0 0 0 X 0 OTA G={Avol/Rout} ref={Vos} Iout={slew*Cout} Cout={Cout} en={en} enk={enk} in={in} ink={ink} incm={incm} incmk={incmk} Vhigh=1e308 Vlow=-1e308
+C3 5 4 1p
+C4 3 5 1p
+R2 X 4 {2*Rout} noiseless
+R1 3 X {2*Rout} noiseless
+R3 3 1 {2*Rin} noiseless
+R4 3 2 {2*Rin} noiseless
+R5 2 4 {2*Rin} noiseless
+R6 1 4 {2*Rin} noiseless
+B1 X 0 I=if(V(x,3)<0,0,({2*slew*Cout}*V(x,3))**2)
+B2 0 X I=if(V(x,4)>0,0,({2*slew*Cout}*V(4,x))**2)
+D1 5 3 X
+D2 4 5 X
+.param Rout=100Meg
+.param Cout={Avol/GBW/2/pi/Rout}
+.model Q SW(Ron=10 Roff=10Meg Vt=0 Vh=-.1 Vser={Rail} ilimit={Ilimit} noiseless level=2 epsilon={Rail/10})
+.param Avol=1Meg GBW=10Meg Slew=10Meg ilimit=25m rail=0 Vos=0
+.param en=0 enk=0 in=0 ink=0 incm=0 incmk=0 Rin=1G
+.model X D(Ron=1 epsilon=10 noiseless)
+.ends level2

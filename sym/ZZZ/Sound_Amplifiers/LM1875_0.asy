@@ -1,0 +1,30 @@
+Version 4
+SymbolType BLOCK
+LINE Normal -64 96 -64 -96
+LINE Normal 128 0 -64 96
+LINE Normal -64 -96 128 0
+LINE Normal -39 -32 -55 -32
+LINE Normal -47 -24 -47 -40
+LINE Normal -39 32 -55 32
+WINDOW 3 -1 -1 Center 2
+WINDOW 0 64 -65 Left 2
+SYMATTR Value LM1875
+SYMATTR Description 20W Audio Power Amplifier
+SYMATTR Prefix X
+SYMATTR Value2 LM1875_0
+SYMATTR SpiceModel LM1875.lib1
+PIN -64 32 NONE 8
+PINATTR PinName INN
+PINATTR SpiceOrder 1
+PIN -64 -32 NONE 8
+PINATTR PinName INP
+PINATTR SpiceOrder 2
+PIN 0 64 BOTTOM 8
+PINATTR PinName VEE
+PINATTR SpiceOrder 3
+PIN 0 -64 TOP 8
+PINATTR PinName VCC
+PINATTR SpiceOrder 4
+PIN 128 0 NONE 8
+PINATTR PinName OUT
+PINATTR SpiceOrder 5

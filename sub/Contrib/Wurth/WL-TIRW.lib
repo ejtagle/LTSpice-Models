@@ -1,0 +1,59 @@
+**************************************************
+* Manufacturer:       Wurth Elektronik
+* Kinds:    Infrared THT LED
+* Matchcode:          WL-TIRW
+ THT Infrared Round Waterclear
+* Library Type:       Pspice
+* Version:        rev18a       
+* Date and Time   :       2018-8-4
+* Team:           eiSos EDA Service  
+* Contact:        libraries@we-online.com
+**************************************************
+.subckt  3mm_15400385A3590  1  2
+D1 1 2 led
+.MODEL led D
++ IS=471.46E-9
++ N=4.9950
++ RS=1.0000E-6
++ IKF=999
++ CJO=270.16E-12
++ M=10
++ VJ=9.9900
+.ends
+******
+.subckt  3mm_15400394A3590  1  2
+D1 1 2 led
+.MODEL led D
++ IS=1.6881E-6
++ N=4.9950
++ RS=1.0000E-6
++ IKF=999
++ CJO=527.75E-12
++ M=10
++ VJ=9.9900
+.ends
+******
+.subckt  5mm_15400585A3590  1  2
+D1 1 2 led
+.MODEL led D
++ IS=2.0869E-19
++ N=1.3283
++ RS=1.9208
++ IKF=0
++ CJO=0.000000000043132
++ M=0.3024
++ VJ=0.49552
+.ends
+******
+.subckt  5mm_15400594A3590  1  2
+D1 1 2 led
+.MODEL led D
++ IS=0.000000000000026338
++ N=1.6745
++ RS=1.1631
++ IKF=0.30418
++ CJO=0.00000000013486
++ M=1.8418
++ VJ=0.3905
+.ends
+******

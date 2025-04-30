@@ -1,0 +1,196 @@
+* AD8422 SPICE Macro-model
+* Description: Amplifier
+* Generic Desc: 36V Bipolar Low Power, Rail to Rail Output, High Performance In-Amp
+* Developed by: ADI - LPG
+*
+* Revision History:
+* 1.0 (05/2013) - OQ (Initial Rev)
+* 2.0 (1/2015) - SH (Added missing .ENDS statement, improved compatibility, added parameters to model, organized netlist)
+* Copyright 2015 by Analog Devices.
+*
+* Refer to http://www.analog.com/Analog_Root/static/techSupport/designTools/spiceModels/license/spice_general.html for License Statement. Use of this model
+* indicates your acceptance with the terms and provisions in the License Statement.
+*
+* BEGIN Notes:
+*
+* Not Modeled:
+*   Temperature effects
+*   PSRR
+*
+* Parameters Modeled Include:
+*   Gain error, Vos, Ibias
+*   Bandwidth
+*   Voltage and current noise with 1/f noise
+*   CMRR vs frequency
+*   Supply current incl preamp and output load currents
+*   Output clamp vs load
+*   Input range and internal voltage limitations
+*   Slew Rate
+*   Pulse response vs cap load
+*   Input impedance
+*
+* Typical Specifications from ±15V Table Used in Model
+*
+* END Notes
+*
+* Node Assignments
+*                inverting input
+*                |   RG
+*                |   |    RG
+*                |   |    |  non_inverting input
+*                |   |    |    |    negative supply
+*                |   |    |    |     |    ref
+*                |   |    |    |     |    |   output
+*                |   |    |    |     |    |    |     positive supply
+*                |   |    |    |     |    |    |     |
+.SUBCKT AD8422  IN-  RG-  RG+  IN+  -Vs   REF  VOUT  +Vs
+*** INPUT STAGE ***
+FIBIAS1 IN- 0 POLY(1) V21 600.0E-12 9.0E-5
+H3 4 IN- V24 6.645
+G4 0 5 4 0 2.64E-3
+R10 5 0 378.788
+D7 5 9 D
+D8 10 5 D
+V7 10 VNEGx 1.24
+V8 VPOSx 9 1.24
+E8 22 0 5 0 1
+FIBIAS2 IN+ 0 POLY(1) V23 400.0E-12 9.0E-5
+VOSI 7 IN+ -25.0E-6
+G5 0 8 7 0 2.64E-3
+R11 8 0 378.788
+D9 8 9 D
+D10 10 8 D
+E9 15 0 8 0 1
+G1 IN+ 0 POLY(2) (IN+, VMID) (IN+, IN-) 0 2.5E-12 5.0E-12
+G2 IN- 0 POLY(2) (IN-, VMID) (IN-, IN+) 0 2.5E-12 5.0E-12
+CCM1 IN+ 0 1.0E-12
+CCM2 IN- 0 1.0E-12
+CDIFF IN+ IN- 1.5E-12
+*
+*** PREAMPLIFIER STAGE ***
+GN1 Pos_Fdbk 16 15 16 778.8E-6
+VSH1 RG+ 16 -0.474
+C4 RG+ 0 3.688E-12
+R6 RG+ 17 9802.94
+VCS2 noninverting_out 17 0
+I1 VBIAS Pos_Fdbk 20.0E-6
+R23 Pos_Fdbk VBIAS 1E9
+G7 0 18 VBIAS Pos_Fdbk 1
+R8 18 0 10E9
+C2 noninverting_out Pos_Fdbk 10.19E-12
+R25 19 18 100
+D5 19 20 D
+D6 21 19 D
+V5 21 VNEGx 0.19
+V6 VPOSx 20 0.19
+GN2 Inv_Fdbk 23 22 23 778.8E-6
+VSH2 RG- 23 -0.474
+C3 RG- 0 3.692E-12
+R5 RG- 24 9802.94
+VCS1 Inverting_Out 24 0
+I2 VBIAS Inv_Fdbk 20.0E-6
+R18 VBIAS Inv_Fdbk 1E9
+G6 0 25 VBIAS Inv_Fdbk 1
+R7 25 0 10E9
+C1 Inverting_Out Inv_Fdbk 10.31E-12
+R24 26 25 100
+D3 26 20 D
+D4 21 26 D
+V1 VBIAS +Vs 20
+D40 Inv_Fdbk VBIAS D
+D41 Pos_Fdbk VBIAS D
+D42 VBIAS Inv_Fdbk D
+D43 VBIAS Pos_Fdbk D
+*
+*** SUBTRACTOR STAGE ***
+E4 Inverting_Out 0 26 0 1
+E5 noninverting_out 0 19 0 1
+R1 31 sub_neg 10000.0
+R2 sub_neg 24 9999.05
+R3 sub_pos 17 9998.85
+R4 REF sub_pos 10000.0
+VCS3 sub_out 31 0
+G8 0 sub_out sub_pos sub_neg 1E3
+R9 sub_out 0 10E6
+D13 REF 38 D
+D14 39 REF D
+V13 39 VNEGx 0.3
+V14 VPOSx 38 0.3
+D15 sub_pos 36 D
+D16 37 sub_pos D
+V15 37 VNEGx 0.05
+V16 VPOSx 36 1.05
+R22 sub_out_cl sub_out 100
+D1 sub_out_cl 45 D
+D2 46 sub_out_cl D
+H4 VX sub_out_cl V25 71.74
+*
+*** SLEW RATE AND OUTPUT STAGE ***
+G11 0 VZ VX VY 1e-3
+R26 VZ 0 100E6
+D21 40 VZ DSLEWP
+D22 40 0 DSLEWN
+G12 0 VY VZ 0 40.0E-6
+C7 VY 0 1E-9
+R30 VY 0 10e9
+G9 0 41 VY 42 1
+R12 41 0 1e10
+C5 41 0 56.15E-9
+G10 0 42 41 0 1.0E-3
+R17 42 0 1000.0
+C6 42 0 87.03E-12
+R27 43 42 0.1
+D11 43 45 D
+D12 46 43 D
+H1 VPOSx 45 POLY(1) VSRC 0.15 0 3E3
+H2 46 VNEGx POLY(1) VSNK 0.15 0 3E3
+VOSO VOUT 43 157.0E-6
+*
+*** NOISE ***
+V24 60 0 0
+R19 60 0 .0166
+D17 61 60 DN
+V18 61 0 0.2
+V25 64 0 0
+R20 64 0 .0166
+D19 65 64 DN
+V20 65 0 0.209
+V21 70 0 0
+R28 70 0 .0166
+D38 71 70 DIN
+V22 71 0 0.2
+V23 72 0 0
+R29 72 0 .0166
+D39 73 72 DIN
+V27 73 0 0.2
+*
+*** SUPPLY CURRENT AND BIASING ***
+GSUP +Vs -Vs POLY(1) (+Vs,-Vs) 268E-6 1.0E-6
+FSUP1 56 0 VOSO -1
+D24 90 +Vs DZ
+D25 -Vs 52 DZ
+D20 90 95 D
+VSRC 95 56 0
+D23 55 52 D
+VSNK 56 55 0
+FSUP2 57 0 VCS1 1
+D26 90 57 D
+D27 57 52 D
+FSUP3 58 0 VCS2 1
+D30 90 58 D
+D31 58 52 D
+FSUP4 59 0 VCS3 1
+D34 90 59 D
+D35 59 52 D
+E10 VPOSx 0 +Vs 0 1
+E11 VNEGx 0 -Vs 0 1
+EMID VMID 0 POLY(2) (+Vs, 0) (-Vs, 0) 0 0.5 0.5
+*
+*
+.MODEL D D(IS=1e-15 N=0.1 RS=1e-3)
+.MODEL DN D(IS=1e-15 KF=3.142E-7)
+.MODEL DIN D(IS=1e-15 KF=6.221E-6)
+.MODEL DZ D(IS=1e-15 BV=50 RS=1)
+.MODEL DSLEWP D(IS=1e-15 BV=19.5 RS=0.1)
+.MODEL DSLEWN D(IS=1e-15 BV=19.5 RS=0.1)
+.ENDS AD8422

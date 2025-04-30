@@ -1,0 +1,41 @@
+Version 4
+SymbolType CELL
+LINE Normal -32 32 32 64
+LINE Normal -32 96 32 64
+LINE Normal -32 32 -32 96
+LINE Normal -28 48 -20 48
+LINE Normal -28 80 -20 80
+LINE Normal -24 84 -24 76
+LINE Normal 0 32 0 48
+LINE Normal 0 96 0 80
+LINE Normal 4 44 12 44
+LINE Normal 8 40 8 48
+LINE Normal 4 84 12 84
+LINE Normal 16 112 16 72
+LINE Normal 32 112 16 112
+TEXT 22 97 Left 1 _S
+WINDOW 0 19 19 Left 2
+WINDOW 3 19 42 Left 2
+SYMATTR Value ADA4691
+SYMATTR Prefix X
+SYMATTR SpiceModel ADA4691.lib
+SYMATTR Value2 ADA4691
+SYMATTR Description Low Power, 3.6 MHz, Low Noise, Rail-to-Rail Output, Operational Amplifiers
+PIN -32 80 NONE 0
+PINATTR PinName In+
+PINATTR SpiceOrder 1
+PIN -32 48 NONE 0
+PINATTR PinName In-
+PINATTR SpiceOrder 2
+PIN 0 32 NONE 0
+PINATTR PinName V+
+PINATTR SpiceOrder 3
+PIN 0 96 NONE 0
+PINATTR PinName V-
+PINATTR SpiceOrder 4
+PIN 32 64 NONE 0
+PINATTR PinName OUT
+PINATTR SpiceOrder 5
+PIN 32 112 NONE 8
+PINATTR PinName 6
+PINATTR SpiceOrder 6

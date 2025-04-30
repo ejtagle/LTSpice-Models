@@ -1,0 +1,30 @@
+.subckt SSMBC Vi Ctrl Inp Vo Iout Imax CCM 0
+C1 N003 N005 {C} Rser=200
+L1 N006 N005 {L}
+B1 N006 0 V=if(V(CCM),-V(Iv)*(V(Sf)-Sc)/(V(Sr)+Sc),0)
+E1 Iv 0 N003 0 table=({-Ipic/1e5} {Ipic},0 0)
+R1 N003 Iv 200
+R2 N002 N003 200
+E2 N002 0 Ctrl 0 {-Ke2}
+B2 0 N001 I=if(V(CCM),V(Imax)-V(D)*Tc*V(Sr)/2,V(Imax)**2*(V(Sr)+V(Sf))/(2*Tc*V(Sr)*V(Sf)))
+V1 Inp Ctrl {V1} Rser=1k
+D3 N001 N004 IDEAL
+D4 0 N001 IDEAL
+B3 Imax 0 V=if(V(CCM),V(Iv)-V(D)*Tc*Sc,V(Iv)*V(Sr)/(V(Sr)+Sc))
+B4 CCM 0 V=if(V(Iv)-V(D)*Tc*Sc-V(Imb)+0.5,1,0)
+B5 D 0 V=V(Vo)/V(Vi)
+B6 Sr 0 V=(V(Vi)-V(Vo))/Lf
+B7 Sf 0 V=V(Vo)/Lf
+B8 Imb 0 V=Tc*V(Vo)*(V(Vi)-V(Vo))/(Lf*V(Vi))
+E3 N004 0 Vi 0 1
+B9 Vi 0 I=I(V4)*V(D)
+V4 N001 Iout 0
+C8 0 N003 3p
+.params Vc=56 Lf=7.5u Fc=88000
+.params Sc=Vc/Lf Tc=1/Fc
+.params Kt=200*21/5 Ri=1.73864 Vrmax=1 Msc=1 Schc=0 Insch=1.25
+.params Vcri=Vc*Ri/(Lf*Fc*Kt) Ipic=Kt*(Vrmax-Schc+0.5*Msc*Vcri)/Ri
+.params C=1/(200*pi*Fc) L=40000*C
+.params Ke2=Ipic/(Vrmax-Schc+0.5*Msc*Vcri) V1=Insch-0.5*Msc*Vcri
+.MODEL IDEAL D(Ron=0 Roff=1G Vfwd=0)
+.ends SSMBC

@@ -1,0 +1,18 @@
+Version 4
+SymbolType CELL
+LINE Normal 31 -48 -64 -1
+LINE Normal 31 33 31 -48
+LINE Normal -64 -1 31 33
+SYMATTR Prefix X
+SYMATTR Value ERRAMP
+PIN 32 -32 RIGHT 8
+PINATTR PinName +
+PINATTR SpiceOrder 1
+PIN 0 -32 NONE 8
+PINATTR SpiceOrder 4
+PIN -64 0 NONE 8
+PINATTR PinName OUT
+PINATTR SpiceOrder 3
+PIN 32 16 RIGHT 8
+PINATTR PinName -
+PINATTR SpiceOrder 2

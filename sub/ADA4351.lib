@@ -1,0 +1,365 @@
+* Copyright (c) 1998-2024 Analog Devices, Inc.  All rights reserved.
+*
+.subckt ADA4351 1 2 3 4 5 6 7 8 9 10
+CinDiff INNx INPx 2p
+CinCMP VMIDx INPx 1p
+CinCMN INNx VMIDx 3.5p
+RinCMP VMIDx INPx RQT 3.75E12 Noiseless
+RinCMN INNx VMIDx RQT 3.75E12 Noiseless
+RinDiff INNx INPx RQT 3.75E12 Noiseless
+IbiasN INNx VMIDx 2p
+IbiasP INPx VMIDx 2p
+Rvmid1 AVDDx VM RQT 10E9 Noiseless
+Rvmid2 VM AVSSx RQT 10E9 Noiseless
+Evmidx VMIDx 0 VM 0 1
+E1DPS DVDDx 0 6 0 1
+E2DPS DVSSx 0 4 0 1
+S10 TIAOUT 10 5 DVSSx SW0
+S20 8 10 5 DVSSx SW0
+Cc0 10 INNx 3p
+Cc1 9 INNx 3p
+RSWSEL 5 DVSSx RQT 865k Noiseless
+DAPS1 7 3 daps1
+DAPS2 7 3 daps2
+DDPS1 6 4 ddps1
+DDPS2 6 4 ddps2
+Rinp 2 INPx RQT 1 Noiseless
+Rinn 1 INNx RQT 1 Noiseless
+Rvmidx VMIDx 0 RQT 1E6
+Cvmidx VMIDx 0 1n
+Raps1 AVDDx 0 RQT 10E3 Noiseless
+Caps1 AVDDx 0 1E-15
+Raps2 0 AVSSx RQT 10E3 Noiseless
+Caps2 0 AVSSx 1E-15
+Cvm VM 0 0.1m
+RpZo Zo_Out Aol_out RQT 6E5 Noiseless
+Czfz1 N025 N024 1.608E-07
+Gzfz1 VMIDx N024 Aol_out Zo_Out 8.700E+01
+Solt_cntl N025 N024 Zo_SWX VMIDx OLT_CNTLSW
+Gzfz3 VMIDx N027 N026 VMIDx 3.468E-07
+Czfz3 N032 VMIDx 2.122E-12
+Rz1fz1 VMIDx N024 RQT 10 Noiseless
+Rz2fz1 N025 N024 RQT 1.000E+06 Noiseless
+Rz3fz1 VMIDx N025 RQT 1.236E+05 Noiseless
+Rz2fz3 N032 N027 RQT 1E3 Noiseless
+Rz1fz3 VMIDx N027 RQT 2.884E+06 Noiseless
+Rx3 N030 Zo_Out RQT 6E5 Noiseless
+Rdummy VMIDx Zo_Out RQT 6E4 Noiseless
+Ezo N030 VMIDx N029 VMIDx 1
+Lzfz2 N026 N031 0.160
+Rzfz2 N031 VMIDx RQT 1 Noiseless
+Gzfz2 VMIDx N026 N025 VMIDx 1
+Gzfz4 VMIDx N028 N027 VMIDx 3.468E-07
+Czfz4 N033 VMIDx 2.122E-12
+Rz2fz4 N033 N028 RQT 1E3 Noiseless
+Rz1fz4 VMIDx N028 RQT 2.884E+06 Noiseless
+Gzfz5 VMIDx N029 N028 VMIDx 3.636E-04
+Czfz5 N034 VMIDx 2.122E-12
+Rz2fz5 N034 N029 RQT 1E3 Noiseless
+Rz1fz5 VMIDx N029 RQT 2.750E+03 Noiseless
+Cfp1 Aolz VMIDx 1.000E-11
+Gaol_out VMIDx Aol_out N022 VMIDx 1
+GFP1 VMIDx Aolz VALUE = {LIMIT(V(IVRx,VMIDx)*G1,ILO1,IHI1)}
+Caol_out Aol_out VMIDx 1E-15
+GFP2 VMIDx N020 N019 VMIDx 6.666667E-05
+Cfp2 N020 VMIDx 2.653E-13
+Gfz1 N018 VMIDx N017 VMIDx {gm2}
+V_RHPzero N018 VMIDx 0
+Cfz1 N018 N017 {CRHPzero}
+Haolx N021 VMIDx V_RHPzero -1
+Efz1 N017 VMIDx N020 VMIDx {1/gm2}
+Gg1 VMIDx IVRx IVRpx IVRm 1E-2
+Viout PSR_Outp TIAOUT 0
+Rgg1 IVRx VMIDx RQT 1.0E4 Noiseless
+Rfp1 Aolz VMIDx RQT 1.592E+11 Noiseless
+Rfp2 N020 VMIDx RQT 1.5E4 Noiseless
+Rfz1 N017 VMIDx RQT 100k Noiseless
+Raol_out Aol_out VMIDx RQT 1 Noiseless
+Raolx N021 VMIDx RQT 1k Noiseless
+Givrm VMIDx IVRm VALUE = {LIMIT(V(INNx,VMIDx),V(AVSSx,VMIDx),V(AVDDx,VMIDx)-1.5)}
+Givrp VMIDx IVRp VALUE = {LIMIT(V(INPx,VMIDx),V(AVSSx,VMIDx),V(AVDDx,VMIDx)-1.5)}
+Rivrp IVRp VMIDx RQT 1 Noiseless
+Rivrm VMIDx IVRm RQT 1 Noiseless
+Rcmrr1 cmrr2 IVRp RQT 1E12 Noiseless
+Rcmrr2 IVRm cmrr2 RQT 1E12 Noiseless
+Gcmrr VMIDx cmrr3 cmrr2 VMIDx 10E-10
+Lcmrr cmrr3 cmrr1 1
+Rcmrr3 cmrr1 VMIDx RQT 28.5e3 Noiseless
+Vnp Vn1 VMIDx 0.65
+Dn1 Vn1 Vdn1 Diode_Vn
+Vmeas1 Vdn1 VMIDx 0
+Vnn Vn2 VMIDx 0.65
+Dn2 Vn2 Vdn3 Diode_Vn
+Vmeas2 Vdn3 VMIDx 0
+Fn1 VMIDx Vn Vmeas1 707.1067812
+Rn1 Vn VMIDx RQT 1 Noiseless
+Fn2 VnoiseP Vn Vmeas2 707.1067812
+Rn2 Vn VnoiseP RQT 1 Noiseless
+Cn2 VnoiseP Vn 1E-15
+Cn1 Vn VMIDx 1E-15
+Cpsvp1 N005 PSVp1 4.789403E-11
+Gpsvp1 VMIDx N005 AVDDx VMIDx 3.014230E-02
+Cpsvp3 PSVp_Vos VMIDx 10E-12
+Cpsvm3 PSVm_Vos VMIDx 10E-12
+Cpsvm1 N010 PSVm1 4.789403E-11
+Gpsvm1 VMIDx N010 AVSSx VMIDx 3.014230E-02
+Gpsvp3 VMIDx PSVp_Vos VALUE = {LIMIT(V(PSVp,VMIDx)*GPSV,ILO_psv,IHI_psv)}
+Gpsvm3 VMIDx PSVm_Vos VALUE = {LIMIT(V(PSVm,VMIDx)*GPSV,ILO_psv,IHI_psv)}
+Rpsvm11 N010 VMIDx RQT 10 Noiseless
+Rpsvp11 N005 VMIDx RQT 10 Noiseless
+Rpsvm12 PSVm1 N010 RQT 10E6 Noiseless
+Rpsvp12 PSVp1 N005 RQT 10E6 Noiseless
+Rpsvm13 PSVm1 VMIDx RQT 8.334205E+01 Noiseless
+Rpsvp13 PSVp1 VMIDx RQT 8.334205E+01 Noiseless
+Rpsvm3 PSVm_Vos VMIDx RQT 1 Noiseless
+Rpsvp3 PSVp_Vos VMIDx RQT 1 Noiseless
+Cpsvp41 N007 VMIDx 10E-12
+Gpsvp4 VMIDx N007 PSVp_Vos VMIDx 1
+Cpsvp42 N008 N007 6.91978013E-10
+Cpsvm41 N011 VMIDx 10E-12
+Gpsvm4 VMIDx N011 PSVm_Vos VMIDx 1
+Cpsvm42 N012 N011 6.91978013E-10
+Rpsvp42 N008 VMIDx RQT 1E3 Noiseless
+Rpsvp41 N007 VMIDx RQT 1 Noiseless
+Rpsvm41 N011 VMIDx RQT 1 Noiseless
+Rpsvm42 N012 VMIDx RQT 1E3 Noiseless
+Rpsrr VMIDx N009 RQT 1 Noiseless
+Gpsrr VMIDx N009 N008 N012 1
+Cpsrr N009 VMIDx 1E-15
+Epsrr PSR_Outp Zo_Out N009 VMIDx 1
+Raol_clmp VMIDx N022 RQT 1k Noiseless
+G1 AVDDx VMIDx VALUE={LIMIT(V(Vimon,VMIDx)+ILO_vimon,ILO_vimon,IHI_vimon)}
+G4 AVSSx VMIDx VALUE={LIMIT(V(Vimon,VMIDx)-ILO_vimon,-IHI_vimon,-ILO_vimon)}
+I1 DVDDx VMIDx 1E-6
+Fvimon VMIDx Vimon Viout 1
+Rvimon Vimon VMIDx RQT 1 Noiseless
+GFP3 VMIDx VimonN VALUE = { (V(Vimon,VMIDx)-abs(V(Vimon,VMIDx)))/2 }
+GFP4 VMIDx VoutP VALUE = { (V(8,VMIDx)+abs(V(8,VMIDx)))/2 }
+GFP5 VMIDx VoutN VALUE = { (V(8,VMIDx)-abs(V(8,VMIDx)))/2 }
+Rvoutn VoutN VMIDx RQT 1 Noiseless
+Cimonn VimonN VMIDx 10p
+Cimonp VimonP VMIDx 10p
+GxP1 VMIDx VsatP VALUE = { V(AVDDx,VMIDx)-( 0.002247759 + 13.5745*V(VimonP,VMIDx) + 54.21124*V(VimonP,VMIDx)**2 + 625.8952*V(VimonP,VMIDx)**3 ) }
+Rvsatp VsatP VMIDx RQT 1 Noiseless
+GxN1 VMIDx VsatN VALUE = { V(AVSSx,VMIDx)-( 0.002286496 + 8.848029*V(VimonN,VMIDx) + 16.54695*V(VimonN,VMIDx)**2 + 778.2158*V(VimonN,VMIDx)**3 ) }
+Rvsatn VsatN VMIDx RQT 1 Noiseless
+Cvsatp VsatP VMIDx 1E-15
+Cvsatn VsatN VMIDx 1E-15
+IscP1 VMIDx IscP 63m
+IscM1 VMIDx IscN -75m
+Riscp IscP VMIDx RQT 1 Noiseless
+Riscn IscN VMIDx RQT 1 Noiseless
+Gaoly VMIDx N019 VALUE = {LIMIT(V(Aolz,VMIDx)*1E-3,-400m,400m)}
+R27 N019 VMIDx RQT 1k Noiseless
+GFP10 VMIDx VimonP VALUE = { (V(Vimon,VMIDx)+abs(V(Vimon,VMIDx)))/2 }
+Givrpx VMIDx vosx1 IVRp VMIDx 1
+Civrpx vosx1 VMIDx 1E-15
+Rivrpx vosx1 VMIDx RQT 1 Noiseless
+Cpsvp2 PSVp VMIDx 4.54728E-14
+Gpsvp2 VMIDx PSVp PSVp1 VMIDx 1.00010001
+Rpsvp2 PSVp VMIDx RQT 10 Noiseless
+Cpsvm2 PSVm VMIDx 4.54728E-14
+Gpsvm2 VMIDx PSVm PSVm1 VMIDx 1.00010001
+Rpsvm2 PSVm VMIDx RQT 10 Noiseless
+Cs102 VMIDx 10 0.9p
+Cs201 VMIDx 10 0.9p
+S11 TIAOUT 9 5 DVSSx SW1
+S21 8 9 5 DVSSx SW1
+Cs112 VMIDx 9 0.9p
+Cs211 VMIDx 9 0.9p
+GFP11 VMIDx N045 N044 VMIDx 6.666667E-05
+Cfp3 N045 VMIDx 1.684E-13
+Rfp3 N045 VMIDx RQT 1.5E4 Noiseless
+Czfz2 N039 N038 1.989E-13
+Gzfz6 VMIDx N038 VnoiseP VMIDx 7.880E-01
+Rz1 VMIDx N038 RQT 10 Noiseless
+Rz2 N039 N038 RQT 1.000E+05 Noiseless
+Rz3 VMIDx N039 RQT 1.454E+04 Noiseless
+GFP12 VMIDx N044 N043 VMIDx 6.666667E-05
+Cfp4 N044 VMIDx 1.632E-13
+Rfp4 N044 VMIDx RQT 1.5E4 Noiseless
+GFP13 VMIDx N046 N045 VMIDx 6.666667E-05
+Cfp5 N046 VMIDx 1.684E-13
+Rfp5 N046 VMIDx RQT 1.5E4 Noiseless
+Czfz6 N041 N040 7.234E-14
+Gzfz7 VMIDx N040 N039 VMIDx 2.864E-01
+Rz4 VMIDx N040 RQT 10 Noiseless
+Rz5 N041 N040 RQT 1.000E+05 Noiseless
+Rz6 VMIDx N041 RQT 5.365E+04 Noiseless
+GFP14 VMIDx Vnoise N046 VMIDx 6.666667E-05
+Cfp6 Vnoise VMIDx 1.684E-13
+Rfp6 Vnoise VMIDx RQT 1.5E4 Noiseless
+Czfz7 N043 N042 7.234E-14
+Gzfz8 VMIDx N042 N041 VMIDx 2.864E-01
+Rz7 VMIDx N042 RQT 10 Noiseless
+Rz8 N043 N042 RQT 1.000E+05 Noiseless
+Rz9 VMIDx N043 RQT 5.365E+04 Noiseless
+Czfz8 N050 N049 7.957747E-07
+Gzfz9 0 N049 N048 0 4.001200E-01
+Rz10 N050 N049 1.000E+05 Noiseless
+Rz11 0 N050 3.332333E+04 Noiseless
+GFP15 0 N065 N062 0 6.666667E-05
+Cfp7 N065 0 5.305165E-15
+Czfz9 N052 N051 5.305165E-08
+Gzfz10 0 N051 N050 0 3.000600E-01
+Rz12 N052 N051 1.000E+05 Noiseless
+Rz13 0 N052 4.999E+04 Noiseless
+Czfz10 N056 N055 5.305165E-10
+Gzfz11 0 N055 N054 0 2.833853E-01
+Rz14 N056 N055 1.000E+05 Noiseless
+Rz15 0 N056 5.453545E+04 Noiseless
+Czfz11 N058 N057 2.893726E-12
+Gzfz12 0 N057 N056 0 1.818331E-01
+Rz16 N058 N057 1.000E+05 Noiseless
+Rz17 0 N058 1.222122E+05 Noiseless
+Czfz12 N060 N059 2.893726E-12
+Gzfz13 0 N059 N058 0 1.821311E+00
+Rz18 N060 N059 1.000E+05 Noiseless
+Rz19 0 N060 5.810106E+03 Noiseless
+Czfz13 N062 N061 7.957747E-15
+Gzfz14 0 N061 N060 0 1.500075E-01
+Rz20 N062 N061 1.000E+05 Noiseless
+Rz21 0 N062 1.999900E+05 Noiseless
+G2 0 N064 N063 0 1.9126461E-7
+Rz22 0 N064 1 Noiseless
+G3 0 INPx N065 0 1
+Czfz14 N048 N047 1.591549E-05
+Gzfz15 0 N047 N064 0 5.002001E-01
+Rz23 0 N047 10 Noiseless
+Rz24 N048 N047 1.000E+05 Noiseless
+Rz25 0 N048 2.499E+04 Noiseless
+Czfz15 N054 N053 6.366198E-09
+Gzfz16 0 N053 N052 0 4.001200E-01
+Rz26 N054 N053 1.000E+05 Noiseless
+Rz27 0 N054 3.332333E+04 Noiseless
+Rz28 0 N063 R25C 60
+Rz29 0 N065 1.5E4 Noiseless
+Rz30 0 N049 10 Noiseless
+Rz31 0 N051 10 Noiseless
+Rz32 0 N053 10 Noiseless
+Rz33 0 N055 10 Noiseless
+Rz34 0 N057 10 Noiseless
+Rz35 0 N059 10 Noiseless
+Rz36 0 N061 10 Noiseless
+Czfz16 N069 N068 7.957747E-07
+Gzfz17 0 N068 N067 0 4.001200E-01
+Rz37 N069 N068 1.000E+05 Noiseless
+Rz38 0 N069 3.332333E+04 Noiseless
+GFP16 0 N084 N081 0 6.666667E-05
+Cfp8 N084 0 5.305165E-15
+Czfz17 N071 N070 5.305165E-08
+Gzfz18 0 N070 N069 0 3.000600E-01
+Rz39 N071 N070 1.000E+05 Noiseless
+Rz40 0 N071 4.999E+04 Noiseless
+Czfz18 N075 N074 5.305165E-10
+Gzfz19 0 N074 N073 0 2.833853E-01
+Rz41 N075 N074 1.000E+05 Noiseless
+Rz42 0 N075 5.453545E+04 Noiseless
+Czfz19 N077 N076 2.893726E-12
+Gzfz20 0 N076 N075 0 1.818331E-01
+Rz43 N077 N076 1.000E+05 Noiseless
+Rz44 0 N077 1.222122E+05 Noiseless
+Czfz20 N079 N078 2.893726E-12
+Gzfz21 0 N078 N077 0 1.821311E+00
+Rz45 N079 N078 1.000E+05 Noiseless
+Rz46 0 N079 5.810106E+03 Noiseless
+Czfz21 N081 N080 7.957747E-15
+Gzfz22 0 N080 N079 0 1.500075E-01
+Rz47 N081 N080 1.000E+05 Noiseless
+Rz48 0 N081 1.999900E+05 Noiseless
+G5 0 N083 N082 0 1.9126461E-7
+Rz49 0 N083 1 Noiseless
+G6 0 INNx N084 0 1
+Czfz22 N067 N066 1.591549E-05
+Gzfz23 0 N066 N083 0 5.002001E-01
+Rz50 0 N066 10 Noiseless
+Rz51 N067 N066 1.000E+05 Noiseless
+Rz52 0 N067 2.499E+04 Noiseless
+Czfz23 N073 N072 6.366198E-09
+Gzfz24 0 N072 N071 0 4.001200E-01
+Rz53 N073 N072 1.000E+05 Noiseless
+Rz54 0 N073 3.332333E+04 Noiseless
+Rz55 0 N082 R25C 60
+Rz56 0 N084 1.5E4 Noiseless
+Rz57 0 N068 10 Noiseless
+Rz58 0 N070 10 Noiseless
+Rz59 0 N072 10 Noiseless
+Rz60 0 N074 10 Noiseless
+Rz61 0 N076 10 Noiseless
+Rz62 0 N078 10 Noiseless
+Rz63 0 N080 10 Noiseless
+Rivrp1 IVRpx VMIDx RQT 10E9 Noiseless
+Vclmp Aol_ClmpX N022 0
+Fresetctrl VMIDx Zo_SW VaolSNS 1E5
+Rresetctrl1 Zo_SW VMIDx RQT 1 Noiseless
+Gresetctrl VMIDx Zo_SWX VALUE = {LIMIT(ABS(V(Zo_SW,VmidX)),0,1)}
+Rresetctrl2 Zo_SWX VMIDx RQT 1 Noiseless
+Rvoutp VoutP VMIDx RQT 1 Noiseless
+Rimonn VimonN VMIDx RQT 1 Noiseless
+Rimonp VimonP VMIDx RQT 1 Noiseless
+DP_CLMP N035 Aol_ClmpP Diode_clmp
+DN_CLMP N037 N036 Diode_clmp
+VP_CLMP N035 N036 0.65
+VN_CLMP N037 Aol_ClmpN 0.65
+VaolSNS N036 AolZ 0
+GFPclmpp VMIDx Aol_ClmpP VALUE = {1+((V(Aol_out,VMIDx)+abs(V(Aol_out,VMIDx)))/2)}
+GFPclmpn VMIDx Aol_ClmpN VALUE = { ((V(Aol_out,VMIDx)-abs(V(Aol_out,VMIDx)))/2)-1 }
+Rclmpn Aol_ClmpN VMIDx RQT 1 Noiseless
+Cclmpn Aol_ClmpN VMIDx 1n
+Cclmpp Aol_ClmpP VMIDx 1n
+Rclmpp Aol_ClmpP VMIDx RQT 1 Noiseless
+ILKGSW0 VMIDx 10 2.45p
+ILKGSW1 VMIDx 9 2.45p
+Cs212 VMIDx 8 0.9p
+Cs111 VMIDx TIAOUT 0.9p
+Cs202 VMIDx 8 0.9p
+Cs101 VMIDx TIAOUT 0.9p
+Eaps1 AVDDx 0 7 0 1
+Eaps2 AVSSx 0 3 0 1
+GsatM1 VMIDx Aol_ClmpX VALUE = {LIMIT(V(VsatN,VoutN)*100,0,8000)}
+GsatP1 VMIDx Aol_ClmpX VALUE = {LIMIT(V(VsatP,VoutP)*100,-8000,0)}
+GscM1 VMIDx Aol_ClmpX VALUE = {LIMIT(V(IscN,VimonN)*100,0,8000)}
+GscP1 VMIDx Aol_ClmpX VALUE = {LIMIT(V(IscP,VimonP)*100,-8000,0)}
+Gaol_clmp VMIDx N022 N021 VMIDx 1m
+Gcmrr1 VMIDx CMRR cmrr3 VMIDx 1
+Rcmrr4 CMRR VMIDx RQT 1 Noiseless
+Cresetctrl1 Zo_SW VMIDx 1n
+Rtiaout VMIDx TIAOUT RQT 10Meg Noiseless
+Ciscp IscP VMIDx 1E-15
+Ciscn IscN VMIDx 1E-15
+Cvoutp VoutP VMIDx 10p
+Cvoutn VoutN VMIDx 10p
+Givrpx3 vosx3 vosx4 CMRR VMIDx 1m
+Givrpx4 vosx4 vosx5 PSVp_Vos PSVm_Vos 1m
+Givrpx5 vosx5 IVRpx Vnoise VMIDx 1m
+Rivrpx3 vosx3 vosx4 RQT 1k Noiseless
+Rivrpx4 vosx4 vosx5 RQT 1k Noiseless
+Rivrpx5 vosx5 IVRpx RQT 1k Noiseless
+Rivrpx2 vosx2 vosx3 RQT 1k Noiseless
+Rivrpx1 vosx1 vosx2 RQT 1k Noiseless
+Bvos2 vosx2 vosx3 I=1m*20u
+Bvos1 vosx1 vosx2 I=1m*-125.61744u
+.param G1=5.271E-06
+.param IHI1=8.000E-05
+.param ILO1=-8.000E-05
+.param frhpz=2.8E7
+.param CRHPzero={gm2/(2*3.14159*frhpz)}
+.param gm2=10m
+.param GPSV = 1
+.param IHI_psv = 1
+.param ILO_psv = -1
+.param IHI_vimon = 200E-3
+.param ILO_vimon = 3.3E-3
+.model RQT res(T_ABS=-273.15)
+.model diode d(bv=100 Noiseless)
+.model SW0 SW(Vt=1.4,Vh=-0.9,ron=8e11,roff=11)
+.model SW1 SW(Vt=1.4,Vh=-0.9,ron=11,roff=8e11)
+.model daps2 d(ron=40k epsilon=200mV Noiseless)
+.model daps1 d(ron=50 ilimit=3.3mA epsilon=200mV Noiseless)
+.model ddps2 d(ron=100Meg epsilon=200mV Noiseless)
+.model ddps1 d(ron=50 ilimit=0.5uA epsilon=200mV Noiseless)
+.model OLT_CNTLSW SW(Ron=10E-3 Roff=1E10 Von=0.9 Voff=0.1 Noiseless)
+.model Diode_Vn D(KF=1.63852E-15 IS=1.83199E-15)
+.model R25C res(T_ABS=25)
+.model Diode_clmp D (Is=1E-12 Rs=1 N=1.38 Cjo=1E-15 Noiseless)
+.ends ADA4351

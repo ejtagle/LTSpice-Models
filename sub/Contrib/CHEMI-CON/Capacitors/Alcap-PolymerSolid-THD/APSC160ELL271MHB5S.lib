@@ -1,0 +1,21 @@
+*$
+*//-----------------------------------------------------------------------//
+*//   Part No.    : APSC160E271MHB5S
+*//   Date        : 2020/12/24
+*//   Temperature : 20deg.C
+*//   Model       : RC-ladder 7 Elements Model
+*//   Copyright (C) 2020 Nippon Chemi-Con Corporation.
+*//   All Rights Reserved.
+*//-----------------------------------------------------------------------//
+
+.SUBCKT APSC160ELL271MHB5S_20deg-C 1 2
+
+C1 4 2 1.54e-04
+C2 5 2 7.63e-05
+C3 6 2 1.98e-05
+R1 3 4 6.64e-03
+R2 4 5 3.41e-02
+R3 5 6 7.70e-01
+L1 1 3 3.50e-09
+
+.ENDS

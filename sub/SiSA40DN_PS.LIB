@@ -1,0 +1,38 @@
+********************************
+* Copyright:                   *
+* Vishay Intertechnology, Inc. *
+********************************
+*20-Aug-2018
+*ECN S18-0850, Rev. A
+*File Name: SiSA40DN_PS.txt and SiSA40DN_PS.lib
+*This document is intended as a SPICE modeling guideline and does not
+*constitute a commercial product datasheet. Designers should refer to the
+*appropriate datasheet of the same number for guaranteed specification
+*limits.
+.SUBCKT SiSA40DN D G S 
+M1 3 GX S S NMOS W= 7242500u L= 0.30u 
+M2 S GX S D PMOS W= 7242500u L= 0.07u 
+R1 D 3 9.502e-04 TC=2.704e-03,1.074e-05
+CGS GX S 9.952e-10 
+CGD GX D 1.391e-12 
+RG G GY 0.85 
+RTCV 100 S 1e6 TC=1.027e-04,-0.330e-05
+ETCV GX GY 100 200 1 
+ITCV S 100 1u 
+VTCV 200 S 1 
+DBD S D DBD 7242500u 
+**************************************************  
+.MODEL NMOS NMOS ( LEVEL = 3 TOX = 3e-8 
++ RS = 0 KP = 2.6706e-05 NSUB = 1.314e+17 
++ KAPPA = 2.088e-01 NFS = 2.056e+11 
++ LD = 0 IS = 0 TPG = 1    )
+**************************************************  
+.MODEL PMOS PMOS ( LEVEL = 3 TOX = 3e-8 
++NSUB = 4.303e+16 IS = 0 TPG = -1    )
+************************************************** 
+.MODEL DBD D ( 
++FC = 0.1 TT = 4.778e-08 T_measured = 25 BV = 21
++RS = 6.889e-03 N = 9.714e-01 IS = 1.000e-13 
++EG = 1.188e+00 XTI = 9.480e-01 TRS1 = 3.533e-04
++CJO = 5.392e-10 VJ = 1.439e+00 M = 7.943e-01 ) 
+.ENDS 

@@ -1,0 +1,37 @@
+Version 4
+SymbolType CELL
+LINE Normal 48 48 48 96
+LINE Normal 16 80 48 80
+LINE Normal 40 48 48 48
+LINE Normal 16 48 40 44
+LINE Normal 16 48 40 52
+LINE Normal 40 44 40 52
+LINE Normal 16 8 16 24
+LINE Normal 16 40 16 56
+LINE Normal 16 72 16 88
+LINE Normal 0 80 8 80
+LINE Normal 8 16 8 80
+LINE Normal 48 16 16 16
+LINE Normal 48 0 48 16
+LINE Normal 113 0 48 0
+LINE Normal 49 -63 49 -80
+LINE Normal 80 -63 49 -63
+LINE Normal 80 8 80 -74
+LINE Normal 96 -4 80 0
+LINE Normal 80 0 96 4
+LINE Normal 113 80 113 0
+LINE Normal 48 80 113 80
+WINDOW 0 102 -52 Left 2
+WINDOW 3 95 -20 Left 2
+SYMATTR Value TPH3205B_simple
+SYMATTR Prefix XMN
+SYMATTR Description MOSFET cascod
+PIN 48 -80 NONE 0
+PINATTR PinName D
+PINATTR SpiceOrder 1
+PIN 0 80 NONE 0
+PINATTR PinName G
+PINATTR SpiceOrder 2
+PIN 48 96 NONE 0
+PINATTR PinName S
+PINATTR SpiceOrder 3

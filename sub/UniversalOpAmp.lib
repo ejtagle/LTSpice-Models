@@ -1,0 +1,155 @@
+* Copyright (c) 1998-2021 Analog Devices, Inc.  All rights reserved.
+*
+.subckt level1 1 2 3 4 5
+A1 2 1 0 0 0 0 5 0 OTA G={Avol/Rout} ref={Vos} linear Cout={Cout} en={en} enk={enk} in={in} ink={ink} incm={incm} incmk={incmk} Vhigh=1e308 Vlow=-1e308 Rout={Rout}
+R5 2 3 {2*Rin} noiseless
+R6 1 4 {2*Rin} noiseless
+R1 3 1 {2*Rin} noiseless
+R2 2 4 {2*Rin} noiseless
+.param Rout=.1
+.param Cout={Avol/GBW/2/pi/Rout}
+.param Avol=1Meg GBW=10Meg Slew=10Meg ilimit=25m rail=0 Vos=0
+.param en=0 enk=0 in=0 ink=0 incm=0 incmk=0 Rin=1G
+.ends level1
+*
+.subckt level2 1 2 3 4 5
+S1 5 3 X 5 Q
+S2 4 5 5 X Q
+A1 2 1 0 0 0 0 X 0 OTA G={Avol/Rout} ref={Vos} Iout={slew*Cout} Cout={Cout} en={en} enk={enk} in={in} ink={ink} incm={incm} incmk={incmk} Vhigh=1e308 Vlow=-1e308
+C3 5 4 1p
+C4 3 5 1p
+R2 X 4 {2*Rout} noiseless
+R1 3 X {2*Rout} noiseless
+R3 3 1 {2*Rin} noiseless
+R4 3 2 {2*Rin} noiseless
+R5 2 4 {2*Rin} noiseless
+R6 1 4 {2*Rin} noiseless
+B1 X 0 I=if(V(x,3)<0,0,({2*slew*Cout}*V(x,3))**2)
+B2 0 X I=if(V(x,4)>0,0,({2*slew*Cout}*V(4,x))**2)
+D1 5 3 X
+D2 4 5 X
+.param Rout=100Meg
+.param Cout={Avol/GBW/2/pi/Rout}
+.model Q SW(Ron=10 Roff=10Meg Vt=0 Vh=-.1 Vser={Rail} ilimit={Ilimit} noiseless level=2 epsilon={Rail/10})
+.param Avol=1Meg GBW=10Meg Slew=10Meg ilimit=25m rail=0 Vos=0
+.param en=0 enk=0 in=0 ink=0 incm=0 incmk=0 Rin=1G
+.model X D(Ron=1 epsilon=10 noiseless)
+.ends level2
+*
+.subckt level3a 1 2 3 4 5
+S1 5 3 N002 5 Q
+S2 4 5 5 N002 Q
+A1 2 1 0 0 0 0 N004 0 OTA G={Avol/Rout} ref={Vos} Iout={slew*Cout} Cout={Cout} en={en} enk={enk} in={in} ink={ink} Vhigh=1e308 Vlow=-1e308
+C3 5 4 1p
+C4 3 5 1p
+R3 3 2 {2*Rin} noiseless
+G1 0 N002 N004 0 {1/Rout}
+R2 N002 0 {Rout} noiseless
+C1 N002 0 {X*Cout/Avol}
+R4 3 1 {2*Rin} noiseless
+R5 1 4 {2*Rin} noiseless
+R6 2 4 {2*Rin} noiseless
+G2 0 N004 4 N004 table(0 0 10 {2*slew*Cout})
+G3 N004 0 N004 3 table(0 0 10 {2*slew*Cout})
+R9 3 N004 {2*Rout} noiseless
+R10 N004 4 {2*Rout} noiseless
+.param Rout=100Meg
+.param Cout={Avol/GBW/2/pi/Rout}
+.model Q SW(Ron=10 Roff=10Meg Vt=0 Vh=-.1 Vser={Rail} ilimit={Ilimit} noiseless)
+.param X table(phimargin,29.4,3.5,32.1,2.9,33.8,2.6,35.8,2.3,38.1,2,40.9,1.7,43.2,1.5,45.9,1.3,49.2,1.1,53.2,0.9,58.2,0.7,64.7,0.5,73,0.3,86.1,0.05)
+.param Avol=1Meg GBW=10Meg Slew=10Meg rail=0 Vos=0 ilimit=25m
+.param en=0 enk=0 in=0 ink=0 phimargin=45 Rin=500Meg
+.ends level3a
+*
+.subckt level3b 1 2 3 4 5
+S1 5 3 N002 5 Q
+S2 4 5 5 N002 Q
+A1 2 1 0 0 0 0 N004 0 OTA G={Avol/Rout} ref={Vos} Iout={slew*Cout} Cout={Cout} en={en} enk={enk} in={in} ink={ink} Vhigh=1e308 Vlow=-1e308
+C3 5 4 1p
+C4 3 5 1p
+R3 3 2 {2*Rin} noiseless
+R4 3 1 {2*Rin} noiseless
+R5 1 4 {2*Rin} noiseless
+R6 2 4 {2*Rin} noiseless
+G2 0 N004 4 N004 table(0 0 10 {2*slew*Cout})
+G3 N004 0 N004 3 table(0 0 10 {2*slew*Cout})
+R9 3 N004 {2*Rout} noiseless
+R10 N004 4 {2*Rout} noiseless
+G5 0 N005 N004 0 {2/Rz}
+C2 N005 0 {.768*Cd}
+L1 N005 N006 41.2u
+R12 N005 0 {Rz} Noiseless
+R13 N002 0 {Rz} Noiseless
+L2 N006 N007 23.8u
+L3 N007 N002 11.04u
+C5 N006 0 {.294*Cd}
+C6 N007 0 {.178*Cd}
+C7 N002 0 {.0375*Cd}
+.param Rout=100Meg
+.param Cout={Avol/GBW/2/pi/Rout}
+.param delay= (90-MIN(phimargin,89))/360/GBW
+.param Rz=sqrt (100u/Cd)
+.param Cd=delay*delay/100u
+.model Q SW(Ron=10 Roff=10Meg Vt=0 Vh=-.1 Vser={Rail} ilimit={Ilimit} noiseless)
+.param Avol=1Meg GBW=10Meg Slew=10Meg rail=0 Vos=0 ilimit=25m
+.param en=0 enk=0 in=0 ink=0 phimargin=45 Rin=500Meg
+.ends level3b
+*
+.subckt level3c 1 2 3 4 5
+A1 2 N003 COM COM COM COM OTA COM OTA G=1u Iout=1m in={in} ink={ink} en={en} enk={enk} Vhigh=1e308 Vlow=-1e308
+G1 COM PM Sense COM 1u
+R2 PM COM 1Meg Noiseless
+C1 PM COM {X*Cout/Avol}
+R5 1 COM {Rin} noiseless
+R10 AOL1 COM 1Meg Noiseless
+DOI RO 5 LIM
+I2 Railp 3 {1m*rail}
+R11 Railp 3 1k
+C5 Railp 3 1n
+I3 4 Railn {1m*rail}
+R13 Railn 4 1k
+C6 Railn 4 1n
+G11 COM RO Vlim COM {1/Ro}
+R20 RO COM {Ro} Noiseless
+C7 5 RO 1p
+R23 N005 3 1Meg Noiseless
+R24 N005 4 1Meg Noiseless
+C8 N005 0 1
+E1 COM 0 N005 0 1
+R25 COM 0 1Meg Noiseless
+R12 Vn COM 1
+R14 COM Vp 1
+BVout Vlim COM I=Uplim(Dnlim(V(Vp,Vn), {-IClaw}, 1m), {IClaw}, 1m)
+B1 COM Vp I=IF(V(5,COM)>V(railp,COM), ((V(5,COM)-V(railp,COM))*{Gclaw}),0)
+B2 COM Vn I=IF(V(5,COM)<V(railn,COM), ((V(railn,COM)-V(5,COM))*{Gclaw}),0)
+C2 COM Vp 1n
+C3 COM Vn 1n
+R9 GRn COM 1 Temp=-273.15
+R21 COM GRp 1 Temp=-273.15
+BGR AOL1 COM I=Uplim(Dnlim(V(Grp,GRn), {-2*slew*Cout}, 1m), {2*slew*Cout}, 1m)
+B3 COM GRp I=IF(V(Sense,COM)>{Grossp}, ((V(Sense,COM)-{Grossp})*{GGr}),0)
+B4 COM GRn I=IF(V(Sense,COM)<{Grossn}, (({Grossn}-V(Sense,COM))*{GGr}),0)
+C9 COM GRp 1p
+C10 GRn COM 1p
+G2 COM Sense AOL1 COM 1u
+R22 Sense COM 1Meg Noiseless
+G3 COM Vlim PM COM 1m
+R26 Vlim COM 1k Noiseless
+C11 2 1 {Cdiff}
+C12 COM 2 {Ccm}
+C13 COM 1 {Ccm}
+R3 COM 2 {Rin} noiseless
+C14 AOL1 COM {Cout}
+V5 N003 1 {Vos}
+R27 OTA COM 1Meg Noiseless
+B5 COM AOL1 I=Uplim(Dnlim({Avol/1Meg}* V(OTA,COM), {-slew*Cout}, 1m), {slew*Cout}, 1m)
+.param Cout={Avol/GBW/2/pi/1Meg}
+.param Gclaw=2 Iclaw={2*slew*Cout}
+.param Grossp={Ro*ilimit+50} Grossn={Ro*(-ilimit)-50} GGr=1
+.param IClawp={2*Grossp*1m} IClawn={2*Grossn*1m}
+.param X table(phimargin,29.4,3.5,32.1,2.9,33.8,2.6,35.8,2.3,38.1,2,40.9,1.7,43.2,1.5,45.9,
++1.3,49.2,1.1,53.2,0.9,58.2,0.7,64.7,0.5,73,0.3,86.1,0.05)
+.model LIM D(Vfwd=1n Vrev=1n Ron=1m Roff=1m Ilimit={ilimit} Revilimit={ilimit} Epsilon=1u)
+.param Avol=1Meg GBW=10Meg Slew=10Meg rail=0 Vos=0 ilimit=25m
+.param en=0 enk=0 in=0 ink=0 phimargin=45 Rin=500Meg Ro=1k Ccm=1p Cdiff=2p
+.ends level3c

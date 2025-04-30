@@ -1,0 +1,107 @@
+* Copyright (c) 1998-2023 Analog Devices, Inc.  All rights reserved.
+*
+.subckt LT6370 1 2 3 4 5 6 7 8
+G2 0 N002 N003 0 1m
+C3 N002 0 27p Rpar=1k noiseless
+C5 7 2 7.95p
+C6 7 1 .1p
+R1 A1out INNF 10k
+CG4 7 6 1p
+CG5 6 4 1p
+M3 7 N002 A1out A1out NINT temp=27
+M4 4 N002 A1out A1out PINT temp=27
+M5 7 N017 A2out A2out NINT temp=27
+M6 4 N017 A2out A2out PINT temp=27
+G3 0 N017 N016 0 1m
+C17 N017 0 27p Rpar=1k noiseless
+C20 2 3 .9p
+DB2 7 4 DP
+C4 7 N003 180p Rpar=200Meg noiseless
+A1 1 2X 0 0 0 0 N003 0 OTA g=30m iout=5m en=4.9n enk=2.5 Vhigh=1e308 Vlow=-1e308
+G4 N003 0 N003 7 100m vto=-600m dir=1
+G6 0 N003 4 N003 100m vto=-600m dir=1
+A2 8 3X 0 0 0 0 N016 0 OTA g=30m iout=5m en=4.9n enk=2.5 Vhigh=1e308 Vlow=-1e308
+D11 1 7 DESD
+D12 4 1 DESD
+D13 8 7 DESD
+D14 4 8 DESD
+C13 N003 4 180p Rpar=200Meg noiseless
+C15 7 N016 180p Rpar=200Meg noiseless
+C16 N016 4 180p Rpar=200Meg noiseless
+C8 INNF INPF 100f
+M1 N005 PG 7 7 PI temp=27
+M2 6 NG 4 4 NI temp=27
+D1 7 PG DLIMP
+D2 NG 4 DLIMN
+C10 7 PG 1f Rser=400k noiseless
+C14 NG 4 1f Rser=400k noiseless
+B5 4 NG I=dnlim(400n+.7u*(V(XC)+240m),400n,200n)
+B6 PG 7 I=dnlim(400n-.7u*(V(XC)-240m),400n,200n)
+R8 N005 6 1 noiseless
+I1 6 N005 800m
+R9 7 Mid 1Meg noiseless
+B7 0 N009 I=10u*dnlim(uplim(V(INPF),V(7)-1.59,.1), V(4)-.2, .1)+1n*V(INPF)-31.5p
+B8 N009 0 I=10u*dnlim(uplim(V(INNF),V(7)-1.60,.1), V(4)-.21, .1)+1n*V(INNF)
+C18 N009 0 .1f Rpar=100K noiseless
+C19 XC N010 10p
+C21 XC 0 1p
+D3 XC 0 DANTISAT
+C22 N008 0 8p Rpar=1k noiseless
+G5 0 N008 N007 0 1m
+C26 N007 0 8p Rpar=1k noiseless
+R11 N010 0 1 noiseless
+G11 0 N010 6 Mid 1
+A6 0 N008 0 0 0 0 XC 0 OTA g=250u iout=125u vlow=-1e308 vhigh=1e308
+C25 7 A1out 100f
+C27 A1out 4 100f
+C28 7 A2out 100f
+C29 A2out 4 100f
+G1 0 N016 4 N016 100m vto=-600m dir=1
+G7 N016 0 N016 7 100m vto=-600m dir=1
+R10 Mid 4 1Meg noiseless
+A7 N009 0 0 0 0 0 N007 0 OTA g=1m linear en=26n enk=1.1 vlow=-1e308 vhigh=1e308
+C1 2 4 7.95p
+C2 7 3 7.95p
+C7 3 4 7.95p
+A3 2 0 0 0 0 0 0 0 OTA g=0 in=93.4f ink=3
+A8 3 0 0 0 0 0 0 0 OTA g=0 in=93.4f ink=3
+A9 2 3 0 0 0 0 0 0 OTA g=0 incm=176.8f incmk=1.8
+R13 A1out 1 12.1k
+A10 N004 0 4 4 4 4 1 4 OTA g=200u iout=300u vlow=-1e308 vhigh=1e308
+L3 N004 0 102.3µ Rser=4.5k Rpar=1.286k noiseless
+C9 1 4 .1p
+C11 7 8 .1p
+C12 8 4 .1p
+D4 2 7 DESD
+D5 4 2 DESD
+G9 0 N004 1 2X 1m
+R14 2X 0 1k noiseless
+I3 0 2X 600µ
+R15 A2out 8 12.1k
+A11 N014 0 4 4 4 4 8 4 OTA g=200u iout=300u vlow=-1e308 vhigh=1e308
+L1 N014 0 102.3µ Rser=4.5k Rpar=1.286k noiseless
+I4 0 3X 600µ
+G15 0 N014 8 3X 1m
+B9 0 2X I=999.9u*dnlim(uplim(V(2),V(7)-1.25,.1), V(4)+1.7, .1)+100n*V(2)
+B10 0 3X I=999.9u*dnlim(uplim(V(3),V(7)-1.25,.1), V(4)+1.7, .1)+100n*V(3)
+D6 4 5 DESD
+R6 3X 0 1k noiseless
+R2 INNF 6 10k
+R3 A2out INPF 10k
+R4 INPF 5 10k
+D7 INNF INPF DSI temp=27
+D8 INPF INNF DSI temp=27
+D9 4 3 DESD
+D10 3 7 DESD
+.model DP D(Ron=100 Roff=1G Vfwd=.6 epsilon=500m ilimit=1.47m noiseless)
+.model NINT VDMOS(Vto=-40m Kp=100m noiseless)
+.model PINT  VDMOS(Vto=40m Kp=100m pchan noiseless)
+.model DESD D(Ron=100 Roff=400G vfwd=600m epsilon=500m noiseless)
+.model PI VDMOS(Vto=-300m kp=30m  mtriode=.3  ksubthres=10m  lambda=5e-4 pchan noiseless)
+.model NI VDMOS(Vto=300m kp=25m mtriode=.4  ksubthres=10m  lambda=5e-4 noiseless)
+.model DANTISAT D(Ron=100 Roff=25.5Meg vfwd=3 epsilon=100m vrev=3 revepsilon=100m noiseless)
+.param RG= 100T
+.model DLIMN D(Ron=1k Roff=1Meg Vfwd=2.3  epsilon=100m  noiseless)
+.model DLIMP D(Ron=1k Roff=1Meg Vfwd=2  epsilon=100m noiseless)
+.model DSI D(Is=1e-16 TT=200n noiseless)
+.ends LT6370

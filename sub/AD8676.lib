@@ -1,0 +1,72 @@
+* Copyright (c) 1998-2022 Analog Devices, Inc.  All rights reserved.
+*
+.subckt AD8676 1 2 3 4 5
+C1 N005 N004 {Cf}
+A1 N008 0 N010 N010 N010 N010 N004 N010 OTA g={Ga} Iout={Islew} en=2.8n enk=4.5 Vhigh=1e308 Vlow=-1e308
+D5 N005 3 X1
+D6 4 N005 X2
+G2 0 N010 3 0 500ต
+R4 N010 0 1k Noiseless
+G3 0 N010 4 0 500ต
+S1 N004 N010 4 3 SD
+C4 N002 0 {5p*x} Rpar=1k Noiseless
+C11 3 2 950f Rpar=1T Noiseless
+C18 2 1 8.65p Rpar=1T Noiseless
+D8 3 1 1nA m=0.5
+C3 3 5 250f
+C7 5 4 250f
+A2 2 1 0 0 0 0 0 0 OTA g=0 in=.1p ink=1.5k incm=.1p incmk=1.5k
+ึงA3 N005 3 4 N004 N010 Gm1={Gb} Ibias={Isy}
+C2 2 4 950f Rpar=1T Noiseless
+C5 3 1 950f Rpar=1T Noiseless
+C6 1 4 950f Rpar=1T Noiseless
+D1 3 2 1nA m=0.5
+B3 N002 0 I=2m*Dnlim(Uplim(V(2),V(3)-2, 0.1), V(4)+2, 0.1)+100n*V(2)
+B4 0 N002 I=2m*(Vos+V(PSR)+Dnlim(Uplim(V(1),V(3)-2, 0.1), V(4)+2, .01)+100n*V(1))
+D3 N004 N010 IO
+R5 5 N005 22
+L1 N002 N006 {5ต*x}
+L2 N007 N008 {5ต*x}
+C10 N008 0 {5p*x} Rpar=1k Noiseless
+C8 N006 0 {10p*x}
+L3 N006 N007 {5ต*x}
+C12 N007 0 {10p*x}
+G1 0 PSR VS 0 1ต
+R3 PSR 0 1 Noiseless
+G4 0 VS 3 4 1m
+C13 VS 0 1f Rpar=1k Noiseless
+.param Cf = 6p
+.param Ro       =  5k
+.param Avol     =  4Meg
+.param RL       =  2k
+.param AVmid =  10
+.param FmidA = 1Meg
+.param Zomid  = 5
+.param FmidZ  = 1Meg
+.param Vslew  = 2.5Meg
+.param Vmin = 2
+.param Roe = 1/(1/RL+1/Ro)
+.param Gb = ((FmidZ/FmidA)*(Roe/(AVmid*Zomid))-1)/Roe
+.param Ga = 2*pi*FmidZ*Cf/(Zomid*gb)
+.param RH = Avol/(Ga*Gb*Roe)
+.param Islew = Vslew*Cf*(1+1/(Roe*Gb))
+.model X1 D(Ron=1m Roff=1G Vfwd=-50m epsilon=10m Noiseless)
+.model X2 D(Ron=1m Roff=1G Vfwd=20m epsilon=10m Noiseless)
+.model SD SW(Ron=10m Roff={RH} Vt={-Vmin-100m} Vh=-.1 Noiseless)
+.model 1nA D(Ron=500Meg epsilon=.5 Ilimit=1n Noiseless)
+.model IO  D(Ron=2k Roff=1T Vfwd={Isc/Gb} Vrev={Isc/Gb} revepsilon=.1 epsilon=.1 Noiseless)
+.param X=.6
+.param Vos=-18u
+.param Isc=37.1m
+.param Isy=2.7m
+.param gain_PSRp = {pow(10, (-Rej_dc_PSRp/20))}
+.param C1a_PSRp = {1 / (2 * pi * R1a_PSRp * fz1_PSRp)}
+.param R2a_PSRp = {R1a_PSRp/ ((2 * pi * fp1_PSRp * C1a_PSRp
++* R1a_PSRp) - 1)}
+.param actual1_PSRp = {R2a_PSRp / (R1a_PSRp + R2a_PSRp)}
+.param G1_PSRp = {gain_PSRp/actual1_PSRp}
+.param Rej_dc_PSRp=120
+.param R1a_PSRp=1Meg
+.param fz1_PSRp=1k
+.param fp1_PSRp=10Meg
+.ends AD8676

@@ -1,0 +1,64 @@
+* PSpice Model Editor - Version 16.3.0
+*$
+.SUBCKT FDD86113LZ 2 1 3
+******************************************************************
+**      Fairchild Discrete Modeling Group                       **
+******************************************************************
+**      Website         www.fairchildsemi.com\models            **
+******************************************************************
+**      (C) Copyright 2009 Fairchild Semiconductor Corporation  **
+**                      All rights reserved                     **
+**                                                              **
+**                      FDD86113LZ Spice model                  **
+**                      Revision RevA, 04 January 2012          **
+******************************************************************		
+*Nom Temp 25 deg C		
+Dbody 7 5 DbodyMOD 		
+Dbreak 5 11 DbreakMOD 		
+Lgate 1 9 4.965e-9		
+Ldrain 2 5 0.1e-9		
+Lsource 3 7 2.316e-9		
+RLgate 1 9 49.65		
+RLdrain 2 5 1		
+RLsource 3 7 23.16		
+Rgate 9 6 0.6		
+* Shielded  Gate  		
+D_D1 100 5 D_SG_cap1		
+D_D2 100 101 D_SG_cap2		
+R_R1 101 7 0.8		
+C_C1 6 101 8.2e-12		
+.MODEL D_SG_cap1 D (IS=1e-9 n=1 RS=5e-3 CJO=0.4e-9 M=0.57 t_abs=25)
+.MODEL D_SG_cap2 D (IS=1e-9 n=1 RS=5e-3 CJO=0.15e-9 M=0.55 t_abs=25) 		
+It 7 17 1		
+Ebreak 11 7 17 7 110.4		
+Rbreak 17 7 RbreakMOD 1 		
+.MODEL RbreakMOD RES (TC1=0.73e-3 TC2=-0.5e-6)		
+.MODEL DbodyMOD D (IS=0.3e-12 n=1 RS=17e-3 TRS1=2.5e-3 TRS2=1e-6 		
++ CJO=0.12e-9 M=0.5 TT=1e-9 XTI=2.7) ;0.37		
+.MODEL DbreakMOD D (RS=8e-3 TRS1=1e-3 TRS2=1e-6 )		
+Rsource 7a 7 3.091e-3		
+Rdrain 5 16 RdrainMOD 69e-3		
+.MODEL RdrainMOD RES (TC1=6.3e-3 TC2=14e-6)		
+M_BSIM3 16 6 7a 7a Bsim3 W=0.39 L=1.226e-6 NRS=0 NRD=0		
+.MODEL Bsim3 NMOS (LEVEL=7 VERSION=3.1 MOBMOD=3 CAPMOD=2 paramchk=1 NQSMOD=0		
+*Process Parameters		
++ TOX=550e-10 ;Oxide thickness		
++ XJ=0.62e-6 ;Channel depth		
++ NCH=1.0e17 ;Channel concentration		
+*Channel Current		
++ U0=1100 VSAT=500000 DROUT=1.8		
++ DELTA=0.7 PSCBE2=0 RSH=3.091e-3		
+*Threshold voltage		
++ VTH0=1.78		
+*Sub-threshold characteristics		
++ VOFF=-0.1 NFACTOR=1		
+*Junction diodes and Capacitance		
++ LINT=0.141e-6 DLC=0.141e-6 		
++ CGSO=83e-12 CGSL=0 CGDO=1e-12 CGDL=205e-12 ;104		
++ CJ=0 CF=0 CKAPPA=0.25		
+* Temperature parameters 		
++ KT1=-1.2 KT2=0 UA1=12e-9		
++ NJ=10)		
+.ENDS   		
+* 		
+*$

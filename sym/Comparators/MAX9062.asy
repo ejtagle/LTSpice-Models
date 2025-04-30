@@ -1,0 +1,31 @@
+Version 4
+SymbolType CELL
+LINE Normal -32 -32 32 0
+LINE Normal -32 32 32 0
+LINE Normal -32 -32 -32 32
+LINE Normal -28 0 -20 0
+LINE Normal -24 4 -24 -4
+LINE Normal 0 -32 0 -16
+LINE Normal 0 32 0 16
+LINE Normal 4 -20 12 -20
+LINE Normal 8 -24 8 -16
+LINE Normal 4 20 12 20
+WINDOW 0 16 -32 Left 2
+WINDOW 3 16 32 Left 2
+SYMATTR Value MAX9062
+SYMATTR Prefix X
+SYMATTR SpiceModel MAX9062.sub
+SYMATTR Value2 MAX9062
+SYMATTR Description Ultra-Small, nanoPower Single Comparator
+PIN -32 0 NONE 0
+PINATTR PinName IN
+PINATTR SpiceOrder 1
+PIN 0 -32 NONE 0
+PINATTR PinName VCC
+PINATTR SpiceOrder 2
+PIN 0 32 NONE 0
+PINATTR PinName GND
+PINATTR SpiceOrder 3
+PIN 32 0 NONE 0
+PINATTR PinName OUT
+PINATTR SpiceOrder 4

@@ -1,0 +1,95 @@
+.SUBCKT FDP2552  2 1 3      
+*Spice model for FDB2552 & FDP2552
+*Nom Temp=25 deg C 
+*25 April 02
+
+Ca 12 8 1e-9
+Cb 15 14 1e-9
+Cin 6 8 2.65e-9
+
+Dbody 7 5 DbodyMOD
+Dbreak 5 11 DbreakMOD
+Dplcap 10 5 DplcapMOD
+
+Ebreak 11 7 17 18 178
+Eds 14 8 5 8 1
+Egs 13 8 6 8 1
+Esg 6 10 6 8 1
+Evthres 6 21 19 8 1
+Evtemp 20 6 18 22 1
+
+It 8 17 1
+
+Lgate 1 9 7.15e-9
+Ldrain 2 5 1.0e-9
+Lsource 3 7 2.3e-9
+
+RLgate 1 9 71.5
+RLdrain 2 5 10
+RLsource 3 7 23
+
+Mmed 16 6 8 8 MmedMOD
+Mstro 16 6 8 8 MstroMOD 
+Mweak 16 21 8 8 MweakMOD    
+
+Rbreak 17 18 RbreakMOD 1
+Rdrain 50 16 RdrainMOD 2.5e-2
+Rgate 9 20 1.04
+RSLC1 5 51 RSLCMOD 1.0e-6
+RSLC2 5 50 1.0e3
+Rsource 8 7 RsourceMOD 4.6e-3
+Rvthres 22 8 RvthresMOD 1
+Rvtemp 18 19 RvtempMOD 1
+S1a 6 12 13 8 S1AMOD
+S1b 13 12 13 8 S1BMOD
+S2a 6 15 14 13 S2AMOD
+S2b 13 15 14 13 S2BMOD
+
+Vbat 22 19 DC 1
+
+ESLC 51 50  VALUE={(V(5,51)/ABS(V(5,51)))*(PWR(V(5,51)/(1e-6*75),3))}
+
+.MODEL DbodyMOD D (IS=2.6E-11 N=1.09 RS=2.6e-3 TRS1=3.0e-3 TRS2=1.5e-6
++ CJO=1.9e-9 M=0.62 TT=5.1e-8 XTI=4.2)
+.MODEL DbreakMOD D (RS=0.3 TRS1=3.0e-3 TRS2=-8.9e-6)
+.MODEL DplcapMOD D (CJO=5.7e-10 IS=1.0e-30 N=10 M=0.58)
+
+.MODEL MmedMOD NMOS (VTO=3.5 KP=6 IS=1e-30 N=10 TOX=1 L=1u W=1u RG=1.04)
+.MODEL MstroMOD NMOS (VTO=4.15 KP=80 IS=1e-30 N=10 TOX=1 L=1u W=1u)
+.MODEL MweakMOD NMOS (VTO=2.91 KP=0.03 IS=1e-30 N=10 TOX=1 L=1u W=1u RG=10.4 RS=0.1) 
+
+.MODEL RbreakMOD RES (TC1=1.1e-3 TC2=-2e-6)
+.MODEL RdrainMOD RES (TC1=8.5e-3 TC2=2.5e-5)
+.MODEL RSLCMOD RES (TC1=3.4e-3 TC2=1.5e-6)
+.MODEL RsourceMOD RES (TC1=4.0e-3 TC2=1.0e-6)
+.MODEL RvthresMOD RES (TC1=-4.3e-3 TC2=-1.6e-5)
+.MODEL RvtempMOD RES (TC1=-4.1e-3 TC2=1.5e-6)
+
+.MODEL S1AMOD VSWITCH (RON=1e-5 ROFF=0.1 VON=-6.0 VOFF=-4.0)
+.MODEL S1BMOD VSWITCH (RON=1e-5 ROFF=0.1 VON=-4.0 VOFF=-6.0)
+.MODEL S2AMOD VSWITCH (RON=1e-5 ROFF=0.1 VON=-2 VOFF=-0.5)
+.MODEL S2BMOD VSWITCH (RON=1e-5 ROFF=0.1 VON=-0.5 VOFF=-2)
+
+.ENDS
+
+
+
+.SUBCKT FDP2552_Thermal TH TL
+*Thermal Model Subcircuit
+*25 April 02
+
+CTHERM1 TH 6 1e-2
+CTHERM2 6 5 1.5e-2
+CTHERM3 5 4 2e-2
+CTHERM4 4 3 2.1e-2
+CTHERM5 3 2 2.2e-2
+CTHERM6 2 TL 9e-2
+
+RTHERM1 TH 6 2.7e-2
+RTHERM2 6 5 2.8e-2
+RTHERM3 5 4 7.8e-2
+RTHERM4 4 3 9e-2
+RTHERM5 3 2 2.7e-1
+RTHERM6 2 TL 2.87e-1
+
+.ends

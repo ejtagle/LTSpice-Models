@@ -1,0 +1,51 @@
+Version 4
+SymbolType CELL
+LINE Normal -96 -96 -64 -96
+LINE Normal -96 -57 -96 -95
+LINE Normal -32 -96 -64 -96
+LINE Normal -32 -57 -32 -95
+LINE Normal -32 128 -64 128
+LINE Normal -32 89 -32 127
+LINE Normal -96 128 -64 128
+LINE Normal -96 89 -96 127
+LINE Normal -208 -79 -208 -96
+LINE Normal -208 117 -208 128
+LINE Normal 112 16 -63 16
+CIRCLE Normal 16 -64 -145 96
+ARC Normal -184 16 -232 -32 -207 17 -209 -33
+ARC Normal -186 -33 -234 -81 -209 -32 -208 -80
+ARC Normal -182 66 -230 18 -205 67 -207 17
+ARC Normal -179 116 -227 68 -207 117 -204 67
+TEXT -245 25 Left 2 Lf
+WINDOW 0 8 -56 Bottom 2
+WINDOW 3 -63 29 Top 2
+WINDOW 39 19 161 Top 2
+SYMATTR Value MOTOR
+SYMATTR SpiceLine La=0.0001 Ra=0.2 Lf=0.2 Rf=0.1 Laf=0.0001 J=0.0001 B=1e-006
+SYMATTR Prefix X
+SYMATTR ModelFile motor.cir
+SYMATTR SpiceLine2 ic_omega=0 ic_theta=0
+PIN -64 -96 TOP 8
+PINATTR PinName Va+
+PINATTR SpiceOrder 1
+PIN -64 128 BOTTOM 8
+PINATTR PinName Va-
+PINATTR SpiceOrder 2
+PIN -208 -96 TOP 20
+PINATTR PinName VF+
+PINATTR SpiceOrder 3
+PIN -208 128 BOTTOM 20
+PINATTR PinName VF-
+PINATTR SpiceOrder 4
+PIN 112 16 RIGHT 8
+PINATTR PinName omega
+PINATTR SpiceOrder 5
+PIN 112 48 RIGHT 8
+PINATTR PinName torque
+PINATTR SpiceOrder 6
+PIN 112 80 RIGHT 8
+PINATTR PinName theta_out
+PINATTR SpiceOrder 7
+PIN 112 112 RIGHT 8
+PINATTR PinName Ea_out
+PINATTR SpiceOrder 8

@@ -1,0 +1,59 @@
+**************** Power Discrete MOSFET Electrical Circuit Model *****************
+** Product Name: FCH47N60N
+** 600V N-Channel MOSFET and TO-247
+** Model Type: BSIM3V3
+**-------------------------------------------------------------------------------
+.SUBCKT FCH47N60N 2 1 3    
+*Nom Temp=25 deg C
+Dbody 7 5    DbodyMOD
+Dbreak 5 11  DbreakMOD
+Ebreak 11 7 17 7 650
+Lgate 1 9    1.183e-9
+Ldrain 2 5   1.500e-9
+Lsource 3 7  1.012e-9
+RLgate 1 9   11.83
+RLdrain 2 5  15.00
+RLsource 3 7 10.12
+Rgate 9 6    0.5
+It 7 17      1
+Rbreak 17 7  RbreakMOD 1
+.MODEL RbreakMOD RES (TC1=1.25e-3 TC2=-1.65e-6)
+.MODEL DbodyMOD D (IS=4.5e-12  N=1.0    RS=2.72e-3   TRS1=2.32e-3  TRS2=5.4e-6 
++ CJO=2.96e-8      M=0.76      VJ=0.48  TT=8.12e-7   XTI=3         EG=1.12)
+.MODEL DbreakMOD D (RS=100e-3 TRS1=1.0e-3 TRS2=1e-6)
+Rdrain 5 16 RdrainMOD 0.0515
+.MODEL RdrainMOD RES (TC1=8.85e-3 TC2=2.85e-5)
+M_BSIM3 16 6 7 7 Bsim3 W=8.5 L=2.0e-6 NRS=1
+.MODEL  Bsim3 NMOS (LEVEL=7 VERSION=3.1 MOBMOD=3 CAPMOD=2 PARAMCHK=1 NQSMOD=0
++ TOX=800e-10     XJ=1.4e-6      NCH=1.3e17
++ U0=700          VSAT=1.5e5     DROUT=1.0
++ DELTA=0.1       PSCBE2=0       RSH=1.0e-3
++ VTH0=3.10       VOFF=-0.1      NFACTOR=1.1
++ LINT=3.2e-7     DLC=3.2e-7     FC=0.5
++ CGSO=1.8e-14    CGSL=0         CGDO=4.16e-14
++ CGDL=6.60e-10   CJ=0           CF=0
++ CKAPPA=0.02     KT1=-1.57      KT2=0
++ UA1=-1.15e-9    NJ=10)
+.ENDS
+
+******************** Power Discrete MOSFET Thermal Model ************************
+** Package: TO-247
+**-------------------------------------------------------------------------------
+.SUBCKT FCH47N60N_Thermal TH TL
+CTHERM1 TH 6 1.44e-4
+CTHERM2 6 5  1.08e-3
+CTHERM3 5 4  8.24e-3
+CTHERM4 4 3  8.72e-3
+CTHERM5 3 2  9.92e-3
+CTHERM6 2 TL 3.82e-2
+RTHERM1 TH 6 1.80e-4
+RTHERM2 6 5  2.20e-3
+RTHERM3 5 4  8.00e-3
+RTHERM4 4 3  4.70e-2
+RTHERM5 3 2  8.38e-2
+RTHERM6 2 TL 1.99e-1
+.ENDS FCH47N60N_Thermal 
+**-------------------------------------------------------------------------------
+** Creation: Oct.-27-2010   Rev.: 0.0
+** Fairchild Semiconductor
+

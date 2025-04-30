@@ -1,0 +1,39 @@
+Version 4
+SymbolType CELL
+LINE Normal 16 88 16 96
+LINE Normal 16 16 16 24
+LINE Normal 27 24 5 24
+LINE Normal 5 88 5 24
+LINE Normal 5 88 27 88
+LINE Normal 27 24 27 88
+LINE Normal 40 40 -8 88
+LINE Normal 40 24 40 40
+LINE Normal 40 24 40 24
+LINE Normal 8 48 -16 48
+LINE Normal 10 58 10 34
+LINE Normal 15 58 10 58
+LINE Normal 15 34 15 58
+LINE Normal 10 34 15 34
+LINE Normal 11 58 11 44
+LINE Normal 12 58 11 58
+LINE Normal 12 44 12 58
+LINE Normal 13 44 12 44
+LINE Normal 13 58 13 44
+LINE Normal 14 58 13 58
+LINE Normal 14 44 14 58
+LINE Normal 10 44 15 44
+TEXT -12 36 Left 0 T
+WINDOW 0 53 31 Left 0
+WINDOW 38 52 60 Left 0
+SYMATTR SpiceModel PTC_R
+SYMATTR Prefix X
+SYMATTR Description Universal PTC Resistor
+PIN 16 16 NONE 0
+PINATTR PinName 1
+PINATTR SpiceOrder 1
+PIN 16 96 NONE 0
+PINATTR PinName 2
+PINATTR SpiceOrder 2
+PIN -16 48 NONE 8
+PINATTR PinName Tc
+PINATTR SpiceOrder 3

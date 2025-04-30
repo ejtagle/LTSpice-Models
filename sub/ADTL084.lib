@@ -1,0 +1,41 @@
+* Copyright (c) 1998-2023 Analog Devices, Inc.  All rights reserved.
+*
+.subckt ADTL084 1 2 3 4 5
+A1 2 1 0 0 0 0 0 0 OTA g=0 in=.01p ink=10 incm=.001p incmk=10
+M1 3 N003 5 5 N temp=27
+M2 4 N003 5 5 P temp=27
+C3 3 5 2p
+C4 5 4 2p
+C6 3 1 1.375p Rpar=250G noiseless
+A2 0 N002 M M M M N003 M OTA g=150u Isrc=90u Isink=-120u Vlow=-1e308 Vhigh=1e308 Cout= 4p asym
+C10 N002 0 2p Rpar=1K noiseless
+D1 N003 5 Y
+D6 5 N003 Y
+C1 2 1 4.125p noiseless
+G1 0 M 3 0 1m
+G2 0 M 4 0 1m
+R3 M 0 1K noiseless
+S1 N003 M 4 3 UVLO
+D3 N003 3 X
+D4 4 N003 X
+D2 3 4 IQ
+C7 1 4 1.375p Rpar=250G noiseless
+C8 3 2 1.375p Rpar=250G noiseless
+C9 2 4 1.375p Rpar=250G noiseless
+I1 1 4 2p load
+I2 2 4 2p load
+B1 N002 0 I=1m*dnlim(uplim(V(2),V(3)-1,.1), V(4)+3.5, .1)+100n*V(2)
+B2 0 N002 I=1m*dnlim(uplim(V(1),V(3)-1,.1), V(4)+3.5, .1)+100n*V(1)
+A3 0 0 0 0 0 0 N008 0 OTA G=10u Iout=1m Vhigh=1k Vlow=-1k En={fA}/(freq**{M})
+R4 N008 0 100k Noiseless
+A4 0 N008 0 0 0 0 Noise 0 OTA G=10u Iout=1m Vhigh=1k Vlow=-1k En={BB}
+R5 Noise 0 100k Noiseless
+G3 0 N002 Noise 0 1m
+.model X D(Ron=10K Roff=100G Vfwd=-1.25 epsilon=.1 noiseless)
+.model Y D(Ron=500 Roff=1T Vfwd=2 epsilon=.1 noiseless)
+.model N VDMOS(Vto=-250m Kp=10m Ksubthres=.2 noiseless)
+.model P VDMOS(Vto=250m Kp=10m pchan Ksubthres=.2 noiseless)
+.model UVLO SW(Ron=1K Roff=5G Vt=-3.75 Vh=.25 noiseless)
+.model IQ D(Ron=2K Vfwd=2 epsilon=1 Ilimit=4.7m noiseless)
+.param BB=16n fC=17 M=0.55 fA={BB*(fC**M)}
+.ends ADTL084

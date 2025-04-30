@@ -1,0 +1,46 @@
+*$
+*//-----------------------------------------------------------------------//
+*//   Part        : EMVY500ARA220MF55G
+*//   Date        : 2021/09/24 
+*//   Temperature : 20deg.C/-55deg.C/105deg.C
+*//   Model       : RC-ladder 7 Elements Model
+*//   Copyright (C) 2021 Nippon Chemi-Con Corporation.
+*//   All Rights Reserved.
+*//-----------------------------------------------------------------------//
+
+.SUBCKT EMVY500ARA220MF55G_20deg-C 1 2
+
+C1 4 2 1.55e-06
+C2 5 2 1.37e-05
+C3 6 2 6.13e-06
+R1 3 4 9.73e-01
+R2 4 5 2.43e-01
+R3 5 6 2.16e+00
+L1 1 3 2.20e-09
+
+.ENDS
+
+.SUBCKT EMVY500ARA220MF55G_-55deg-C 1 2
+
+C1 4 2 4.34e-08
+C2 5 2 4.31e-06
+C3 6 2 1.41e-05
+R1 3 4 9.68e+00
+R2 4 5 5.60e+00
+R3 5 6 4.50e+00
+L1 1 3 2.20e-09
+
+.ENDS
+
+.SUBCKT EMVY500ARA220MF55G_105deg-C 1 2
+
+C1 4 2 6.03e-06
+C2 5 2 1.35e-05
+C3 6 2 3.40e-06
+R1 3 4 3.23e-01
+R2 4 5 7.57e-02
+R3 5 6 2.36e+00
+L1 1 3 2.20e-09
+
+.ENDS
+*$

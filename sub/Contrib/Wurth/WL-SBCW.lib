@@ -1,0 +1,200 @@
+**************************************************
+* Manufacturer:       Wurth Elektronik
+* Kinds:     Signal LEDs
+* Matchcode:          WL-SMCW SMT Bi-Color Chip LED Waterclear
+* Library Type:       LTspice
+* Version:        rev19a       
+* Date and Time   :       2019-03-14
+* Team:           eiSos EDA Service  
+* Contact:        libraries@we-online.com
+**************************************************
+.subckt 0606_150066SV74000 1 2 3 4
+D1 3 4 bGreen
+.MODEL bGreen D
++ (IS=10.000E-21
++ N=1.8470
++ RS=.6982
++ IKF=12.403
++ CJO=1.0000E-12
++ M=.3333
++ VJ=.75
++ BV=5
++ IBV=100.00E-6)
+D2 1 2 sRed
+.MODEL sRed D
++ (IS=97.790E-15
++ N=2.9324
++ RS=1.3415
++ IKF=996.71
++ CJO=1.0000E-12
++ M=.3333
++ VJ=.75
++ BV=5
++ IBV=100.00E-6)
+.ends
+**********************************
+.subckt 0606_150066YV74000 1 2 3 4
+D1 3 4 bGreen
+.MODEL bGreen D
++ (IS=10.000E-21
++ N=1.8279
++ RS=2.7777
++ IKF=9.7476
++ CJO=1.0000E-12
++ M=.3333
++ VJ=.75
++ BV=5
++ IBV=100.00E-6)
+D2 1 2 yellow
+.MODEL yellow D
++ (IS=565.60E-18
++ N=2.5312
++ RS=1.9690
++ IKF=173.20
++ CJO=1.0000E-12
++ M=.3333
++ VJ=.75
++ BV=5
++ IBV=100.00E-6)
+.ends
+**********************************
+.subckt 1210_150121SV74000 1 2 3 4
+D1 1 2 bGreen
+.MODEL bGreen D
++ (IS=10.000E-21
++ N=1.8506
++ RS=1.1610
++ IKF=2.7921
++ CJO=1.0000E-12
++ M=.3333
++ VJ=.75
++ BV=5
++ IBV=100.00E-6)
+D2 3 4 sRed
+.MODEL sRed D
++ (IS=2.8572E-12
++ N=3.4081
++ RS=1.6137
++ CJO=1.0000E-12
++ M=.3333
++ VJ=.75
++ BV=5
++ IBV=100.00E-6)
+.ends
+**********************************
+.subckt 1210_150121YV74000  1 2 3 4
+D1 1 2 bGreen
+.MODEL bGreen D
++ (IS=1.0039E-18
++ N=2.1027
++ RS=.83472
++ IKF=.92071
++ CJO=1.0000E-12
++ M=.3333
++ VJ=.75
++ BV=5
++ IBV=100.00E-6)
+D2 3 4 yellow
+.MODEL yellow D
++ (IS=77.688E-15
++ N=3.1201
++ RS=.29538
++ CJO=1.0000E-12
++ M=.3333
++ VJ=.75
++ BV=5
++ IBV=100.00E-6)
+.ends
+**********************************
+.subckt 1210dome_150121RV83000  1 2 3 4
+D1 1 2 red
+.MODEL red D
++ (IS=1.1458E-12
++ N=3.2842
++ RS=3.5131
++ IKF=998.92
++ CJO=1.0000E-12
++ M=.3333
++ VJ=.75
++ BV=5
++ TT=5.0000E-9)
+D2 3 4 Violet
+.MODEL Violet D
++ (IS=10.010E-21
++ N=1.8447
++ RS=.54946
++ IKF=12.228E-3
++ CJO=1.0000E-12
++ M=.3333
++ VJ=.75
++ BV=5
++ TT=5.0000E-9)
+.ends
+**********************************
+.subckt 1109_150110RV86000  1 2 3 4
+D1 1 2 green
+.MODEL green D
++ (IS=2.8241E-15
++ N=2.6838
++ RS=.83405
++ CJO=1.0000E-12
++ M=.3333
++ VJ=.75
++ BV=5
++ TT=5.0000E-9)
+D2 3 4 red
+.MODEL red D
++ (IS=2.0396E-12
++ N=3.4271
++ RS=1.3648
++ IKF=223.74
++ CJO=1.0000E-12
++ M=.3333
++ VJ=.75
++ BV=5
++ TT=5.0000E-9)
+.ends
+**********************************
+.subckt 0606_150066RG74000 1 2 3 4 
+D1 1 2 red
+.model red D
++ (IS=10.010E-21
++ N=1.9114
++ RS=1.0000E-6
++ IKF=47.488E-3
++ CJO=1.0000E-12
++ M=.3333
++ VJ=.75
++ BV=5
++ IBV=100.00E-6
++ TT=5.0000E-9)
+D2 3 4 green
+.model green D
++ (IS=75.763E-18
++ N=3.3919
++ RS=.54629
++ IKF=413.19E-6
++ CJO=1.0000E-12
++ M=.3333
++ VJ=.75
++ BV=5
++ IBV=100.00E-6)
+.ends
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

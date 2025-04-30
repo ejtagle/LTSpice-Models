@@ -1,0 +1,36 @@
+Version 4
+SymbolType CELL
+RECTANGLE Normal -111 64 48 -193
+TEXT -82 -98 Left 2 Source
+WINDOW 0 -12 -197 Bottom 2
+WINDOW 3 -44 -77 Top 2
+WINDOW 39 -38 74 Top 2
+SYMATTR Value logica8
+SYMATTR SpiceLine T=1u tr=3n tf=3n
+SYMATTR Prefix X
+SYMATTR ModelFile source.lib
+SYMATTR SpiceLine2 V1=0 V2=5 delay=10n rser=50 delayQ=0
+PIN 48 -176 RIGHT 8
+PINATTR PinName Q0
+PINATTR SpiceOrder 1
+PIN 48 -144 RIGHT 8
+PINATTR PinName Q1
+PINATTR SpiceOrder 2
+PIN 48 -112 RIGHT 8
+PINATTR PinName Q2
+PINATTR SpiceOrder 3
+PIN 48 -80 RIGHT 8
+PINATTR PinName Q3
+PINATTR SpiceOrder 4
+PIN 48 -48 RIGHT 8
+PINATTR PinName Q4
+PINATTR SpiceOrder 5
+PIN 48 -16 RIGHT 8
+PINATTR PinName Q5
+PINATTR SpiceOrder 6
+PIN 48 16 RIGHT 8
+PINATTR PinName Q6
+PINATTR SpiceOrder 7
+PIN 48 48 RIGHT 8
+PINATTR PinName Q7
+PINATTR SpiceOrder 8

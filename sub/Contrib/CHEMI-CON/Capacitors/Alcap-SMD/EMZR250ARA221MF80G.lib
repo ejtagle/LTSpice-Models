@@ -1,0 +1,46 @@
+*$
+*//-----------------------------------------------------------------------//
+*//   Part        : EMZR250ARA221MF80G
+*//   Date        : 2020/12/23
+*//   Temperature : 20deg.C/-55deg.C/105deg.C
+*//   Model       : RC-ladder 7 Elements Model
+*//   Copyright (C) 2020 Nippon Chemi-Con Corporation.
+*//   All Rights Reserved.
+*//-----------------------------------------------------------------------//
+
+.SUBCKT EMZR250ARA221MF80G_20deg-C 1 2
+
+C1 4 2 3.37e-05
+C2 5 2 1.02e-04
+C3 6 2 6.81e-05
+R1 3 4 1.22e-01
+R2 4 5 5.13e-02
+R3 5 6 2.06e-01
+L1 1 3 3.00e-09
+
+.ENDS
+
+.SUBCKT EMZR250ARA221MF80G_-55deg-C 1 2
+
+C1 4 2 3.72e-06
+C2 5 2 4.23e-05
+C3 6 2 1.25e-04
+R1 3 4 2.24e+00
+R2 4 5 4.14e-01
+R3 5 6 1.98e+00
+L1 1 3 3.00e-09
+
+.ENDS
+
+.SUBCKT EMZR250ARA221MF80G_105deg-C 1 2
+
+C1 4 2 5.03e-05
+C2 5 2 1.51e-04
+C3 6 2 3.14e-05
+R1 3 4 4.60e-02
+R2 4 5 2.15e-02
+R3 5 6 7.18e-01
+L1 1 3 3.00e-09
+
+.ENDS
+*$

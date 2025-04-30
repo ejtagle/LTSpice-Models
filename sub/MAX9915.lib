@@ -1,0 +1,217 @@
+* Copyright (c) 1998-2021 Analog Devices, Inc.  All rights reserved.
+*
+.subckt MAX9915 1 2 3 4 5 6
+* CM / DM Input Parameters 
+C2  1 4 1.00P
+C3  2 4 1.00P
+R19  1 4 20.0E12
+R20  2 4 20.0E12
+R21  1 2 10.0G
+C13  1 2 2.00P
+* Differential Stage 
+GIVR 0 IVR 14 0 1m
+RIVR 0 IVR 1k Noiseless
+CIVR IVR 0 1.59f
+BCMPI 0 CMpi I=1m*(V(3)+{Vcm_max})
+RCMPI CMpi 0 1k Noiseless
+CCMPI CMpi 0 1n
+BCMNI 0 CMni I=1m*(V(4)+{Vcm_min})
+RCMNI CMni 0 1k Noiseless
+CCMNI CMni 0 1n
+GCMP 0 CMp CMpi 0 1k
+RCMP 0 CMp 1m Noiseless
+GCMN 0 CMn CMni 0 1k
+RCMN 0 CMn 1m Noiseless
+DIP CMp IVR DI
+DIN IVR CMn DI
+CIN IVR CMn 1f
+CIP IVR CMp 1f
+* Noise Stage 
+I2 21 20 1.00
+D1 20  0 DN1
+D2  0 21 DN1
+I3 22 23 1N
+R10 22 0  1k
+R11  0 23 1k
+B_E1 14 71 I=(5.24U) + V(20) * 27.8 + V(21) * 27.8 + V(22) * 27.8 + V(23) * 27.8 + V(137) + V(118) + V(128)
+R_E1 71 14 1 Noiseless
+I8 0 70 DC 1
+R22 0 70 1 TC=5.00U
+B_E5 71 1 I=V(70)-1
+R_E5 1 71 1 Noiseless
+EG1 VIBIASP 0 62 0 1u
+GB1 1 0 VIBIASP 0 1
+EG2 VIBIASM 0 622 0 1u
+GB2 2 0 VIBIASM 0 1
+I6 0 62 DC 1uA
+VA100 62A 62 DC 0
+R17 0 62A 1.00 TC=-3.91M,275U
+I622 0 622 DC 1uA
+VA101 622A 622 DC 0
+R17A 0 622A 1.00 TC=-27.6M,566U
+R16 0 61 1 TC=-186U,392N
+G61 3 4 61 0 1
+G60 0 61 TABLE { V(3, 4) } ((0, 0)(1.75,21.0E-18)(1.8,22.0U)(3.3,21.7U)(4.1,21.4U)(4.8,21.0U)(5.5,20.7U))
+* PSRR 
+C4 118 110 {C1a_PSRn}
+G4 0 110 3 0 {G1_PSRn}
+R30 110 0 1 Noiseless
+R31 118 110 {R1a_PSRn} Noiseless
+R32 118 0 {R2a_PSRn} Noiseless
+C5 128 120 {C1a_PSRn}
+G1 0 120 4 0 {G1_PSRn}
+R18 120 0 1 Noiseless
+R24 128 120 {R1a_PSRn} Noiseless
+R25 128 0 {R2a_PSRn} Noiseless
+* CMRR
+B_G50 0 130 I=(V(1)+V(2))/2*500n
+C1 137 130x {C1a_CMR}
+G2 0 130x 130 0 {G1_CMR}
+R26 130x 0 1 Noiseless
+R27 137 130x {R1a_CMR} Noiseless
+R28 137 0 {R2a_CMR} Noiseless
+R15 130 0 1Meg Noiseless
+* OP Amp Output Gain / Response 
+G3A  0 30A IVR 2 1 
+RG3A 30A 0 1 
+G3  0 30 30A 0 1 
+R3 30  0 1.00K
+G6  0 33 30 0 1m
+R6  33 0 1K
+R7  34 0 1K
+C7  34 0 {Cfp1}
+BSR 0 34 I=Uplim(Dnlim(V(33)*1.13, {Isink},1m),{Isrc},1m)
+C_30 30 0 1f
+C_33 33 0 1f
+G8  0 37 34 0 1m
+R8  37 0 1K
+C8  37 0 54.8P
+G8A 0 37A 37 0 1m
+R8A 37A 0 1G
+GR8A 37A 0 37A 0 1m
+C8A  37A 0 54.8P
+G88A 0 377A 37A 0 1m
+R88A 377A 0 1G
+GR88A 377A 0 377A 0 1m
+C88A  377A 0 176P
+G888A 0 378A 377A 0 1m
+R888A 378A 0 1G
+GR888A 378A 0 378A 0 1m
+C888A  378A 0 45.4P
+G9  0 38 378A 0 1m
+R9  39 0 1K
+L9  38 39 265U
+GRL9  38 39 38 39 6.00U
+G9A  0 38A 38 0 1m
+R9A  39A 0 1K
+L9A  38A 39A 159N
+GRL9A  38A 39A 38A 39A 10.0M
+B_E9 0 35 I={1/Zo_dc}*V(38A)
+R_E9 0 35 {Zo_dc} Noiseless
+* Output Impedance / Saturation / Current Limit 
+B1 0 N001 I=Uplim(Dnlim({G1_Zo}* V(35,57), {Izon}, 25m), {IZop}, 25m)
+R_B1 N001 0 1 Noiseless
+RX 57 N001 {Rx_Zo} Noiseless
+RDUMMY 57 0 {Rdummy_Zo} Noiseless
+C_CGD8 55 57 .1P 
+C_CGD9 56 57 .1P 
+B_E3 3 55 V=Dnlim(V(50)*195.3,1u,1m)
+B_E4 56 4 V=Dnlim(-V(50)*187.5,1u,1m)
+R_96_5 96 5 1m
+* Iout sense
+VR15 57 96 0
+R15X 57 96 1G
+F1 0 50 VR15 1m
+R23 50 0 1k
+C_F1 50 0 1p
+GIQ 3 4 50 0 1
+* Shutdown
+R1000 6 4 5.5MEG
+E1000 1001 0 6 4 1
+R1000A 1004 0 1G 
+C_A1 1004 0 1p
+S1000X 30A 4X 1004 0 SSHUT2
+V1000X 0 4X 79.5
+S1001 5X 5 1004 0 SOUT
+C_S1001 5X 5 .1P
+S1002 61 0 1004 0 SCAP
+V1000 1000A 0 1.4
+S1000 1003 0 1001 1000A SSHUT
+V1001 1002 0 1
+C1000 1004 0 100n IC=0
+SD1002 1004 1002 1004 1002 SDIODE
+SD1003 0 1004 0 1004 SDIODE
+G1000 1004 0 1002 1003 500m
+G1001 0 1004 1003 0 25.0M
+R1001 1002 1003 1k
+S_D4 3 5 5 3 ESDO
+S_D3 5 4 4 5 ESDO
+DOP Vsatp 57 DO
+COP 57 Vsatp 1f
+DON 57 Vsatn DO
+CON 57 Vsatn 1f
+GSATP 0 Vsatp 55 0 1k
+RSATP Vsatp 0 1m
+GSATN 0 Vsatn 56 0 1k
+RSATN Vsatn 0 1m
+CSATP Vsatp 0 1n
+CSATN Vsatn 0 1n
+DGP N007 34 DG
+DGN 34 N008 DG
+GRP 0 N007 GRpi 0 1k
+GRN 0 N008 GRni 0 1k
+RRP N007 0 1m Noiseless
+RRN N008 0 1m Noiseless
+RGRP GRpi 0 1k Noiseless
+RGRN GRni 0 1k Noiseless
+CGRN GRni 0 10p
+CGRP GRpi 0 10p
+CGP 34 N007 1f
+CGN 34 N008 1f
+BGRP 0 GRpi I=1m*({Zo_max}*{Iscp}+V(3)+2)
+BGRN 0 GRni I=1m*({Zo_max}*{Iscn}+V(4)-2)
+* Models
+.MODEL ESDO SW (Ron=50 Roff=1G Vt=0.5 Vh=-0.1 Vser=0.6 Ilimit=4m Lser=1n Noiseless)
+.MODEL SSHUT SW RON=1m ROFF=100MEG VT=0 VH=-10m
+.MODEL SSHUT2 SW RON=1m ROFF=1G VT=500m VH=-5m
+.MODEL SOUT SW RON=1G ROFF=1m VT=500m VH=-5m
+.MODEL SCAP SW RON=50m ROFF=1G VT=500m VH=-5m
+.MODEL SDIODE SW RON=10m ROFF=1G VT=0 VH=-5m
+.MODEL DN1 D   IS=1P KF=6.5P AF=1
+.MODEL DIDL2 D()
+.MODEL DO D(Vfwd=1k Vrev=0 Revepsilon=0.1 Ron=1m Noiseless)
+.MODEL DG D(Vfwd=10k Vrev=0 Revepsilon=0.5 Noiseless Ron=1m)
+.MODEL DI D(Vfwd=1k Vrev=0 Revepsilon=0.1 Noiseless)
+.param Vcm_min=-0.1 Vcm_max=0.1
+.param Zo_dc=2k
+.param Cfp1=159u
+.param SRp=0.57 SRn=-0.57
+.param Isrc = {Cfp1 * SRp * 1Meg} Isink = {Cfp1 * SRn * 1Meg}
+.param beta_Zo=1.13
+.param Rx_Zo = {100 * Zo_max}
+.param Rdummy_Zo = {10 * Zo_max}
+.param G1_Zo={Rx_Zo/(Zo_dc*beta_Zo)}
+.param Zo_max={Zo_dc}
+.param Iscp=15m Iscn=-15m
+.param IZop={Rx_Zo*Iscp} IZon={Rx_Zo*Iscn}
+.param gain_CMR = {pow(10, (-Rej_dc_CMR/20))}
+.param C1a_CMR = {1 / (2 * pi * R1a_CMR * fz1_CMR)}
+.param R2a_CMR = {R1a_CMR/ ((2 * pi * fp1_CMR * C1a_CMR
++* R1a_CMR) - 1)}
+.param actual1_CMR = {R2a_CMR / (R1a_CMR + R2a_CMR)}
+.param G1_CMR = {gain_CMR/actual1_CMR}
+.param Rej_dc_CMR=74
+.param R1a_CMR=1Meg
+.param fz1_CMR=2.5k
+.param fp1_CMR=10Meg
+.param gain_PSRn = {pow(10, (-Rej_dc_PSRn/20))}
+.param C1a_PSRn = {1 / (2 * pi * R1a_PSRn * fz1_PSRn)}
+.param R2a_PSRn = {R1a_PSRn/ ((2 * pi * fp1_PSRn * C1a_PSRn
++* R1a_PSRn) - 1)}
+.param actual1_PSRn = {R2a_PSRn / (R1a_PSRn + R2a_PSRn)}
+.param G1_PSRn = {gain_PSRn/actual1_PSRn}
+.param Rej_dc_PSRn=88
+.param R1a_PSRn=1Meg
+.param fz1_PSRn=50
+.param fp1_PSRn=475
+.ENDS MAX9915

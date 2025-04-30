@@ -1,0 +1,87 @@
+* Copyright ? Analog Devices, Inc. 2019.  All rights reserved.
+*
+.subckt AD590 1 2
+D1 N003 2 X N=2.3
+R2 N002 0 T 1
+I2 0 N002 .3002m
+C1 1 N003 10p
+C2 N003 2 10p
+D2 2 1 S
+D3 N003 1 Y
+G1 1 N003 N002 0 1m
+.model X D(Eg=1.4 Rs=2.5K)
+.model Y D(Ron=1K Roff=1G Vfwd=-.1 epsilon=1
+.model S D(Ron=1 Roff=1T epsilon=1)
+.model T R(R=1K tc1=0.003331667499583541)
+.ends AD590
+*
+.subckt ADR225 1 2 3
+C2 1 2 10p
+C20 3 2 10p Rpar=250K
+A1 N005 3 1 1 1 1 N006 1 OTA Ref=0 Rclamp=1Meg Vhigh=.5 Vlow=-.5 en=400n enk=10 Rout=400Meg epsilon=1 Iout=1u G=3u
+M2 N003 N006 1 1 P temp=27
+D1 2 N006 X
+A2 1 2 2 2 2 2 N005 2 SCHMITT Vhigh=2.5 Vt=2. Vh=1m Rout=250 Cout=1n
+D2 2 3 S
+R2 1 N005 10Meg
+C3 1 N006 1p Rser=3Meg Cpar=.1p
+D3 N003 3 1V
+C4 N003 2 10p
+.model P VDMOS(Kp=2 Vto=0 Ksubthres=100m pchan)
+.model X D(Ron=1 Roff=1T epsilon=.5)
+.model S D(Ron=1 Roff=1G epsilon=1)
+.model 1V D(Ron=10 Roff=1G Vfwd=.8 epsilon=.1)
+.ends ADR225
+*
+*
+* Copyright (c) 1998-2020 Analog Devices, Inc.  All rights reserved.
+*
+.subckt ADR4525 1 2 3
+B1 N005 0 I=8.6u*(V(OUTS,GNDS)-2.4999998)
+C1 N005 0 0.1f Rpar=100K noiseless
+A1 N002 0 0 0 0 0 N003 0 OTA g=50u iout=200u Cout=5p Vhigh=1e308 Vlow=-1e308
+D1 N003 0 DLIM
+C2 1 2 1000p
+D2 1 2 DP
+A2 0 N005 0 0 0 0 N002 0 OTA g=1m linear en=200n/(4*tanh(.35*freq)+900m*dnlim(freq-7.3k,1,1k)) Cout=5p Rout=1.5k Vlow=-1e308 Vhigh=1e308
+M1 OUTS N009 GNDS GNDS NI temp=27
+C4 1 OUTS .1p Rpar=100Meg noiseless
+M2 OUTS N004 1 1 PI temp=27
+C5 OUTS 2 .1p Rpar=10Meg noiseless
+M3 N004 N004 1 1 PI temp=27 M=10m
+M4 N009 N009 2 2 NI temp=27 M=10m
+A3 0 N006 1 1 1 1 N009 1 OTA g=1m asym isource=300u isink=-10u vlow=-1e308 vhigh=1e308
+D3 1 N004 DLIMP
+C6 N003 N002 18p Rser=400k noiseless
+C7 N003 N002 18.7p Rser=450k noiseless
+C8 1 N004 1p
+C9 N009 2 1p
+R1 N008 2 100k noiseless
+R2 GNDS 2 78m noiseless
+A4 0 N003 0 0 0 0 N006 0 OTA g=1u linear Vlow=-1e308 Vhigh=1e308
+R3 3 OUTS 71.2m noiseless
+A5 OUTS 3 0 0 0 0 N011 0 OTA g=1 asym ref=-400n isource=100n Isink=-80n Rout=1Meg Vlow=-1e308 Vhigh=1e308
+G2 0 VDO 3 1 38.5µ
+A6 3 OUTS 0 0 0 0 VDO 0 OTA g=.7 asym isource=4.7u Isink=-.1u Vhigh=1e308 Vlow=-1e308
+D4 OUTS GNDS DIVOS
+D5 N006 0 DNLG
+G3 1 N005 1 2 21.5p
+G4 0 VDO OUTS 3 .05
+G5 0 N003 VDO N011 10m vto=0 dir=1
+A7 0 N006 2 2 2 2 N004 2 OTA g=.5m asym isource=1u Isink=-400u in=5.5p/(0.8+2.5m*dnlim(freq-4.7k,1,3k)) Vlow=-1e308 Vhigh=1e308
+D6 N004 2 DIMIN
+G6 0 VDO 3 1 10m vto=-510m dir=1
+C11 VDO 0 100f Rpar=20k noiseless
+C12 GNDS 2 10p
+G7 2 N005 N008 2 8n
+C10 1 N008 400p Rser=50k Lser=3.2 Cpar=4f
+.model DP D(Roff=1G Ron=100 Vfwd=.5 epsilon=.5 ilimit=484u noiseless)
+.model PI VDMOS(Vto=-300m Kp=40m  pchan  Cgs=1f oneway)
+.model NI VDMOS(Vto=300m Kp=40m Cgs=1f)
+.model DLIM D(Ron=100 Roff=100Meg Vfwd=7 Vrev=3.5 epsilon=100m revepsilon=100m noiseless)
+.model DNLG D(Ron=3Meg Roff=800k vfwd=50m epsilon=50m vrev=10m revepsilon=100m noiseless)
+.model DLIMP D(Ron=1k Roff=100Meg Vfwd=3.5 epsilon=100m  noiseless)
+.model DIVOS D(Ron=1k Roff=1g vfwd=1 epsilon=1 ilimit=86u noiseless)
+.model DIMIN D(Ron=100 Roff=1g vfwd=700m epsilon=700m ilimit=2.7u noiseless)
+.ends ADR4525
+

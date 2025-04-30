@@ -1,0 +1,179 @@
+* Copyright (c) 1998-2023 Analog Devices, Inc.  All rights reserved.
+*
+.subckt OP177A 1 2 3 4 5
+CIN N002 N021 {Cdiff}
+IOS N021 MID {Ib-Ios}
+D1 N021 N002 DBB
+D2 N002 N021 DBB
+B§GSY N030 N033 I=725u+ V(3,4)*42.5u
+R20 E_n MID 100k Noiseless
+A1 MID MID MID MID MID MID E_n MID OTA G=10u Iout=1m En=11n Enk=0.53 Vhigh=1k Vlow=-1k
+G_EN N008 N004 E_n MID 1k
+R_EN N004 N008 1m
+A2 MID N002 MID MID MID MID MID MID OTA G=0 In=254f Ink=120
+A3 MID N021 MID MID MID MID MID MID OTA G=0 In=254f Ink=120
+C6 CMR N001 {C1a_CMR}
+G3 MID N001 N002 MID {G1_CMR}
+R13 N001 MID 1 Noiseless
+R21 CMR N001 {R1a_CMR} Noiseless
+R22 CMR MID {R2a_CMR} Noiseless
+G_CMR N004 N005 CMR MID 1k
+R_CMR N005 N004 1m
+R3 Avo1 MID 1Meg Noiseless
+R4 Clamp MID 1Meg Noiseless
+C2 Clamp MID {Cfp1}
+A4 N021 N011 MID MID MID MID Avo1 MID OTA G=100u Iout=1m Vhigh=1k Vlow=-1k
+R5 N016 MID 1Meg Noiseless
+G1 MID N016 Clamp MID 1µ
+C3 N016 MID {Cfp2}
+C4 Avo1 MID 1f
+R7 ZO N003 {R2x_Avo} Noiseless
+R8 N003 N006 {R1x_Avo} Noiseless
+Rx1 N018 N006 {Rx_Avo} Noiseless
+Cx1 N018 MID {Cx_Avo}
+G5 MID ZO N018 N003 1Meg
+R9 MID ZO 1 Noiseless
+R10 N006 MID 1 Noiseless
+G6 MID N006 N017 MID 1
+R14 N017 MID 1Meg Noiseless
+G7 MID N017 N016 MID 1µ
+C5 N017 MID {Cfp3}
+G8 MID N011 N010 MID 1m
+R1 MID N011 1k Noiseless
+D3 CMp N011 DO
+D4 N011 CMn DO
+I1 Vcc_Int CMp {1k*Vcm_max}
+R2 Vcc_Int CMp 1m
+C7 Vcc_Int CMp 1n
+I2 Vee_Int CMn {1k*Vcm_min}
+R17 Vee_Int CMn 1m
+C8 Vee_Int CMn 1n
+IB N002 MID {Ib}
+R18 N002 N008 1m
+I3 N002 N008 {1k*Vos}
+Rinn N021 MID {Rcm} Noiseless
+Rinp MID N002 {Rcm} Noiseless
+R23 N002 1 {Rser} Noiseless
+R24 N021 2 {Rser} Noiseless
+Rdiff N002 N021 {Rdiff} Noiseless
+G9 MID Vsatp N022 MID 1k
+R25 Vsatp MID 1m
+G10 MID Vsatn N023 MID 1k
+R26 Vsatn MID 1m
+C9 Vsatp MID 1n
+C10 Vsatn MID 1n
+DOP Vsatp VO DO
+DON VO Vsatn DO
+C11 VO Vsatp 1f
+C12 VO Vsatn 1f
+V1 N022 3 -1
+V2 N023 4 1
+R15 N030 3 1µ
+R16 N033 4 1µ
+Vimon VO 5 0
+F1 N030 N033 Vimon 1
+G11 0 Vcc_Int N030 0 1
+G12 0 Vee_Int N033 0 1k
+R27 Vcc_Int 0 1 Noiseless
+R28 Vee_Int 0 1m Noiseless
+C13 Vcc_Int 0 1n
+C14 Vee_Int 0 1n
+R29 N031 Vcc_Int 1Meg Noiseless
+R30 N031 Vee_Int 1Meg Noiseless
+C15 N031 0 1
+E1 MID 0 N031 0 1
+R31 MID 0 1Meg Noiseless
+C16 MID 0 10n
+G13 MID N025 N024 MID 1k
+V3 N024 VO {OR}
+G14 MID N026 N027 MID 1k
+V4 N027 VO {-OR}
+D5 N025 Clamp DO
+D6 Clamp N026 DO
+R32 N025 MID 1m
+R33 N026 MID 1m
+G15 MID N009 N005 MID 1k
+R34 MID N009 1m Noiseless
+G16 N010 N009 N013 N014 1m
+R35 N010 N009 1k Noiseless
+C17 N013 N012 {C1a_PSRp}
+G17 MID N012 Vcc_Int MID {G1_PSRp}
+R36 N012 MID 1 Noiseless
+R37 N013 N012 {R1a_PSRp} Noiseless
+R38 N013 MID {R2a_PSRp} Noiseless
+C18 N014 N015 {C1a_PSRn}
+G18 MID N015 Vee_Int MID {G1_PSRn}
+R39 N015 MID 1 Noiseless
+R40 N014 N015 {R1a_PSRn} Noiseless
+R41 N014 MID {R2a_PSRn} Noiseless
+B1 MID Clamp I=Uplim(Dnlim({Avo2/1Meg}* V(Avo1,MID), {Isink}, 5m), {Isrc}, 5m)
+S1 3 5 5 3 ESDO
+S2 5 4 4 5 ESDO
+Rx2 VO N019 {Rx_Zo} Noiseless
+Rdummy1 VO MID {Rdummy_Zo} Noiseless
+R42 N019 MID 1 Noiseless
+B2 MID N019 I=Uplim(Dnlim({G1_Zo}* V(ZO,VO), {Izon}, 25m), {Izop}, 25m)
+.model DBB D(Is=2.52n Rs=.568 N=1.752 Cjo=0.1p M=.4 tt=20n)
+.model DO D(Vfwd=1k Vrev=0 Revepsilon=0.1 Ron=1m Noiseless)
+.model ESDO SW(Ron=50 Roff=1G Vt=0.5 Vh=-0.1 Vser=0.6 Ilimit=4m Lser=1n Noiseless)
+.param gain_CMR = {pow(10, (-Rej_dc_CMR/20))}
+.param C1a_CMR = {1 / (2 * pi * R1a_CMR * fz1_CMR)}
+.param R2a_CMR = {R1a_CMR/ ((2 * pi * fp1_CMR * C1a_CMR
++* R1a_CMR) - 1)}
+.param actual1_CMR = {R2a_CMR / (R1a_CMR + R2a_CMR)}
+.param G1_CMR = {gain_CMR/actual1_CMR}
+.param Rej_dc_CMR=140
+.param R1a_CMR=10Meg
+.param fz1_CMR=30
+.param fp1_CMR=100Meg
+.param Avo=133
+.param SRp=0.3 SRn=-0.3
+.param fp1=0.127 fp2=2Meg fp3=6Meg
+.param Avo2_dB = {Avo-40+1}
+.param Avo2 = {pwr(10, (Avo2_dB)/20)}
+.param Cfp1={1 / (2 * pi * fp1 * 1Meg)}
+.param Cfp2={1 / (2 * pi * fp2 * 1Meg)}
+.param Cfp3={1 / (2 * pi * fp3 * 1Meg)}
+.param Isrc = {Cfp1 * SRp * 1Meg} Isink = {Cfp1 * SRn * 1Meg}
+.param Rx_Avo=1k
+.param R2x_Avo=10k
+.param fpx_Avo=100G
+.param fzx_Avo=4Meg
+.param Cx_Avo={1/(2*pi*Rx_Avo*fpx_Avo)}
+.param R1x_Avo={(fzx_Avo*R2x_Avo)/fpx_Avo}
+.param Vos=35u
+.param Ib=1.25n Ios=0.3n
+.param Vcm_min=1 Vcm_max=-1
+.param Iscp=27.5m Iscn=-22.5m
+.param IZop={Rx_Zo*Iscp} IZon={Rx_Zo*Iscn}
+.param Rser=1m
+.param Ccm=1f Rcm=200G
+.param Cdiff=4p Rdiff=45Meg
+.param OR=5
+.param gain_PSRp = {pow(10, (-Rej_dc_PSRp/20))}
+.param C1a_PSRp = {1 / (2 * pi * R1a_PSRp * fz1_PSRp)}
+.param R2a_PSRp = {R1a_PSRp/ ((2 * pi * fp1_PSRp * C1a_PSRp
++* R1a_PSRp) - 1)}
+.param actual1_PSRp = {R2a_PSRp / (R1a_PSRp + R2a_PSRp)}
+.param G1_PSRp = {gain_PSRp/actual1_PSRp}
+.param Rej_dc_PSRp=126
+.param R1a_PSRp=10Meg
+.param fz1_PSRp=0.5
+.param fp1_PSRp=1Meg
+.param gain_PSRn = {pow(10, (-Rej_dc_PSRn/20))}
+.param C1a_PSRn = {1 / (2 * pi * R1a_PSRn * fz1_PSRn)}
+.param R2a_PSRn = {R1a_PSRn/ ((2 * pi * fp1_PSRn * C1a_PSRn
++* R1a_PSRn) - 1)}
+.param actual1_PSRn = {R2a_PSRn / (R1a_PSRn + R2a_PSRn)}
+.param G1_PSRn = {gain_PSRn/actual1_PSRn}
+.param Rej_dc_PSRn=126
+.param R1a_PSRn=10Meg
+.param fz1_PSRn=0.5
+.param fp1_PSRn=1Meg
+.param beta_Zo=1.13
+.param Rx_Zo = {100 * Zo_max}
+.param Rdummy_Zo = {10 * Zo_max}
+.param G1_Zo={Rx_Zo/(Zo_dc*beta_Zo)}
+.param Zo_dc=200
+.param Zo_max={Zo_dc}
+.ends OP177A

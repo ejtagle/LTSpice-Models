@@ -1,0 +1,194 @@
+* Copyright (c) 1998-2023 Analog Devices, Inc.  All rights reserved.
+*
+.subckt AD8336 1 2 3 4 5 6 7 8 9 10 11
+C1 2 3 1p Rpar=1G Noiseless
+C4 6 3 1f Rpar=1G Noiseless
+C5 7 3 1f Rpar=1.28k Noiseless
+C6 8 3 1p Rpar=1G
+C7 9 3 1p Rpar=1G Noiseless
+C8 10 3 1p Rpar=1G Noiseless
+C9 11 3 1p Rpar=1G
+R5 N036 8 1µ Noiseless
+R6 N034 11 1µ Noiseless
+G3 N034 N036 Vimon 3 1
+R9 Vimon 3 1k Noiseless
+Vimon Zo_out 1 0
+F1 3 Vimon Vimon 1m
+C16 Vimon 3 1.59f
+A1 2 N032 3 3 3 PWR 3 3 SCHMITT Vt=0 Vh=0.4 Trise=10n
+C17 PWR 3 1p Rpar=1G Noiseless
+B1 3 N032 I=1m*table(V(11,3),(0,0),(3,1.1),(5,1.6),(12,3.6))
+C18 N032 3 1p Rpar=1k Noiseless
+Biq_lo N034 N036 I=IF(V(11,3)>=12, 16m,14m)
+Biq_norm N034 N036 I=IF(V(PWR,3)<0.5,1p, (IF(V(11,3)>=5,12m,11m)))
+G4 3 VGAIN 9 10 1m
+C19 VGAIN 3 1p Rpar=1k Noiseless
+G5 3 Vs 11 8 1m
+R10 Vs 3 1k Noiseless
+A2 VminGD 3 3 3 VmaxGD 3 EN 3 AND Trise=5n
+R11 EN 3 1G Noiseless
+R12 VmaxGD 3 1G Noiseless
+R13 3 VminGD 1G Noiseless
+A3 Vs 3 3 3 3 3 VminGD 3 SCHMITT Vt={Vsmin-50m} Vh=10m Trise=10n Tfall=10n
+A4 Vs 3 3 3 3 VmaxGD 3 3 SCHMITT Vt={Vsmax+50m} Vh=10m Trise=10n Tfall=10n
+R14 N001 4 {Rser} Noiseless
+R15 N011 5 {Rser} Noiseless
+Cinp 3 N001 {Ccm}
+Cinn N011 3 {Ccm}
+Rinn N011 3 {Rcm} Noiseless
+Rinp 3 N001 {Rcm} Noiseless
+Rdiff N001 N011 {Rdiff} Noiseless
+C2 ATN 3 50p Rpar=1k Noiseless
+B3 3 ATNout I=1m*V(7,3)*V(ATN,3)
+C3 ATNout 3 1f Rpar=1k Noiseless
+I3 N011 3 {Ib}
+I2 N001 3 {Ib}
+R8 N003 N001 1m Noiseless
+I4 N001 N003 {1k*Vos}
+G6 3 N005 N003 3 1k
+G7 3 N009 N011 3 1m
+C20 N009 3 1.59f
+C21 N005 3 1.59p
+R18 N005 3 1m Noiseless
+R19 N009 3 1k Noiseless
+S2 11 N005 N005 11 ESDI
+S3 11 N009 N009 11 ESDI
+S4 N005 8 8 N005 ESDI
+S5 N009 8 8 N009 ESDI
+B4 3 Aol2 I=Uplim(Dnlim({Aol2/1Meg}*V(Aol1,3), {Isink},1m),{Isrc},1m)
+A5 N009 N005 3 3 3 3 Aol1 3 OTA G=100u Iout=1m Vhigh=1k Vlow=-1k En=2.6n
+C11 Aol1 3 1.59e-18
+S6 3 Aol2 EN 3 ENA
+S7 3 Aol1 EN 3 ENA
+C12 Aol2 3 {Cfp1}
+R1 N006 3 1Meg Noiseless
+C13 N006 3 {Cfp2}
+G1 3 N006 Aol2 3 1µ
+Rx_pre 6 N008 {Rx_Zo_pre} Noiseless
+Rdummy_pre 6 3 {Rdummy_Zo_pre} Noiseless
+B5 3 N008 I=Uplim(Dnlim({G1_Zo_pre}* V(Zo_in_pre,6), {IZon_pre}, 25m), {IZop_pre}, 25m)
+R7 Zo_in_pre Aol_m_pre 1µ
+S10 3 N008 EN 3 ENZ
+R2 Zo_out N029 4.48k Noiseless
+R3 N029 3 91.43 Noiseless
+Rx Zo_out N022 {Rx_Zo} Noiseless
+Rdummy Zo_out 3 {Rdummy_Zo} Noiseless
+R4 N022 3 1 Noiseless
+R20 Aol1o 3 1Meg Noiseless
+C10 Aol1o 3 5e-18
+G8 3 Aol1o N018 N029 100µ
+R21 Clamp 3 1Meg Noiseless
+C14 Clamp 3 2p
+R16 N020 3 1k Noiseless
+C15 N020 3 {C2}
+G2 3 N020 Clamp 3 1m
+R17 N021 3 1k Noiseless
+G10 3 N021 N020 3 1m
+R22 Zo_in 3 1k Noiseless
+G11 3 Zo_in N021 3 1m
+R23 ATNfilt 3 R=1k*V(RATN,3)
+C24 ATNfilt 3 100f
+C22 N021 3 {C2}
+C23 Zo_in 3 {C2}
+B6 3 ATN I=1m*Table(V(Vgain,3), -0.7, 1m, -0.5, 1.9m, -0.2, 11m, 0, 35m, 0.2, 105m, 0.5, 0.6, 0.7, 1)
+C25 RATN 3 1n Rpar=1 Noiseless
+B7 3 ATNfilt I=V(ATNout,3)*(1m/V(RATN,3))
+S14 11 1 1 11 ESDO
+S15 1 8 8 1 ESDO
+C27 3 N002 70p
+S16 Aol2 N002 PWR 3 ENA
+R27 Aol_m_pre 3 1 Noiseless
+G13 3 Aol_m_pre N007 3 1
+R28 N007 3 1Meg Noiseless
+C30 N007 3 {Cfp3}
+G14 3 N007 N006 3 1µ
+I5 9 10 1µ
+D§BGP 3 VGAIN VG
+D§VGN VGAIN 3 VG
+G15 3 PSRR Vs 3 200µ
+R29 PSRR 3 1 Noiseless
+C31 PSRR 3 1p
+G16 3 N015 ATNfilt 3 1k
+C32 N015 3 1.59p
+R30 N015 3 925µ Noiseless
+R31 N017 N016 1k Noiseless
+G17 N017 N016 PSRR 3 1m
+D§VGP1 11 6 VO
+D§VGN1 6 8 VO
+B8 3 Vsat I=1m*({msat}*V(Vs,3)+{bsat}) Rpar=1k Cpar=1n
+D§VOP N024 Zo_out VO
+D§VON Zo_out N025 VO
+B11 N026 11 I=1m*V(Vsat,3) Rpar=1k Cpar=1n
+B9 8 N027 I=1m*V(Vsat,3) Rpar=1k Cpar=1n
+G18 3 N025 N027 3 1k
+C33 N025 3 1n Rpar=1m
+C34 Zo_out N025 1f
+C35 N024 3 1n Rpar=1m
+G19 3 N024 N026 3 1k
+C36 Zo_out N024 1f
+B10 3 Iscp I=1m*Uplim(({miscp}*V(Vs,3)+{biscp}),123m, 1m) Rpar=1k Cpar=1n
+B_Zo 3 N022 I=Limit({G1_Zo}* V(Zo_in,Zo_out), {Izon}, V(Iscp,3)*{Rx_Zo})
+R34 N018 N017 1k Noiseless
+B12 3 Voso I=1m*({mvos}*V(Vs,3)+{bvos}) Rpar=1k Cpar=100n
+G20 N017 N018 Voso 3 1m
+A6 3 N001 3 3 3 3 3 3 OTA In=3p G=0
+A7 3 N011 3 3 3 3 3 3 OTA In=3p G=0
+R32 Eno 3 100k Noiseless
+A8 3 3 3 3 3 3 Eno 3 OTA G=10u Iout=1m En=3.8n Vhigh=1k Vlow=-1k
+R35 N016 N015 1k Noiseless
+G21 N015 N016 Eno 3 1m
+D§VGP2 N014 Clamp GR
+D§VGN2 Clamp N013 GR
+I6 3 N014 47k
+R36 N014 3 1m
+R37 N013 3 1m
+I7 N013 3 47k
+C37 Clamp N014 1f
+C38 Clamp N013 1f
+C39 N014 3 1n
+C40 N013 3 1n
+Bsr 3 Clamp I=Uplim(Dnlim(1m*V(Aol1o,3), {Isinko},10u),{Isrco},10u)
+B2 3 RATN I=Table(V(Vgain,3), -0.7, 3, -0.5, 10, -0.2, 24, 0, 25, 0.2, 24, 0.5, 28, 0.7, 40)
+.param Vsmin=6 Vsmax=24
+.param Iscn=-72.5m Izon={Rx_Zo*Iscn}
+.param Iscp_pre=50m Iscn_pre=-50m
+.param IZop_pre={Rx_Zo_pre*Iscp_pre}
+.param IZon_pre={Rx_Zo_pre*Iscn_pre}
+.param Ib=725n
+.param Vos=600u
+.param Rser=1m
+.param Ccm=3p Rcm=900k
+.param Cdiff=1f Rdiff=1T
+.model ENA SW(Ron=1Meg Roff=1u Vt=500m Vh=-100m Noiseless)
+.model ENZ SW(Ron=1 Roff=1u Vt=500m Vh=-100m Noiseless)
+.model ESDI SW(Ron=50 Roff=1T Vt=700m Vh=-350m Vser=0.1 Noiseless)
+.model ESDO SW(Ron=50 Roff=1G Vt=0.5 Vh=-0.1 Vser=0.6 Ilimit=4m Lser=1n Noiseless)
+.model VG D(Vfwd=100 Vrev=5 Revepsilon=0.1 Noiseless)
+.model VO D(Vfwd=100 Vrev=0 Revepsilon=0.1 Noiseless)
+.model GR D(Vfwd=1k Vrev=0 Revepsilon=0.1 Noiseless)
+.param Aol2_dB = {Aol_PB-40+1}
+.param Aol2 = {pwr(10, (Aol2_dB)/20)}
+.param Cfp1={1 / (2 * pi * fp1 * 1Meg)}
+.param Cfp2={1 / (2 * pi * fp2 * 1Meg)}
+.param Cfp3={1 / (2 * pi * fp3 * 1Meg)}
+.param Aol_PB=129.2
+.param fp1=4.4k fp2=160Meg fp3=1G
+.param Isrc=0.3 Isink=-0.7
+.param beta_Zo_pre=1.13
+.param Rx_Zo_pre = {100 * Zo_max_pre}
+.param Rdummy_Zo_pre = {10 * Zo_max_pre}
+.param G1_Zo_pre={Rx_Zo_pre/(Zo_dc_pre*beta_Zo_pre)}
+.param Zo_dc_pre=10k
+.param Zo_max_pre={Zo_dc_pre}
+.param beta_Zo=1.13
+.param Rx_Zo = {100 * Zo_max}
+.param Rdummy_Zo = {10 * Zo_max}
+.param G1_Zo={Rx_Zo/(Zo_dc*beta_Zo)}
+.param Zo_dc=35
+.param Zo_max={Zo_dc}
+.param C2=250f
+.param msat = 53.57m bsat=964m
+.param miscp=-3.64m biscp=159.4m
+.param mvos=9.321e-5 bvos=-3.85m
+.param Isrco=1.853m Isinko={-Isrco}
+.ends AD8336

@@ -1,0 +1,62 @@
+* Copyright © Analog Devices, Inc. 2019.  All rights reserved.
+*
+.subckt LTZ1000 1 2 3 4 5 6 7 8
+Q1 5 N003 7 0 N temp=27
+D1 4 N001 Z temp=27
+D2 4 1 S
+D3 4 2 S
+D4 2 1 S m=10m
+R1 1 2 300 noiseless
+C1 1 4 1p
+C2 2 4 1p
+C3 3 4 1p
+C4 5 4 1p
+C5 6 4 1p
+C6 7 4 1p
+C7 8 4 1p
+C8 T1 CASE 6µ Rpar=10Meg
+R2 CASE 0 300.15K tc={1/(273.15+27)}
+I1 0 CASE 1m
+Q2 8 N002 7 0 N temp=27
+B1 4 N003 I=270u*(V(T1)-300.15) Rpar=5
+B2 6 N002 I=270u*(V(T1)-300.15) Rpar=5
+B4 CASE T1 I=57n*V(1,2)**2
+A1 0 T2 N001 N001 N001 N001 3 N001 OTA en=14u+440n/(300u+I(D1)**2) G=.1375m Rout=20 Cout=.1u Ref=-333 Iout=100m Vhigh=.5 Vlow=-.5 epsilon=1
+G1 CASE T2 T1 CASE 10µ
+C10 T2 CASE 1n Rpar={100K+245}
+B3 T2 CASE I=100p*(V(case)-280)**2
+.model N NPN(Is=8.5e-14 Bf=300 Cjc=4p Cje=8p noiseless)
+.model S D(Ron=2 Vfwd=.55 epsilon=.5 noiseless)
+.model Z D(Is=1e-14 Cjo=100p BV=6.4 Ibv=1m Kf=3e-14)
+.ends LTZ1000
+*
+.subckt LTZ1000A 1 2 3 4 5 6 7 8
+Q1 5 N004 7 0 N temp=27
+D1 4 N001 Z temp=27
+D2 4 1 S
+D3 4 2 S
+D4 2 1 S m=10m
+R1 1 2 300 noiseless
+C1 1 4 1p
+C2 2 4 1p
+C3 3 4 1p
+C4 5 4 1p
+C5 6 4 1p
+C6 7 4 1p
+C7 8 4 1p
+R2 CASE 0 300.15K tc={1/(273.15+27)}
+I1 0 CASE 1m
+Q2 8 N003 7 0 N temp=27
+B1 4 N004 I=270u*(V(T1)-300.15) Rpar=5
+B2 6 N003 I=270u*(V(T1)-300.15) Rpar=5
+A1 0 T1 N001 N001 N001 N001 3 N001 OTA en=14u+440n/(300u+I(D1)**2) G=.1375m Rout=20 Cout=.1u Ref=-333 Iout=100m Vhigh=.5 Vlow=-.5 epsilon=1
+C9 T1 N002 10µ Rpar=10Meg
+C10 N002 N005 .1µ Rpar=10Meg
+B3 N002 T1 I=46n*V(1,2)**2
+B5 N005 N002 I=46n*V(1,2)**2
+C8 N005 CASE .025µ Rpar=10Meg
+B4 CASE N005 I=46n*V(1,2)**2
+.model N NPN(Is=8.5e-14 Bf=300 Cjc=4p Cje=8p noiseless)
+.model S D(Ron=2 Vfwd=.55 epsilon=.5 noiseless)
+.model Z D(Is=1e-14 Cjo=100p BV=6.4 Ibv=1m Kf=3e-14)
+.ends LTZ1000A

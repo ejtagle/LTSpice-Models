@@ -1,0 +1,44 @@
+Version 4
+SymbolType BLOCK
+LINE Normal -16 113 -16 129
+LINE Normal -16 0 -16 0
+LINE Normal -32 129 -16 129
+LINE Normal -16 80 -16 63
+LINE Normal 8 64 -8 64
+LINE Normal 8 128 -7 128
+LINE Normal 0 136 0 120
+RECTANGLE Normal 96 192 -96 -128
+CIRCLE Normal -32 80 0 113
+WINDOW 3 0 -105 Center 2
+WINDOW 0 1 -144 Center 2
+SYMATTR Prefix X
+SYMATTR Value SSMBC
+SYMATTR Description Small-Signal Model of the Buck Converter
+SYMATTR SpiceLine Vc=56 Lf=7.5u Fc=88000
+SYMATTR ModelFile ..\sym\ValVol\SSMBC.lib
+SYMATTR SpiceModel SSMBC
+SYMATTR SpiceLine2 Kt=200*21/5 Ri=1.73864 Vrmax=1 Msc=1 Schc=0 Insch=1.25
+PIN -96 -64 LEFT 8
+PINATTR PinName VI
+PINATTR SpiceOrder 1
+PIN 96 -64 RIGHT 8
+PINATTR PinName VO
+PINATTR SpiceOrder 4
+PIN 96 64 RIGHT 8
+PINATTR PinName IMAX
+PINATTR SpiceOrder 6
+PIN 96 128 RIGHT 8
+PINATTR PinName C/D
+PINATTR SpiceOrder 7
+PIN -96 64 LEFT 8
+PINATTR PinName CTRL
+PINATTR SpiceOrder 2
+PIN -96 128 LEFT 8
+PINATTR PinName INP
+PINATTR SpiceOrder 3
+PIN 0 192 BOTTOM 8
+PINATTR PinName GND
+PINATTR SpiceOrder 8
+PIN 96 0 RIGHT 8
+PINATTR PinName IOUT
+PINATTR SpiceOrder 5

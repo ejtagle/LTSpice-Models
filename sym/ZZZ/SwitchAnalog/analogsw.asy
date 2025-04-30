@@ -1,0 +1,21 @@
+Version 4
+SymbolType BLOCK
+RECTANGLE Normal -128 48 96 -80
+SYMATTR Prefix X
+SYMATTR Value analogsw
+SYMATTR ModelFile SwitchAna.Lib
+PIN 96 -80 RIGHT 8
+PINATTR PinName X
+PINATTR SpiceOrder 1
+PIN 96 48 RIGHT 8
+PINATTR PinName Y
+PINATTR SpiceOrder 2
+PIN -128 -16 LEFT 8
+PINATTR PinName CONT
+PINATTR SpiceOrder 3
+PIN -16 -80 TOP 8
+PINATTR PinName Vdd
+PINATTR SpiceOrder 4
+PIN -16 48 BOTTOM 8
+PINATTR PinName GND
+PINATTR SpiceOrder 5

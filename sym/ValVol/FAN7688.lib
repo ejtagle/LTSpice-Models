@@ -1,0 +1,188 @@
+* 12.11.2015
+* FAN7688
+* LLC Resonant Converter Controller with Synchronous Rectifier Control
+.subckt FAN7688 5VB PWMS FMIN FB COMP SS ICS CS RDT SR1DS SROUT2 SROUT1 PROUT2 PROUT1 VDD GND
+A1 N024 N032 0 0 0 iT pT 0 SRFLOP Vhigh=5 Trise=10n
+A2 N031 N031 N031 N023 N012 0 N032 0 OR Vhigh=5 Trise=10n
+A3 Vct 0 0 0 0 0 N031 0 BUF Vhigh=5 Trise=10n Ref=3
+C1 Vct 0 375p ic=1
+S1 0 Vct iT 0 dch
+F1 0 Vct V1 1
+I1 0 N030 1m
+D1 0 N030 1_5v
+V1 N030 FMIN 0
+G1 0 Vtc pT 0 table=(0 -1m,5 1m)
+C2 Vtc 0 1.282n ic=0
+D2 0 Vtc 11v
+A4 Vtc 0 0 0 0 N024 0 0 BUF Vhigh=5 Trise=10n Ref=0
+A5 Vtc 0 0 0 0 0 N023 0 BUF Vhigh=5 Trise=10n Ref=10
+E1 N013 comp_c N014 0 1
+E2 N014 0 N019 comp_c table=(0 0,5 5)
+V2 N020 N014 1
+A6 Vct N020 0 0 0 0 N021 0 SCHMITT Vhigh=5 Trise=10n Vt=0 Vh=0.5m
+A7 pT N021 0 0 0 0 N005 0 SRFLOP Vhigh=5 Trise=10n
+E4 N002 0 Vtc 0 1
+S2 N008 N002 N005 0 pwm
+C3 N008 0 10p ic=0
+A8 Vtc N008 0 0 0 0 N001 0 SCHMITT Vhigh=5 Trise=10n Vt=0 Vh=0.5m
+A9 N001 0 0 0 pT 0 clk1 0 AND Vhigh=5 Trise=10n
+A10 N001 0 0 0 iT 0 clk2 0 AND Vhigh=5 Trise=10n
+A11 vsaw N013 0 0 0 0 N012 0 SCHMITT Vhigh=5 Trise=10n Vt=0 Vh=0.5m
+E3 vsaw Vct ICS 0 0.75
+A12 N019 comp_c 0 0 0 N011 pwmm 0 SCHMITT Vhigh=5 Trise=10n Vt=0 Vh=0.5m
+S3 N015 N008 N011 0 pwm
+V6 0 N015 20m
+V7 N018 PWMS 0
+F2 N022 N019 V7 1
+R3 N019 N022 10k
+V8 N022 0 1.5
+I2 0 N018 1m
+D3 0 N018 2v
+A13 N046 N051 0 0 0 iq1 pq1 0 SRFLOP Vhigh=5 Trise=10n
+A14 N055 N062 0 0 0 iq0 pq0 0 SRFLOP Vhigh=5 Trise=10n
+A15 ix0 0 pq0 iq1 x1 0 N061 0 AND Vhigh=5 Trise=10n
+G2 0 SS N045 0 2µ
+G3 SS 0 N049 0 2µ
+S4 SS N052 N043 0 sss
+D4 0 N052 2_4v
+A16 COMP 0 0 0 0 ix0 x0 0 BUF Vhigh=5 Trise=10n Ref=4.35
+A17 N052 SS 0 0 0 0 x1 0 SCHMITT Vhigh=5 Trise=10n Vt=0 Vh=0.5m
+A18 SS 0 0 0 0 0 N056 0 BUF Vhigh=5 Trise=10n Ref=3.6
+A19 SS 0 0 0 0 0 x4 0 BUF Vhigh=5 Trise=10n Ref=4.7
+A20 SS 0 0 0 0 x5 0 0 BUF Vhigh=5 Trise=10n Ref=0.1
+A21 iq0 iq1 0 0 x0 0 N055 0 AND Vhigh=5 Trise=10n
+A22 pq0 iq1 0 0 x2 0 N046 0 AND Vhigh=5 Trise=10n
+A23 up N042 0 0 0 x3 ix3 0 Counter Vhigh=5 Trise=10n cycles=8
+A24 pq0 0 0 0 pq1 N042 rst 0 AND Vhigh=5 Trise=10n
+A25 x4 N041 0 0 0 up dn 0 SRFLOP Vhigh=5 Trise=10n
+A26 iq0 pq1 0 0 ix3 0 N050 0 AND Vhigh=5 Trise=10n
+A27 rst 0 0 0 x3 0 N063 0 AND Vhigh=5 Trise=10n
+A28 0 N061 0 res N063 0 N062 0 OR Vhigh=5 Trise=10n
+A29 iq0 iq1 0 0 0 0 N043 0 AND Vhigh=5 Trise=10n
+A30 pq0 iq1 0 x0 0 0 N040 0 AND Vhigh=5 Trise=10n
+A31 rst 0 0 up 0 0 N044 0 AND Vhigh=5 Trise=10n
+A32 0 x5 0 0 N043 0 N041 0 OR Vhigh=5 Trise=10n
+A33 N040 N044 0 0 0 0 N045 0 OR Vhigh=5 Trise=10n
+A34 0 N048 0 0 N053 0 N049 0 OR Vhigh=5 Trise=10n
+A35 pq0 iq1 0 ix0 0 0 N048 0 AND Vhigh=5 Trise=10n
+A36 rst 0 0 dn 0 0 N053 0 AND Vhigh=5 Trise=10n
+G4 0 COMP N052 FB table=(-0.3 -90u,0.3 90u)
+D5 0 COMP 4_4v
+E5 Vocl1 0 FB 0 table=(0.6 0.5,2 1.2)
+V3 Vocl2 Vocl1 0.25
+A37 ICS Vocl1 0 0 0 0 N064 0 SCHMITT Vhigh=5 Trise=10n Vt=0 Vh=0.5m
+A38 ICS Vocl2 0 0 0 0 N058 0 SCHMITT Vhigh=5 Trise=10n Vt=0 Vh=0.5m
+A39 N064 0 N033 0 res 0 N065 0 DFLOP Vhigh=5 Trise=10n
+A40 N058 0 N033 0 res 0 N059 0 DFLOP Vhigh=5 Trise=10n
+A41 N047 0 N033 0 res 0 sr_skip 0 DFLOP Vhigh=5 Trise=10n
+A42 N039 0 N033 0 res 0 sr_shrnk 0 DFLOP Vhigh=5 Trise=10n
+A43 ICS 0 0 0 0 0 N039 0 SCHMITT Vhigh=5 Trise=10n Vt=225m Vh=25m
+A44 ICS 0 0 0 0 0 N047 0 SCHMITT Vhigh=5 Trise=10n Vt=112.5m Vh=37.5m
+A45 PROUT1 0 0 0 0 N033 0 0 BUF
+A46 CS 0 0 0 0 0 N036 0 BUF Vhigh=5 Trise=10n Ref=3.5
+A47 CS 0 0 0 0 N034 0 0 BUF Vhigh=5 Trise=10n Ref=-3.5
+A48 ICS 0 0 0 0 0 N037 0 BUF Vhigh=5 Trise=10n Ref=1.9
+A49 N034 0 N036 0 N038 0 ocp 0 OR Vhigh=5 Trise=10n
+R1 N038 N037 1k
+C4 N038 0 200p
+A50 N028 0 N033 0 res 0 N029 0 DFLOP Vhigh=5 Trise=10n
+A51 CS 0 0 0 0 N028 0 0 BUF Vhigh=5 Trise=10n Ref=0.3
+A52 COMP 0 0 0 0 0 N025 0 BUF Vhigh=5 Trise=10n Ref=3
+A53 N025 0 0 0 N029 0 N027 0 AND Vhigh=5 Trise=10n
+R2 N059 N060 14k
+R4 N065 N066 14k
+C5 N060 0 10n
+C6 N066 0 100n
+E6 N057 N066 N060 0 1
+E7 N026 N057 N027 0 40m
+E8 comp_c 0 COMP N026 table=(0 0,5 5)
+A54 N081 N087 0 0 0 N088 N086 0 SRFLOP Vhigh=5 Trise=10n
+A55 N082 0 N086 0 res N082 N083 0 DFLOP Vhigh=5 Trise=10n
+A56 N084 0 N082 0 res N084 N085 0 DFLOP Vhigh=5.3 Trise=10n
+G5 RDT 0 N086 0 31µ
+A57 RDT 0 0 0 0 N087 0 0 BUF Vhigh=5 Trise=10n Ref=1
+A58 RDT N075 0 0 0 0 N081 0 SCHMITT Vhigh=5 Trise=10n Vt=0 Vh=0.5m
+R6 0 N075 1.4k
+R7 5VB N075 3.6k
+R8 N075 N079 1.26k
+D6 N083 N079 ideal
+A59 N083 0 0 0 N088 0 N080 0 AND Vhigh=5 Trise=10n
+A60 N085 0 0 0 N086 0 N092 0 AND Vhigh=5 Trise=10n
+G6 0 N074 N080 0 31.25µ
+G7 0 N093 N092 0 62.5µ
+C8 N074 0 1n ic=0
+C9 N093 0 1n ic=0
+G8 N070 0 N074 0 table=(0.75 66.67u,1 150u,1.25 200u,1.5 233.3u,1.75 257.1u,2 275u,2.25 288.9u,2.5 300u,2.75 309.1u,3 316.7u,3.25 323.1u,3.5 328.6u,3.75 333.3u)
+D7 0 N070 5v
+C10 N070 0 10p ic=0
+G9 0 N070 clk1 0 80µ
+A61 N070 sr1_cnd N072 work clk1 N073 N071 0 AND Vhigh=5 Trise=10n
+G10 N076 0 N074 0 table=(0.75 66.67u,1 150u,1.25 200u,1.5 233.3u,1.75 257.1u,2 275u,2.25 288.9u,2.5 300u,2.75 309.1u,3 316.7u,3.25 323.1u,3.5 328.6u,3.75 333.3u)
+D8 0 N076 5v
+C11 N076 0 10p ic=0
+G11 0 N076 clk2 0 80µ
+A62 N076 sr2_cnd N072 work clk2 N078 N077 0 AND Vhigh=5 Trise=10n
+G12 N089 0 N093 0 table=(0.75 66.67u,1 150u,1.25 200u,1.5 233.3u,1.75 257.1u,2 275u,2.25 288.9u,2.5 300u,2.75 309.1u,3 316.7u,3.25 323.1u,3.5 328.6u,3.75 333.3u)
+D9 0 N089 5v
+C12 N089 0 10p ic=0
+G13 0 N089 clk1 0 80µ
+A63 N089 work 0 0 clk1 N091 N090 0 AND Vhigh=5 Trise=10n
+G14 N095 0 N093 0 table=(0.75 66.67u,1 150u,1.25 200u,1.5 233.3u,1.75 257.1u,2 275u,2.25 288.9u,2.5 300u,2.75 309.1u,3 316.7u,3.25 323.1u,3.5 328.6u,3.75 333.3u)
+D10 0 N095 5v
+C13 N095 0 10p ic=0
+G15 0 N095 clk2 0 80µ
+A64 N095 work 0 0 clk2 N097 N096 0 AND Vhigh=5 Trise=10n
+G16 0 N094 ires 0 20m
+D11 0 N094 4.95v
+A65 VDD 0 0 0 0 res ires 0 SCHMITT Vhigh=5 Trise=10n Vt=9.25 Vh=0.75
+D12 N085 N075 ideal
+D13 0 N074 3_75v
+D14 0 N093 3_75v
+A66 0 N050 0 0 res 0 N051 0 OR Vhigh=5 Trise=10n
+A67 N009 N016 0 0 0 N017 N007 0 SRFLOP Vhigh=5 Trise=10n
+A68 N006 0 0 0 N017 0 sr1_cnd 0 AND Vhigh=5 Trise=10n
+A69 N003 0 0 0 N007 0 sr2_cnd 0 AND Vhigh=5 Trise=10n
+A70 N010 N004 0 0 0 0 N016 0 SCHMITT Vhigh=5 Trise=10n Vt=0.25 Vh=0.5m
+A71 N004 N010 0 0 0 0 N009 0 SCHMITT Vhigh=5 Trise=10n Vt=0.2 Vh=0.5m
+E9 N004 0 SR1DS 0 1
+R5 N004 N010 1k
+C7 N010 0 100p
+A72 N004 0 0 0 0 N006 N003 0 BUF Vhigh=5 Trise=10n Ref=0.5
+A73 N052 FB 0 0 0 0 N054 0 SCHMITT Vhigh=5 Trise=10n Vt=1.2 Vh=0.5m
+A75 0 N054 0 0 N056 0 x2 0 OR Vhigh=5 Trise=10n
+A74 ocp res 0 0 0 0 N035 0 SRFLOP Vhigh=5 Trise=10n
+A76 N035 0 rst 0 skip work 0 0 OR Vhigh=5 Trise=10n
+A77 FB 0 0 0 0 0 N069 0 SCHMITT Vhigh=5 Trise=10n Vt=2.475 Vh=175m
+A78 COMP 0 0 0 0 N067 0 0 SCHMITT Vhigh=5 Trise=10n Vt=1.275 Vh=25m
+A79 N067 0 0 0 N069 N068 skip 0 OR Vhigh=5 Trise=10n
+A80 sr_skip 0 0 0 pwmm N072 0 0 OR Vhigh=5 Trise=10n
+S5 SROUT1 VDD N071 0 HOUT
+S6 0 SROUT1 N073 0 LOUT
+S7 SROUT2 VDD N077 0 HOUT
+S8 0 SROUT2 N078 0 LOUT
+S9 PROUT1 VDD N090 0 HOUT
+S10 0 PROUT1 N091 0 LOUT
+S11 PROUT2 VDD N096 0 HOUT
+S12 0 PROUT2 N097 0 LOUT
+G17 VDD 0 N068 0 0.94m
+G18 VDD 0 ires 0 0.56m
+F3 VDD 0 V4 1
+V4 N094 5VB 0
+S13 0 ICS iT 0 ics
+G19 0 N052 ires 0 6µ
+.model dch SW(Ron=50 Roff=1g Vt=2.5 Vh=-.5  Vser=1)
+.model 1_5v D(Ron=5 Roff=1g Vfwd=0.6 Vrev=1.5)
+.model 11v D(Ron=50 Roff=1g Vfwd=0.6 Vrev=11)
+.model ideal D(Ron=50 Roff=1g Vfwd=0)
+.model pwm SW(Ron=50 Roff=1g Vt=2.5 Vh=-.5  Vser=0)
+.model 2v D(Ron=5 Roff=1g Vfwd=0.6 Vrev=2)
+.model 4_4v D(Ron=5 Roff=1g Vfwd=0 Vrev=4.4)
+.model sss SW(Ron=5 Roff=1g Vt=2.5 Vh=-.5  Vser=0)
+.model 2_4v D(Ron=5 Roff=1g Vfwd=0.6 Vrev=2.4)
+.model 5v D(Ron=5 Roff=1g Vfwd=0 Vrev=5)
+.model 4.95v D(Ron=1 Roff=1g Vfwd=0.6 Vrev=4.95)
+.model 3_75v D(Ron=5 Roff=1t Vfwd=0 Vrev=3.75)
+.model HOUT SW(Ron=45 Roff=450k Vt=2.5 Vh=-0.5 Vser=0)
+.model LOUT SW(Ron=38 Roff=450k Vt=2.5 Vh=-0.5 Vser=0)
+.model ics SW(Ron=20 Roff=1g Vt=2.5 Vh=-.5  Vser=0)
+.ends

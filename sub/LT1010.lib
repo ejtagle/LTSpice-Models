@@ -1,0 +1,120 @@
+* Copyright (c) 1998-2024 Analog Devices, Inc.  All rights reserved.
+*
+.subckt LT1010 1 2 3 4 5
+C1 1 0 1p Rpar=1G
+C6 N010 MID Q=x*Dnlim({Cfa}+{Cfb}*V(Iq)+ {Cfc}*Pwr(V(Iq),2), 4.55n, 0.1n)
+BIb 1 MID I={Iba}+{Ibb}*(Temp-27)+ {Ibc}*Pwr((Temp-27),2)
+BIsy 2 3 I={Isya}+{Isyb}*V(2,3)+ {Isyc}*Pwr(V(2,3),2)+ {Isyd}*Pwr(V(2,3),3)
+BVos N006 N007 I=1m*({Vosa}+ {Vosb}*(Temp-27))
+R4 N007 N006 1k Noiseless
+G4 MID N006 1 MID 1k
+R5 N006 MID 1m
+RB 4 N018 1m
+B1 N018 4 I=1k*({Vbd}*(Temp-27))
+I1 N021 N018 -733m
+R8 N018 N021 1.1
+R9 2 N021 1m
+A1 MID MID MID MID MID MID N020 MID OTA G=10u Iout=1m Vhigh=1k Vlow=-1k En={fA}/(freq**{M})
+R6 N020 MID 100k Noiseless
+A2 MID N020 MID MID MID MID Vnoise MID OTA G=10u Iout=1m Vhigh=1k Vlow=-1k En={BB}
+R10 Vnoise MID 100k Noiseless
+R11 N008 N007 1k Noiseless
+G5 N007 N008 Vnoise MID 1m
+DOP1 Vsatp N012 DO
+DON1 N012 Vsatn DO
+G6 MID Vsatp N016 MID 1k
+R12 Vsatp MID 1m
+R13 Vsatn MID 1m
+C2 N012 Vsatp 1f
+C3 N012 Vsatn 1f
+C4 Vsatp MID 1n
+C5 Vsatn MID 1n
+G7 MID Vsatn N017 MID 1k
+G8 0 2_BUF 2 0 1
+G9 0 3_BUF 3 0 1
+R14 2_BUF 0 1 Noiseless
+R15 3_BUF 0 1 Noiseless
+R16 N023 2_BUF 1Meg Noiseless
+R17 N023 3_BUF 1Meg Noiseless
+C8 N023 0 1
+E1 MID 0 N023 0 1
+R18 MID 0 1Meg Noiseless
+C9 2_BUF 0 1n
+C10 3_BUF 0 1n
+I2 2_BUF N016 -1m
+R19 N016 2_BUF 1k
+I3 3_BUF N017 0.2m
+R20 N017 3_BUF 1k
+R21 Iq 0 1
+B2 0 Iq I=I(RB)
+B3 0 Iq I=I(BIsy)
+Rx N012 N011 {Rx_Zo} Noiseless
+Rdummy N012 MID {Rdummy_Zo} Noiseless
+G1 MID N001 Vb N012 {G1_Zo}
+R1 N011 MID 1 Noiseless
+B4 MID N011 I=Uplim(Dnlim({G4_Zo}* V(ZoF,MID), {Izn}, 25m), {Izp}, 25m)
+R2 N005 ZoF {R1d_Zo} Noiseless
+R3 ZoF MID {R2d_Zo} Noiseless
+C7 ZoF N005 {C1d_Zo}
+R22 N003 MID 1 Noiseless
+R23 N001 MID 1 Noiseless
+R24 N001 N002 {R2c_Zo} Noiseless
+R25 N002 N014 {R1c_Zo} Noiseless
+C11 MID N014 {C1c_Zo}
+Gb1 MID N003 N002 MID 1
+R26 N010 MID 1Meg Noiseless
+R27 N003 N004 {R2e_Zo} Noiseless
+R28 N004 N015 {R1e_Zo} Noiseless
+C13 MID N015 {C1e_Zo}
+R29 N005 MID 1 Noiseless
+Gb2 MID N005 N004 MID 1
+G3 MID Vb N010 MID 1m
+R30 Vb MID 1k Noiseless
+B5 MID N010 I=Uplim(Dnlim(1* V(Va,Vb), {Isink}, 1m), {Isrc}, 1m)
+R31 Va N008 1m
+Rs N012 5 1m
+Bsrc 2 0 I=Dnlim(I(Rs), 0,1u)
+Bsink 3 0 I=Uplim(I(Rs), 0,1u)
+B6 2 0 I=I(RB)
+R7 5 MID 1G Noiseless
+.param Cfa=18.2n
++ Cfb=-865n
++ Cfc=12.6u
+.param Iba=95u Ibb=480n Ibc=-1.80n
+.param Isya=3.99m Isyb=101u
++Isyc=-3.21u Isyd=37.5n
+.param Vosa=82.5m Vosb=578u
+.param Vbd=1.46m
+.param BB=22.9n fC=400
++ M=0.55 fA={BB*(fC**M)}
+.model DO D(Vfwd=1k Vrev=0 Revepsilon=0.1 Ron=1m Noiseless)
+.param beta_Zo=1.12
+.param Rx_Zo = {100 * Zo_max}
+.param Rdummy_Zo = {10 * Zo_max}
+.param G1_Zo={Rx_Zo/(Zo_dc*beta_Zo)}
+.param Zo_dc=5.8
+.param Zo_max=100k
+.param R1d_Zo=10k
+.param fz4_Zo={fz5_Zo}
+.param fp4_Zo=100G
+.param C1d_Zo = {1 / (2 * pi * R1d_Zo * fz4_Zo)}
+.param R2d_Zo = {R1d_Zo/ ((2 * pi * fp4_Zo * C1d_Zo
++* R1d_Zo) - 1)}
+.param actual4_Zo = {R2d_Zo / (R1d_Zo + R2d_Zo)}
+.param G4_Zo = {1/actual4_Zo}
+.param R1c_Zo=10k
+.param fp3_Zo=3.2Meg
+.param fz3_Zo=10Meg
+.param C1c_Zo = {1 / (fz3_Zo * R1c_Zo * 2 * pi)}
+.param R2c_Zo = {(1 / (fp3_Zo * C1c_Zo * 2 * pi))
++- R1c_Zo}
+.param R1e_Zo=10k
+.param fp5_Zo=13.5Meg
+.param fz5_Zo=180Meg
+.param C1e_Zo = {1 / (fz5_Zo * R1e_Zo * 2 * pi)}
+.param R2e_Zo = {(1 / (fp5_Zo * C1e_Zo * 2 * pi))
++- R1e_Zo}
+.param Isrc=1.13 Isink={-Isrc}
+.param Iscp=150m Iscn=-150m
++ Izp={Rx_Zo*Iscp} Izn={Rx_Zo*Iscn}
+.ends LT1010

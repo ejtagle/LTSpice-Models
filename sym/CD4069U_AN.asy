@@ -1,0 +1,29 @@
+Version 4
+SymbolType BLOCK
+LINE Normal -48 128 145 0
+LINE Normal 16 86 16 128
+LINE Normal -48 128 -48 -128
+LINE Normal 145 0 -48 -128
+LINE Normal 16 -85 16 -128
+CIRCLE Normal 161 9 144 -8
+TEXT -13 -59 Left 2 VDD
+TEXT -12 59 Left 2 VSS
+TEXT -42 -2 Left 2 in
+WINDOW 3 29 94 Left 2
+WINDOW 0 80 -80 Left 2
+SYMATTR Value CD4069U_AN
+SYMATTR Prefix X
+SYMATTR Description CMOS Unbuffered inverter
+SYMATTR ModelFile CD4069U_AN.ckt
+PIN -48 0 NONE 8
+PINATTR PinName in
+PINATTR SpiceOrder 1
+PIN 16 -128 NONE 8
+PINATTR PinName Vcc
+PINATTR SpiceOrder 3
+PIN 16 128 NONE 8
+PINATTR PinName Vee
+PINATTR SpiceOrder 4
+PIN 160 0 RIGHT 18
+PINATTR PinName out
+PINATTR SpiceOrder 2

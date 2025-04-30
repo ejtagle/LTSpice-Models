@@ -1,0 +1,289 @@
+* ----------------------------------------------------------
+* Functional blocks for LTspice simulator
+* Created by Valentin Volodin
+* email: valvolodin@narod.ru
+* 4 June 2018.
+* ---------------------------------------------------------- 
+* ---------------------------------------------------------- 
+*Ideal IGBT 
+.subckt igbt c g e
+S1 e N001 g 0 ms
+D1 c N001 ds
+D2 e c dp
+.model ds D(Ron={tr} Roff=10Meg Vfwd={vs})
+.model ms SW(Ron=1u Roff=10Meg Vt=0.5 Vh=-0.1)
+.model dp D(Ron={dr} Roff=10Meg Vfwd={dv})
+.ends igbt
+* ---------------------------------------------------------- 
+*Ideal MOSFET 
+.subckt mosfet d g s
+S1 s d g 0 ms
+D2 s d dp
+.model ms SW(Ron={rn} Roff={2*rf} Vt=0.5 Vh=-0.1)
+.model dp D(Ron={dr} Roff={2*rf} Vfwd={dv})
+.ends mosfet
+* ---------------------------------------------------------- 
+*ABC to DQO Transformation Block 
+.subckt abc-dqo a b c teta d q o
+B4 o 0 V=2*(V(a)/2+V(b)/2+V(c)/2)/3
+B2 d 0 V=2*(V(a)*cos(V(teta))+V(b)*cos(V(teta)-2*pi/3)+V(c)*cos(V(teta)+2*pi/3))/3
+B3 q 0 V=2*((2*tf-1)*V(a)*sin(V(teta))+(2*tf-1)*V(b)*sin(V(teta)-2*pi/3)+(2*tf-1)*V(c)*sin(V(teta)+2*pi/3))/3
+.ends abc-dqo
+* ---------------------------------------------------------- 
+*DQO to ABC Transformation Block
+.subckt dqo-abc d q o teta a b c
+B4 c 0 V=V(d)*cos(V(teta)+2*pi/3)+(2*tf-1)*V(q)*sin(V(teta)+2*pi/3)+V(o)
+B2 a 0 V=V(d)*cos(V(teta))+(2*tf-1)*V(q)*sin(V(teta))+V(o)
+B3 b 0 V=V(d)*cos(V(teta)-2*pi/3)+(2*tf-1)*V(q)*sin(V(teta)-2*pi/3)+V(o)
+.ends dqo-abc
+* ---------------------------------------------------------- 
+*ABC to Alpha and Beta Transformation Block 
+.subckt abc-alpha_beta a b c alpha beta
+E1 alpha N001 a 0 {kp}
+E2 N001 N002 b 0 {-0.5*kp}
+E3 N002 0 c 0 {-0.5*kp}
+E4 beta N003 b 0 {kp*sqrt(3)/2}
+E5 N003 0 c 0 {-kp*sqrt(3)/2}
+.params kp=if(tf,sqrt(2/3),2/3)
+.ends abc-alpha_beta
+* ---------------------------------------------------------- 
+*Zero-order hold block
+.subckt zoh inp out
+C1 N003 0 1n ic=0
+S1 N003 N001 N002 0 zoh
+V2 N002 0 PULSE(0 5 {td} {0.01/fs} {0.01/fs} {0.01/fs} {1/fs})
+E1 N001 0 inp 0 1
+E2 out 0 N003 0 {kp}
+.model zoh SW(Ron={0.5k/fs} Roff={1000t/fs} Vt=2.5 Vh=-.5)
+.ends zoh
+* ---------------------------------------------------------- 
+*Proportional block
+.subckt pc inp out
+E1 out 0 inp 0 {kp}
+.ends pc
+* ---------------------------------------------------------- 
+*Proportional-integral (PI) controller 
+.subckt pi inp out
+G1 0 N001 inp 0 1
+C2 N001 0 {ti/kp} Rser={kp}
+D1 0 N001 dlim
+E1 out 0 N001 0 1
+.model dlim D(Ron=0 Roff=1g Vfwd={-1*ll} Vrev=ul)
+.ends pi
+* ---------------------------------------------------------- 
+*Integrator that is reset internally 
+.subckt idt_ir inp out
+V1 init 0 PWL(0 {iv} 10n 0)
+B5 out 0 V=sdt(V(inp)/ti,V(init),V(vit)>0.9)
+A1 out 0 0 0 0 0 N001 0 BUF Trise=10n ref={ul}
+A2 N001 0 0 0 N002 0 vit 0 OR Trise=10n
+A3 out 0 0 0 0 N002 0 0 BUF Trise=10n ref={ll}
+.ends idt_ir
+* ---------------------------------------------------------- 
+*1nd-order low-pass filter 
+.subckt lpf1 inp out
+E1 out 0 N002 0 1
+E2 N001 0 inp 0 {kf}
+R1 N001 N002 {sqrt(1/(2*pi*fc))}
+C1 N002 0 {sqrt(1/(2*pi*fc))}
+.ends lpf1
+* ---------------------------------------------------------- 
+*2nd-order low-pass filter 
+.subckt lpf2 inp out
+L1 N001 N002 {1/(2*pi*fc)}
+R1 N003 N002 {dr*2}
+C1 N003 0 {1/(2*pi*fc)} ic=0
+E1 out 0 N003 0 1
+E2 N001 0 inp 0 {kf}
+.ends lpf2
+* ---------------------------------------------------------- 
+*s-domain transfer function block 
+.subckt tfcn inp out
+E1 out 0 inp 0 laplace=k*(b4*s^4+b3*s^3+b2*s^2+b1*s+b0)/(a4*s^4+a3*s^3+a2*s^2+a1*s+b0)
+.ends tfcn
+* ---------------------------------------------------------- 
+*Triangular-wave voltage source
+.subckt vtr 1 2
+V1 1 2 PULSE({DCoff} {Vpp+DCoff} {Tst} {D/F} {(1-D)/F} 0 {1/F})
+.ends vtr
+* ---------------------------------------------------------- 
+*Step voltage source
+.subckt vst 1 2
+V1 1 2 PWL(0 0 {ts} 0 {ts+tt} {vs})
+.ends vst
+* ---------------------------------------------------------- 
+*Proportional Time Voltage Source
+.subckt vtm 1 2
+B1 1 2 V=if(time>st,time-st,0)
+.ends vtm
+* ---------------------------------------------------------- 
+*3-phase Y-connected sinusoidal voltage source
+.subckt v3f A B C N
+V1 N001 N SINE(0 {VL*sqrt(2)/sqrt(3)} {f} 0 0 {ph})
+L1 N001 A {ls} Rser={rs}
+V2 N002 N SINE(0 {VL*sqrt(2)/sqrt(3)} {f} 0 0 {ph-120})
+V3 N003 N SINE(0 {VL*sqrt(2)/sqrt(3)} {f} 0 0 {ph-240})
+L2 N002 B {ls} Rser={rs}
+L3 N003 C {ls} Rser={rs}
+.ends v3f
+* ---------------------------------------------------------- 
+*Summer with 2 Input
+.subckt sum inp1 inp2 out
+E2 N001 0 inp2 0 {k2}
+E1 out N001 inp1 0 {k1}
+.ends sum
+* ---------------------------------------------------------- 
+*Multiplier
+.subckt mult inp1 inp2 out
+B1 out 0 V=V(inp1)*V(inp2)
+.ends mult
+* ---------------------------------------------------------- 
+*Sine funktion block (gradus)
+.subckt sin inp out
+B1 out 0 V=sin(V(inp)*pi/180)
+.ends sin
+* ---------------------------------------------------------- 
+*Cosine funktion block (gradus)
+.subckt cos inp out
+B1 out 0 V=cos(V(inp)*pi/180)
+.ends cos
+* ---------------------------------------------------------- 
+*Sine funktion block (radian)
+.subckt sinr inp out
+B1 out 0 V=sin(V(inp))
+.ends sinr
+* ---------------------------------------------------------- 
+*Cosine funktion block (radian)
+.subckt cosr inp out
+B1 out 0 V=cos(V(inp))
+.ends cosr
+* ---------------------------------------------------------- 
+*Arctangent 2 function block (radian)
+.subckt atan2r y x out
+B1 out 0 V=atan2(V(y),V(x))
+.ends atan2r
+* ---------------------------------------------------------- 
+*Arctangent 2 function block (gradus)
+.subckt atan2g y x out
+B1 out 0 V=180*atan2(V(y),V(x))/pi
+.ends atan2g
+* ----------------------------------------------------------
+*Divider
+.subckt div inp1 inp2 out
+B1 out 0 V=V(inp1)/V(inp2)
+.ends div
+* ----------------------------------------------------------
+*Square-root block
+.subckt sqrt inp out
+B1 out 0 V=sqrt(V(inp))
+.ends sqrt
+* ---------------------------------------------------------- 
+*Current sensor
+.subckt isen inp1 inp2 out
+H1 out 0 V1 {k}
+V1 inp1 inp2 0
+.ends isen
+* ---------------------------------------------------------- 
+*Voltage sensor
+.subckt vsen inp1 inp2 out
+E1 out 0 inp1 inp2 {k}
+.ends vsen
+* ---------------------------------------------------------- 
+*Monostable multivibrator with adjustable width
+.subckt mono2 s1 s2 vc q1 q2
+D1 N006 N007 res
+C1 N006 0 1n
+B1 0 N006 I=0.5n/V(Vc)
+A1 N003 N006 0 0 0 q2 q1 0 SRFLOP Trise=10n
+A2 N002 0 0 0 N005 0 N003 0 OR Trise=10n
+R1 N005 0 1k
+D2 0 N005 res
+C2 N005 N004 470p
+R2 0 N002 1k
+D3 0 N002 res
+C3 N002 N001 470p
+A3 s1 0 0 0 0 0 N001 0 BUF Trise=10n
+A4 s2 0 0 0 0 N004 0 0 BUF Trise=10n
+A5 q1 0 0 0 0 0 N007 0 BUF Trise=10n
+.model res D(Ron=1 Roff=1g Vfwd=0)
+.ends mono2
+* ---------------------------------------------------------- 
+*Limiter
+.subckt limiter inp out
+E1 out 0 inp 0 table=({LL} {LL},{UL} {UL})
+.ends limiter
+* ---------------------------------------------------------- 
+*Limiter2
+.subckt limiter2 inp out
+B1 out 0 V=if(V(inp)>UL,UL,if(V(inp)<LL,LL,V(inp)))
+.ends limiter2
+* ---------------------------------------------------------- 
+*2-dimensional lookup table (with integer input)
+.subckt tab6x5 s k out
+R1 o 0 1k
+E1 out 0 o 0 1
+.machine tripdt=10n
+.state s11 {s11}
+.state s12 {s12}
+.state s13 {s13}
+.state s14 {s14}
+.state s15 {s15}
+.state s21 {s21}
+.state s22 {s22}
+.state s23 {s23}
+.state s24 {s24}
+.state s25 {s25}
+.state s31 {s31}
+.state s32 {s32}
+.state s33 {s33}
+.state s34 {s34}
+.state s35 {s35}
+.state s41 {s41}
+.state s42 {s42}
+.state s43 {s43}
+.state s44 {s44}
+.state s45 {s45}
+.state s51 {s51}
+.state s52 {s52}
+.state s53 {s53}
+.state s54 {s54}
+.state s55 {s55}
+.state s61 {s61}
+.state s62 {s62}
+.state s63 {s63}
+.state s64 {s64}
+.state s65 {s65}
+.rule * s11 (V(s)<1.1)&(V(s)>0.9)&(V(k)<1.1)&(V(k)>0.9)
+.rule * s12 (V(s)<1.1)&(V(s)>0.9)&(V(k)<2.1)&(V(k)>1.9)
+.rule * s13 (V(s)<1.1)&(V(s)>0.9)&(V(k)<3.1)&(V(k)>2.9)
+.rule * s14 (V(s)<1.1)&(V(s)>0.9)&(V(k)<4.1)&(V(k)>3.9)
+.rule * s15 (V(s)<1.1)&(V(s)>0.9)&(V(k)<5.1)&(V(k)>4.9)
+.rule * s21 (V(s)<2.1)&(V(s)>1.9)&(V(k)<1.1)&(V(k)>0.9)
+.rule * s22 (V(s)<2.1)&(V(s)>1.9)&(V(k)<2.1)&(V(k)>1.9)
+.rule * s23 (V(s)<2.1)&(V(s)>1.9)&(V(k)<3.1)&(V(k)>2.9)
+.rule * s24 (V(s)<2.1)&(V(s)>1.9)&(V(k)<4.1)&(V(k)>3.9)
+.rule * s25 (V(s)<2.1)&(V(s)>1.9)&(V(k)<5.1)&(V(k)>4.9)
+.rule * s31 (V(s)<3.1)&(V(s)>2.9)&(V(k)<1.1)&(V(k)>0.9)
+.rule * s32 (V(s)<3.1)&(V(s)>2.9)&(V(k)<2.1)&(V(k)>1.9)
+.rule * s33 (V(s)<3.1)&(V(s)>2.9)&(V(k)<3.1)&(V(k)>2.9)
+.rule * s34 (V(s)<3.1)&(V(s)>2.9)&(V(k)<4.1)&(V(k)>3.9)
+.rule * s35 (V(s)<3.1)&(V(s)>2.9)&(V(k)<5.1)&(V(k)>4.9)
+.rule * s41 (V(s)<4.1)&(V(s)>3.9)&(V(k)<1.1)&(V(k)>0.9)
+.rule * s42 (V(s)<4.1)&(V(s)>3.9)&(V(k)<2.1)&(V(k)>1.9)
+.rule * s43 (V(s)<4.1)&(V(s)>3.9)&(V(k)<3.1)&(V(k)>2.9)
+.rule * s44 (V(s)<4.1)&(V(s)>3.9)&(V(k)<4.1)&(V(k)>3.9)
+.rule * s45 (V(s)<4.1)&(V(s)>3.9)&(V(k)<5.1)&(V(k)>4.9)
+.rule * s51 (V(s)<5.1)&(V(s)>4.9)&(V(k)<1.1)&(V(k)>0.9)
+.rule * s52 (V(s)<5.1)&(V(s)>4.9)&(V(k)<2.1)&(V(k)>1.9)
+.rule * s53 (V(s)<5.1)&(V(s)>4.9)&(V(k)<3.1)&(V(k)>2.9)
+.rule * s54 (V(s)<5.1)&(V(s)>4.9)&(V(k)<4.1)&(V(k)>3.9)
+.rule * s55 (V(s)<5.1)&(V(s)>4.9)&(V(k)<5.1)&(V(k)>4.9)
+.rule * s61 (V(s)<6.1)&(V(s)>5.9)&(V(k)<1.1)&(V(k)>0.9)
+.rule * s62 (V(s)<6.1)&(V(s)>5.9)&(V(k)<2.1)&(V(k)>1.9)
+.rule * s63 (V(s)<6.1)&(V(s)>5.9)&(V(k)<3.1)&(V(k)>2.9)
+.rule * s64 (V(s)<6.1)&(V(s)>5.9)&(V(k)<4.1)&(V(k)>3.9)
+.rule * s65 (V(s)<6.1)&(V(s)>5.9)&(V(k)<5.1)&(V(k)>4.9)
+.output (o) state
+.endmachine
+.ends limit2
+* ---------------------------------------------------------- 

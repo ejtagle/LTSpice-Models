@@ -1,0 +1,22 @@
+*$
+*//-----------------------------------------------------------------------// 
+*//   Part No.    : APXF4R0ARA471MH70G
+*//   Date        : 2023/03/07
+*//   Temperature : 20deg.C
+*//   Model       : RC-ladder 7 Elements Model
+*//   Copyright (C) 2023 Nippon Chemi-Con Corporation.
+*//   All Rights Reserved.
+*//-----------------------------------------------------------------------// 
+
+.SUBCKT APXF4R0ARA471MH70G_20deg-C 1 2
+
+C1 4 2 3.42e-04
+C2 5 2 1.14e-04
+C3 6 2 1.25e-06
+R1 3 4 8.63e-03
+R2 4 5 2.82e-02
+R3 5 6 5.37e+01
+L1 1 3 3.40e-09
+
+.ENDS
+*$

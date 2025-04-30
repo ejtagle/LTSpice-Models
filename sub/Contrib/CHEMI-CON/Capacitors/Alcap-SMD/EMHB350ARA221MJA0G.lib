@@ -1,0 +1,48 @@
+*$
+*//-----------------------------------------------------------------------//
+*//   Part No.    : EMHB350ARA221MJA0G
+*//   Date        : 2018/02/08
+*//   Update 	  : 2018/06/15 Added SPICE model (-40deg.C/125deg.C)
+*//		  : 2018/11/08 Corrected the SUBCKT
+*//   Temperature : 20deg.C/-40deg.C/125deg.C
+*//   Model       : RC-ladder 7 Elements Model
+*//   Copyright (C) 2018 Nippon Chemi-Con Corporation.
+*//   All Rights Reserved.
+*//-----------------------------------------------------------------------//
+
+.SUBCKT EMHB350ARA221MJA0G_20deg-C 1 2
+
+C1 4 2 6.88e-05
+C2 5 2 1.18e-04
+C3 6 2 1.24e-05
+R1 3 4 9.23e-02
+R2 4 5 3.15e-02
+R3 5 6 3.23e-01
+L1 1 3 4.50e-09
+
+.ENDS
+
+.SUBCKT EMHB350ARA221MJA0G_-40deg-C 1 2
+
+C1 4 2 6.88e-07
+C2 5 2 3.90e-05
+C3 6 2 1.63e-04
+R1 3 4 6.36e-01
+R2 4 5 2.43e-01
+R3 5 6 3.62e-01
+L1 1 3 4.50e-09
+
+.ENDS
+
+.SUBCKT EMHB350ARA221MJA0G_125deg-C 1 2
+
+C1 4 2 1.76e-04
+C2 5 2 5.05e-05
+C3 6 2 8.85e-06
+R1 3 4 3.20e-02
+R2 4 5 6.87e-02
+R3 5 6 7.27e+00
+L1 1 3 4.50e-09
+
+.ENDS
+*$

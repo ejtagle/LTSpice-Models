@@ -1,0 +1,22 @@
+*$
+*//-----------------------------------------------------------------------//
+*//   Part No.    : HHSD630ELL121MJC5S
+*//   Date        : 2021/07/20
+*//   Temperature : 20deg.C
+*//   Model       : RC-ladder 7 Elements Model
+*//   Copyright (C) 2021 Nippon Chemi-Con Corporation.
+*//   All Rights Reserved.
+*//-----------------------------------------------------------------------//
+
+.SUBCKT HHSD630ELL121MJC5S_20deg-C 1 2
+
+C1 4 2 8.52e-05
+C2 5 2 1.80e-05
+C3 6 2 1.41e-05
+R1 3 4 1.46e-02
+R2 4 5 3.20e-01
+R3 5 6 9.59e+00
+L1 1 3 5.20e-09
+
+.ENDS
+*$

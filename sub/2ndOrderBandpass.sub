@@ -1,0 +1,13 @@
+* Copyright © Linear Technology Corp. 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005.  All rights reserved.
+*
+.subckt 2ndOrderBandpass 1 2
+L1 N003 0 {L1} Cpar={C1}
+G1 0 N002 1 0 {2/R1}
+R1 N002 0 {R1/2}
+R2 N003 N002 {R1/2}
+G2 0 2 N003 0 {10*H}
+R3 2 0 .1
+.param R1=1k
+.param L1=1/(C1*(2*pi*f0)**2)
+.param C1=Q/(R1*2*pi*f0)
+.ends 2ndOrderBandpass

@@ -1,0 +1,46 @@
+* OrCAD Model Editor - Version 9.1
+*$
+.SUBCKT FDC608PZ 2 1 3   
+*Nom Temp=25 deg C
+Dbody 5 7 DbodyMOD
+Dbreak 7 11 DbreakMOD
+Ebreak 5 11 17 7 -25
+Lgate 1 9 0.6e-9
+Ldrain 2 5 0.05e-9 
+Lsource 3 7 0.23e-9
+RLgate 1 9 6
+RLdrain 2 5 0.5
+RLsource 3 7 2.3
+Rgate 9 6 9.4
+It 7 17 1
+Rbreak 17 7 RbreakMOD 1
+.MODEL RbreakMOD RES (TC1=7e-4 TC2=-2e-7)
+.MODEL DbodyMOD D (IS=1.26e-9 n=1.18 RS=1.8e-2 TRS1=3e-4 TRS2=1e-5
++ CJO=2.7e-10 M=0.55 TT=17.75n XTI=0.1 IKF=0.1)
+.MODEL DbreakMOD D (RS=8e-2 TRS1=1e-3 TRS2=0)
+Rdrain 5 16 RdrainMOD 17m 
+.MODEL RdrainMOD RES (TC1=3e-3 TC2=1e-5)
+M_BSIM3 16 6 7 7 M_MOD W=1.84 L=1.05u NRS=1  
+.MODEL  M_MOD PMOS (LEVEL=7 VERSION=3.1 MOBMOD=3 CAPMOD=2 paramchk=1 NQSMOD=0)
+***Process Parameters
++ TOX=240e-10 ;Oxide thickness
++ XJ=0.27u ;Channel depth 
++ NCH=1.9e17 ;Channel concentration
+***Channel Current
++ U0=300 vsat=5e5 drout=1 
++ DELTA=0.25 PSCBE2=0 RSH=3.5m 
+***Threshold voltage
++ VTH0=-0.72
+***Sub-threshold characteristics
++ VOFF=-0.1 NFACTOR=1.4 
+***Junction diodes and Capacitance
++ LINT=0.275u DLC=0.275u 
++ CGSO=150p CGSL=0p CGDO=60p CGDL=600p 
++ CJ=0 CF=0p CKAPPA=1.1 
+*** Temperature parameters
++ KT1=-0.61 KT2=0 UA1=1.5E-9
++ NJ=10 
+.ENDS 
+*FDC608PZ(Rev.A) 6/15/06
+*ST
+*$

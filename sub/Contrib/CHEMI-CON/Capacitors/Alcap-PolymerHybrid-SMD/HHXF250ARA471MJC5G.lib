@@ -1,0 +1,22 @@
+*$
+*//-----------------------------------------------------------------------// 
+*//   Part No.    : HHXF250ARA471MJC5G
+*//   Date        : 2022/09/28
+*//   Temperature : 20deg.C
+*//   Model       : RC-ladder 7 Elements Model
+*//   Copyright (C) 2022 Nippon Chemi-Con Corporation.
+*//   All Rights Reserved.
+*//-----------------------------------------------------------------------// 
+
+.SUBCKT HHXF250ARA471MJC5G_20deg-C 1 2
+
+C1 4 2 3.18e-04
+C2 5 2 6.45e-05
+C3 6 2 2.44e-05
+R1 3 4 8.13e-03
+R2 4 5 3.64e-02
+R3 5 6 2.06e+00
+L1 1 3 5.20e-09
+
+.ENDS
+*$

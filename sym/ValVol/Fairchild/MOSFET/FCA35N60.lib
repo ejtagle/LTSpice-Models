@@ -1,0 +1,59 @@
+**************** Power Discrete MOSFET Electrical Circuit Model *****************
+** Product Name: FCA35N60
+** 600V N-Channel MOSFET and TO-3PN
+** Model Type: BSIM3V3
+**-------------------------------------------------------------------------------
+.SUBCKT FCA35N60 2 1 3    
+*Nom Temp=25 deg C
+Dbody 7 5    DbodyMOD
+Dbreak 5 11  DbreakMOD
+Ebreak 11 7 17 7 650
+Lgate 1 9    1.125e-9
+Ldrain 2 5   1.500e-9
+Lsource 3 7  1.658e-9
+RLgate 1 9   11.25
+RLdrain 2 5  15.00
+RLsource 3 7 16.58
+Rgate 9 6    0.5
+It 7 17      1
+Rbreak 17 7  RbreakMOD 1
+.MODEL RbreakMOD RES (TC1=1.18e-3 TC2=-1.15e-6)
+.MODEL DbodyMOD D (IS=4.5e-12  N=1      RS=2.72e-3   TRS1=3.2e-4 TRS2=2.4e-5 
++ CJO=1.66e-8      M=0.76      VJ=0.64  TT=9.54e-7   XTI=3       EG=1.14)
+.MODEL DbreakMOD D (RS=100e-3 TRS1=1.0e-3 TRS2=1e-6)
+Rdrain 5 16 RdrainMOD 0.074
+.MODEL RdrainMOD RES (TC1=9.3e-3 TC2=2.1e-5)
+M_BSIM3 16 6 7 7 Bsim3 W=4.37106 L=2.0e-6 NRS=1
+.MODEL  Bsim3 NMOS (LEVEL=7 VERSION=3.1 MOBMOD=3 CAPMOD=2 PARAMCHK=1 NQSMOD=0
++ TOX=980e-10     XJ=1.4e-6      NCH=1.3e17
++ U0=700          VSAT=1.0e5     DROUT=1.0
++ DELTA=0.1       PSCBE2=0       RSH=1.09e-3
++ VTH0=4.38       VOFF=-0.1      NFACTOR=1.1
++ LINT=1.08e-7    DLC=1.08e-7    FC=0.5
++ CGSO=3.8e-14    CGSL=0         CGDO=4.08e-14   
++ CGDL=2.16e-9    CJ=0           CF=0
++ CKAPPA=0.012    KT1=-1.67      KT2=0
++ UA1=-4.5e-9     NJ=10
+.ENDS
+
+******************** Power Discrete MOSFET Thermal Model ************************
+** 600V N-Channel MOSFET and TO-3PN
+**-------------------------------------------------------------------------------
+.SUBCKT FCA35N60_Thermal TH TL
+CTHERM1 TH 6 1.24e-6
+CTHERM2 6 5  8.08e-4
+CTHERM3 5 4  7.44e-3
+CTHERM4 4 3  1.72e-2
+CTHERM5 3 2  9.22e-2
+CTHERM6 2 TL 2.16e-1
+RTHERM1 TH 6 1.20e-4
+RTHERM2 6 5  2.80e-3
+RTHERM3 5 4  4.50e-3
+RTHERM4 4 3  6.23e-2
+RTHERM5 3 2  9.20e-2
+RTHERM6 2 TL 2.38e-1
+.ENDS FCA35N60_Thermal 
+**-------------------------------------------------------------------------------
+** Creation: Sep.-15-2009   Rev.: 0.0
+** Fairchild Semiconductor
+

@@ -1,0 +1,74 @@
+****************************** IGBT Electrical Parameters ***************************
+** Product: FGL40N120AND
+** Package: TO-264
+** 1200V, NPT IGBT
+** Model Format: SPICE2G6
+**-----------------------------------------------------------------------------------
+.SUBCKT FGL40N120AND C G E
+LE   74 E  1.105n 
+RE   83 74 1.11m
+RC   85 C  12.8m
+RG   G 82  14.2m
+CGC  82 C  1p 
+CGD  92 93 9.8n 
+CGE  E 82  2.6n 
+M1   81 82 83 83 MOS W=1u L=1u          
+Q1   83 81 85 VPNP 
+R1   92 0 1
+R2   91 94 1
+RLV  95 0 1
+DBE  85 81 DE 
+DSD  83 81 DO 
+DHV  94 93 DR
+DLV  94 95 DR 13
+D1   91 92 DLIM 
+D2   94 0 DLIM 
+FFB  82 81 VFB 1
+VFB  93 0 DC 0  
+ESD  96 93 POLY(1) 83 81 19 1
+MLV  95 96 93 93 SW           
+EGD  91 0 82 81 1
+DFRD E C FRD
+.MODEL SW NMOS
++ LEVEL=3         VTO=0           KP=5
+.MODEL VPNP PNP 
++ IS=8.07e-13     NF=1.5          BF=0.0856      CJE=2.08e-9
++ TF=8.06e-08     XTB=1.204       EG=0.68
+.MODEL MOS NMOS 
++ LEVEL=3         VMAX=5.0e5      THETA=0.032    ETA=2e-3
++ VTO=6.60        KP=21.8
+.MODEL DR D
++ IS=1.0e-14      CJO=8.0e-10     VJ=0.72        M=1.24
+.MODEL DO D 
++ IS=1.0e-14      BV=1200         CJO=3.5e-9     VJ=0.68    
++ M=0.84
+.MODEL DE D
++ IS=1.0e-14      BV=30.0         N=2
+.MODEL DLIM D 
++ IS=1.00e-7
+.MODEL FRD D 
++ IS=5.0e-12      RS=0.0208       EG=1.38       N=1.5          
++ CJO=6.57e-10    VJ=0.75         M=0.45        FC=0.5          
++ TT=3.97e-08     BV=1200         IBV=2.5e-4
+.ENDS
+******************************* IGBT Thermal Parameters *****************************
+** Package: TO-264
+**-----------------------------------------------------------------------------------
+.SUBCKT FGL40N120AND_Thermal TH TL
+CTHERM1 TH 6 1.20e-4
+CTHERM2 6 5  2.20e-2
+CTHERM3 5 4  4.20e-2
+CTHERM4 4 3  8.80e-2
+CTHERM5 3 2  2.80e-1
+CTHERM6 2 TL 8.40e-1
+RTHERM1 TH 6 1.80e-3
+RTHERM2 6 5  2.20e-3
+RTHERM3 5 4  5.00e-3
+RTHERM4 4 3  2.80e-2
+RTHERM5 3 2  5.40e-2
+RTHERM6 2 TL 1.59e-1
+.ENDS FGL40N120AND_Thermal
+**-----------------------------------------------------------------------------------
+** Creation: Oct.-07-2008 / Rev 0.0
+** Fairchild Semiconductor
+

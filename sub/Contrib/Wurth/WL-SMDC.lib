@@ -1,0 +1,170 @@
+**************************************************
+* Manufacturer:       Wurth Elektronik
+* Kinds:              LEDs
+* Matchcode:          WL-SMDC SMT Mono-color Ceramic LED Waterclear
+* Library Type:       LTspice
+* Version:            rev20a     
+* Date and Time   :       2020-11-20
+* Team:           eiSos EDA Service  
+* Contact:        libraries@we-online.com
+**************************************************
+.subckt  3535_150353GS74500  1  2
+D1 1 2 led
+.MODEL led D
++ IS=58.235E-18
++ N=3.1569
++ RS=.89951
++ IKF=27.635E-3
++ CJO=1.0000E-12
++ M=.3333
++ VJ=.75
++ BV=5
++ IBV=100.00E-6
+.ends
+******
+.subckt  3535_150353RS74500  1  2
+D1 1 2 led
+.MODEL led D
++ IS=10.000E-21
++ N=1.6253
++ RS=.74692
++ IKF=.10325
++ CJO=1.0000E-12
++ M=.3333
++ VJ=.75
++ BV=5
++ IBV=100.00E-6
+.ends
+******
+.subckt  3535_150353YS74500  1  2
+D1 1 2 led
+.MODEL led D
++ IS=10.000E-21
++ N=1.7107
++ RS=.86724
++ IKF=4.0509
++ CJO=1.0000E-12
++ M=.3333
++ VJ=.75
++ BV=5
++ IBV=100.00E-6
+.ends
+******
+.subckt  3535_150353BS74500  1  2
+D1 1 2  led
+.MODEL led D
++ IS=10.000E-21
++ N=2.3672
++ RS=.65747
++ IKF=.10317
++ CJO=1.0000E-12
++ M=.3333
++ VJ=.75
++ BV=5
++ IBV=100.00E-6
+.ends
+******
+.subckt  3535_150353DS74500  1  2
+D1 1 2 led
+.MODEL led D
++ IS=10.000E-21
++ N=2.3937
++ RS=.70285
++ IKF=98.975E-3
++ CJO=1.0000E-12
++ M=.3333
++ VJ=.75
++ BV=5
++ IBV=100.00E-6
+.ends
+******
+.subckt  3535_150353FS74500  1  2
+D1 1 2 led
+.MODEL led D
++ IS=10.000E-21
++ N=1.4046
++ RS=.45395
++ IKF=79.343E-3
++ CJO=1.0000E-12
++ M=.3333
++ VJ=.75
++ BV=5
++ IBV=100.00E-6
+.ends
+******
+.subckt  3535_150353HS74500  1  2
+D1 1 2 led
+.MODEL led D
++ IS=1.4493E-18
++ N=1.7980
++ RS=1.3215
++ IKF=27.532E-3
++ CJO=1.0000E-12
++ M=.3333
++ VJ=.75
++ BV=5
++ TT=5.0000E-9
+.ends
+******
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

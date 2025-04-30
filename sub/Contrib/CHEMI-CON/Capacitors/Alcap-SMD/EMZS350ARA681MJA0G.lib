@@ -1,0 +1,46 @@
+*$
+*//-----------------------------------------------------------------------//
+*//   Part        : EMZS350ARA681MJA0G
+*//   Date        : 2021/01/15
+*//   Temperature : 20deg.C/-55deg.C/105deg.C
+*//   Model       : RC-ladder 7 Elements Model
+*//   Copyright (C) 2021 Nippon Chemi-Con Corporation.
+*//   All Rights Reserved.
+*//-----------------------------------------------------------------------//
+
+.SUBCKT EMZS350ARA681MJA0G_20deg-C 1 2
+
+C1 4 2 1.95e-04
+C2 5 2 3.77e-04
+C3 6 2 3.91e-05
+R1 3 4 5.09e-02
+R2 4 5 2.51e-02
+R3 5 6 1.26e+01
+L1 1 3 4.50e-09
+
+.ENDS
+
+.SUBCKT EMZS350ARA681MJA0G_-55deg-C 1 2
+
+C1 4 2 3.51e-06
+C2 5 2 9.41e-05
+C3 6 2 4.41e-04
+R1 3 4 3.74e-01
+R2 4 5 7.40e-02
+R3 5 6 2.36e-01
+L1 1 3 4.50e-09
+
+.ENDS
+
+.SUBCKT EMZS350ARA681MJA0G_105deg-C 1 2
+
+C1 4 2 5.29e-04
+C2 5 2 1.27e-04
+C3 6 2 5.05e-05
+R1 3 4 3.14e-02
+R2 4 5 1.79e-01
+R3 5 6 1.16e+01
+L1 1 3 4.50e-09
+
+.ENDS
+*$

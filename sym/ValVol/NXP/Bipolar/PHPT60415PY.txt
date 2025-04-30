@@ -1,0 +1,91 @@
+*
+**********************************************************
+*
+* PHPT60415PY
+*
+* NXP Semiconductors
+*
+* High power PNP bipolar transistor
+* IC   = 15 A
+* VCEO = 40 V 
+* hFE  = typ. 300 @ 2V/500mA
+*
+*
+*
+* Package pinning does not match Spice model pinning!
+* Package: SOT 669
+* 
+* Package Pin 1 : Emitter
+* Package Pin 2 : Emitter
+* Package Pin 3 : Emitter
+* Package Pin 4 : Base
+* Package Pin mb: Collector
+*
+* Extraction date (week/year): 46/2014
+* Simulator: Spice 3
+*
+**********************************************************
+*#
+.SUBCKT PHPT60415PY 1 2 3
+*
+* Transistor Q2/Resistor RQ and Diode D are dedicated to improve modeling in quasi
+* saturation area and reverse area of operation. They do not reflect physical devices.
+*
+Q1 1 2 3 MAIN AREA 0.8488
+Q2 11 2 3 MAIN AREA 0.1512
+RQ 1 11 2.014
+D1 1 2 DIODE
+*
+.MODEL MAIN PNP
++ IS = 2.234E-012
++ NF = 1.009
++ ISE = 2.137E-013
++ NE = 1.324
++ BF = 356
++ IKF = 8.161
++ VAF = 27.91
++ NR = 1.009
++ ISC = 2.084E-013
++ NC = 1.234
++ BR = 70
++ IKR = 5.806
++ VAR = 11.67
++ RB = 18
++ IRB = 0.0007
++ RBM = 1.23
++ RE = 0.01
++ RC = 0.005967
++ XTB = 2.599
++ EG = 1.11
++ XTI = 19.58
++ CJE = 1.19E-009
++ VJE = 5
++ MJE = 0.4034
++ TF = 2.916E-009
++ XTF = 1
++ VTF = 7.442
++ ITF = 3.327
++ PTF = 0
++ CJC = 4.172E-010
++ VJC = 0.5097
++ MJC = 0.3581
++ XCJC = 1
++ TR = 2.4E-008
++ CJS = 0
++ VJS = 0.75
++ MJS = 0.333
++ FC = 0.3
+.MODEL DIODE D
++ IS = 4.438E-013
++ N = 1.099
++ BV = 1000
++ IBV = 0.001
++ RS = 423.9
++ CJO = 0
++ VJ = 1
++ M = 0.5
++ FC = 0
++ TT = 0
++ EG = 1.11
++ XTI = 3
+.ENDS

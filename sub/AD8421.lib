@@ -1,0 +1,167 @@
+* AD8421 SPICE Macro-model
+* Revision History:
+* 0(09/2012) - MI Initial Rev
+* A(04/2013) - SH (Updated to new header style. Modified diamond plot and bandwidth parameters)
+* B(02/2023) - PD (Updated the acceptable input range limit)
+* Copyright 2012-2023 by Analog Devices, Inc.
+*
+* Refer to http://www.analog.com/Analog_Root/static/techSupport/designTools/spiceModels/license/spice_general.html for License Statement. Use of this model
+* indicates your acceptance of the terms and provisions in the License Statement.
+*
+*
+* BEGIN Notes:
+*
+* Not Modeled:
+*   Temperature effects
+*   PSRR
+*
+* Parameters modeled include:
+*   Output swing vs Common-mode Voltage
+*   Supply current vs power supplies
+*   DC errors, Vos, Ibias
+*   Noise
+*   Bandwidth
+*   Slew rate
+*   CMRR vs frequency
+*   Small signal pulse response
+*
+* Supply range:
+*    Single Supply: 5V to 36V
+*    Dual Supplies: +/-2.5V to +/-18V
+*
+* END Notes
+*
+* Node assignments
+*                 inverting input
+*                 |   RG
+*                 |   |    RG
+*                 |   |    |  non_inverting input
+*                 |   |    |    |    negative supply
+*                 |   |    |    |    |    ref
+*                 |   |    |    |    |    |   output
+*                 |   |    |    |    |    |    |     positive supply
+*                 |   |    |    |    |    |    |     |
+.SUBCKT AD8421  IN-  RG-  RG+  IN+  -Vs   REF  VOUT  +Vs
+R1 sub_out sub_neg 10e3
+R2 sub_neg Inverting_Out 10e3
+R3 sub_pos Non-inverting_Out 10001.8
+R4 REF sub_pos 10e3
+R5 RG- N004 4.96e3
+R6 RG+ N016 4.95e3
+D3 N005 P001 D
+D4 P002 N005 D
+V3 P002 VNEGx 1.15
+V4 VPOSx P001 0.9
+D5 N023 P003 D
+D6 P004 N023 D
+V5 P004 VNEGx 1.15
+V6 VPOSx P003 0.9
+D7 N008 P005 D
+D8 P006 N008 D
+V7 P006 VNEGx 2.9
+V8 VPOSx P005 2.4
+D9 N027 P007 D
+D10 P008 N027 D
+V9 P008 VNEGx 2.9
+V10 VPOSx P007 2.4
+D11 N015 P009 D
+D12 P010 N015 D
+V11 P010 N028 1.8
+V12 N013 P009 2.2
+D13 REF P011 D
+D14 P012 REF D
+V13 P012 VNEGx .3
+V14 VPOSx P011 .3
+D15 sub_pos P013 D
+D16 P014 sub_pos D
+V15 P014 VNEGx 1.8
+V16 VPOSx P013 1.8
+E4 Inverting_Out 0 N005 0 1
+E5 Non-inverting_Out 0 N023 0 1
+V1 VBIAS1 +Vs 5
+I1 VBIAS2 Pos_Fdbk 200e-6
+I2 VBIAS1 Inv_Fdbk 200e-6
+C1 N011 Inv_Fdbk 4.25e-12
+C2 N022 Pos_Fdbk 4.3e-12
+E8 N003 0 N008 0 1
+E9 N021 0 N027 0 1
+VOSI_Neg N006 IN- 0
+VOSI_Pos N024 IN+ 60e-6
+VOSO VOUT N015 -1.65e-3
+C3 RG- 0 4.3e-12
+C4 RG+ 0 4.15e-12
+I23 IN- 0 -1.5e-9
+I24 IN+ 0 0.5e-9
+G1 0 IN+ N029 N030 -0.033e-9
+R13 IN+ N029 15e9
+R14 N029 IN- 15e9
+R15 +Vs N030 10e9
+R16 N030 -Vs 10e9
+G2 0 IN- N029 N030 -0.033e-9
+E10 VPOSx 0 +Vs 0 1
+I3 +Vs -Vs 2.1e-3
+G3 +Vs -Vs +Vs -Vs 5e-6
+E11 VNEGx 0 -Vs 0 1
+H1 VPOSx N013 POLY(1) VOSO 0 -29.4 588.5 -6078
+H2 N028 VNEGx POLY(1) VOSO 0 50 -1882 31700
+H3 N009 N006 V24 1.95
+V24 N001 0 0
+R19 N001 0 .0166
+H4 VX N014 V25 47.34
+V25 N010 0 0
+R20 N010 0 .0166
+H5 N025 N024 V26 1.95
+V26 N017 0 0
+R21 N017 0 .0166
+G4 0 N007 N009 N007 1
+G5 0 N026 N025 N026 1
+G6 0 N004 VBIAS1 Inv_Fdbk 1
+G7 0 N016 VBIAS2 Pos_Fdbk 1
+G8 0 sub_out sub_pos sub_neg 1
+R10 N007 0 10e9
+R7 N004 0 10e9
+R11 N026 0 10E9
+R8 N016 0 10e9
+R9 sub_out 0 10E9
+Q1 Pos_Fdbk N021 RG+ 0 NPN
+Q2 Inv_Fdbk N003 RG- 0 NPN
+G9 0 N018 VY N019 1
+G10 0 N019 N018 0 8.32e-3
+R12 N018 0 1e9
+R17 N019 0 120.13
+C5 N018 0 10E-9
+C6 N019 0 300e-12
+C8 VY 0 1e-9
+G11 0 VY VALUE = { LIMIT( 1*V(VX,VY), .035, -.035) }
+R22 VY 0 1e9
+R18 VBIAS1 Inv_Fdbk 1e9
+R23 Pos_Fdbk VBIAS2 1e9
+D1 N014 P015 D
+V2 VPOSx P015 2.2
+D2 P016 N014 D
+V17 P016 VNEGx 1.8
+I4 +Vs 0 -435e-6
+R26 N016 N022 1.5k
+R27 N004 N011 1.5k
+V18 N031 -Vs 5
+E1 VBIAS2 N031 +Vs -Vs 1
+R25 N007 N008 1
+R28 N026 N027 1
+R29 N016 N023 1
+R30 N004 N005 1
+R31 sub_out N014 1
+R32 N019 N015 0.1
+V19 N020 0 0.1
+D17 N020 N017 DNoise
+V20 N002 0 0.1
+D18 N002 N001 DNoise
+V21 N012 0 0.12
+D19 N012 N010 DNoise
+
+
+* MODELS USED
+*
+.model D D
+.model DNoise D (Is=1e-11, kf=8e-9)
+.model NPN NPN
+.ENDS AD8421

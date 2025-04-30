@@ -1,0 +1,398 @@
+**************************************************
+* Manufacturer:       Wurth Elektronik
+* Kinds:    Visible Chip LED
+* Matchcode:          WL-SMRW SMD Mono-color Reverse mount Waterclear
+* Library Type:       Pspice
+* Version:        rev18a       
+* Date and Time   :       2018-8-4
+* Team:           eiSos EDA Service  
+* Contact:        libraries@we-online.com
+**************************************************
+.subckt  1206_156120AS82500  1  2
+D1 1 2 led
+.MODEL led D
++ IS=1E-20
++ N=1.8014
++ RS=3.2796
++ IKF=9.8369
++ CJO=0.000000000050018
++ M=0.1
++ VJ=9.99
+.ends
+******
+.subckt  1206_156120BS75000  1  2
+D1 1 2 led
+.MODEL led D
++ IS=840.45E-15
++ N=4.9950
++ RS=9.4774
++ IKF=999
++ CJO=5.1422E-9
++ M=.1001
++ VJ=9.9900
+.ends
+******
+.subckt  1206_156120BS75300  1  2
+D1 1 2 led
+.MODEL led D
++ IS=693.88E-15
++ N=4.9950
++ RS=10.731
++ IKF=999
++ CJO=4.9744E-9
++ M=.1001
++ VJ=9.9900
+.ends
+******
+.subckt  1206_156120BS82500  1  2
+D1 1 2 led
+.MODEL led D
++ IS=3.5444E-16
++ N=3.6748
++ RS=8.9063
++ IKF=0.0062465
++ CJO=0.000000000044333
++ M=0.1
++ VJ=9.99
+.ends
+******
+.subckt  1206_156120GS75000  1  2
+D1 1 2 led
+.MODEL led D
++ IS=686.80E-15
++ N=4.9950
++ RS=7.8035
++ IKF=999
++ CJO=5.2336E-9
++ M=.1001
++ VJ=9.9900
+.ends
+******
+.subckt  1206_156120GS75300  1  2
+D1 1 2 led
+.MODEL led D
++ IS=966.03E-15
++ N=4.9950
++ RS=8.6562
++ IKF=999
++ CJO=5.8187E-9
++ M=.1001
++ VJ=9.9900
+.ends
+******
+
+.subckt  1206_156120RS75000  1  2
+D1 1 2 led
+.MODEL led D
++ IS=3.0679E-9
++ N=4.9950
++ RS=.25066
++ IKF=999
++ CJO=5.8777E-9
++ M=.1001
++ VJ=9.9900
+.ends
+******
+.subckt  1206_156120RS75300  1  2
+D1 1 2 led
+.MODEL led D
++ IS=4.4379E-9
++ N=4.9950
++ RS=1.5582
++ IKF=999
++ CJO=5.6688E-9
++ M=.1001
++ VJ=9.9900
+.ends
+******
+.subckt  1206_156120RS82500  1  2
+D1 1 2 led
+.MODEL led D
++ IS=3.5211E-9
++ N=4.9950
++ RS=.37505
++ IKF=999
++ CJO=5.4410E-9
++ M=.1001
++ VJ=9.9900
+.ends
+******
+.subckt  1206_156120VS75000  1  2
+D1 1 2 led
+.MODEL led D
++ IS=1E-20
++ N=1.8675
++ RS=3.9814
++ IKF=7.4889
++ CJO=0.000000000067243
++ M=0.1
++ VJ=9.99
+.ends
+******
+.subckt  1206_156120VS75300  1  2
+D1 1 2 led
+.MODEL led D
++ IS=1E-20
++ N=1.8631
++ RS=2.8899
++ IKF=7.1288
++ CJO=0.000000000055388
++ M=0.1
++ VJ=9.99
+.ends
+******
+
+
+.subckt  1206_156120VS82500  1  2
+D1 1 2 led
+.MODEL led D
++ IS=949.52E-12
++ N=4.9950
++ RS=1.3244
++ IKF=999
++ CJO=999.00E-6
++ M=.1001
++ VJ=9.9900
+.ends
+******
+.subckt  1206_156120YS75300  1  2
+D1 1 2 led
+.MODEL led D
++ IS=3.3734E-9
++ N=4.9950
++ RS=1.4245
++ IKF=999
++ CJO=4.6902E-9
++ M=.1001
++ VJ=9.9900
+.ends
+******
+.subckt  1206_156120YS82500  1  2
+D1 1 2 led
+.MODEL led D
++ IS=2.6400E-9
++ N=4.9950
++ RS=1.0000E-6
++ IKF=999
++ CJO=4.6338E-9
++ M=.1001
++ VJ=9.9900
+.ends
+******
+.subckt  1206_156120YS75000  1  2
+D1 1 2 led
+.MODEL led D
++ IS=1E-20
++ N=1.8265
++ RS=3.6439
++ IKF=8.387
++ CJO=0.000000000043903
++ M=0.1
++ VJ=9.99
+.ends
+******
+.subckt  1206_156120GS82500  1  2
+D1 1 2 led
+.MODEL led D
++ IS=1.2231E-12
++ N=4.9950
++ RS=4.6769
++ IKF=999
++ CJO=64.173E-12
++ M=2.9171
++ VJ=9.9900
+.ends
+******
+.subckt  1206_156120SS82500  1  2
+D1 1 2 led
+.MODEL led D
++ IS=4.0773E-9
++ N=4.9950
++ RS=3.8670
++ IKF=999
++ CJO=5.2588E-9
++ M=.1001
++ VJ=9.9900
+.ends
+******
+
+.subckt  1205_156125AS75000  1  2
+D1 1 2 led
+.MODEL led D
++ IS=318.22E-21
++ N=2.6916
++ RS=2.3547
++ IKF=161.04
++ CJO=1.0000E-12
++ M=.3333
++ VJ=.75
++ BV=5
++ TT=5.0000E-9
+.ends
+******
+.subckt  1205_156125BS75000  1  2
+D1 1 2 led
+.MODEL led D
++ IS=2.8011E-15
++ N=3.8667
++ RS=5.9629
++ IKF=6.8496E-3
++ CJO=1.0000E-12
++ M=.3333
++ VJ=.75
++ BV=5
++ TT=5.0000E-9
+.ends
+******
+.subckt  1205_156125GS75000  1  2
+D1 1 2 led
+.MODEL led D
++ IS=836.67E-15
++ N=5
++ RS=8.7596
++ IKF=7.4159E-3
++ CJO=1.0000E-12
++ M=.3333
++ VJ=.75
++ BV=5
++ TT=5.0000E-9
+.ends
+******
+.subckt  1205_156125RS75000  1  2
+D1 1 2 led
+.MODEL led D
++ IS=13.159E-12
++ N=3.6976
++ RS=1.2441
++ CJO=1.0000E-12
++ M=.3333
++ VJ=.75
++ BV=5
++ TT=5.0000E-9
+.ends
+******
+.subckt  1205_156125VS75000  1  2
+D1 1 2 led
+.MODEL led D
++ IS=10.000E-21
++ N=1.8500
++ RS=.39239
++ IKF=12.504E-3
++ CJO=1.0000E-12
++ M=.3333
++ VJ=.75
++ BV=5
++ TT=5.0000E-9
+.ends
+******
+.subckt  1205_156125YS75000  1  2
+D1 1 2 led
+.MODEL led D
++ IS=10.000E-21
++ N=1.7868
++ RS=1.9199
++ IKF=9.0893
++ CJO=1.0000E-12
++ M=.3333
++ VJ=.75
++ BV=5
++ TT=5.0000E-9
+.ends
+******
+.subckt  1206_156120AS82500P  1  2
+D1 1 2 led
+.MODEL led D
++ IS=1E-20
++ N=1.8014
++ RS=3.2796
++ IKF=9.8369
++ CJO=0.000000000050018
++ M=0.1
++ VJ=9.99
+.ends
+******
+.subckt  1206_156120BS82500P  1  2
+D1 1 2 led
+.MODEL led D
++ IS=3.5444E-16
++ N=3.6748
++ RS=8.9063
++ IKF=0.0062465
++ CJO=0.000000000044333
++ M=0.1
++ VJ=9.99
+.ends
+******
+.subckt  1206_156120RS82500P  1  2
+D1 1 2 led
+.MODEL led D
++ IS=3.5211E-9
++ N=4.9950
++ RS=.37505
++ IKF=999
++ CJO=5.4410E-9
++ M=.1001
++ VJ=9.9900
+.ends
+******
+.subckt  1206_156120VS82500P  1  2
+D1 1 2 led
+.MODEL led D
++ IS=949.52E-12
++ N=4.9950
++ RS=1.3244
++ IKF=999
++ CJO=999.00E-6
++ M=.1001
++ VJ=9.9900
+.ends
+******
+.subckt  1206_156120SS82500P  1  2
+D1 1 2 led
+.MODEL led D
++ IS=4.0773E-9
++ N=4.9950
++ RS=3.8670
++ IKF=999
++ CJO=5.2588E-9
++ M=.1001
++ VJ=9.9900
+.ends
+******
+.subckt  1206_156120YS82500P  1  2
+D1 1 2 led
+.MODEL led D
++ IS=2.6400E-9
++ N=4.9950
++ RS=1.0000E-6
++ IKF=999
++ CJO=4.6338E-9
++ M=.1001
++ VJ=9.9900
+.ends
+******
+.subckt  1206_156120GS82500P  1  2
+D1 1 2 led
+.MODEL led D
++ IS=1.2231E-12
++ N=4.9950
++ RS=4.6769
++ IKF=999
++ CJO=64.173E-12
++ M=2.9171
++ VJ=9.9900
+.ends
+******
+
+
+
+
+
+
+
+
+
+
+
+
+

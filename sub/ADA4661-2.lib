@@ -1,0 +1,84 @@
+* Copyright (c) 1998-2022 Analog Devices, Inc.  All rights reserved.
+*
+.subckt ADA4661-2 1 2 99 50 45
+M1   4  7  8  8 PIX L=1E-6 W=2.65E-04
+M2   6  2  8  8 PIX L=1E-6 W=2.65E-04
+M3  14  7 18 18 NIX L=1E-6 W=1.18E-04
+M4  16  2 18 18 NIX L=1E-6 W=1.18E-04
+RD1  4 50 1.33E+04
+RD2  6 50 1.33E+04
+RD3 99 14 1.33E+04
+RD4 99 16 1.33E+04
+C1   4  6 8.15E-13
+C2  14 16 8.15E-13
+I1  99  8 3.00E-05
+I2  18 50 3.00E-05
+V1  99  9 2.113E+00
+V2  19 50 1.203E-01
+D1   8  9 DX
+D2  19 18 DX
+EOS  7  1 POLY(4) (73,98) (22,98) (81,98) (83,98) 1.50E-04 1 1 1 1
+IOS  1  2 1.50E-12
+Ccm1 1 50 3E-12
+Ccm2 2 50 3E-12
+Cdm 1 2 8.5E-12
+E1  72 98 POLY(2) (1,98) (2,98) 0 5.25E-03 5.25E-03
+R10 72 73 1.89E+02
+R20 73 98 7.959E-02
+C10 72 73 1.00E-06
+EPSY 21 98 POLY(1) (99,50) -2.074E+02 1.152E+1
+RPS1 21 22 1.59E+05
+RPS2 22 98 3.18E-02
+CPS1 21 22 1.00E-06
+VN1 80 98 0
+RN1 80 98 16.45E-3
+HN  81 98 VN1 1.07E+01
+RN2 81 98 1
+DFN 82 98 DNOISE
+VFN 82 98 DC 0.6441
+HFN 83 98 POLY(1) VFN 1.00E-03 1.00E+00
+RFN 83 98 1
+EREF 98  0 POLY(2) (99,0) (50,0) 0 0.5 0.5
+GSY  99 50 POLY(1) (99,50) 4.575E-04 -1.55E-6
+EVP  97 98 POLY(1)(99,50) 0.5 0.175
+EVN  51 98 POLY(1)(50,99) 0.5 0.375
+G1 98 30 POLY(2) (4,6) (14,16) 0 7.103E-03 7.103E-03
+R1 30 98 1.00E+06
+RZ 455 31 0.195E+00
+CF 30 31 2.95E-9
+EZ 455 98 (45A,98) 1
+D3 30 97 DX
+D4 51 30 DX
+M5  45A 46 99 99 POX L=3u W=6m
+M6  45A 47 50 50 NOX L=2u W=12m
+EG1 99 46 POLY(1) (98,30) 8.523E-01 1
+EG2 47 50 POLY(1) (30,98) 6.964E-01 1
+Vimon 45A 45 0
+BO1 Vsatp 99 I=1m*Dnlim(V(Mp)*I(Vimon) +V(Bp), V(Bp), 100u)
+CO1 Vsatp 99 1n Rpar=1k Noiseless
+BO2 50 Vsatn I=1m*Dnlim(V(Mn)*-I(Vimon) +V(Bn), V(Bn), 100u)
+CO2 Vsatn 50 1n Rpar=1k Noiseless
+GO1 0 Satp Vsatp 0 1k
+CO3 Satp 0 1n Rpar=1m Noiseless
+GO2 0 Satn Vsatn 0 1k
+CO4 Satn 0 1n Rpar=1m Noiseless
+BO3 0 Mp I=1m*table(V(Vs), 3, {Mp3}, 10, {Mp18}) Rpar=1k Cpar=1n
+GO3 0 Vs 99 50 1m
+CO5 Vs 0 1n Rpar=1k Noiseless
+BO4 0 Mn I=1m*table(V(Vs), 3, {Mn3}, 10, {Mn18}) Rpar=1k Cpar=1n
+BO5 0 Bp I=1m*table(V(Vs), 3, {Bp3}, 10, {Bp18}) Rpar=1k Cpar=1n
+BO6 0 Bn I=1m*table(V(Vs), 3, {Bn3}, 10, {Bn18}) Rpar=1k Cpar=1n
+DO1 Satp 45A DO
+DO2 45A Satn DO
+.param Mp3=19.9 Bp3=1.35m
+.param Mn3=13.3 Bn3=0.9m
+.param Mp18=17.3 Bp18=1.9m
+.param Mn18=10.5 Bn18=1.2m
+.model DO D(Vfwd=1k Vrev=0 Revepsilon=0.1 Ron=1m Noiseless)
+.model POX PMOS (LEVEL=2,KP=4.00E-05,VTO=-0.7,LAMBDA=0.047,RD=0)
+.model NOX NMOS (LEVEL=2,KP=1.00E-05,VTO=+0.6,LAMBDA=0.022,RD=0)
+.model PIX PMOS (LEVEL=2,KP=1.50E-05,VTO=-0.5,LAMBDA=0.047)
+.model NIX NMOS (LEVEL=2,KP=4.00E-05,VTO=0.5,LAMBDA=0.022)
+.model DX D(IS=1E-14,RS=0.1)
+.model DNOISE D(IS=1E-14,RS=0,KF=1.53E-10)
+.ENDS ADA4661-2

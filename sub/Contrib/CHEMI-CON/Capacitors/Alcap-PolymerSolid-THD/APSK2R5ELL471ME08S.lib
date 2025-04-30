@@ -1,0 +1,21 @@
+*$
+*//-----------------------------------------------------------------------//
+*//   Part No.    : APSK2R5E471ME08S
+*//   Date        : 2020/12/24
+*//   Temperature : 20deg.C
+*//   Model       : RC-ladder 7 Elements Model
+*//   Copyright (C) 2020 Nippon Chemi-Con Corporation.
+*//   All Rights Reserved.
+*//-----------------------------------------------------------------------//
+
+.SUBCKT APSK2R5ELL471ME08S_20deg-C 1 2
+
+C1 4 2 3.85e-04
+C2 5 2 5.56e-05
+C3 6 2 1.59e-05
+R1 3 4 4.31e-03
+R2 4 5 9.47e-02
+R3 5 6 1.62e+00
+L1 1 3 1.80e-09
+
+.ENDS

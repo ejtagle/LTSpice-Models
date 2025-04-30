@@ -1,0 +1,60 @@
+****************************** IGBT Electrical Parameters ***************************
+** Product: FGH25N120FTDS 
+** 1200V, 25A Trench IGBT
+** Model Format: SPICE2G6
+**-----------------------------------------------------------------------------------
+.SUBCKT FGH25N120FTDS C G E
+LE   74 E  1.105n 
+RE   83 74 1.42m TC=8.04e-4
+RC   85 C  9.92m TC=3.58e-3
+RG   G 82  1.8m
+CGC  82 C  1p 
+CGD  92 93 5.4n 
+CGE  E 82  3.3n 
+M1   81 82 83 83 MOS W=1.0e-6 L=1.0e-6
+Q1   83 81 85 VPNP 
+R1   92 0 1
+R2   91 94 1
+RLV  95 0 1
+DBE  85 81 DE 
+DSD  83 81 DO 
+DHV  94 93 DR
+DLV  94 95 DR 13
+D1   91 92 DLIM 
+D2   94 0 DLIM 
+FFB  82 81 VFB 1
+VFB  93 0 DC 0  
+ESD  96 93 POLY(1) 83 81 19 1
+MLV  95 96 93 93 SW           
+EGD  91 0 82 81 1
+DFRD E C FRD
+.MODEL SW NMOS(LEVEL=3 VTO=0 KP=5)
+.MODEL VPNP PNP(IS=1.07e-10 NF=1.5 BF=0.0105 CJE=3.3e-9 TF=1.09e-7 XTB=1.904 EG=0.51)        
+.MODEL MOS NMOS(LEVEL=3 VMAX=4.5e5 THETA=0.0 ETA=2e-3 VTO=6.75 KP=17.0)
+.MODEL DR D(IS=1.0e-14 CJO=5.0e-10 M=0.64 VJ=0.62) 
+.MODEL DO D(IS=1.0e-14 BV=1200 CJO=2.5e-9 M=0.42 VJ=0.58)    
+.MODEL DE D(IS=1.0e-14 BV=30.0 N=2)
+.MODEL DLIM D(IS=1.00e-7)
+.MODEL FRD D(IS=1.0e-9 RS=0.062 EG=1.24 N=1.50 CJO=2.27e-8 VJ=0.55 M=0.45 FC=0.5 TT=4.51e-07 BV=1200 IBV=2.5e-4 TRS1=1.0e-5 TRS2=1.0e-7 ISR=2.0e-10 NR=1.5)
+.ENDS
+
+******************************* IGBT Thermal Parameters ****************************
+** Product: FGH25N120FTDS
+**----------------------------------------------------------------------------------
+.SUBCKT FGH25N120FTDS_Thermal TH TL
+CTHERM1 TH 6 1.00e-5
+CTHERM2 6 5  3.12e-3
+CTHERM3 5 4  1.12e-2
+CTHERM4 4 3  4.20e-2
+CTHERM5 3 2  8.60e-2
+CTHERM6 2 TL 1.40e-1
+RTHERM1 TH 6 4.00e-4
+RTHERM2 6 5  8.00e-3
+RTHERM3 5 4  5.20e-2
+RTHERM4 4 3  8.40e-2
+RTHERM5 3 2  9.60e-2
+RTHERM6 2 TL 1.60e-1
+.ENDS FGH25N120FTDS_Thermal
+**----------------------------------------------------------------------------------
+** Creation: Oct.-01-2010   Rev.: 0.0
+** Fairchild Semiconductor

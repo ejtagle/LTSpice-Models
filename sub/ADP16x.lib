@@ -1,0 +1,91 @@
+* Copyright © Analog Devices, Inc. 2019.  All rights reserved.
+*
+.subckt ADP16xa 1 2 3 4 5
+M1 4 N003 1 1 P
+D1 2 4 S
+A1 N005 5 1 1 1 1 N003 1 OTA G=4.55u Iout=3u en=60n enk=20k Vhigh=0 Vlow=-1
+C4 1 N003 320p Rpar=53MEG Rser=671k Cpar=0.5p noiseless
+M2 2 N003 1 1 P m=333u
+R4 N006 N005 350K noiseless
+C2 1 N005 100f Rser=100MEG Rpar=3G noiseless
+C3 4 2 20p
+C6 1 2 20p
+A2 3 2 2 2 2 2 N008 2 SCHMITT Vt=800m Vh=400m Trise=1u
+A3 1 2 2 2 2 2 N004 2 SCHMITT Vt=1.895 Vh=295m Trise=1u
+A4 2 N004 2 N008 2 2 N006 2 AND Cout=100p Rhigh=3Meg Rlow=100k
+C5 3 2 1p
+G1 1 2 N004 2 50n
+G2 1 2 N006 2 525n
+.model P VDMOS( pchan Kp=10 Ksubthres=10m Vto=-750m mtriode=600m lambda=50m noiseless)
+.model S D(Ron=10 Roff=1G epsilon=1)
+.model DIS SW(Roff=300 Ron=1G Vt=0.5 Vh=-0.4)
+.ends ADP16xa
+*
+.subckt ADP16xad 1 2 3 4 5
+M1 4 N003 1 1 P
+D1 2 4 S
+A1 N005 5 1 1 1 1 N003 1 OTA G=4.55u Iout=3u en=60n enk=20k Vhigh=0 Vlow=-1
+C4 1 N003 320p Rpar=53MEG Rser=671k Cpar=0.5p noiseless
+M2 2 N003 1 1 P m=333u
+R4 N006 N005 350K noiseless
+C2 1 N005 100f Rser=100MEG Rpar=3G noiseless
+C3 4 2 20p
+C6 1 2 20p
+A2 3 2 2 2 2 2 N008 2 SCHMITT Vt=800m Vh=400m Trise=1u
+S1 4 2 N006 2 DIS
+A3 1 2 2 2 2 2 N004 2 SCHMITT Vt=1.895 Vh=295m Trise=1u
+A4 2 N004 2 N008 2 2 N006 2 AND Cout=100p Rhigh=3Meg Rlow=100k
+C5 3 2 1p
+G1 1 2 N004 2 50n
+G2 1 2 N006 2 525n
+.model P VDMOS( pchan Kp=10 Ksubthres=10m Vto=-750m mtriode=600m lambda=50m noiseless)
+.model S D(Ron=10 Roff=1G epsilon=1)
+.model DIS SW(Roff=300 Ron=1G Vt=0.5 Vh=-0.4)
+.ends ADP16xad
+*
+.subckt ADP16xf 1 2 3 4
+M1 4 N003 1 1 P
+D1 2 4 S
+A1 N005 N006 1 1 1 1 N003 1 OTA G=4.55u Iout=3u en=60n enk=20k Vhigh=0 Vlow=-1
+C4 1 N003 320p Rpar=53MEG Rser=671k Cpar=0.5p noiseless
+M2 2 N003 1 1 P m=333u
+R4 N007 N005 350K noiseless
+C2 1 N005 100f Rser=100MEG Rpar=3G noiseless
+C3 4 2 20p
+C6 1 2 20p
+A2 3 2 2 2 2 2 N008 2 SCHMITT Vt=800m Vh=400m Trise=1u
+A3 1 2 2 2 2 2 N004 2 SCHMITT Vt=1.895 Vh=295m Trise=1u
+A4 2 N004 2 N008 2 2 N007 2 AND Cout=100p Rhigh=3Meg Rlow=100k
+C5 3 2 1p
+G1 1 2 N004 2 50n
+G2 1 2 N007 2 525n
+G3 2 N006 4 2 {K}
+C7 N006 2 1p Rpar=1k
+.model P VDMOS( pchan Kp=10 Ksubthres=10m Vto=-750m mtriode=600m lambda=50m noiseless)
+.model S D(Ron=10 Roff=1G epsilon=1)
+.model DIS SW(Roff=300 Ron=1G Vt=0.5 Vh=-0.4)
+.ends ADP16xf
+*
+.subckt ADP16xfd 1 2 3 4
+M1 4 N003 1 1 P
+D1 2 4 S
+A1 N005 N006 1 1 1 1 N003 1 OTA G=4.55u Iout=3u en=60n enk=20k Vhigh=0 Vlow=-1
+C4 1 N003 320p Rpar=53MEG Rser=671k Cpar=0.5p noiseless
+M2 2 N003 1 1 P m=333u
+R4 N007 N005 350K noiseless
+C2 1 N005 100f Rser=100MEG Rpar=3G noiseless
+C3 4 2 20p
+C6 1 2 20p
+A2 3 2 2 2 2 2 N008 2 SCHMITT Vt=800m Vh=400m Trise=1u
+S1 4 2 N007 2 DIS
+A3 1 2 2 2 2 2 N004 2 SCHMITT Vt=1.895 Vh=295m Trise=1u
+A4 2 N004 2 N008 2 2 N007 2 AND Cout=100p Rhigh=3Meg Rlow=100k
+C5 3 2 1p
+G1 1 2 N004 2 50n
+G2 1 2 N007 2 525n
+G3 2 N006 4 2 {K}
+C7 N006 2 1p Rpar=1k
+.model P VDMOS( pchan Kp=10 Ksubthres=10m Vto=-750m mtriode=600m lambda=50m noiseless)
+.model S D(Ron=10 Roff=1G epsilon=1)
+.model DIS SW(Roff=300 Ron=1G Vt=0.5 Vh=-0.4)
+.ends ADP16xfd

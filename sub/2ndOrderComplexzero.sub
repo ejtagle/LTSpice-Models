@@ -1,0 +1,20 @@
+* Copyright © Linear Technology Corp. 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005.  All rights reserved.
+*
+.subckt 2ndOrderComplexzero 1 2
+G1 0 N002 1 0 {2*f0**2/(R1*fn**2)}
+R2 N002 0 {R1/2}
+G2 0 N003 N002 N005 {2m*K1}
+R4 N003 0 1k
+L1 N005 N006 {L1}
+R1 N002 N005 {R1/2}
+C2 N006 0 {C1}
+G3 0 N003 N005 N006 {1m}
+G4 0 N003 N006 0 {1m*K2}
+G5 0 2 N003 0 {10*H}
+R3 2 0 .1
+.param R1=1k
+.param K1 = (fn*Q)/(f0*Qn)
+.param K2 = (fn/f0)**2
+.param L1 = R1*Q/(2*pi*f0)
+.param C1 = 1/(L1*(2*pi*f0)**2)
+.ends 2ndOrderComplexzero

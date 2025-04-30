@@ -1,0 +1,45 @@
+Version 4
+SymbolType CELL
+LINE Normal 144 48 80 48
+LINE Normal 80 48 80 0
+LINE Normal 20 -3 20 -9
+LINE Normal 16 -8 20 -3
+LINE Normal 14 -2 20 -3
+LINE Normal 19 8 19 2
+LINE Normal 15 3 19 8
+LINE Normal 13 9 19 8
+LINE Normal -16 -32 -48 -32
+LINE Normal -16 -10 -16 -33
+LINE Normal -16 48 -16 16
+LINE Normal -48 48 -16 48
+LINE Normal 56 0 32 -24
+LINE Normal 56 0 80 -24
+LINE Normal 104 -24 128 0
+LINE Normal 104 -24 80 0
+LINE Normal 32 0 128 0
+LINE Normal 32 -24 128 -24
+LINE Normal 80 -48 80 -24
+LINE Normal 32 25 56 0
+LINE Normal 32 40 32 25
+LINE Normal 144 -48 80 -48
+LINE Normal 0 -10 -31 -10
+LINE Normal -16 16 0 -10
+LINE Normal -31 -9 -16 16
+LINE Normal 0 16 -31 16
+RECTANGLE Normal 144 64 -48 -64
+WINDOW 3 -30 -85 Left 2
+WINDOW 0 -27 -111 Left 2
+SYMATTR Value TO132-40-12
+SYMATTR ModelFile TO132-40-12.SUB
+PIN -48 -32 NONE 8
+PINATTR PinName A
+PINATTR SpiceOrder 1
+PIN -48 48 NONE 8
+PINATTR PinName K
+PINATTR SpiceOrder 2
+PIN 144 -48 NONE 8
+PINATTR PinName MT2
+PINATTR SpiceOrder 3
+PIN 144 48 NONE 8
+PINATTR PinName MT1
+PINATTR SpiceOrder 4

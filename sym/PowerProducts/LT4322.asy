@@ -1,0 +1,28 @@
+Version 4
+SymbolType CELL
+RECTANGLE Normal -224 -112 224 112
+TEXT 0 0 Center 2 LT
+WINDOW 0 0 -32 Center 2
+WINDOW 3 0 48 Center 2
+SYMATTR Value LT4322
+SYMATTR Description Floating, High Voltage Active Rectifier Controller
+SYMATTR Prefix X
+SYMATTR ModelFile LT4322.sub
+PIN 0 -112 TOP 8
+PINATTR PinName GATE
+PINATTR SpiceOrder 1
+PIN -176 -112 TOP 8
+PINATTR PinName VSSA
+PINATTR SpiceOrder 2
+PIN -96 -112 TOP 8
+PINATTR PinName ANODE
+PINATTR SpiceOrder 3
+PIN -224 0 LEFT 8
+PINATTR PinName VDDA
+PINATTR SpiceOrder 4
+PIN 144 -112 TOP 8
+PINATTR PinName CATHODE
+PINATTR SpiceOrder 5
+PIN 224 0 RIGHT 8
+PINATTR PinName VDDC
+PINATTR SpiceOrder 6

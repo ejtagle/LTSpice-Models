@@ -1,0 +1,42 @@
+Version 4
+SymbolType CELL
+LINE Normal 32 5 -32 5
+LINE Normal 32 -5 -32 -5
+LINE Normal -32 -48 -64 -48
+LINE Normal -32 -24 -32 -48
+LINE Normal 32 -48 64 -48
+LINE Normal 32 -24 32 -48
+LINE Normal -32 48 -64 48
+LINE Normal -32 24 -32 48
+LINE Normal 32 48 64 48
+LINE Normal 32 24 32 48
+CIRCLE Normal -37 -24 -43 -30
+CIRCLE Normal -38 30 -44 24
+ARC Normal -32 -32 -16 -16 -32 -24 -16 -24
+ARC Normal -16 -32 0 -16 -16 -24 0 -24
+ARC Normal 0 -32 16 -16 0 -24 16 -24
+ARC Normal 16 -32 32 -16 16 -24 32 -24
+ARC Normal -32 16 -16 32 -16 24 -32 24
+ARC Normal -16 16 0 32 0 24 -16 24
+ARC Normal 0 16 16 32 16 24 0 24
+ARC Normal 16 16 32 32 32 24 16 24
+WINDOW 0 0 -80 Center 2
+WINDOW 38 0 80 Center 2
+TEXT 0 100 Center 2 2.8mH_27A
+SYMATTR SpiceModel LDFW027282YJUV0E
+SYMATTR Prefix X
+SYMATTR InstName L
+SYMATTR Description Single-Phase Common Mode Choke Coil
+SYMATTR ModelFile Contrib/CHEMI-CON/Inductors/Common-1phase/LDFW027282YJUV0E.lib
+PIN -64 -48 BOTTOM 8
+PINATTR PinName n1
+PINATTR SpiceOrder n1
+PIN -64 48 BOTTOM 8
+PINATTR PinName n2
+PINATTR SpiceOrder n2
+PIN 64 -48 BOTTOM 8
+PINATTR PinName n4
+PINATTR SpiceOrder n4
+PIN 64 48 BOTTOM 8
+PINATTR PinName n3
+PINATTR SpiceOrder n3

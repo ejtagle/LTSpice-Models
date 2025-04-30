@@ -1,0 +1,33 @@
+Version 4
+SymbolType BLOCK
+RECTANGLE Normal -192 -128 192 128
+WINDOW 0 0 -48 Center 2
+WINDOW 38 0 0 Center 2
+SYMATTR SpiceModel MAX4272
+SYMATTR Prefix X
+SYMATTR Description 3V to 12V Current-Limiting Hot-Swap Controllers with Autoretry, DualSpeed/BiLevel Fault Protection
+SYMATTR ModelFile MAX4272.sub
+PIN -128 -128 TOP 8
+PINATTR PinName IN
+PINATTR SpiceOrder 1
+PIN 16 -128 TOP 8
+PINATTR PinName SENSE
+PINATTR SpiceOrder 2
+PIN 128 -128 TOP 8
+PINATTR PinName GATE
+PINATTR SpiceOrder 3
+PIN 0 128 BOTTOM 8
+PINATTR PinName GND
+PINATTR SpiceOrder 4
+PIN 192 64 RIGHT 8
+PINATTR PinName CSPD
+PINATTR SpiceOrder 5
+PIN -192 64 LEFT 8
+PINATTR PinName CTIM
+PINATTR SpiceOrder 6
+PIN 192 -16 RIGHT 8
+PINATTR PinName STAT
+PINATTR SpiceOrder 7
+PIN -192 -16 LEFT 8
+PINATTR PinName ON
+PINATTR SpiceOrder 8

@@ -1,0 +1,94 @@
+* Copyright (c) 1998-2024 Analog Devices, Inc.  All rights reserved.
+*
+.subckt level5 1 2 3 4 5
+G1 MID PM AOL1 MID 1µ
+R2 PM MID 1Meg Noiseless
+C1 PM MID {X*Cout/Avol}
+R5 1 MID {Rcm} Noiseless
+R10 AOL1 MID 1Meg Noiseless
+R11 Railp N009 1k
+C5 Railp N009 1n
+R13 Railn N017 1k
+C6 Railn N017 1n
+R23 N014 N010 1Meg Noiseless
+R24 N014 N016 1Meg Noiseless
+C8 N014 0 1
+E1 MID 0 N014 0 1
+R25 MID 0 1Meg Noiseless
+C11 2 1 {Cdiff}
+C12 MID 2 {Ccm}
+C13 MID 1 {Ccm}
+R3 MID 2 {Rcm} Noiseless
+C14 AOL1 MID {Cout}
+R27 AOL0 MID 1Meg Noiseless
+B5 MID AOL1 I=Uplim(Dnlim({Avol/1Meg}* V(AOL0,MID), {-SlewNeg*Cout}, 1m), {SlewPos*Cout}, 1m)
+G2 MID N001 1 MID 1k
+R8 N001 MID 1m
+I1 N001 N002 {1m*Vos}
+R9 N002 N001 1k Noiseless
+A2 1 MID MID MID MID MID MID MID OTA G=0 In={In} Ink={Ink}
+G4 0 N009 N010 0 1k
+R12 N009 0 1m
+G5 0 N017 N016 0 1k
+R14 N017 0 1m
+R15 ZO MID {Ro} Noiseless
+DOP Vsatp ZO DO
+DON ZO Vsatn DO
+C2 ZO Vsatp 1f
+C3 ZO Vsatn 1f
+G6 MID Vsatp Railp MID 1k
+R16 Vsatp MID 1m
+G7 MID Vsatn Railn MID 1k
+R17 Vsatn MID 1m
+C7 Vsatp MID 1n
+C9 Vsatn MID 1n
+G8 MID N007 ORp MID 1k
+G9 MID N008 ORn MID 1k
+DGP N007 AOL1 DG
+R18 N007 MID 1m
+R19 N008 MID 1m
+I4 N012 ORn {1m*ORn}
+R20 ORn N012 1k
+I5 N011 ORp {1m*ORp}
+R21 ORp N011 1k
+C10 ORp N011 1p
+C15 ORn N012 1p
+DGN AOL1 N008 DG
+G10 MID N011 ZO MID 1k
+R22 N011 MID 1m
+G11 MID N012 ZO MID 1k
+R28 N012 MID 1m
+G3 MID ZO PM MID {1/Ro}
+S1 5 ZO 0 0 ISC
+C4 5 ZO 1p
+R7 2 1 {Rdiff} Noiseless
+I6 1 MID {Ibp}
+I7 2 MID {Ibn}
+B1 Railp N009 I=1m*Dnlim({Rail}, 5m, 1m)
+B2 N017 Railn I=1m*Dnlim({Rail}, 5m, 1m)
+I2 3 4 {Iq}
+A3 2 MID MID MID MID MID MID MID OTA G=0 In={In} Ink={Ink}
+G12 0 N010 3 0 1
+R26 N010 0 1
+C17 N010 0 1n
+G13 0 N016 4 0 1
+R29 N016 0 1
+C18 N016 0 1n
+Bsink 4 0 I=Uplim(I(S1), 0,1u)
+Bsrc 3 0 I=Dnlim(I(S1), 0,1u)
+G14 MID AOL0 N003 2 1µ
+R30 Vnoise 0 100k Noiseless
+A1 0 0 0 0 0 0 Vnoise 0 OTA G=10u Iout=1m En={En} Enk={Enk} Vhigh=1k Vlow=-1k
+R31 N003 N002 1k Noiseless
+G15 N002 N003 Vnoise 0 1m
+.model DG D(Vfwd={-2*ORn} Vrev=0 Revepsilon=0.5 Ron=1m Noiseless)
+.model DO D(Vfwd=1k Vrev=0 Revepsilon=0.1 Ron=1m Noiseless)
+.model ISC SW(Ron=1m Roff=1Meg Vt=-1 Vh=-0.1 Ilimit={Ilimit} Noiseless level=2)
+.param Cout={Avol/GBW/2/pi/1Meg}
+.param ORp=100 ORn={-ORp}
+.param X table(Phimargin,29.4,3.5,32.1,2.9,33.8,2.6,35.8,2.3,38.1,2,40.9,1.7,43.2,1.5,45.9,
++1.3,49.2,1.1,53.2,0.9,58.2,0.7,64.7,0.5,73,0.3,86.1,0.05)
+.param Avol=1Meg GBW=10Meg Phimargin=45 SlewPos=10Meg SlewNeg=10Meg
+.param En=0 Enk=0 In=0 Ink=0 Rcm=500Meg Ccm=1p Rdiff=500k Cdiff=2p Ro=1k
+.param Vos=0 Ibp=2n Ibn=1n Iq=1m Rail=0 Ilimit=25m
+.ends level5

@@ -1,0 +1,46 @@
+*$
+*//-----------------------------------------------------------------------//
+*//   Part        : EKXN421ELL181MM40S
+*//   Date        : 2023/06/28
+*//   Temperature : 20deg.C/-40deg.C/105deg.C
+*//   Model       : RC-ladder 7 Elements Model
+*//   Copyright (C) 2023 Nippon Chemi-Con Corporation.
+*//   All Rights Reserved.
+*//-----------------------------------------------------------------------//
+
+.SUBCKT EKXN421ELL181MM40S_20deg-C 1 2
+
+C1 4 2 4.10e-06
+C2 5 2 1.36e-04
+C3 6 2 1.76e-05
+R1 3 4 1.69e-01
+R2 4 5 1.64e-01
+R3 5 6 4.32e+00
+L1 1 3 8.00e-09
+
+.ENDS
+
+.SUBCKT EKXN421ELL181MM40S_-40deg-C 1 2
+
+C1 4 2 1.88e-07
+C2 5 2 1.09e-06
+C3 6 2 1.01e-04
+R1 3 4 3.92e-01
+R2 4 5 1.47e+01
+R3 5 6 4.06e+01
+L1 1 3 8.00e-09
+
+.ENDS
+
+.SUBCKT EKXN421ELL181MM40S_105deg-C 1 2
+
+C1 4 2 1.54e-04
+C2 5 2 9.53e-06
+C3 6 2 4.61e-06
+R1 3 4 3.19e-02
+R2 4 5 4.96e+00
+R3 5 6 2.29e+02
+L1 1 3 8.00e-09
+
+.ENDS
+*$

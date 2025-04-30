@@ -1,0 +1,20 @@
+.SUBCKT TLV431_TI A K Fdbk
+V_V2         N59715 A 1.24
+G_G4         K A TABLE { V(STAGE2, A) } 
++ ( (-10,0)(0,0)(15m,15m)(10,16m) )
+R_R1         A STAGE1  1  
+R_R2         A STAGE2  1  
+C_C2         A STAGE1  159e-6  
+C_C3         A STAGE2  80n  
+G_G1         A STAGE1 Fdbk N59715 4
+X_D1          A STAGE1 DC_1mV_1A_1V_1nA
+G_G3         A STAGE2 STAGE1 A 1
+X_D2          STAGE1 N59689 DC_1mV_1A_1V_1nA
+X_D3          A K DC_1mV_1A_1V_1nA
+V_V1         N59689 A 15m
+*
+.subckt DC_1mV_1A_1V_1nA A C
+G1 A C TABLE { V(A, C) } ( (-1,-1n)(0,0)(1m,1) (2m,10) (3m,1000) )
+.ends DC_1mV_1A_1V_1nA 
+.ENDS TLV431_TI
+

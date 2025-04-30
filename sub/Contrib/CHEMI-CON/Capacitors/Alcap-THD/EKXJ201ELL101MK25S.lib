@@ -1,0 +1,46 @@
+*$
+*//-----------------------------------------------------------------------//
+*//   Part        : EKXJ201ELL101MK25S
+*//   Date        : 2023/09/19
+*//   Temperature : 20deg.C/-40deg.C/105deg.C
+*//   Model       : RC-ladder 7 Elements Model
+*//   Copyright (C) 2023 Nippon Chemi-Con Corporation.
+*//   All Rights Reserved.
+*//-----------------------------------------------------------------------//
+
+.SUBCKT EKXJ201ELL101MK25S_20deg-C 1 2
+
+C1 4 2 4.87e-06
+C2 5 2 6.34e-05
+C3 6 2 2.85e-05
+R1 3 4 1.29e-01
+R2 4 5 5.25e-02
+R3 5 6 1.75e-01
+L1 1 3 8.00e-09
+
+.ENDS
+
+.SUBCKT EKXJ201ELL101MK25S_-40deg-C 1 2
+
+C1 4 2 1.72e-07
+C2 5 2 4.08e-06
+C3 6 2 8.21e-05
+R1 3 4 2.17e+00
+R2 4 5 1.00e+01
+R3 5 6 6.25e+00
+L1 1 3 8.00e-09
+
+.ENDS
+
+.SUBCKT EKXJ201ELL101MK25S_105deg-C 1 2
+
+C1 4 2 9.91e-05
+C2 5 2 2.94e-06
+C3 6 2 2.03e-06
+R1 3 4 3.09e-02
+R2 4 5 3.08e+01
+R3 5 6 4.98e+02
+L1 1 3 8.00e-09
+
+.ENDS
+*$

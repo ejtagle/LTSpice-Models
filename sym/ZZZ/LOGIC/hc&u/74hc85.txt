@@ -1,0 +1,83 @@
+*
+*
+*
+* 4 bit magnitude comparator
+* AnBn->Qne Tpd 63n/23n/18n
+* AnBn->Qeq Tpd 58n/21n/17n
+* In->Qne   Tpd 50n/18n/14n
+* Ieq->Qeq  Tpd 39n/14n/11n (uses 18ns)
+* Tr/Tf         19n/7n/6n
+.SUBCKT 74HC85 A0 A1 A2 A3 B0 B1 B2 B3 IALB IAEB IAGB QAGB QAEB QALB VCC VGND  vcc1={vcc} speed1={speed} tripdt1={tripdt}
+.param td1=1e-9*(18-3-3)*4.0/({vcc1}-0.5)*{speed1}
+.param td2=1e-9*(+3)*4.0/({vcc1}-0.5)*{speed1}
+.param td3=1e-9*(+2)*4.0/({vcc1}-0.5)*{speed1}
+*
+XIN1  A0 A0i    VCC VGND  74HC_IN_1  vcc2={vcc1}  speed2={speed1}  tripdt2={tripdt1}
+XIN2  A1 A1i    VCC VGND  74HC_IN_1  vcc2={vcc1}  speed2={speed1}  tripdt2={tripdt1}
+XIN3  A2 A2i    VCC VGND  74HC_IN_1  vcc2={vcc1}  speed2={speed1}  tripdt2={tripdt1}
+XIN4  A3 A3i    VCC VGND  74HC_IN_1  vcc2={vcc1}  speed2={speed1}  tripdt2={tripdt1}
+XIN5  B0 B0i    VCC VGND  74HC_IN_1  vcc2={vcc1}  speed2={speed1}  tripdt2={tripdt1}
+XIN6  B1 B1i    VCC VGND  74HC_IN_1  vcc2={vcc1}  speed2={speed1}  tripdt2={tripdt1}
+XIN7  B2 B2i    VCC VGND  74HC_IN_1  vcc2={vcc1}  speed2={speed1}  tripdt2={tripdt1}
+XIN8  B3 B3i    VCC VGND  74HC_IN_1  vcc2={vcc1}  speed2={speed1}  tripdt2={tripdt1}
+XIN9  IALB IALBi VCC VGND  74HC_IN_1  vcc2={vcc1}  speed2={speed1}  tripdt2={tripdt1}
+XIN10 IAEB IAEBi VCC VGND  74HC_IN_1  vcc2={vcc1}  speed2={speed1}  tripdt2={tripdt1}
+XIN11 IAGB IAGBi VCC VGND  74HC_IN_1  vcc2={vcc1}  speed2={speed1}  tripdt2={tripdt1}
+*
+XU  A0i A1i A2i A3i B0i B1i B2i B3i IALBi IAEBi IAGBi QAGBi QAEBi QALBi 74HC85_i tripdt2={tripdt1} td1a={td1} td2a={td2} td3a={td3}
+*
+*
+*
+XOUT1  QAGBi QAGB VCC VGND  74HC_OUT_1X  vcc2={vcc1} speed2={speed1}  tripdt2={tripdt1}
+XOUT2  QAEBi QAEB VCC VGND  74HC_OUT_1X  vcc2={vcc1} speed2={speed1}  tripdt2={tripdt1}
+XOUT3  QALBi QALB VCC VGND  74HC_OUT_1X  vcc2={vcc1} speed2={speed1}  tripdt2={tripdt1}
+.ends
+*
+*
+.SUBCKT 74HC85_i A0 A1 A2 A3 B0 B1 B2 B3 IALB IAEB IAGB QAGB QAEB QALB tripdt1={tripdt2} td1b={td1a} td2b={td2a} td3b={td3a}
+*
+AA      a3  b3  0   0   0       n12 0    0   AND  tripdt={tripdt1}  td={td2b}
+AB      a3  n12 0   0   0       0   n13  0   AND  tripdt={tripdt1}
+AC      n12 b3  0   0   0       0   n14  0   AND  tripdt={tripdt1}
+AD      n13 n14 0   0   0       n15 0    0   OR  tripdt={tripdt1}
+*
+AE      a2  b2  0   0   0       n16 0    0   AND  tripdt={tripdt1}  td={td2b}
+AF      a2  n16 0   0   0       0   n19  0   AND  tripdt={tripdt1}
+AG      n16 b2  0   0   0       0   n20  0   AND  tripdt={tripdt1}
+AH      n19 n20 0   0   0       n21 0    0   OR  tripdt={tripdt1}
+*
+AI      a1  b1  0   0   0       n17 0    0   AND  tripdt={tripdt1}  td={td2b}
+AJ      a1  n17 0   0   0       0   n22  0   AND  tripdt={tripdt1}
+AK      n17 b1  0   0   0       0   n23  0   AND  tripdt={tripdt1}
+AL      n22 n23 0   0   0       n24 0    0   OR  tripdt={tripdt1}
+*
+AM      a0  b0  0   0   0       n18 0    0   AND  tripdt={tripdt1}  td={td2b}
+AN      a0  n18 0   0   0       0   n25  0   AND  tripdt={tripdt1}
+AO      n18 b0  0   0   0       0   n26  0   AND  tripdt={tripdt1}
+AP      n25 n26 0   0   0       n27 0    0   OR  tripdt={tripdt1}
+*
+AQ      b3  n12 0   0   0       0   n28  0   AND  tripdt={tripdt1}
+*
+AR      b2  n16 n15 0   0       0   n29  0   AND  tripdt={tripdt1}
+AS      b1  n17 n15 n21 0       0   n30  0   AND  tripdt={tripdt1}
+AT      b0  n18 n15 n21 n24     0   n31  0   AND  tripdt={tripdt1}
+AU      n15 n21 n24 n27 IALB    0   n32  0   AND  tripdt={tripdt1}
+AV      n15 n21 n24 n27 IAEB    0   n33  0   AND  tripdt={tripdt1}
+*
+AW      IAEB n27 n24 n21 n15    0   n34  0   AND  tripdt={tripdt1}
+AX      IAGB n27 n21 n24 n15    0   n35  0   AND  tripdt={tripdt1}
+AY      n24 n21 n15 n18 a0      0   n36  0   AND  tripdt={tripdt1}
+AZ      n21 n15 n17 a1  0       0   n37  0   AND  tripdt={tripdt1}
+AAA     n15 n16 a2  0   0       0   n38  0   AND  tripdt={tripdt1}
+AAB     n12 a3  0   0   0       0   n39  0   AND  tripdt={tripdt1}
+*
+AAC     n28 n29 n30 n31 n32     0   n40  0   OR  tripdt={tripdt1}  td={td3b}
+AAH     n40 n33 0   0   0       QAGB 0   0   OR  tripdt={tripdt1}
+*
+AAD     n15 n21 IAEB n24 n27    0 QAEB   0   AND  tripdt={tripdt1}  td={td1b}
+*
+AAE     n34 n35 n36 n37 n38     0   n42  0   OR  tripdt={tripdt1}  td={td3b}
+AAI     n42 n39 0   0   0       QALB 0   0   OR  tripdt={tripdt1}
+*
+.ends
+*

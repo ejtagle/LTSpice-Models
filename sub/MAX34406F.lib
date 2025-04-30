@@ -1,0 +1,158 @@
+* Copyright (c) 1998-2022 Analog Devices, Inc.  All rights reserved.
+*
+.subckt MAX34406F 1 2 3 4 5 6 7 8 9
+G28 4 N008 N005 4 1
+R72 4 N008 1 Noiseless
+C42 N008 4 1p
+G3 4 N006 1 4 1k
+R18 4 N006 1m Noiseless
+C5 N006 4 1p
+R20 N004 N006 1k Noiseless
+B3 N006 N004 I=1m*({a}+{b}*Temp+ {c}*Temp**2+ {d}*Temp**3)
+G4 N004 N005 CMR 4 -1m
+R22 N005 N004 1k Noiseless
+C4 CMR N001 {C1a_CMR}
+G5 4 N001 1 4 {G1_CMR}
+R23 N001 4 1 Noiseless
+R24 CMR N001 {R1a_CMR} Noiseless
+R25 CMR 4 {R2a_CMR} Noiseless
+DIP 4 N008 DIP
+DIN N008 4 DIN
+DOP Vsatp 5 DO
+DON 5 Vsatn DO
+G17 4 Vsatp Satp 4 1k
+R61 Vsatp 4 1m Noiseless
+G23 4 Vsatn Satn 4 1k
+R66 Vsatn 4 1m Noiseless
+C17 Vsatp 4 1n
+C18 Vsatn 4 1n
+C8 Clamp 4 {Cfp1}
+A1 Inn1 Inp1 4 4 4 4 Avo1 4 OTA G=100u Iout=1m Vhigh=1k Vlow=-1k
+R7 ACL 4 1Meg Noiseless
+G1 4 ACL N009 4 1µ
+C9 ACL 4 {Cfp2}
+G2 4 Clamp Avo1 4 {Avo2/1Meg}
+C10 Avo1 4 1f
+G8 4 5 ACL 4 {1/Ro}
+I1 N017 4 {Iq_on}
+G9 4 Vs N017 4 1m
+R2 Vs 4 1k Noiseless
+A2 Vs 4 4 4 4 4 VsminGD 4 SCHMITT Vt={Vs_min-10m} Vh=9m Trise=5n
+A3 Vs 4 4 4 4 VsmaxGD 4 4 SCHMITT Vt={Vs_max+10m} Vh=9m Trise=5n
+A4 VsminGD VsmaxGD 4 VcmminGD VcmmaxGD 4 GD 4 AND Trise=5n
+R1 N017 3 1µ Noiseless
+G11 4 N011 2 4 1
+R10 4 N011 1 Noiseless
+C7 N011 4 1p
+DIP1 4 N011 DIP
+DIN1 N011 4 DIN
+R_Ip Inp1 N008 200
+R_Fp N002 Inp1 10k
+R_In Inn1 N011 200
+R_Fn Inn1 N012 10k
+C13 5 Vsatp 1p
+C15 5 Vsatn 1p
+R_EGn ACL N012 {R_EG}
+R_EGp 4 N002 {R_EG}
+I2 4 Satn 30µ
+R15 Satn 4 1k Noiseless
+C16 Satn 4 1n
+R16 Satp 4 1k Noiseless
+C19 Satp 4 1n
+B1 4 Satp I=1m*Min(6, V(1,4))
+C2 7 4 1p Rpar=5Meg
+A5 N024 4 4 4 4 4 ENA 4 SCHMITT Vt=0.5 Vh=0.2 Trise=10n
+C20 ENA 4 1p Rpar=1G
+B2 4 N024 I=1m*(V(7,4)/ V(3,4)) Rpar=1k Cpar=1p
+C21 VsmaxGD 4 1p Rpar=1G
+C22 GD 4 1p Rpar=1G
+C23 4 VsminGD 1p Rpar=1G
+C24 Vs 4 1n
+DGP N018 Clamp DG
+DGN Clamp N019 DG
+G13 4 N018 GRpi 4 1k
+G14 4 N019 GRni 4 1k
+R3 N018 4 1m Noiseless
+R4 N019 4 1m Noiseless
+R9 GRpi 4 1k Noiseless
+R17 GRni 4 1k Noiseless
+C25 GRni 4 10p
+C26 GRpi 4 10p
+I3 4 GRni {-1m*GRV}
+I4 4 GRpi {1m*GRV}
+C27 Clamp N018 1f
+C28 Clamp N019 1f
+G15 4 OC_in 5 N015 1m
+I5 N015 4 5µ
+R19 N015 4 1k
+C1 N015 4 1n
+R26 OC_in 4 1k
+C29 OC_in 4 1p
+S1 N020 6 OC 4 DIG
+I6 4 N020 3
+R28 N020 4 100m
+C31 N020 4 1p
+C30 OC 4 1p Rpar=1G
+S2 N025 8 SHTDN 4 DIG
+I7 4 N025 3
+R29 N025 4 100m
+C32 N025 4 1p
+A7 3 4 CLK 4 N026 SHTDN 4 4 DFLOP Trise=10n
+C3 SHTDN 4 1p Rpar=1G
+A8 ENA 4 4 4 4 N026 4 4 BUF Trise=10n
+A9 N027 4 ENA 4 4 DLYSW 4 4 AND Trise=10n
+A6 OC_in 4 4 4 4 OC 4 4 SCHMITT Vt=1 Vh=20m Td=3u Trise=10n
+A10 OC 4 4 4 4 N027 4 4 BUF Trise=10n
+C33 4 N027 1p Rpar=1G
+I8 4 9 5µ
+D1 3 9 DO
+S3 4 9 DLYSW 4 DLY
+B4 4 CLK I=1m*(V(9,4)/ V(3,4)) Rpar=1k Cpar=1p
+C6 DLYSW 4 1p Rpar=1G
+C34 N026 4 1p Rpar=1G
+R31 1 4 1T Noiseless
+R32 2 4 1T Noiseless
+S4 4 Avo1 GD 4 ENA
+S5 4 Clamp GD 4 ENA
+S6 4 5 GD 4 ENZ
+A11 1 4 4 4 4 4 VcmminGD 4 SCHMITT Vt={Vcm_min-10m} Vh=9m Trise=5n
+A12 1 4 4 4 4 VcmmaxGD 4 4 SCHMITT Vt={Vcm_max+10m} Vh=9m Trise=5n
+C35 VcmminGD 4 1p Rpar=1G
+C36 VcmmaxGD 4 1p Rpar=1G
+R6 N009 4 1Meg Noiseless
+G6 4 N009 Clamp 4 1µ
+C11 N009 4 {Cfp2}
+.param a=-4.2u b=-216n
+.param c=-170p d=9.5p
+.param Vcm_min=2 Vcm_max=28
+.param Vs_min=2.7 Vs_max=5.5
+.param Iscp=10m Iscn={Iscp}
+.param Iq_on=200u
+.param gain_CMR = {pow(10, (-Rej_dc_CMR/20))}
+.param C1a_CMR = {1 / (2 * pi * R1a_CMR * fz1_CMR)}
+.param R2a_CMR = {R1a_CMR/ ((2 * pi * fp1_CMR * C1a_CMR
++* R1a_CMR) - 1)}
+.param actual1_CMR = {R2a_CMR / (R1a_CMR + R2a_CMR)}
+.param G1_CMR = {gain_CMR/actual1_CMR}
+.param Rej_dc_CMR=76.291
+.param R1a_CMR=1Meg
+.param fz1_CMR=3.2
+.param fp1_CMR=100Meg
+.model DIP D(Vfwd=100 Vrev={Vcm_max} Revepsilon=0.1 Noiseless)
+.model DIN D(Vfwd=100 Vrev={-Vcm_min} Revepsilon=0.1 Noiseless)
+.model DG D(Vfwd=8k Vrev=0 Revepsilon=0.5 Ron=1m Noiseless)
+.model DO D(Vfwd=1k Vrev=0 Revepsilon=0.1 Ron=1m Noiseless)
+.model DIG SW(Vt=0.5 Vh=-0.5 Ron=1m Roff=5Meg Noiseless)
+.model DLY SW(Vt=0.5 Vh=-0.5 Ron=1m Roff=1G Noiseless)
+.model ENA SW(Ron=1Meg Roff=1u Vt=500m Vh=-100m Noiseless)
+.model ENZ SW(Ron={Ro} Roff=1u Vt=500m Vh=-100m Noiseless)
+.param Avo=115
+.param fp1=113.1 fp2=130k
+.param Avo2_dB={Avo-40+1}
+.param Avo2 = {pwr(10, (Avo2_dB)/20)}
+.param Cfp1={1 / (2 * pi * fp1 * 1Meg)}
+.param Cfp2={1 / (2 * pi * fp2 * 1Meg)}
+.param Ro=10k
+.param R_EG=274
+.param GRV=4k
+.ends MAX34406F
